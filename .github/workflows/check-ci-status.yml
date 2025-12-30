@@ -16,52 +16,58 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Get Token from Vault
-        id: vault
+      - name: 🔐 Authenticate with Vault
+        id: vault_auth
         run: |
-          # Authenticate with Vault using AppRole
-          echo "Authenticating with Vault..."
-          VAULT_TOKEN=$(curl -s -X POST \
-            -H "X-Vault-Namespace: ${{ secrets.VAULT_NAMESPACE }}" \
-            -d '{"role_id":"${{ secrets.VAULT_ROLE_ID }}","secret_id":"${{ secrets.VAULT_SECRET_ID }}"}' \
-            ${{ secrets.VAULT_URL }}/v1/auth/approle/login | jq -r '.auth.client_token')
+          VAULT_NAMESPACE="${{ secrets.VAULT_NAMESPACE }}"
+          if [[ -z "$VAULT_NAMESPACE" ]]; then VAULT_NAMESPACE="firepower/git-emu"; fi
           
-          if [ -z "$VAULT_TOKEN" ] || [ "$VAULT_TOKEN" == "null" ]; then
-            echo "❌ Failed to authenticate with Vault"
+          # 1. Login (AppRole)
+          echo "Authenticating with Vault..."
+          AUTH_RESPONSE=$(curl -s -k -X POST \
+            -H "Content-Type: application/json" \
+            -H "X-Vault-Namespace: $VAULT_NAMESPACE" \
+            -d "{ \"role_id\": \"${{ secrets.VAULT_ROLE_ID }}\", \"secret_id\": \"${{ secrets.VAULT_SECRET_ID }}\" }" \
+            "${{ secrets.VAULT_URL }}/v1/auth/approle/login")
+          
+          if [[ $? -ne 0 ]]; then 
+            echo "❌ Curl failed."
             exit 1
           fi
           
+          VAULT_TOKEN=$(echo "$AUTH_RESPONSE" | jq -r '.auth.client_token // empty')
+          
+          if [[ -z "$VAULT_TOKEN" ]]; then 
+            echo "❌ Auth Failed"
+            exit 1
+          fi
+          
+          echo "::add-mask::$VAULT_TOKEN"
           echo "✅ Vault authentication successful"
           
-          # Retrieve GitHub token from Vault (debug response)
-          echo "Attempting to retrieve GitHub token from Vault..."
-          VAULT_RESPONSE=$(curl -s -X GET \
+          # 2. Get GitHub PAT (Generic key retrieval)
+          echo "Retrieving GitHub PAT from Vault..."
+          SECRET_RESPONSE=$(curl -s -k -X GET \
             -H "X-Vault-Token: $VAULT_TOKEN" \
-            -H "X-Vault-Namespace: ${{ secrets.VAULT_NAMESPACE }}" \
-            ${{ secrets.VAULT_URL }}/v1/secret/data/github)
+            -H "X-Vault-Namespace: $VAULT_NAMESPACE" \
+            "${{ secrets.VAULT_URL }}/v1/test/data/snort3-kv")
           
-          echo "Vault response:"
-          echo "$VAULT_RESPONSE" | jq .
+          GH_PAT=$(echo "$SECRET_RESPONSE" | jq -r '.data.data | to_entries[0].value // empty')
           
-          # Try to extract token from different possible paths
-          GITHUB_PAT=$(echo "$VAULT_RESPONSE" | jq -r '.data.data.token // .data.token // empty')
-          
-          if [ -z "$GITHUB_PAT" ] || [ "$GITHUB_PAT" == "null" ]; then
-            echo "❌ Failed to retrieve GitHub token from Vault"
-            echo "Please check the secret path and field name in Vault"
-            echo "Current path: ${{ secrets.VAULT_URL }}/v1/secret/data/github"
-            echo "Expected field: 'token'"
+          if [[ -z "$GH_PAT" ]]; then 
+            echo "❌ PAT not found."
             exit 1
           fi
           
+          echo "::add-mask::$GH_PAT"
           echo "✅ GitHub token retrieved from Vault"
-          echo "GITHUB_PAT_TOKEN=$GITHUB_PAT" >> $GITHUB_OUTPUT
+          echo "GH_TOKEN=$GH_PAT" >> $GITHUB_ENV
 
       - name: Check CI Status of netsec-fxos-pr-dashboard-poc1
         id: check-status
         env:
           # Use token from Vault
-          GH_TOKEN: ${{ steps.vault.outputs.GITHUB_PAT_TOKEN }}
+          GH_TOKEN: ${{ env.GH_TOKEN }}
         run: |
           echo "Checking CI status for cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
           
