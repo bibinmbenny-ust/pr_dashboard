@@ -1,0 +1,87 @@
+name: Check CI Status
+
+on:
+  schedule:
+    # Run every 5 minutes (for testing)
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Allow manual trigger
+  push:
+    branches:
+      - main
+
+jobs:
+  check-ci-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check CI Status of netsec-fxos-pr-dashboard-poc1
+        id: check-status
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Checking CI status for cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
+          
+          # Get the latest workflow runs
+          response=$(gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/actions/runs \
+            --jq '{
+              total_count: .total_count,
+              latest_run: .workflow_runs[0] | {
+                id: .id,
+                name: .name,
+                status: .status,
+                conclusion: .conclusion,
+                created_at: .created_at,
+                updated_at: .updated_at,
+                html_url: .html_url,
+                head_branch: .head_branch,
+                head_sha: .head_sha
+              }
+            }')
+          
+          echo "Response:"
+          echo "$response" | jq .
+          
+          # Extract status and conclusion
+          status=$(echo "$response" | jq -r '.latest_run.status')
+          conclusion=$(echo "$response" | jq -r '.latest_run.conclusion')
+          run_url=$(echo "$response" | jq -r '.latest_run.html_url')
+          
+          echo "status=$status" >> $GITHUB_OUTPUT
+          echo "conclusion=$conclusion" >> $GITHUB_OUTPUT
+          echo "run_url=$run_url" >> $GITHUB_OUTPUT
+          
+          # Create a summary
+          echo "## CI Status Check Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** $status" >> $GITHUB_STEP_SUMMARY
+          echo "**Conclusion:** $conclusion" >> $GITHUB_STEP_SUMMARY
+          echo "**Run URL:** $run_url" >> $GITHUB_STEP_SUMMARY
+
+      - name: Display Results
+        run: |
+          echo "Latest CI Status: ${{ steps.check-status.outputs.status }}"
+          echo "Latest CI Conclusion: ${{ steps.check-status.outputs.conclusion }}"
+          echo "Run URL: ${{ steps.check-status.outputs.run_url }}"
+
+      - name: Save status to file (optional)
+        run: |
+          mkdir -p pr-reports
+          cat > pr-reports/ci-status.json << EOF
+          {
+            "repository": "cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1",
+            "status": "${{ steps.check-status.outputs.status }}",
+            "conclusion": "${{ steps.check-status.outputs.conclusion }}",
+            "run_url": "${{ steps.check-status.outputs.run_url }}",
+            "checked_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          }
+          EOF
+          
+      - name: Commit and push status (optional)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pr-reports/ci-status.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update CI status from netsec-fxos-pr-dashboard-poc1" && git push)
