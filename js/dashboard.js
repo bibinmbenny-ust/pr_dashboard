@@ -124,14 +124,12 @@ function calculateDuration(seconds) {
 
 // Helper to render the failure card if data exists
 function renderFailureCard(data) {
-    // Only render if both failed_stage AND error_message are present in the JSON
-    if (!data.failed_stage || !data.error_message) return '';
+    // Only render if failed_stage is present
+    if (!data.failed_stage) return '';
 
     return `
-        <div class="failure-card">
-            <h3>Failure Details</h3>
-            <p><strong>Failed Stage:</strong> <span>${data.failed_stage}</span></p>
-            <p><strong>Error Message:</strong> <span>${data.error_message}</span></p>
+        <div class="failure-card" style="padding: 1rem; margin-bottom: 1.5rem;">
+            <p style="margin: 0; font-size: 0.95rem;"><strong>❌ Failed Stages:</strong> <span>${data.failed_stage}</span></p>
         </div>
     `;
 }
