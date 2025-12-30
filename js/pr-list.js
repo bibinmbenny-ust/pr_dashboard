@@ -52,25 +52,17 @@ async function fetchPRList(url, maxRetries = 3) {
 
 // Get status badge class
 function getStatusBadgeClass(ci_status, check_status, check_conclusion) {
-    // Priority: check_conclusion > check_status > ci_status
-    if (check_conclusion === 'success') return 'status-success-bg';
-    if (check_conclusion === 'failure') return 'status-failure-bg';
-    if (check_status === 'in_progress' || check_status === 'queued') return 'status-inprogress-bg';
-    if (ci_status === 'success') return 'status-success-bg';
+    // Only check ci_status for badge color
     if (ci_status === 'failure') return 'status-failure-bg';
+    if (ci_status === 'success') return 'status-success-bg';
     if (ci_status === 'pending') return 'status-inprogress-bg';
     return 'status-warning-bg';
 }
 
 // Get status text
 function getStatusText(ci_status, check_status, check_conclusion) {
-    if (check_conclusion && check_conclusion !== 'none') {
-        return check_conclusion.toUpperCase();
-    }
-    if (check_status && check_status !== 'none') {
-        return check_status.replace('_', ' ').toUpperCase();
-    }
-    if (ci_status && ci_status !== 'unknown') {
+    // Only display ci_status
+    if (ci_status && ci_status !== 'unknown' && ci_status !== 'none') {
         return ci_status.toUpperCase();
     }
     return 'UNKNOWN';
