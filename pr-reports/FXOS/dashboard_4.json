@@ -85,7 +85,7 @@
     "commit_hash": "g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2",
     "ci_duration_seconds": 2200,
     "failed_stage": "ARM",
-    "error_message": "Compiler error: Undefined reference to 'legacy_function_v2'.",
+    "error_message": "Compiler error: Undefined reference to 'legacy_function_v2 '.",
     "changed_files_details": [],
     "ai_suggestion": "AI analysis unavailable\n"
   },
