@@ -119,14 +119,34 @@ jobs:
             STATUS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/status || echo '{}')
             CI_STATE=$(echo "$STATUS_RESPONSE" | jq -r '.state // "unknown"')
             
-            # Get check runs (GitHub Actions)
+            # Get check runs (GitHub Actions) and determine overall status
             CHECKS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/check-runs || echo '{"check_runs":[]}')
-            CHECK_CONCLUSION=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].conclusion // "none"')
+            
+            # Check if any check run failed or is in error state
+            HAS_FAILURE=$(echo "$CHECKS_RESPONSE" | jq -r '[.check_runs[].conclusion] | any(. == "failure" or . == "error")')
+            HAS_PENDING=$(echo "$CHECKS_RESPONSE" | jq -r '[.check_runs[].status] | any(. == "queued" or . == "in_progress")')
+            
+            # Determine overall check conclusion
+            if [ "$HAS_FAILURE" = "true" ]; then
+              CHECK_CONCLUSION="failure"
+            elif [ "$HAS_PENDING" = "true" ]; then
+              CHECK_CONCLUSION="pending"
+            else
+              CHECK_CONCLUSION=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].conclusion // "none"')
+            fi
+            
+            # Overall check status
             CHECK_STATUS=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].status // "none"')
+            
+            # Determine final CI status (prefer commit status, but also consider checks)
+            FINAL_STATUS="$CI_STATE"
+            if [ "$CI_STATE" = "success" ] && [ "$CHECK_CONCLUSION" = "failure" ]; then
+              FINAL_STATUS="failure"
+            fi
             
             # Combine PR data with CI status
             ENRICHED_PR=$(echo "$PR" | jq \
-              --arg ci_state "$CI_STATE" \
+              --arg ci_state "$FINAL_STATUS" \
               --arg check_status "$CHECK_STATUS" \
               --arg check_conclusion "$CHECK_CONCLUSION" \
               '. + {ci_status: $ci_state, check_status: $check_status, check_conclusion: $check_conclusion}')
