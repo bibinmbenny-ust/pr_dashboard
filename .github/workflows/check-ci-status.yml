@@ -231,70 +231,11 @@ jobs:
           if [ -f pr-reports/$PROJECT_NAME/pr-list.json ]; then
             echo "PR list saved to pr-reports/$PROJECT_NAME/pr-list.json"
           fi
-
-      - name: Add AI Suggestions to Dashboard Files
-        env:
-          GH_TOKEN: ${{ env.GH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
-          echo "🤖 Adding AI suggestions to dashboard files for $PROJECT_NAME..."
-          
-          # Find all dashboard JSON files
-          DASHBOARD_FILES=$(find pr-reports/$PROJECT_NAME -name "dashboard_*.json" 2>/dev/null || echo "")
-          
-          if [ -z "$DASHBOARD_FILES" ]; then
-            echo "No dashboard files found to process"
-            exit 0
-          fi
-          
-          for DASHBOARD_FILE in $DASHBOARD_FILES; do
-            echo "Processing: $DASHBOARD_FILE"
-            
-            # Get revision count
-            REVISION_COUNT=$(jq 'length' "$DASHBOARD_FILE")
-            
-            # Process each revision
-            for i in $(seq 0 $((REVISION_COUNT - 1))); do
-              ERROR_MSG=$(jq -r ".[$i].error_message // \"null\"" "$DASHBOARD_FILE")
-              
-              # Only process if error_message exists and is not "null"
-              if [ "$ERROR_MSG" != "null" ] && [ "$ERROR_MSG" != "" ] && [ -n "$ERROR_MSG" ]; then
-                echo "  Revision $((i+1)): Found error, calling AI API..."
-                
-                # Create AI prompt
-                AI_PROMPT="Analyze this build error and provide actionable suggestions: $ERROR_MSG. Provide: 1. Root cause (2-3 sentences) 2. Fix suggestions (2-3 specific actions) 3. Prevention tips. Be concise and technical."
-                
-                # Call GitHub Models API (Copilot)
-                AI_RESPONSE=$(curl -s -X POST \
-                  -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-                  -H "Content-Type: application/json" \
-                  -d "{
-                    \"model\": \"gpt-4o\",
-                    \"messages\": [{\"role\": \"user\", \"content\": $(echo "$AI_PROMPT" | jq -Rs .)}],
-                    \"max_tokens\": 500
-                  }" \
-                  "https://models.inference.ai.azure.com/chat/completions" 2>/dev/null || echo '{"error": "AI service unavailable"}')
-                
-                AI_SUGGESTION=$(echo "$AI_RESPONSE" | jq -r '.choices[0].message.content // "AI analysis unavailable"')
-                
-                # Update the specific revision in the file with ai_suggestion
-                jq ".[$i] += {\"ai_suggestion\": $(echo "$AI_SUGGESTION" | jq -Rs .)}" "$DASHBOARD_FILE" > "${DASHBOARD_FILE}.tmp"
-                mv "${DASHBOARD_FILE}.tmp" "$DASHBOARD_FILE"
-                
-                echo "  ✓ AI suggestion added"
-              fi
-            done
-            
-            echo "✅ Updated $DASHBOARD_FILE with AI suggestions"
-          done
-          
-          echo "🎉 AI suggestion processing complete"
           
       - name: Commit and push PR list for FXOS
         run: |
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pr-reports/$PROJECT_NAME/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list and AI suggestions [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)
+          git add pr-reports/$PROJECT_NAME/pr-list.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)
