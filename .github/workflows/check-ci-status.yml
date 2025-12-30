@@ -238,4 +238,23 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pr-reports/$PROJECT_NAME/pr-list.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)
+          
+          # Check if there are changes to commit
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          # Commit changes
+          git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
+          
+          # Pull with rebase to avoid conflicts, then push
+          git pull --rebase origin main || {
+            echo "Rebase failed, trying to continue..."
+            git rebase --abort
+            git pull --no-rebase origin main
+            git push origin main
+            exit 0
+          }
+          
+          git push origin main
