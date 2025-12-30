@@ -25,7 +25,7 @@
     "commit_hash": "01k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6",
     "ci_duration_seconds": 1800,
     "failed_stage": "ARM",
-    "error_message": "Linker error: Undefined reference to 'vtable for NetworkInterface'.",
+    "error_message": "Linker error: Undefined reference to 'vtable for NetworkInterface '.",
     "changed_files_details": []
   },
   {
