@@ -455,13 +455,21 @@ function updatePageHeader() {
 // --- Main Loader Function ---
 
 async function loadMetrics() {
+    console.log("=== Dashboard Loading Started ===");
     const dashboardContainer = document.getElementById("dashboard");
     const prDetailsContainer = document.getElementById("pr-details-container");
     const loadingParagraph = prDetailsContainer.querySelector('p');
     
+    console.log("Dashboard container:", dashboardContainer);
+    console.log("PR details container:", prDetailsContainer);
+    
     // 0. Initialize project configuration
+    console.log("Initializing project...");
     const projectInit = initializeProject();
+    console.log("Project initialization result:", projectInit);
+    
     if (!projectInit.success) {
+        console.error("Project initialization failed:", projectInit.error);
         dashboardContainer.innerHTML = ''; 
         if (loadingParagraph) {
             loadingParagraph.innerHTML = `
@@ -477,8 +485,12 @@ async function loadMetrics() {
         return;
     }
     
+    console.log("Current project:", currentProject);
+    console.log("Data path base:", dataPathBase);
+    
     // 1. Get PR ID from URL
     const prId = new URLSearchParams(window.location.search).get("pr");
+    console.log("PR ID from URL:", prId);
     
     // 2. CHECK: If PR ID is missing or empty, show error and stop.
     if (!prId || prId.trim() === '') {
