@@ -1,7 +1,27 @@
-const repoBaseUrl = "https://github.com/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/pull/";
-const commitBaseUrl = "https://github.com/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/commit/";
-// Use the corrected path, relative to the HTML file
-const dataPathBase = "pr-reports/FXOS/dashboard_"; 
+// Project Configuration - Add new projects here
+const PROJECT_CONFIG = {
+    'FXOS': {
+        name: 'FXOS',
+        repo: 'cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1',
+        displayName: 'Firepower eXtensible Operating System (FXOS)'
+    },
+    'IMS': {
+        name: 'IMS',
+        repo: 'cisco-netsec-sandbox/netsec-ims-pr-dashboard',
+        displayName: 'Identity Management System (IMS)'
+    },
+    'ASA': {
+        name: 'ASA',
+        repo: 'cisco-netsec-sandbox/netsec-asa-pr-dashboard',
+        displayName: 'Adaptive Security Appliance (ASA)'
+    }
+};
+
+// Global variables - will be set based on selected project
+let repoBaseUrl = "";
+let commitBaseUrl = "";
+let dataPathBase = "";
+let currentProject = null; 
 
 // Exponential backoff retry mechanism for fetching data
 async function fetchWithRetry(url, maxRetries = 3) {
@@ -377,12 +397,85 @@ function createRevisionCard(data, isOpen = '') {
     `;
 }
 
+// Initialize project configuration based on URL parameters
+function initializeProject() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectParam = urlParams.get("project");
+    
+    // Default to FXOS if no project specified
+    const projectKey = projectParam ? projectParam.toUpperCase() : 'FXOS';
+    
+    // Check if project exists in configuration
+    if (!PROJECT_CONFIG[projectKey]) {
+        return {
+            success: false,
+            error: `Unknown project: ${projectKey}. Available projects: ${Object.keys(PROJECT_CONFIG).join(', ')}`
+        };
+    }
+    
+    // Set global variables based on selected project
+    currentProject = PROJECT_CONFIG[projectKey];
+    const repoPath = currentProject.repo;
+    repoBaseUrl = `https://github.com/${repoPath}/pull/`;
+    commitBaseUrl = `https://github.com/${repoPath}/commit/`;
+    dataPathBase = `pr-reports/${currentProject.name}/dashboard_`;
+    
+    // Update page title and header
+    updatePageHeader();
+    
+    return { success: true, project: currentProject };
+}
+
+// Update page header with project information
+function updatePageHeader() {
+    if (currentProject) {
+        // Update page title
+        document.title = `${currentProject.name} PR Dashboard`;
+        
+        // Update header title
+        const headerTitle = document.getElementById('dashboard-title');
+        if (headerTitle) {
+            headerTitle.textContent = `${currentProject.name} PR Dashboard`;
+        }
+        
+        // Update subtitle
+        const subtitle = document.getElementById('project-subtitle');
+        if (subtitle) {
+            subtitle.textContent = currentProject.displayName;
+        }
+        
+        // Update footer
+        const footer = document.getElementById('dashboard-footer');
+        if (footer) {
+            footer.textContent = `${currentProject.name} PR Dashboard`;
+        }
+    }
+}
+
 // --- Main Loader Function ---
 
 async function loadMetrics() {
     const dashboardContainer = document.getElementById("dashboard");
     const prDetailsContainer = document.getElementById("pr-details-container");
     const loadingParagraph = prDetailsContainer.querySelector('p');
+    
+    // 0. Initialize project configuration
+    const projectInit = initializeProject();
+    if (!projectInit.success) {
+        dashboardContainer.innerHTML = ''; 
+        if (loadingParagraph) {
+            loadingParagraph.innerHTML = `
+                <span class="status-failure">⚠️ Invalid Project</span><br><br>
+                ${projectInit.error}<br><br>
+                <strong>Example:</strong> <code>?project=FXOS&pr=4</code>
+            `;
+            loadingParagraph.style.color = "var(--failure)";
+            loadingParagraph.style.textAlign = "center";
+            loadingParagraph.style.padding = "2rem";
+        }
+        prDetailsContainer.style.border = "2px solid var(--failure)";
+        return;
+    }
     
     // 1. Get PR ID from URL
     const prId = new URLSearchParams(window.location.search).get("pr");
@@ -397,9 +490,13 @@ async function loadMetrics() {
             loadingParagraph.innerHTML = `
                 <span class="status-failure">⚠️ No PR Selected</span><br><br>
                 Please provide a Pull Request ID in the URL to view the dashboard.<br>
-                <strong>Example:</strong> <code>?pr=4</code> or <code>?pr=6</code>
+                <strong>Project:</strong> ${currentProject.displayName}<br>
+                <strong>Example:</strong> <code>?project=${currentProject.name}&pr=4</code> or <code>?project=${currentProject.name}&pr=6</code>
             `;
-            loadingParagraph.style.color = "var(--failure)";
+            <div>
+                <span style="font-size: 0.9rem; opacity: 0.8; display: block; margin-bottom: 0.3rem;">${currentProject.displayName}</span>
+                <h2>${latestRevisionData.title ?? 'PR Dashboard'}</h2>
+            </div>
             loadingParagraph.style.textAlign = "center";
             loadingParagraph.style.padding = "2rem";
         }

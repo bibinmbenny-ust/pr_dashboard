@@ -3,30 +3,44 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FXOS Pre-Commit Dashboard</title>
+    <title>NetSec PR Dashboard - Home</title>
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
     <div class="global-header">
         <div class="title-container">
-            <h1>FXOS Pre-Commit Dashboard</h1>
+            <h1>NetSec PR Dashboard</h1>
         </div>
         <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
     </div>
 
-    <div id="pr-details-container" class="card">
-        <div class="card-header">
-            </div>
-        <p>Loading PR details...</p>
+    <div class="intro-section">
+        <h2>Welcome to the NetSec PR Dashboard</h2>
+        <p>Select a project below to view its Pull Request dashboard with CI/CD status, code metrics, and more.</p>
     </div>
 
-    <div class="block" id="dashboard">
+    <div class="project-grid">
+        <div class="project-card" onclick="location.href='dashboard.html?project=FXOS'">
+            <h2>FXOS</h2>
+            <p>Firepower eXtensible Operating System</p>
+            <a href="dashboard.html?project=FXOS" class="btn">View Dashboard</a>
         </div>
 
-    <footer>
-        FXOS Pre-Commit Dashboard
-    </footer>
+        <div class="project-card" onclick="location.href='dashboard.html?project=IMS'">
+            <h2>IMS</h2>
+            <p>Identity Management System</p>
+            <a href="dashboard.html?project=IMS" class="btn">View Dashboard</a>
+        </div>
 
-    <script src="js/dashboard.js"></script>
+        <div class="project-card" onclick="location.href='dashboard.html?project=ASA'">
+            <h2>ASA</h2>
+            <p>Adaptive Security Appliance</p>
+            <a href="dashboard.html?project=ASA" class="btn">View Dashboard</a>
+        </div>
+    </div>
+
+    <footer>
+        NetSec PR Dashboard | Cisco Systems
+    </footer>
 </body>
 </html>

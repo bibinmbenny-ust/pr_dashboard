@@ -419,3 +419,73 @@ footer {
     #pr-details-container h2 { font-size: 1.5rem; }
     .pr-subtitle-block { font-size: 0.95rem; }
 }
+
+/* --- Landing Page Styles (index.html) --- */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.project-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-color: var(--cisco-blue);
+}
+
+.project-card h2 {
+    color: var(--cisco-blue);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.project-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.project-card .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--cisco-blue);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.project-card .btn:hover {
+    background: #0056b3;
+}
+
+.intro-section {
+    text-align: center;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.intro-section h2 {
+    color: var(--cisco-blue);
+    margin-bottom: 1rem;
+}
+
+.intro-section p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
