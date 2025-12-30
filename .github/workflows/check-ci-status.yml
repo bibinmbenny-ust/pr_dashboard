@@ -109,18 +109,18 @@ jobs:
           ENRICHED_PRS="[]"
           
           for i in $(seq 0 $((PR_COUNT - 1))); do
-            PR=$(echo "$PRS_JSON" | jq ".[$$REPO_NAME/commits/$HEAD_SHA/status || echo '{}')
-            CI_STATE=$(echo "$STATUS_RESPONSE" | jq -r '.state // "unknown"')
+            PR=$(echo "$PRS_JSON" | jq ".[$i]")
+            PR_NUMBER=$(echo "$PR" | jq -r '.number')
+            HEAD_SHA=$(echo "$PR" | jq -r '.head_sha')
             
-            # Get check runs (GitHub Actions)
-            CHECKS_RESPONSE=$(gh api repos/$REPO_NAME
+            echo "Fetching CI status for PR #$PR_NUMBER (SHA: $HEAD_SHA)"
             
             # Get commit status
-            STATUS_RESPONSE=$(gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/commits/$HEAD_SHA/status || echo '{}')
+            STATUS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/status || echo '{}')
             CI_STATE=$(echo "$STATUS_RESPONSE" | jq -r '.state // "unknown"')
             
             # Get check runs (GitHub Actions)
-            CHECKS_RESPONSE=$(gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/commits/$HEAD_SHA/check-runs || echo '{"check_runs":[]}')
+            CHECKS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/check-runs || echo '{"check_runs":[]}')
             CHECK_CONCLUSION=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].conclusion // "none"')
             CHECK_STATUS=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].status // "none"')
             
@@ -133,6 +133,13 @@ jobs:
             
             ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
           done
+          
+          PRS_JSON="$ENRICHED_PRS"
+          echo "Enriched PRs with CI status:"
+          echo "$PRS_JSON" | jq .
+          
+          PR_COUNT=$(echo "$PRS_JSON" | jq 'length')
+          echo "pr_count=$PR_COUNT" >> $GITHUB_OUTPUT
           echo "project_name=$PROJECT_NAME" >> $GITHUB_OUTPUT
           
           # Create a summary
