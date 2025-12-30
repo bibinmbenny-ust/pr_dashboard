@@ -84,18 +84,8 @@ jobs:
               
               echo "    Generating AI suggestion for error..."
               
-              # Prepare the prompt
-              PROMPT="You are a build and CI/CD expert analyzing FXOS (Firepower Extensible Operating System) build failures.
-
-Error Message:
-$ERROR_MSG
-
-Please provide:
-1. Root Cause Analysis: What is causing this error?
-2. Recommended Fix: Specific steps to resolve this issue
-3. Prevention: How to prevent this error in the future
-
-Keep the response concise and actionable (max 300 words)."
+              # Prepare the prompt (escape for JSON)
+              ERROR_MSG_ESCAPED=$(echo "$ERROR_MSG" | jq -Rs .)
               
               # Call GitHub Models API
               RESPONSE=$(curl -s -X POST "https://models.inference.ai.azure.com/chat/completions" \
@@ -109,7 +99,7 @@ Keep the response concise and actionable (max 300 words)."
                     },
                     {
                       \"role\": \"user\",
-                      \"content\": $(echo "$PROMPT" | jq -Rs .)
+                      \"content\": \"You are a build and CI/CD expert analyzing FXOS (Firepower Extensible Operating System) build failures. Error Message: $ERROR_MSG. Please provide: 1. Root Cause Analysis: What is causing this error? 2. Recommended Fix: Specific steps to resolve this issue. 3. Prevention: How to prevent this error in the future. Keep the response concise and actionable (max 300 words).\"
                     }
                   ],
                   \"model\": \"gpt-4o\",
