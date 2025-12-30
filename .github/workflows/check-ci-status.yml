@@ -251,18 +251,15 @@ jobs:
           for DASHBOARD_FILE in $DASHBOARD_FILES; do
             echo "Processing: $DASHBOARD_FILE"
             
-            # Read the JSON array
-            REVISIONS=$(cat "$DASHBOARD_FILE")
-            REVISION_COUNT=$(echo "$REVISIONS" | jq 'length')
+            # Get revision count
+            REVISION_COUNT=$(jq 'length' "$DASHBOARD_FILE")
             
             # Process each revision
-            UPDATED_REVISIONS="[]"
             for i in $(seq 0 $((REVISION_COUNT - 1))); do
-              REVISION=$(echo "$REVISIONS" | jq ".[$i]")
-              ERROR_MSG=$(echo "$REVISION" | jq -r '.error_message // "null"')
+              ERROR_MSG=$(jq -r ".[$i].error_message // \"null\"" "$DASHBOARD_FILE")
               
               # Only process if error_message exists and is not "null"
-              if [ "$ERROR_MSG" != "null" ] && [ "$ERROR_MSG" != "" ] && [ "$ERROR_MSG" != "\"null\"" ]; then
+              if [ "$ERROR_MSG" != "null" ] && [ "$ERROR_MSG" != "" ] && [ -n "$ERROR_MSG" ]; then
                 echo "  Revision $((i+1)): Found error, calling AI API..."
                 
                 # Create AI prompt
@@ -279,19 +276,16 @@ jobs:
                   }" \
                   "https://models.inference.ai.azure.com/chat/completions" 2>/dev/null || echo '{"error": "AI service unavailable"}')
                 
-                AI_SUGGESTION=$(echo "$AI_RESPONSE" | jq -r '.choices[0].message.content // "AI analysis unavailable"' 2>/dev/null || echo "AI analysis unavailable")
+                AI_SUGGESTION=$(echo "$AI_RESPONSE" | jq -r '.choices[0].message.content // "AI analysis unavailable"')
                 
-                # Add ai_suggestion to revision
-                REVISION=$(echo "$REVISION" | jq --arg ai "$AI_SUGGESTION" '. + {ai_suggestion: $ai}')
+                # Update the specific revision in the file with ai_suggestion
+                jq ".[$i] += {\"ai_suggestion\": $(echo "$AI_SUGGESTION" | jq -Rs .)}" "$DASHBOARD_FILE" > "${DASHBOARD_FILE}.tmp"
+                mv "${DASHBOARD_FILE}.tmp" "$DASHBOARD_FILE"
+                
                 echo "  ✓ AI suggestion added"
               fi
-              
-              # Add to updated array
-              UPDATED_REVISIONS=$(echo "$UPDATED_REVISIONS" | jq --argjson rev "$REVISION" '. + [$rev]')
             done
             
-            # Write updated JSON back to file
-            echo "$UPDATED_REVISIONS" | jq '.' > "$DASHBOARD_FILE"
             echo "✅ Updated $DASHBOARD_FILE with AI suggestions"
           done
           
