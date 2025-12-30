@@ -6,41 +6,66 @@
     <title>NetSec PR Dashboard - Home</title>
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
-<body>
+<body class="landing-page">
+    <div class="animated-bg"></div>
+    
     <div class="global-header">
         <div class="title-container">
-            <h1>NetSec PR Dashboard</h1>
+            <h1 class="animated-title">NetSec PR Dashboard</h1>
         </div>
         <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
     </div>
 
     <div class="intro-section">
-        <h2>Welcome to the NetSec PR Dashboard</h2>
-        <p>Select a project below to view its Pull Request dashboard with CI/CD status, code metrics, and more.</p>
+        <h2 class="hero-title">Welcome to the NetSec PR Dashboard</h2>
+        <p class="hero-subtitle">Monitor your Pull Requests with real-time CI/CD status, comprehensive code metrics, and detailed analytics.</p>
+        <div class="feature-pills">
+            <span class="pill">✓ Real-time CI/CD Status</span>
+            <span class="pill">✓ Code Quality Metrics</span>
+            <span class="pill">✓ Build Analytics</span>
+        </div>
     </div>
 
     <div class="project-grid">
-        <div class="project-card" onclick="location.href='pr-list.html?project=FXOS'">
+        <div class="project-card fxos-card" onclick="location.href='pr-list.html?project=FXOS'">
+            <div class="card-icon">🔥</div>
             <h2>FXOS</h2>
             <p>Firepower eXtensible Operating System</p>
-            <a href="pr-list.html?project=FXOS" class="btn">View Pull Requests</a>
+            <div class="card-stats">
+                <span class="stat">🔧 System Core</span>
+                <span class="stat">⚡ High Priority</span>
+            </div>
+            <a href="pr-list.html?project=FXOS" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
 
-        <div class="project-card" onclick="location.href='pr-list.html?project=IMS'">
+        <div class="project-card ims-card" onclick="location.href='pr-list.html?project=IMS'">
+            <div class="card-icon">🔐</div>
             <h2>IMS</h2>
             <p>Identity Management System</p>
-            <a href="pr-list.html?project=IMS" class="btn">View Pull Requests</a>
+            <div class="card-stats">
+                <span class="stat">👤 Authentication</span>
+                <span class="stat">🛡️ Security</span>
+            </div>
+            <a href="pr-list.html?project=IMS" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
 
-        <div class="project-card" onclick="location.href='pr-list.html?project=ASA'">
+        <div class="project-card asa-card" onclick="location.href='pr-list.html?project=ASA'">
+            <div class="card-icon">🛡️</div>
             <h2>ASA</h2>
             <p>Adaptive Security Appliance</p>
-            <a href="pr-list.html?project=ASA" class="btn">View Pull Requests</a>
+            <div class="card-stats">
+                <span class="stat">🔒 Firewall</span>
+                <span class="stat">🌐 Network</span>
+            </div>
+            <a href="pr-list.html?project=ASA" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
     </div>
 
-    <footer>
-        NetSec PR Dashboard | Cisco Systems
+    <footer class="landing-footer">
+        <div class="footer-content">
+            <span>NetSec PR Dashboard | Cisco Systems</span>
+            <span class="footer-year">© 2025</span>
+        </div>
     </footer>
 </body>
 </html>
