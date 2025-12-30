@@ -12,16 +12,6 @@ on:
 jobs:
   check-ci-status:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        project:
-          - name: 'FXOS'
-            repo: 'cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1'
-          - name: 'IMS'
-            repo: 'cisco-netsec-sandbox/netsec-ims-pr-dashboard'
-          - name: 'ASA'
-            repo: 'cisco-netsec-sandbox/netsec-asa-pr-dashboard'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -73,13 +63,13 @@ jobs:
           echo "✅ GitHub token retrieved from Vault"
           echo "GH_TOKEN=$GH_PAT" >> $GITHUB_ENV
 
-      - name: Get All Open PRs from ${{ matrix.project.name }}
+      - name: Get All Open PRs from FXOS
         id: get-prs
         env:
           GH_TOKEN: ${{ env.GH_TOKEN }}
         run: |
-          PROJECT_NAME="${{ matrix.project.name }}"
-          REPO_NAME="${{ matrix.project.repo }}"
+          PROJECT_NAME="FXOS"
+          REPO_NAME="cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
           
           echo "Fetching all open PRs from $REPO_NAME"
           
@@ -168,7 +158,7 @@ jobs:
             '{project: $project, timestamp: $ts, repository: "'$REPO_NAME'", total_count: length, pull_requests: .}' \
             > pr-reports/$PROJECT_NAME/pr-list.json
 
-      - name: Display PR Summary for ${{ matrix.project.name }}
+      - name: Display PR Summary for FXOS
         run: |
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
           echo "=== $PROJECT_NAME ===" 
@@ -178,7 +168,7 @@ jobs:
             echo "PR list saved to pr-reports/$PROJECT_NAME/pr-list.json"
           fi
           
-      - name: Commit and push PR list for ${{ matrix.project.name }}
+      - name: Commit and push PR list for FXOS
         run: |
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
           git config user.name "github-actions[bot]"
