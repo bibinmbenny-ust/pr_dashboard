@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PR List - NetSec Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="global-header">
+        <div class="title-container">
+            <h1 id="project-title">Loading...</h1>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">
+                <a href="index.html" style="color: var(--cisco-blue); text-decoration: none;">← Back to Projects</a>
+            </p>
+        </div>
+        <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
+    </div>
+
+    <div id="pr-list-container" class="card">
+        <div class="card-header">
+            <h2>Open Pull Requests</h2>
+            <span id="pr-count-badge" class="status-badge status-inprogress-bg">Loading...</span>
+        </div>
+        <p id="loading-message">Loading pull requests...</p>
+        <div id="pr-list-content" style="display: none;">
+            <!-- PR list will be populated here -->
+        </div>
+    </div>
+
+    <footer id="dashboard-footer">
+        NetSec PR Dashboard
+    </footer>
+
+    <script src="js/pr-list.js"></script>
+</body>
+</html>

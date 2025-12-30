@@ -489,3 +489,79 @@ footer {
     font-size: 1.1rem;
     line-height: 1.6;
 }
+
+/* --- PR List Page Styles --- */
+.pr-list-item {
+    background: var(--card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pr-list-item:hover {
+    border-color: var(--cisco-blue);
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 188, 235, 0.2);
+}
+
+.pr-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.pr-list-title {
+    flex: 1;
+}
+
+.pr-list-title h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--cisco-blue);
+}
+
+.pr-list-title h3 a {
+    color: var(--cisco-blue);
+    text-decoration: none;
+}
+
+.pr-list-title h3 a:hover {
+    text-decoration: underline;
+}
+
+.pr-list-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pr-labels {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pr-label {
+    background: rgba(0, 188, 235, 0.1);
+    border: 1px solid rgba(0, 188, 235, 0.3);
+    color: var(--cisco-blue);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+#pr-list-content {
+    margin-top: 1rem;
+}
+
+#pr-count-badge {
+    white-space: nowrap;
+}

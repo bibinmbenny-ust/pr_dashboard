@@ -2,8 +2,8 @@ name: Check CI Status
 
 on:
   schedule:
-    # Run every 30 minutes
-    - cron: '*/30 * * * *'
+    # Run every 5 minutes (for testing)
+    - cron: '*/5 * * * *'
   workflow_dispatch: # Allow manual trigger
   push:
     branches:
@@ -12,6 +12,16 @@ on:
 jobs:
   check-ci-status:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - name: 'FXOS'
+            repo: 'cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1'
+          - name: 'IMS'
+            repo: 'cisco-netsec-sandbox/netsec-ims-pr-dashboard'
+          - name: 'ASA'
+            repo: 'cisco-netsec-sandbox/netsec-asa-pr-dashboard'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -63,21 +73,28 @@ jobs:
           echo "✅ GitHub token retrieved from Vault"
           echo "GH_TOKEN=$GH_PAT" >> $GITHUB_ENV
 
-      - name: Get All Open PRs from netsec-fxos-pr-dashboard-poc1
+      - name: Get All Open PRs from ${{ matrix.project.name }}
         id: get-prs
         env:
           GH_TOKEN: ${{ env.GH_TOKEN }}
         run: |
-          echo "Fetching all open PRs from cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
+          PROJECT_NAME="${{ matrix.project.name }}"
+          REPO_NAME="${{ matrix.project.repo }}"
+          
+          echo "Fetching all open PRs from $REPO_NAME"
           
           # First, verify we can access the repository
-          if ! gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1 > /dev/null 2>&1; then
-            echo "❌ ERROR: Cannot access repository"
-            exit 1
+          if ! gh api repos/$REPO_NAME > /dev/null 2>&1; then
+            echo "⚠️ WARNING: Cannot access repository $REPO_NAME"
+            echo "[]" > /tmp/empty-prs.json
+            echo "pr_count=0" >> $GITHUB_OUTPUT
+            mkdir -p pr-reports/$PROJECT_NAME
+            echo "[]" > pr-reports/$PROJECT_NAME/pr-list.json
+            exit 0
           fi
           
           # Get all open pull requests
-          PRS_JSON=$(gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/pulls \
+          PRS_JSON=$(gh api repos/$REPO_NAME/pulls \
             --jq '[.[] | {
               number: .number,
               title: .title,
@@ -102,11 +119,11 @@ jobs:
           ENRICHED_PRS="[]"
           
           for i in $(seq 0 $((PR_COUNT - 1))); do
-            PR=$(echo "$PRS_JSON" | jq ".[$i]")
-            PR_NUMBER=$(echo "$PR" | jq -r '.number')
-            HEAD_SHA=$(echo "$PR" | jq -r '.head_sha')
+            PR=$(echo "$PRS_JSON" | jq ".[$$REPO_NAME/commits/$HEAD_SHA/status || echo '{}')
+            CI_STATE=$(echo "$STATUS_RESPONSE" | jq -r '.state // "unknown"')
             
-            echo "Fetching CI status for PR #$PR_NUMBER (SHA: $HEAD_SHA)"
+            # Get check runs (GitHub Actions)
+            CHECKS_RESPONSE=$(gh api repos/$REPO_NAME
             
             # Get commit status
             STATUS_RESPONSE=$(gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/commits/$HEAD_SHA/status || echo '{}')
@@ -126,18 +143,12 @@ jobs:
             
             ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
           done
-          
-          PRS_JSON="$ENRICHED_PRS"
-          echo "Enriched PRs with CI status:"
-          echo "$PRS_JSON" | jq .
-          
-          PR_COUNT=$(echo "$PRS_JSON" | jq 'length')
-          echo "pr_count=$PR_COUNT" >> $GITHUB_OUTPUT
+          echo "project_name=$PROJECT_NAME" >> $GITHUB_OUTPUT
           
           # Create a summary
-          echo "## 📋 Open Pull Requests" >> $GITHUB_STEP_SUMMARY
+          echo "## 📋 Open Pull Requests - $PROJECT_NAME" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Repository:** cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** $REPO_NAME" >> $GITHUB_STEP_SUMMARY
           echo "**Total Open PRs:** $PR_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
@@ -146,6 +157,34 @@ jobs:
             echo "|------|-------|--------|--------|-----------|--------------|" >> $GITHUB_STEP_SUMMARY
             
             echo "$PRS_JSON" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.ci_status) | \(.check_status) / \(.check_conclusion) |"' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No open pull requests found." >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Save PR list to project-specific directory
+          mkdir -p pr-reports/$PROJECT_NAME
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "$PRS_JSON" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" \
+            '{project: $project, timestamp: $ts, repository: "'$REPO_NAME'", total_count: length, pull_requests: .}' \
+            > pr-reports/$PROJECT_NAME/pr-list.json
+
+      - name: Display PR Summary for ${{ matrix.project.name }}
+        run: |
+          PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
+          echo "=== $PROJECT_NAME ===" 
+          echo "Total Open PRs: ${{ steps.get-prs.outputs.pr_count }}"
+          
+          if [ -f pr-reports/$PROJECT_NAME/pr-list.json ]; then
+            echo "PR list saved to pr-reports/$PROJECT_NAME/pr-list.json"
+          fi
+          
+      - name: Commit and push PR list for ${{ matrix.project.name }}
+        run: |
+          PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pr-reports/$PROJECT_NAME/pr-list.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)rl)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.ci_status) | \(.check_status) / \(.check_conclusion) |"' >> $GITHUB_STEP_SUMMARY
           else
             echo "No open pull requests found." >> $GITHUB_STEP_SUMMARY
           fi
