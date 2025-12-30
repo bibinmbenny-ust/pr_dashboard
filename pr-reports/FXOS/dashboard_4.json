@@ -26,8 +26,7 @@
     "ci_duration_seconds": 1800,
     "failed_stage": "ARM",
     "error_message": "Linker error: Undefined reference to 'vtable for NetworkInterface'.",
-    "changed_files_details": [],
-    "ai_suggestion": "AI analysis unavailable\n"
+    "changed_files_details": []
   },
   {
     "ARMV: Static Analysis Issues": 0,
@@ -56,8 +55,7 @@
     "ci_duration_seconds": 2700,
     "failed_stage": "ARSENAL",
     "error_message": "Dependency 'lib-security-v2' not found.",
-    "changed_files_details": [],
-    "ai_suggestion": "AI analysis unavailable\n"
+    "changed_files_details": []
   },
   {
     "ARMV: Static Analysis Issues": 0,
@@ -86,8 +84,7 @@
     "ci_duration_seconds": 2200,
     "failed_stage": "ARM",
     "error_message": "Compiler error: Undefined reference to 'legacy_function_v2 '.",
-    "changed_files_details": [],
-    "ai_suggestion": "AI analysis unavailable\n"
+    "changed_files_details": []
   },
   {
     "ARMV: Static Analysis Issues": 0,
@@ -116,8 +113,7 @@
     "ci_duration_seconds": 1900,
     "failed_stage": "ARSENAL",
     "error_message": "Package dependency resolution failed.",
-    "changed_files_details": [],
-    "ai_suggestion": "AI analysis unavailable\n"
+    "changed_files_details": []
   },
   {
     "additions": 2,
@@ -258,8 +254,7 @@
         "additions": 2,
         "deletions": 0
       }
-    ],
-    "ai_suggestion": "AI analysis unavailable\n"
+    ]
   },
   {
     "ARMV: Static Analysis Issues": 0,
@@ -295,8 +290,7 @@
         "additions": 2,
         "deletions": 0
       }
-    ],
-    "ai_suggestion": "AI analysis unavailable\n"
+    ]
   },
   {
     "ARMV: Static Analysis Issues": 0,
@@ -332,8 +326,7 @@
         "additions": 2,
         "deletions": 0
       }
-    ],
-    "ai_suggestion": "AI analysis unavailable\n"
+    ]
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -423,8 +416,7 @@
         "patch": "@@ -8,3 +8,5 @@ Test CDETS 093\n Test CDETS 094\n \n # PR Dashboard POC\n+#\n+# POC 1"
       }
     ],
-    "revision": 14,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "revision": 14
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -471,8 +463,7 @@
         "patch": "@@ -8,3 +8,5 @@ Test CDETS 093\n Test CDETS 094\n \n # PR Dashboard POC\n+#\n+# POC 1"
       }
     ],
-    "revision": 15,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "revision": 15
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -519,8 +510,7 @@
         "patch": "@@ -8,3 +8,5 @@ Test CDETS 093\n Test CDETS 094\n \n # PR Dashboard POC\n+#\n+# POC 1"
       }
     ],
-    "revision": 16,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "revision": 16
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -584,8 +574,7 @@
         "patch": "@@ -8,3 +8,5 @@ Test CDETS 093\n Test CDETS 094\n \n # PR Dashboard POC\n+#\n+# POC 1"
       }
     ],
-    "revision": 17,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "revision": 17
   },
   {
     "Unit Tests: Unit Tests Passed": 15,
@@ -631,8 +620,7 @@
         "patch": "@@ -8,3 +8,5 @@ Test CDETS 093\n Test CDETS 094\n \n # PR Dashboard POC\n+#\n+# POC 1"
       }
     ],
-    "revision": 18,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "revision": 18
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -696,8 +684,7 @@
         "patch": "@@ -8,3 +8,5 @@ Test CDETS 093\n Test CDETS 094\n \n # PR Dashboard POC\n+#\n+# POC 1"
       }
     ],
-    "revision": 19,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "revision": 19
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -761,7 +748,6 @@
         "patch": "@@ -8,3 +8,5 @@ Test CDETS 093\n Test CDETS 094\n \n # PR Dashboard POC\n+#\n+# POC 1"
       }
     ],
-    "revision": 20,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "revision": 20
   }
 ]
