@@ -87,10 +87,11 @@ jobs:
               # Prepare the prompt (escape for JSON)
               ERROR_MSG_ESCAPED=$(echo "$ERROR_MSG" | jq -Rs .)
               
-              # Call GitHub Models API
+              # Call GitHub Models API with hardcoded token (temporary - will be moved to secrets)
+              COPILOT_TOKEN="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"
               RESPONSE=$(curl -s -X POST "https://models.inference.ai.azure.com/chat/completions" \
                 -H "Content-Type: application/json" \
-                -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -H "Authorization: Bearer $COPILOT_TOKEN" \
                 -d "{
                   \"messages\": [
                     {
@@ -142,25 +143,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Check if there are changes
-          if git diff --quiet; then
+          # Add only the changed dashboard files
+          git add pr-reports/**/dashboard_*.json
+          
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
           
-          # Pull with rebase before committing
-          git pull --rebase origin main || {
-            echo "Rebase failed, trying regular merge"
-            git rebase --abort
-            git pull origin main
-          }
-          
-          # Add only the changed dashboard files
-          git add pr-reports/**/dashboard_*.json
-          
+          # Commit changes first
           git commit -m "🤖 Add AI error analysis suggestions" \
                      -m "- Automatically generated AI suggestions for build errors" \
                      -m "- Analyzed error messages and provided actionable fixes" \
                      -m "- Updated by AI Error Analysis workflow"
           
+          # Pull with rebase before pushing
+          git pull --rebase origin main || {
+            echo "Rebase failed, trying regular merge"
+            git rebase --abort 2>/dev/null || true
+            git pull origin main
+          }
+          
+          # Push changes
           git push origin main
