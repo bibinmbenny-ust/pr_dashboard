@@ -160,20 +160,8 @@ jobs:
               # Get check run details for error messages
               CHECK_ERRORS=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[] | select(.conclusion == "failure") | .name + ": " + .output.title' 2>/dev/null || echo "No detailed error info")
               
-              # Create AI prompt
-              AI_PROMPT="Analyze this GitHub PR CI failure and provide actionable suggestions:
-
-PR Title: $PR_TITLE
-Branch: $PR_BRANCH
-Failed Checks: $CHECK_ERRORS
-Recent Commits: $COMMIT_MESSAGES
-
-Provide:
-1. Likely root cause (2-3 sentences)
-2. Specific fix suggestions (2-3 action items)
-3. Prevention tips
-
-Be concise and technical."
+              # Create AI prompt (single line to avoid YAML parsing issues)
+              AI_PROMPT="Analyze this GitHub PR CI failure and provide actionable suggestions: PR Title: $PR_TITLE, Branch: $PR_BRANCH, Failed Checks: $CHECK_ERRORS, Recent Commits: $COMMIT_MESSAGES. Provide: 1. Likely root cause (2-3 sentences) 2. Specific fix suggestions (2-3 action items) 3. Prevention tips. Be concise and technical."
 
               # Call GitHub Models API (Copilot)
               # Note: Using GITHUB_TOKEN with GitHub Models endpoint
