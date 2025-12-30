@@ -33,14 +33,24 @@ jobs:
           
           echo "✅ Vault authentication successful"
           
-          # Retrieve GitHub token from Vault
-          GITHUB_PAT=$(curl -s -X GET \
+          # Retrieve GitHub token from Vault (debug response)
+          echo "Attempting to retrieve GitHub token from Vault..."
+          VAULT_RESPONSE=$(curl -s -X GET \
             -H "X-Vault-Token: $VAULT_TOKEN" \
             -H "X-Vault-Namespace: ${{ secrets.VAULT_NAMESPACE }}" \
-            ${{ secrets.VAULT_URL }}/v1/secret/data/github | jq -r '.data.data.token')
+            ${{ secrets.VAULT_URL }}/v1/secret/data/github)
+          
+          echo "Vault response:"
+          echo "$VAULT_RESPONSE" | jq .
+          
+          # Try to extract token from different possible paths
+          GITHUB_PAT=$(echo "$VAULT_RESPONSE" | jq -r '.data.data.token // .data.token // empty')
           
           if [ -z "$GITHUB_PAT" ] || [ "$GITHUB_PAT" == "null" ]; then
             echo "❌ Failed to retrieve GitHub token from Vault"
+            echo "Please check the secret path and field name in Vault"
+            echo "Current path: ${{ secrets.VAULT_URL }}/v1/secret/data/github"
+            echo "Expected field: 'token'"
             exit 1
           fi
           
