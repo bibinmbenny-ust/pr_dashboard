@@ -493,10 +493,7 @@ async function loadMetrics() {
                 <strong>Project:</strong> ${currentProject.displayName}<br>
                 <strong>Example:</strong> <code>?project=${currentProject.name}&pr=4</code> or <code>?project=${currentProject.name}&pr=6</code>
             `;
-            <div>
-                <span style="font-size: 0.9rem; opacity: 0.8; display: block; margin-bottom: 0.3rem;">${currentProject.displayName}</span>
-                <h2>${latestRevisionData.title ?? 'PR Dashboard'}</h2>
-            </div>
+            loadingParagraph.style.color = "var(--failure)";
             loadingParagraph.style.textAlign = "center";
             loadingParagraph.style.padding = "2rem";
         }
@@ -508,11 +505,24 @@ async function loadMetrics() {
 
 
     // 3. Fetch data (Only runs if prId exists)
+    console.log(`Attempting to fetch: ${dataPathBase}${prId}.json`);
     let dataList = await fetchWithRetry(dataPathBase + prId + ".json");
 
     if (!dataList) {
-         loadingParagraph.innerText = `Error: Failed to fetch data for PR #${prId} from ${dataPathBase + prId + ".json"}. Please check file existence and format.`;
-         loadingParagraph.style.color = "var(--failure)";
+         if (loadingParagraph) {
+             loadingParagraph.innerHTML = `
+                 <span class="status-failure">❌ Failed to Load PR Data</span><br><br>
+                 Could not fetch data for PR #${prId}<br>
+                 <strong>Expected file:</strong> <code>${dataPathBase}${prId}.json</code><br><br>
+                 <strong>Possible reasons:</strong><br>
+                 • File doesn't exist in the repository<br>
+                 • File path is incorrect<br>
+                 • Network error<br><br>
+                 <a href="pr-list.html?project=${currentProject.name}" class="btn">← Back to PR List</a>
+             `;
+             loadingParagraph.style.color = "var(--failure)";
+             loadingParagraph.style.textAlign = "center";
+         }
          prDetailsContainer.style.border = "2px solid var(--failure)";
          return;
     }
