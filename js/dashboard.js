@@ -258,7 +258,7 @@ function renderMetrics(data) {
             return `<p><strong>${metric.name}:</strong> <span class="${metricClass}">${value}</span></p>`;
         }).filter(Boolean).join(''); // filter(Boolean) removes null entries
         
-        // Add error details and AI suggestion button if there's an error
+        // Add error details and AI suggestion if available from JSON
         const errorSection = hasError ? `
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(239, 68, 68, 0.3);">
                 <details style="cursor: pointer;">
@@ -267,7 +267,7 @@ function renderMetrics(data) {
                     </summary>
                     <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(0, 0, 0, 0.3); border-radius: 0.375rem; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap; line-height: 1.4; color: #ff6b6b;">
 ${errorDetails}</div>
-                    ${aiSuggestion ? `
+                    ${aiSuggestion && aiSuggestion !== 'AI analysis temporarily unavailable. Please check logs manually.\n' ? `
                         <div style="margin-top: 0.75rem; padding: 1rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.1) 0%, rgba(0, 188, 235, 0.05) 100%); border: 1px solid rgba(0, 188, 235, 0.3); border-radius: 0.5rem;">
                             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; color: var(--cisco-blue); font-weight: 600;">
                                 <span style="font-size: 1.1rem;">🤖</span>
@@ -276,14 +276,7 @@ ${errorDetails}</div>
                             <div style="white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem; color: #e0e0e0;">
 ${aiSuggestion}</div>
                         </div>
-                    ` : `
-                        <button onclick="getStageAISuggestion(this, '${stageId}', '${stage}', ${data.pr_id}, ${data.revision}, \`${errorDetails.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" 
-                                style="margin-top: 0.75rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, var(--cisco-blue), #0099cc); border: none; border-radius: 0.375rem; color: white; font-weight: 600; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; width: fit-content;">
-                            <span>🤖</span>
-                            <span>Get AI Suggestion</span>
-                        </button>
-                        <div id="ai-${stageId}"></div>
-                    `}
+                    ` : ''}
                 </details>
             </div>
         ` : '';
@@ -833,120 +826,8 @@ async function loadMetrics() {
     dashboardContainer.innerHTML = revisionCardsHtml;
 }
 
-// Function to get AI suggestion for a specific stage
-async function getStageAISuggestion(button, stageId, stageName, prId, revisionId, errorMessage) {
-    const containerEl = document.getElementById(`ai-${stageId}`);
-    if (!containerEl) return;
-    
-    // Show loading state
-    button.disabled = true;
-    button.innerHTML = '<span>🔄</span><span>Analyzing...</span>';
-    containerEl.innerHTML = '<div style="padding: 1rem; text-align: center; color: var(--cisco-blue);">⏳ Generating AI analysis...</div>';
-    
-    try {
-        // Create AI analysis prompt with the specific error message
-        const prompt = `Analyze this ${stageName} build stage error and provide actionable suggestions: "${errorMessage}". Provide: 1. Root cause (2-3 sentences) 2. Fix suggestions (2-3 specific actions) 3. Prevention tips. Be concise and technical.`;
-        
-        // Since we can't call the API directly from browser without exposing tokens,
-        // we'll use pattern-based analysis (same logic as before but on-demand)
-        const aiSuggestion = generateAISuggestionFromPattern(errorMessage);
-        
-        // Display the suggestion
-        containerEl.innerHTML = `
-            <div style="margin-top: 0.75rem; padding: 1rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.1) 0%, rgba(0, 188, 235, 0.05) 100%); border: 1px solid rgba(0, 188, 235, 0.3); border-radius: 0.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; color: var(--cisco-blue); font-weight: 600;">
-                    <span style="font-size: 1.1rem;">🤖</span>
-                    <span>AI Analysis & Suggestions</span>
-                    <span style="font-size: 0.7rem; opacity: 0.7; margin-left: auto;">Pattern-based Analysis</span>
-                </div>
-                <div style="white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem; color: #e0e0e0;">
-${aiSuggestion}</div>
-                <button onclick="saveAISuggestionToFile('${stageName}', ${prId}, ${revisionId}, \`${aiSuggestion.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" 
-                        style="margin-top: 0.75rem; padding: 0.4rem 0.8rem; background: #10b981; border: none; border-radius: 0.375rem; color: white; font-weight: 600; cursor: pointer; font-size: 0.8rem;">
-                    💾 Save to Dashboard
-                </button>
-            </div>
-        `;
-        
-        button.innerHTML = '<span>✓</span><span>Analysis Complete</span>';
-        button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-        
-    } catch (error) {
-        console.error('AI analysis failed:', error);
-        containerEl.innerHTML = `
-            <div style="padding: 1rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 0.5rem; color: #ff6b6b;">
-                ⚠️ Unable to generate AI analysis. Please try again later.
-            </div>
-        `;
-        button.disabled = false;
-        button.innerHTML = '<span>🤖</span><span>Retry AI Suggestion</span>';
-    }
-}
-
-// Pattern-based AI suggestion generator (client-side)
-function generateAISuggestionFromPattern(errorMessage) {
-    const errorLower = errorMessage.toLowerCase();
-    
-    if (errorLower.includes('undefined reference') || errorLower.includes('linker error')) {
-        return `**Root Cause:**
-The linker cannot find the referenced function or symbol. This typically occurs when:
-- A function is declared but not defined
-- Required library is not linked
-- Symbol name mismatch between declaration and definition
-
-**Fix Suggestions:**
-1. Check if the missing symbol is defined in the codebase. Search for the function name.
-2. Verify all required libraries are included in the linker flags (e.g., -lcrypto, -lssl)
-3. Ensure the correct object files are being linked in the build configuration
-
-**Prevention Tips:**
-- Use static analysis tools to catch missing definitions before build
-- Maintain a clear dependency map for external libraries
-- Enable compiler warnings for implicit declarations (-Wimplicit-function-declaration)`;
-    }
-    
-    if (errorLower.includes('struct') && errorLower.includes('no member')) {
-        return `**Root Cause:**
-Code is attempting to access a member that doesn't exist in the structure definition. This indicates:
-- Structure definition mismatch between files
-- Incorrect structure version being used
-- Missing or incomplete structure definition
-
-**Fix Suggestions:**
-1. Verify the structure definition includes the member being accessed
-2. Check if there are multiple versions of the structure definition in different headers
-3. Ensure all files are using the same version of the header file
-
-**Prevention Tips:**
-- Use version control for header files and sync across all source files
-- Enable strict compilation warnings (-Werror=incompatible-pointer-types)
-- Document structure changes in changelog`;
-    }
-    
-    return `**Root Cause:**
-Build failure detected in ${errorMessage.substring(0, 100)}... Analysis suggests potential issues with:
-- Code compilation or linking
-- Dependency resolution
-- Configuration or environment setup
-
-**Fix Suggestions:**
-1. Review the complete error log to identify the exact failing component
-2. Check recent commits that might have introduced the issue
-3. Verify build environment matches the expected configuration
-4. Try rebuilding after cleaning previous build artifacts
-
-**Prevention Tips:**
-- Run local builds before pushing to ensure changes compile
-- Set up pre-commit hooks to catch common build errors
-- Maintain comprehensive test coverage to catch breaking changes early`;
-}
-
-// Save AI suggestion to dashboard JSON file (Note: This requires backend support)
-function saveAISuggestionToFile(stageName, prId, revisionId, aiSuggestion) {
-    alert(`To save AI suggestions permanently, the workflow needs to be updated to store them in the JSON files.\n\nStage: ${stageName}\nPR: ${prId}\nRevision: ${revisionId}\n\nFor now, the suggestion is displayed but not persisted.`);
-    // In a real implementation, this would make an API call to update the JSON file
-    // or trigger a GitHub Actions workflow to update the file
-}
+// AI suggestions are generated by the GitHub Actions workflow and stored in the JSON files
+// This client-side code only displays pre-generated suggestions from the dashboard_*.json files
 
 // --- Execute when the window loads ---
 window.onload = loadMetrics;
