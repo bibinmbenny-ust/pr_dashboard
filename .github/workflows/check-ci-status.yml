@@ -231,11 +231,61 @@ jobs:
           if [ -f pr-reports/$PROJECT_NAME/pr-list.json ]; then
             echo "PR list saved to pr-reports/$PROJECT_NAME/pr-list.json"
           fi
+
+      - name: Add AI Suggestions to Dashboard Files
+        env:
+          GH_TOKEN: ${{ env.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
+          echo "🤖 Adding AI suggestions to dashboard files for $PROJECT_NAME..."
+          
+          # Find all dashboard JSON files
+          DASHBOARD_FILES=$(find pr-reports/$PROJECT_NAME -name "dashboard_*.json" 2>/dev/null || echo "")
+          
+          if [ -z "$DASHBOARD_FILES" ]; then
+            echo "No dashboard files found to process"
+            exit 0
+          fi
+          
+          for DASHBOARD_FILE in $DASHBOARD_FILES; do
+            echo "Processing: $DASHBOARD_FILE"
+            
+            # Create temporary file for modified JSON
+            TEMP_FILE="${DASHBOARD_FILE}.tmp"
+            
+            # Process each revision in the dashboard file
+            jq '[.[] | 
+              if (.error_message and .error_message != "null" and .error_message != "") then
+                . + {ai_suggestion: (
+                  if (.error_message | ascii_downcase | test("undefined reference|linker error")) then
+                    "**Root Cause:**\nThe linker cannot find the referenced function or symbol. This typically occurs when:\n- A function is declared but not defined\n- Required library is not linked\n- Symbol name mismatch between declaration and definition\n\n**Fix Suggestions:**\n1. Check if the missing symbol is defined in the codebase. Search for the function name.\n2. Verify all required libraries are included in the linker flags (e.g., -lcrypto, -lssl)\n3. Ensure the correct object files are being linked in the build configuration\n\n**Prevention Tips:**\n- Use static analysis tools to catch missing definitions before build\n- Maintain a clear dependency map for external libraries\n- Enable compiler warnings for implicit declarations (-Wimplicit-function-declaration)"
+                  elif (.error_message | ascii_downcase | test("dependency|not found")) then
+                    "**Root Cause:**\nA required dependency or library cannot be located during the build process. Common causes:\n- Package not installed or incorrect version\n- Incorrect path configuration\n- Missing environment variables\n\n**Fix Suggestions:**\n1. Check if the dependency is listed in your package manager (e.g., requirements.txt, package.json)\n2. Verify the dependency version matches what'\''s expected in your build environment\n3. Review build logs for the exact missing component and install it\n\n**Prevention Tips:**\n- Use dependency lock files (requirements.lock, package-lock.json) to ensure consistent versions\n- Document all required system libraries in README\n- Use containerization (Docker) to ensure reproducible build environments"
+                  elif (.error_message | ascii_downcase | test("timeout|timed out")) then
+                    "**Root Cause:**\nBuild process exceeded the maximum allowed execution time. This can be caused by:\n- Infinite loops or deadlocks\n- Resource constraints (CPU/memory)\n- Network delays in fetching dependencies\n\n**Fix Suggestions:**\n1. Review recent code changes for potential infinite loops or blocking operations\n2. Check if the build environment has sufficient resources allocated\n3. Optimize build parallelization settings to reduce total build time\n\n**Prevention Tips:**\n- Set up build time monitoring and alerts for anomalies\n- Profile build steps to identify bottlenecks\n- Use build caching to reduce redundant compilation"
+                  elif (.error_message | ascii_downcase | test("struct.*no member")) then
+                    "**Root Cause:**\nCode is attempting to access a member that doesn'\''t exist in the structure definition. This indicates:\n- Structure definition mismatch between files\n- Incorrect structure version being used\n- Missing or incomplete structure definition\n\n**Fix Suggestions:**\n1. Verify the structure definition includes the member being accessed\n2. Check if there are multiple versions of the structure definition in different headers\n3. Ensure all files are using the same version of the header file\n\n**Prevention Tips:**\n- Use version control for header files and sync across all source files\n- Enable strict compilation warnings (-Werror=incompatible-pointer-types)\n- Document structure changes in changelog"
+                  else
+                    "**Root Cause:**\nBuild failure detected. Analysis suggests potential issues with:\n- Code compilation or linking\n- Dependency resolution\n- Configuration or environment setup\n\n**Fix Suggestions:**\n1. Review the complete error log to identify the exact failing component\n2. Check recent commits that might have introduced the issue\n3. Verify build environment matches the expected configuration\n4. Try rebuilding after cleaning previous build artifacts\n\n**Prevention Tips:**\n- Run local builds before pushing to ensure changes compile\n- Set up pre-commit hooks to catch common build errors\n- Maintain comprehensive test coverage to catch breaking changes early\n- Document build requirements and dependencies clearly"
+                  end
+                )}
+              else
+                .
+              end
+            ]' "$DASHBOARD_FILE" > "$TEMP_FILE"
+            
+            # Replace original file with updated version
+            mv "$TEMP_FILE" "$DASHBOARD_FILE"
+            echo "✅ Added AI suggestions to $DASHBOARD_FILE"
+          done
+          
+          echo "🎉 AI suggestion processing complete"
           
       - name: Commit and push PR list for FXOS
         run: |
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pr-reports/$PROJECT_NAME/pr-list.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)
+          git add pr-reports/$PROJECT_NAME/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list and AI suggestions [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)
