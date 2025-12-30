@@ -1,0 +1,11 @@
+include:
+  - "pr_reports/dashboard.json"
+
+plugins:
+  - jekyll-optional-front-matter
+
+defaults:
+  - scope:
+      path: "pr_reports"
+    values:
+      layout: null

@@ -1,0 +1,421 @@
+/* Cisco-inspired Dark Theme Variables */
+:root {
+    --cisco-blue: #00BCEB; /* Bright blue for accents/links */
+    --cisco-dark-blue: #005073; /* Darker blue for secondary accents */
+    --bg: #0f172a; /* Slate-900 (Deep Dark Background) */
+    --card: #1e293b; /* Slate-800 (Card Background) */
+    --text: #f1f5f9; /* Slate-100 (Primary Text) */
+    --success: #10b981; /* Emerald-500 - Green */
+    --failure: #ef4444; /* Red-500 - Red */
+    --warning: #f59e0b; /* Amber-500 - Yellow */
+    --in-progress: #3b82f6; /* Blue-500 */
+}
+
+/* Base Styles */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+body { 
+    background: var(--bg); 
+    color: var(--text); 
+    padding: 2rem; 
+    min-height: 100vh;
+}
+
+/* --- Global Header & Logo Alignment --- */
+.global-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+.title-container {
+    flex-grow: 1;
+}
+h1 { 
+    font-size: 2.25rem; 
+    color: var(--cisco-blue);
+    font-weight: 700;
+}
+.logo {
+    height: 40px; 
+    width: auto;
+    border-radius: 4px;
+    /* Ensure the logo stays on the right */
+    flex-shrink: 0; 
+    margin-left: 2rem;
+}
+
+/* --- Global Badge Style (Used for Overall Status) --- */
+.status-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    line-height: 1; 
+}
+.status-success-bg { background: var(--success); color: var(--bg); }
+.status-failure-bg { background: var(--failure); color: var(--text); }
+.status-warning-bg { background: var(--warning); color: var(--bg); }
+.status-inprogress-bg { background: var(--in-progress); color: var(--text); }
+
+/* --- Revision Details (Collapsible Main Block) --- */
+.revision-details {
+    border: 1px solid var(--cisco-dark-blue);
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    overflow: hidden; 
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.revision-details[open] {
+    box-shadow: 0 0 20px rgba(0, 188, 235, 0.2); 
+}
+
+.revision-summary {
+    background: #1e293b; 
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    user-select: none;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.revision-summary:hover {
+    background: #28394f;
+}
+
+/* Chevron/Arrow for Collapse Animation */
+.revision-summary::after {
+    content: '▼';
+    font-size: 0.8rem;
+    color: var(--text);
+    margin-left: 1rem;
+    transition: transform 0.3s;
+}
+.revision-details[open] .revision-summary::after {
+    content: '▲';
+    transform: rotate(180deg);
+}
+
+.revision-info {
+    color: var(--cisco-blue);
+    flex-grow: 1;
+    padding-right: 1rem; 
+}
+.revision-info strong { 
+    color: var(--text); 
+    margin-right: 0.5rem;
+}
+/* Style for the detailed run info */
+.revision-info small {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text);
+    opacity: 0.7;
+    margin-top: 0.25rem;
+}
+.revision-info a {
+    color: var(--cisco-blue);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.revision-info a:hover {
+    color: #4dc2f0;
+    text-decoration: underline;
+}
+
+.revision-status-display {
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.3rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+/* Content Grid - Used for Revision Card Layout */
+.content-grid { 
+    display: grid; 
+    /* Only one card now, so it takes full width */
+    grid-template-columns: 1fr; 
+    gap: 1.5rem; 
+    padding: 1.5rem;
+    background: rgba(30, 41, 59, 0.7); 
+}
+
+/* Card Styling for generic cards */
+.card { 
+    background: var(--card); 
+    padding: 1.5rem; 
+    border-radius: 0.75rem; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
+    margin-bottom: 0rem; /* Resetting internal margin */
+}
+/* Style for the static PR header block */
+#pr-details-container {
+    background: #101c30; /* Slightly darker than card, lighter than background */
+    border: 2px solid var(--cisco-blue); /* Strong border */
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 30px rgba(0, 188, 235, 0.3); /* Glowing effect */
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    /* Only apply border bottom to standard cards, not the main PR block */
+    border-bottom: 2px solid var(--cisco-dark-blue);
+    padding-bottom: 0.5rem;
+}
+
+/* Specific styling for the main PR title and status */
+#pr-details-container .card-header {
+    border-bottom: none; /* Remove border from main PR card header */
+    padding-bottom: 0;
+    margin-bottom: 0.5rem;
+}
+
+#pr-details-container .pr-title-block {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Allow title and badge to wrap on small screens */
+}
+
+#pr-details-container h2 { 
+    font-size: 1.8rem; 
+    color: var(--text); /* Title in white/light */
+    font-weight: 700;
+    margin: 0;
+    margin-right: 1rem;
+}
+
+.pr-subtitle-block {
+    font-size: 1.1rem;
+    color: var(--cisco-blue);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--cisco-dark-blue);
+    padding-bottom: 0.5rem;
+}
+
+.card h3 {
+     font-size: 1.25rem;
+     margin-top: 1rem;
+     color: var(--text);
+}
+.card p { margin-bottom: 0.5rem; }
+.card strong { color: var(--cisco-blue); font-weight: 600; }
+
+/* Failure Card Styling */
+.failure-card {
+    background: #451a24; /* Darker red background */
+    border: 2px solid var(--failure);
+    padding: 1.5rem; 
+    border-radius: 0.75rem; 
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); /* Red shadow */
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+.failure-card h3 {
+    color: var(--failure);
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+.failure-card h3::before {
+    content: '✖';
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+}
+.failure-card p {
+    margin-bottom: 0.5rem;
+    border-left: 3px solid var(--failure);
+    padding-left: 0.75rem;
+}
+.failure-card strong {
+    color: var(--text);
+    font-weight: 700;
+}
+
+/* Layout for the PR Metadata card (Two-column structure) */
+.pr-metadata-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 1.5rem;
+}
+.pr-metadata-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push button to the bottom */
+}
+.pr-metadata-right h3 {
+    margin-top: 0; /* Remove top margin on the right-side header */
+}
+/* Style for the container around the button for alignment */
+.pr-metadata-btn-container {
+    display: flex;
+    justify-content: flex-end; /* Align button to the right */
+    margin-top: 1rem;
+}
+
+/* Collapsible Metrics Styling (Inner details for metric groups) */
+.metric-group details {
+    margin-top: 0.75rem;
+    border-left: 3px solid var(--cisco-dark-blue);
+    padding-left: 0.75rem;
+    cursor: pointer;
+}
+.metric-group summary {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--cisco-blue);
+    padding: 0.25rem 0;
+    transition: color 0.2s;
+}
+.metric-group details[open] summary {
+    color: var(--text);
+}
+.metric-content p {
+    padding-left: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+/* --- Files Changed Details Styling --- */
+.file-details-collapsible {
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0;
+    cursor: pointer;
+}
+.file-details-collapsible[open] {
+    border: 1px solid var(--cisco-dark-blue);
+}
+
+.file-details-summary {
+    font-weight: 600;
+    list-style: none; /* Hide default triangle */
+    padding: 0.5rem 0;
+    padding-left: 0.5rem;
+    border-radius: 0.5rem;
+    display: block; /* Important for custom marker */
+    position: relative;
+}
+/* Custom Chevron for File Summary */
+.file-details-summary::before {
+    content: '▶';
+    color: var(--cisco-blue);
+    font-size: 0.6rem;
+    margin-right: 0.5rem;
+    transition: transform 0.2s;
+}
+.file-details-collapsible[open] .file-details-summary::before {
+    content: '▼';
+}
+.file-details-summary:hover {
+    background-color: rgba(0, 80, 115, 0.2); /* Subtle hover effect */
+}
+
+.file-count {
+    color: var(--text);
+    background-color: var(--cisco-dark-blue);
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.file-list-content {
+    background: #151e2d; /* Slightly lighter than card */
+    padding: 0.75rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed #28394f;
+}
+.file-item:last-child {
+    border-bottom: none;
+}
+.file-item a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+.file-item a:hover {
+    color: var(--cisco-blue);
+    text-decoration: underline;
+}
+.file-stats span {
+    margin-left: 0.5rem;
+    font-weight: 700;
+}
+
+/* General Status Text */
+.status-success { color: var(--success); font-weight: 700; }
+.status-failure { color: var(--failure); font-weight: 700; }
+.status-warning { color: var(--warning); font-weight: 700; }
+.status-in-progress { color: var(--in-progress); font-weight: 700; }
+.status-merged-true { color: var(--success); font-weight: 700; }
+.status-merged-false { color: var(--failure); font-weight: 700; }
+
+/* Buttons */
+.btn { 
+    display: inline-block; 
+    background: var(--cisco-blue); 
+    color: var(--bg); 
+    padding: 0.6rem 1.25rem; 
+    border-radius: 0.5rem; 
+    text-decoration: none; 
+    font-weight: 700; 
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+}
+.btn:hover { background: #0077B6; color: var(--text); }
+
+/* Footer */
+footer { 
+    text-align: center; 
+    margin-top: 3rem; 
+    font-size: 0.85rem; 
+    opacity: 0.6; 
+    border-top: 1px dashed var(--cisco-dark-blue);
+    padding-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body { padding: 1rem; }
+    .global-header { flex-direction: column; align-items: center; }
+    .logo { margin-left: 0; margin-top: 1rem; }
+    .card-header { flex-direction: column; align-items: flex-start; }
+    #pr-details-container .pr-title-block { flex-direction: column; align-items: flex-start; }
+    #pr-details-container h2 { margin-bottom: 0.5rem; }
+    .revision-summary { padding: 1rem; flex-direction: column; align-items: flex-start; gap: 0.5rem;}
+    .revision-info { padding-right: 0; }
+    .content-grid { padding: 1rem; }
+    /* Mobile: Collapse PR Metadata Grid to single column */
+    .pr-metadata-grid {
+        grid-template-columns: 1fr;
+    }
+    .pr-metadata-btn-container {
+        justify-content: flex-start;
+        margin-top: 1rem;
+    }
+    #pr-details-container { padding: 1.5rem; }
+    #pr-details-container h2 { font-size: 1.5rem; }
+    .pr-subtitle-block { font-size: 0.95rem; }
+}
