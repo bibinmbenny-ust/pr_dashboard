@@ -395,6 +395,30 @@ function renderCombinedSummaryCard(data) {
                 </div>
             </div>
         </div>
+        ${renderAISuggestion(data)}
+    `;
+}
+
+// Render AI suggestion card if available
+function renderAISuggestion(data) {
+    // Check if we have AI suggestion from pr-list.json (ciStatusData)
+    if (!window.currentPRAISuggestion || window.currentPRAISuggestion === 'AI analysis unavailable' || !window.currentPRAISuggestion) {
+        return '';
+    }
+    
+    return `
+        <div class="card" style="padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.05) 0%, rgba(0, 188, 235, 0.02) 100%); border: 1px solid rgba(0, 188, 235, 0.3);">
+            <details style="cursor: pointer;">
+                <summary style="font-weight: 600; color: var(--cisco-blue); font-size: 1rem; padding: 0.5rem 0; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.2rem;">🤖</span>
+                    <span>AI Analysis & Suggestions</span>
+                    <span style="font-size: 0.7rem; opacity: 0.7; margin-left: auto;">Powered by GitHub Copilot</span>
+                </summary>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 0, 0, 0.2); border-radius: 0.5rem; white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;">
+${window.currentPRAISuggestion}
+                </div>
+            </details>
+        </div>
     `;
 }
 
@@ -584,6 +608,14 @@ async function loadMetrics() {
     if (prListData && prListData.pull_requests) {
         ciStatusData = prListData.pull_requests.find(pr => pr.number === parseInt(prId));
         console.log("CI Status Data:", ciStatusData);
+        
+        // Store AI suggestion globally if available
+        if (ciStatusData && ciStatusData.ai_suggestion) {
+            window.currentPRAISuggestion = ciStatusData.ai_suggestion;
+            console.log("AI Suggestion found for PR:", prId);
+        } else {
+            window.currentPRAISuggestion = null;
+        }
     }
 
     // Data is fetched, remove loading paragraph

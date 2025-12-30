@@ -144,12 +144,60 @@ jobs:
               FINAL_STATUS="failure"
             fi
             
-            # Combine PR data with CI status
+            # AI Analysis for failed builds (using GitHub Models API)
+            AI_SUGGESTION=""
+            if [ "$FINAL_STATUS" = "failure" ]; then
+              echo "🤖 Analyzing failure for PR #$PR_NUMBER with AI..."
+              
+              # Get PR details for context
+              PR_TITLE=$(echo "$PR" | jq -r '.title')
+              PR_BRANCH=$(echo "$PR" | jq -r '.head_branch')
+              
+              # Get recent commit messages for more context
+              COMMIT_MESSAGES=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER/commits --jq '.[].commit.message' | head -5 || echo "No commit messages")
+              
+              # Get check run details for error messages
+              CHECK_ERRORS=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[] | select(.conclusion == "failure") | .name + ": " + .output.title' 2>/dev/null || echo "No detailed error info")
+              
+              # Create AI prompt
+              AI_PROMPT="Analyze this GitHub PR CI failure and provide actionable suggestions:
+
+PR Title: $PR_TITLE
+Branch: $PR_BRANCH
+Failed Checks: $CHECK_ERRORS
+Recent Commits: $COMMIT_MESSAGES
+
+Provide:
+1. Likely root cause (2-3 sentences)
+2. Specific fix suggestions (2-3 action items)
+3. Prevention tips
+
+Be concise and technical."
+
+              # Call GitHub Models API (Copilot)
+              # Note: Using GITHUB_TOKEN with GitHub Models endpoint
+              AI_RESPONSE=$(curl -s -X POST \
+                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Content-Type: application/json" \
+                -d "{
+                  \"model\": \"gpt-4o\",
+                  \"messages\": [{\"role\": \"user\", \"content\": $(echo "$AI_PROMPT" | jq -Rs .)}],
+                  \"max_tokens\": 500
+                }" \
+                "https://models.inference.ai.azure.com/chat/completions" 2>/dev/null || echo '{"error": "AI service unavailable"}')
+              
+              AI_SUGGESTION=$(echo "$AI_RESPONSE" | jq -r '.choices[0].message.content // "AI analysis unavailable"' 2>/dev/null || echo "AI analysis unavailable")
+              
+              echo "AI Suggestion: $AI_SUGGESTION"
+            fi
+            
+            # Combine PR data with CI status and AI suggestion
             ENRICHED_PR=$(echo "$PR" | jq \
               --arg ci_state "$FINAL_STATUS" \
               --arg check_status "$CHECK_STATUS" \
               --arg check_conclusion "$CHECK_CONCLUSION" \
-              '. + {ci_status: $ci_state, check_status: $check_status, check_conclusion: $check_conclusion}')
+              --arg ai_suggestion "$AI_SUGGESTION" \
+              '. + {ci_status: $ci_state, check_status: $check_status, check_conclusion: $check_conclusion, ai_suggestion: $ai_suggestion}')
             
             ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
           done
