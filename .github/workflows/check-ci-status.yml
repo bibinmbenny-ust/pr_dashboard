@@ -67,6 +67,7 @@ jobs:
         id: get-prs
         env:
           GH_TOKEN: ${{ env.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PROJECT_NAME="FXOS"
           REPO_NAME="cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
@@ -177,7 +178,7 @@ Be concise and technical."
               # Call GitHub Models API (Copilot)
               # Note: Using GITHUB_TOKEN with GitHub Models endpoint
               AI_RESPONSE=$(curl -s -X POST \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
                 -H "Content-Type: application/json" \
                 -d "{
                   \"model\": \"gpt-4o\",
