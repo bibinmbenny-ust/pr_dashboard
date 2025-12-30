@@ -1,7 +1,7 @@
 const repoBaseUrl = "https://github.com/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/pull/";
 const commitBaseUrl = "https://github.com/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/commit/";
 // Use the corrected path, relative to the HTML file
-const dataPathBase = "pr-reports/dashboard_"; 
+const dataPathBase = "pr-reports/FXOS/dashboard_"; 
 
 // Exponential backoff retry mechanism for fetching data
 async function fetchWithRetry(url, maxRetries = 3) {
