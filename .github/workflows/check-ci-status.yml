@@ -181,11 +181,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pr-reports/$PROJECT_NAME/pr-list.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)rl)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.ci_status) | \(.check_status) / \(.check_conclusion) |"' >> $GITHUB_STEP_SUMMARY
-          else
-            echo "No open pull requests found." >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Display PR Summary
-        run: |
-          echo "Total Open PRs: ${{ steps.get-prs.outputs.pr_count }}"
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]" && git push)
