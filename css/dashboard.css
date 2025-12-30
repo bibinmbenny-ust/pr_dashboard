@@ -63,7 +63,7 @@ h1 {
 .revision-details {
     border: 1px solid var(--cisco-dark-blue);
     border-radius: 0.75rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     overflow: hidden; 
     transition: box-shadow 0.3s ease-in-out;
 }
@@ -74,12 +74,12 @@ h1 {
 
 .revision-summary {
     background: #1e293b; 
-    padding: 1rem 2rem;
+    padding: 1.25rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     user-select: none;
     position: relative;
@@ -143,15 +143,15 @@ h1 {
     display: grid; 
     /* Only one card now, so it takes full width */
     grid-template-columns: 1fr; 
-    gap: 1.5rem; 
-    padding: 1.5rem;
+    gap: 2rem; 
+    padding: 2rem;
     background: rgba(30, 41, 59, 0.7); 
 }
 
 /* Card Styling for generic cards */
 .card { 
     background: var(--card); 
-    padding: 1.5rem; 
+    padding: 2rem; 
     border-radius: 0.75rem; 
     box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
     margin-bottom: 0rem; /* Resetting internal margin */
@@ -162,7 +162,7 @@ h1 {
     border: 2px solid var(--cisco-blue); /* Strong border */
     border-radius: 1rem;
     padding: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     box-shadow: 0 0 30px rgba(0, 188, 235, 0.3); /* Glowing effect */
 }
 
@@ -170,10 +170,10 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     /* Only apply border bottom to standard cards, not the main PR block */
     border-bottom: 2px solid var(--cisco-dark-blue);
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
 }
 
 /* Specific styling for the main PR title and status */
@@ -198,20 +198,24 @@ h1 {
 }
 
 .pr-subtitle-block {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--cisco-blue);
     font-weight: 500;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     border-bottom: 1px dashed var(--cisco-dark-blue);
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
 }
 
 .card h3 {
      font-size: 1.25rem;
-     margin-top: 1rem;
+     margin-top: 1.5rem;
+     margin-bottom: 0.75rem;
      color: var(--text);
 }
-.card p { margin-bottom: 0.5rem; }
+.card p { 
+    margin-bottom: 0.75rem; 
+    line-height: 1.6;
+}
 .card strong { color: var(--cisco-blue); font-weight: 600; }
 
 /* Failure Card Styling */
@@ -251,7 +255,7 @@ h1 {
 .pr-metadata-grid {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two equal columns */
-    gap: 1.5rem;
+    gap: 2rem;
 }
 .pr-metadata-right {
     display: flex;
@@ -265,29 +269,30 @@ h1 {
 .pr-metadata-btn-container {
     display: flex;
     justify-content: flex-end; /* Align button to the right */
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 /* Collapsible Metrics Styling (Inner details for metric groups) */
 .metric-group details {
-    margin-top: 0.75rem;
+    margin-top: 1rem;
     border-left: 3px solid var(--cisco-dark-blue);
-    padding-left: 0.75rem;
+    padding-left: 1rem;
     cursor: pointer;
 }
 .metric-group summary {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--cisco-blue);
-    padding: 0.25rem 0;
+    padding: 0.5rem 0;
     transition: color 0.2s;
 }
 .metric-group details[open] summary {
     color: var(--text);
+    margin-bottom: 0.75rem;
 }
 .metric-content p {
     padding-left: 1rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 /* --- Files Changed Details Styling --- */

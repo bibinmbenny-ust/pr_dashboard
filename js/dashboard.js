@@ -184,7 +184,8 @@ function renderMetrics(data) {
         'changed_files_details',
         // General Metrics keys to exclude from generic list
         'updated_at', 'pr_state', 'base_branch', 'head_branch', 
-        'ci_start_time', 'jenkins_build_number', 'jenkins_build_url'
+        'ci_start_time', 'jenkins_build_number', 'jenkins_build_url',
+        'total_failures', 'errors'
     ]);
 
     // Grouping metrics by stage prefix
@@ -362,6 +363,15 @@ function createRevisionCard(data, isOpen = '') {
     const shortHash = (data.commit_hash ?? 'N/A').substring(0, 7);
     const commitLink = data.commit_hash ? `${commitBaseUrl}${data.commit_hash}` : '#';
     
+    // Quick stats summary
+    const totalFailures = data.total_failures ?? 0;
+    const failedStages = data.failed_stage ?? 'None';
+    const quickStats = totalFailures > 0 
+        ? `<div style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 3px solid var(--failure);">
+             <strong>⚠️ ${totalFailures} Failed Stage(s):</strong> ${failedStages}
+           </div>`
+        : '';
+    
     // Render the failure card only if there was a failure
     const failureCardHtml = renderFailureCard(data);
     // Render the new General Metrics card
@@ -380,6 +390,8 @@ function createRevisionCard(data, isOpen = '') {
             </summary>
             
             <div class="content-grid">
+                ${quickStats}
+                
                 ${failureCardHtml}
 
                 ${renderMetadataCard(data)}
