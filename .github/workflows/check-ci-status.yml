@@ -19,8 +19,8 @@ jobs:
       - name: Import Secrets from Vault
         uses: hashicorp/vault-action@v3
         with:
-          url: $token from Vault
-          GH_TOKEN: ${{ env.GITHUB_PAT
+          url: ${{ secrets.VAULT_URL }}
+          namespace: ${{ secrets.VAULT_NAMESPACE }}
           method: approle
           roleId: ${{ secrets.VAULT_ROLE_ID }}
           secretId: ${{ secrets.VAULT_SECRET_ID }}
@@ -30,8 +30,8 @@ jobs:
       - name: Check CI Status of netsec-fxos-pr-dashboard-poc1
         id: check-status
         env:
-          # Use PAT_TOKEN if available, otherwise fall back to GITHUB_TOKEN
-          GH_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          # Use token from Vault
+          GH_TOKEN: ${{ env.GITHUB_PAT_TOKEN }}
         run: |
           echo "Checking CI status for cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
           
