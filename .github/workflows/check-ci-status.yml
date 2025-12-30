@@ -2,8 +2,8 @@ name: Check CI Status
 
 on:
   schedule:
-    # Run every 5 minutes (for testing)
-    - cron: '*/5 * * * *'
+    # Run every 30 minutes
+    - cron: '*/30 * * * *'
   workflow_dispatch: # Allow manual trigger
   push:
     branches:
