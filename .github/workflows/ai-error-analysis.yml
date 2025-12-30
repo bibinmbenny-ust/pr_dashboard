@@ -1,0 +1,177 @@
+name: AI Error Analysis
+
+on:
+  push:
+    paths:
+      - 'pr-reports/**/dashboard_*.json'
+  workflow_dispatch:
+
+jobs:
+  analyze-errors:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed dashboard files
+        id: changed-files
+        run: |
+          # Get list of changed dashboard JSON files
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD | grep -E 'pr-reports/.*/dashboard_[0-9]+\.json$' || echo "")
+          
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No dashboard files changed"
+            echo "files_changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changed files:"
+            echo "$CHANGED_FILES"
+            echo "files_changed=true" >> $GITHUB_OUTPUT
+            # Save to file for processing
+            echo "$CHANGED_FILES" > /tmp/changed_files.txt
+          fi
+
+      - name: Process dashboard files and add AI suggestions
+        if: steps.changed-files.outputs.files_changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          #!/bin/bash
+          set -e
+          
+          # Read changed files
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            
+            echo "Processing: $file"
+            
+            # Check if file exists
+            if [ ! -f "$file" ]; then
+              echo "File not found, skipping: $file"
+              continue
+            fi
+            
+            # Get the number of revisions in the file
+            REVISION_COUNT=$(jq 'length' "$file")
+            echo "Found $REVISION_COUNT revisions in $file"
+            
+            # Process each revision
+            for ((i=0; i<$REVISION_COUNT; i++)); do
+              # Get error_message and current ai_suggestion
+              ERROR_MSG=$(jq -r ".[$i].error_message // \"null\"" "$file")
+              AI_SUGGESTION=$(jq -r ".[$i].ai_suggestion // \"null\"" "$file")
+              REVISION_NUM=$(jq -r ".[$i].revision // \"unknown\"" "$file")
+              
+              echo "  Revision $REVISION_NUM: error_message=$ERROR_MSG, ai_suggestion=$AI_SUGGESTION"
+              
+              # Skip if no error message or error is "null"
+              if [ "$ERROR_MSG" == "null" ] || [ "$ERROR_MSG" == "" ]; then
+                echo "    No error message, skipping"
+                continue
+              fi
+              
+              # Skip if AI suggestion already exists and is not the default placeholder
+              if [ "$AI_SUGGESTION" != "null" ] && \
+                 [ "$AI_SUGGESTION" != "AI analysis unavailable\n" ] && \
+                 [ "$AI_SUGGESTION" != "" ]; then
+                echo "    AI suggestion already exists, skipping"
+                continue
+              fi
+              
+              echo "    Generating AI suggestion for error..."
+              
+              # Prepare the prompt
+              PROMPT="You are a build and CI/CD expert analyzing FXOS (Firepower Extensible Operating System) build failures.
+
+Error Message:
+$ERROR_MSG
+
+Please provide:
+1. Root Cause Analysis: What is causing this error?
+2. Recommended Fix: Specific steps to resolve this issue
+3. Prevention: How to prevent this error in the future
+
+Keep the response concise and actionable (max 300 words)."
+              
+              # Call GitHub Models API
+              RESPONSE=$(curl -s -X POST "https://models.inference.ai.azure.com/chat/completions" \
+                -H "Content-Type: application/json" \
+                -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -d "{
+                  \"messages\": [
+                    {
+                      \"role\": \"system\",
+                      \"content\": \"You are an expert in debugging build errors and providing actionable solutions for FXOS firmware development.\"
+                    },
+                    {
+                      \"role\": \"user\",
+                      \"content\": $(echo "$PROMPT" | jq -Rs .)
+                    }
+                  ],
+                  \"model\": \"gpt-4o\",
+                  \"temperature\": 0.7,
+                  \"max_tokens\": 500
+                }" 2>&1)
+              
+              # Check if API call was successful
+              if echo "$RESPONSE" | jq -e '.error' > /dev/null 2>&1; then
+                echo "    API Error: $(echo "$RESPONSE" | jq -r '.error.message')"
+                AI_TEXT="AI analysis temporarily unavailable. Please check logs manually."
+              elif echo "$RESPONSE" | jq -e '.choices[0].message.content' > /dev/null 2>&1; then
+                AI_TEXT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
+                echo "    AI suggestion generated successfully"
+              else
+                echo "    Unexpected API response format"
+                echo "    Response: $RESPONSE"
+                AI_TEXT="AI analysis failed. Please review error logs manually."
+              fi
+              
+              # Update the JSON file with AI suggestion
+              jq ".[$i].ai_suggestion = $(echo "$AI_TEXT" | jq -Rs .)" "$file" > "${file}.tmp"
+              mv "${file}.tmp" "$file"
+              
+              echo "    Updated revision $REVISION_NUM with AI suggestion"
+              
+              # Small delay to avoid rate limiting
+              sleep 2
+            done
+            
+            echo "Completed processing: $file"
+            echo "---"
+          done < /tmp/changed_files.txt
+          
+          echo "All files processed"
+
+      - name: Commit and push AI suggestions
+        if: steps.changed-files.outputs.files_changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Check if there are changes
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          # Pull with rebase before committing
+          git pull --rebase origin main || {
+            echo "Rebase failed, trying regular merge"
+            git rebase --abort
+            git pull origin main
+          }
+          
+          # Add only the changed dashboard files
+          git add pr-reports/**/dashboard_*.json
+          
+          git commit -m "🤖 Add AI error analysis suggestions
+
+- Automatically generated AI suggestions for build errors
+- Analyzed error messages and provided actionable fixes
+- Updated by AI Error Analysis workflow"
+          
+          git push origin main
