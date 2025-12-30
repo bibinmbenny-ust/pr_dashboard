@@ -128,8 +128,8 @@ function renderFailureCard(data) {
     if (!data.failed_stage) return '';
 
     return `
-        <div class="failure-card" style="padding: 1rem; margin-bottom: 1.5rem;">
-            <p style="margin: 0; font-size: 0.95rem;"><strong>❌ Failed Stages:</strong> <span>${data.failed_stage}</span></p>
+        <div class="failure-card" style="padding: 0.75rem 1rem; margin-bottom: 1rem;">
+            <p style="margin: 0; font-size: 0.9rem;"><strong>❌ Failed:</strong> <span>${data.failed_stage}</span></p>
         </div>
     `;
 }
@@ -149,22 +149,19 @@ function renderGeneralMetricsCard(data) {
     const jenkinsUrl = data.jenkins_build_url || '#';
     const buildNum = data.jenkins_build_number || 'N/A';
     const prState = data.pr_state ? data.pr_state.toUpperCase() : 'N/A';
-    // Determine status color for PR state (OPEN is treated as In Progress)
-    const stateClass = getStatusClass(prState);
 
     return `
-        <div class="card">
-            <div class="card-header"><h3>General Metrics</h3></div>
-            <div class="pr-metadata-grid">
-                <div class="pr-metadata-left">
-                     <p><strong>PR State:</strong> <span class="status-badge ${getStatusBgClass(prState === 'OPEN' ? 'IN PROGRESS' : prState)}">${prState}</span></p>
-                     <p><strong>Base Branch:</strong> <span style="font-family:monospace; color:var(--cisco-blue);">${data.base_branch || 'N/A'}</span></p>
-                     <p><strong>Head Branch:</strong> <span style="font-family:monospace; color:var(--cisco-blue);">${data.head_branch || 'N/A'}</span></p>
+        <div class="card" style="padding: 1.25rem;">
+            <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 2rem; align-items: center;">
+                <div>
+                    <p style="margin: 0;"><strong>State:</strong> <span class="status-badge ${getStatusBgClass(prState === 'OPEN' ? 'IN PROGRESS' : prState)}" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">${prState}</span></p>
                 </div>
-                <div class="pr-metadata-right">
-                     <p><strong>CI Start:</strong> ${formatCiRunTime(data.ci_start_time)}</p>
-                     <p><strong>Last Update:</strong> ${formatCiRunTime(data.updated_at)}</p>
-                     <p><strong>Jenkins Build:</strong> <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding:0.2rem 0.5rem; font-size:0.85rem; margin-top:0;">#${buildNum}</a></p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <p style="margin: 0; font-size: 0.9rem;"><strong>Base:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.base_branch || 'N/A'}</span></p>
+                    <p style="margin: 0; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
+                </div>
+                <div>
+                    <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">Jenkins #${buildNum}</a>
                 </div>
             </div>
         </div>
@@ -326,27 +323,24 @@ function renderFilesChanged(data) {
 
 // Helper to render the right-side metadata card (Commit/CI)
 function renderMetadataCard(data) {
-    const shortHash = (data.commit_hash ?? 'N/A').substring(0, 8);
+    const shortHash = (data.commit_hash ?? 'N/A').substring(0, 7);
     const prLink = data.commit_hash ? `${repoBaseUrl}${data.pr_id}/commits/${data.commit_hash}` : '#';
     const durationDisplay = calculateDuration(data.ci_duration_seconds);
-    const mergedStatusText = data.merged === undefined ? "N/A" : (data.merged ? "TRUE" : "FALSE");
-    const mergedClass = getStatusClass(data.merged);
+    const overallStatus = getOverallStatus(data);
     
     return `
-        <div class="card">
-            <div class="card-header"><h3>Commit & CI Details</h3></div>
-            <div class="pr-metadata-grid">
-                <div class="pr-metadata-left">
-                    <p><strong>Commit Hash:</strong> <a href="${prLink}" target="_blank">${shortHash}</a></p>
-                    <p><strong>Run Initiated:</strong> ${formatCiRunTime(data.created_at)}</p>
-                    <p><strong>CI Duration:</strong> ${durationDisplay}</p>
+        <div class="card" style="padding: 1.25rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; align-items: start;">
+                <div>
+                    <p style="margin-bottom: 0.5rem;"><strong>Commit:</strong> <a href="${prLink}" target="_blank">${shortHash}</a></p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Initiated:</strong> ${formatCiRunTime(data.created_at)}</p>
+                    <p style="margin-bottom: 0;"><strong>Duration:</strong> ${durationDisplay}</p>
                 </div>
-                <div class="pr-metadata-right">
-                    <p><strong>Overall Build:</strong> <span class="${getStatusClass(getOverallStatus(data))}">${getOverallStatus(data)}</span></p>
-                    <p><strong>Merged:</strong> <span class="status-merged-${String(data.merged).toLowerCase()}">${mergedStatusText}</span></p>
-                    <div class="pr-metadata-btn-container">
-                        <a href="${prLink}" target="_blank" class="btn">View CI Log & Commit</a>
-                    </div>
+                <div>
+                    <p style="margin-bottom: 0.5rem;"><strong>Build:</strong> <span class="${getStatusClass(overallStatus)}">${overallStatus}</span></p>
+                </div>
+                <div style="text-align: right;">
+                    <a href="${prLink}" target="_blank" class="btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View CI Log</a>
                 </div>
             </div>
         </div>
