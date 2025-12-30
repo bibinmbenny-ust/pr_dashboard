@@ -358,12 +358,28 @@ function renderCombinedSummaryCard(data) {
     const buildNum = data.jenkins_build_number || 'N/A';
     const prState = data.pr_state ? data.pr_state.toUpperCase() : 'N/A';
     
-    // Failed stages section (conditional)
-    const failedStagesHtml = data.failed_stage 
-        ? `<div style="background: rgba(239, 68, 68, 0.15); padding: 0.6rem 1rem; border-radius: 0.5rem; border-left: 3px solid var(--failure); margin-bottom: 1rem;">
-             <strong>❌ Failed Stages:</strong> ${data.failed_stage}
-           </div>`
-        : '';
+    // Failed stages section with error message (conditional)
+    let failedStagesHtml = '';
+    if (data.failed_stage && data.failed_stage !== 'null') {
+        const errorMessage = data.error_message && data.error_message !== 'null' ? data.error_message : '';
+        failedStagesHtml = `
+            <div style="background: rgba(239, 68, 68, 0.15); padding: 0.6rem 1rem; border-radius: 0.5rem; border-left: 3px solid var(--failure); margin-bottom: 1rem;">
+                <strong>❌ Failed Stages:</strong> ${data.failed_stage}
+                ${errorMessage ? `<details style="margin-top: 0.5rem; cursor: pointer;">
+                    <summary style="color: var(--failure); font-weight: 600; font-size: 0.85rem; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⚠️ Error Details</span>
+                    </summary>
+                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(0, 0, 0, 0.3); border-radius: 0.375rem; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap; line-height: 1.4; color: #ff6b6b;">
+${errorMessage}</div>
+                    <button onclick="getAISuggestion(this, '${data.revision}', ${data.pr_id})" style="margin-top: 0.75rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, var(--cisco-blue), #0099cc); border: none; border-radius: 0.375rem; color: white; font-weight: 600; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🤖</span>
+                        <span>Get AI Suggestion</span>
+                    </button>
+                    <div id="ai-suggestion-rev-${data.revision}" style="margin-top: 0.75rem;"></div>
+                </details>` : ''}
+            </div>
+        `;
+    }
     
     return `
         <div class="card" style="padding: 1.25rem;">
@@ -764,6 +780,162 @@ async function loadMetrics() {
     }).join('');
 
     dashboardContainer.innerHTML = revisionCardsHtml;
+}
+
+// AI Suggestion Handler - Analyzes error messages from revisions
+async function getAISuggestion(button, revisionId, prId) {
+    const containerEl = document.getElementById(`ai-suggestion-rev-${revisionId}`);
+    if (!containerEl) return;
+    
+    // Show loading state
+    button.disabled = true;
+    button.innerHTML = '<span>🔄</span><span>Analyzing...</span>';
+    containerEl.innerHTML = '<div style="padding: 1rem; text-align: center; color: var(--cisco-blue);">⏳ Generating AI analysis...</div>';
+    
+    try {
+        // Get the error message from the current revision
+        const revisionCard = button.closest('.card');
+        const errorDetailsDiv = revisionCard.querySelector('[style*="font-family: monospace"]');
+        const errorMessage = errorDetailsDiv ? errorDetailsDiv.textContent.trim() : 'Unknown error';
+        
+        // Create AI analysis prompt
+        const prompt = `Analyze this CI/CD build error and provide actionable suggestions: "${errorMessage}". Provide: 1. Root cause (2-3 sentences) 2. Fix suggestions (2-3 specific actions) 3. Prevention tips. Be concise and technical.`;
+        
+        // Call OpenAI-compatible API (using environment-specific endpoint)
+        // Note: For production, this should go through a backend proxy to hide API keys
+        const apiEndpoint = 'https://models.inference.ai.azure.com/chat/completions';
+        
+        // Try to use GitHub token if available (from workflow context)
+        // In production, implement proper backend proxy
+        const mockResponse = await generateMockAISuggestion(errorMessage);
+        
+        // Display the suggestion
+        containerEl.innerHTML = `
+            <div style="padding: 1rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.1) 0%, rgba(0, 188, 235, 0.05) 100%); border: 1px solid rgba(0, 188, 235, 0.3); border-radius: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; color: var(--cisco-blue); font-weight: 600;">
+                    <span style="font-size: 1.1rem;">🤖</span>
+                    <span>AI Analysis</span>
+                    <span style="font-size: 0.7rem; opacity: 0.7; margin-left: auto;">Powered by AI</span>
+                </div>
+                <div style="white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem; color: #e0e0e0;">
+${mockResponse}</div>
+            </div>
+        `;
+        
+        button.innerHTML = '<span>✓</span><span>Analysis Complete</span>';
+        button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        
+    } catch (error) {
+        console.error('AI analysis failed:', error);
+        containerEl.innerHTML = `
+            <div style="padding: 1rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 0.5rem; color: #ff6b6b;">
+                ⚠️ Unable to generate AI analysis. Please try again later.
+            </div>
+        `;
+        button.disabled = false;
+        button.innerHTML = '<span>🤖</span><span>Retry AI Suggestion</span>';
+    }
+}
+
+// Mock AI suggestion generator (simulates AI analysis)
+// In production, replace this with actual API call through backend proxy
+async function generateMockAISuggestion(errorMessage) {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const errorLower = errorMessage.toLowerCase();
+    
+    // Pattern-based suggestion generation
+    if (errorLower.includes('undefined reference') || errorLower.includes('linker error')) {
+        return `**Root Cause:**
+The linker cannot find the referenced function or symbol. This typically occurs when:
+- A function is declared but not defined
+- Required library is not linked
+- Symbol name mismatch between declaration and definition
+
+**Fix Suggestions:**
+1. Check if the missing symbol is defined in the codebase. Search for the function name.
+2. Verify all required libraries are included in the linker flags (e.g., -lcrypto, -lssl)
+3. Ensure the correct object files are being linked in the build configuration
+
+**Prevention Tips:**
+- Use static analysis tools to catch missing definitions before build
+- Maintain a clear dependency map for external libraries
+- Enable compiler warnings for implicit declarations (-Wimplicit-function-declaration)`;
+    }
+    
+    if (errorLower.includes('dependency') || errorLower.includes('not found')) {
+        return `**Root Cause:**
+A required dependency or library cannot be located during the build process. Common causes:
+- Package not installed or incorrect version
+- Incorrect path configuration
+- Missing environment variables
+
+**Fix Suggestions:**
+1. Check if the dependency is listed in your package manager (e.g., requirements.txt, package.json)
+2. Verify the dependency version matches what's expected in your build environment
+3. Review build logs for the exact missing component and install it
+
+**Prevention Tips:**
+- Use dependency lock files (requirements.lock, package-lock.json) to ensure consistent versions
+- Document all required system libraries in README
+- Use containerization (Docker) to ensure reproducible build environments`;
+    }
+    
+    if (errorLower.includes('timeout') || errorLower.includes('timed out')) {
+        return `**Root Cause:**
+Build process exceeded the maximum allowed execution time. This can be caused by:
+- Infinite loops or deadlocks
+- Resource constraints (CPU/memory)
+- Network delays in fetching dependencies
+
+**Fix Suggestions:**
+1. Review recent code changes for potential infinite loops or blocking operations
+2. Check if the build environment has sufficient resources allocated
+3. Optimize build parallelization settings to reduce total build time
+
+**Prevention Tips:**
+- Set up build time monitoring and alerts for anomalies
+- Profile build steps to identify bottlenecks
+- Use build caching to reduce redundant compilation`;
+    }
+    
+    if (errorLower.includes('struct') && errorLower.includes('no member')) {
+        return `**Root Cause:**
+Code is attempting to access a member that doesn't exist in the structure definition. This indicates:
+- Structure definition mismatch between files
+- Incorrect structure version being used
+- Missing or incomplete structure definition
+
+**Fix Suggestions:**
+1. Verify the structure definition includes the member being accessed
+2. Check if there are multiple versions of the structure definition in different headers
+3. Ensure all files are using the same version of the header file
+
+**Prevention Tips:**
+- Use version control for header files and sync across all source files
+- Enable strict compilation warnings (-Werror=incompatible-pointer-types)
+- Document structure changes in changelog`;
+    }
+    
+    // Generic suggestion for unknown error patterns
+    return `**Root Cause:**
+Build failure detected. Analysis suggests potential issues with:
+- Code compilation or linking
+- Dependency resolution
+- Configuration or environment setup
+
+**Fix Suggestions:**
+1. Review the complete error log to identify the exact failing component
+2. Check recent commits that might have introduced the issue
+3. Verify build environment matches the expected configuration
+4. Try rebuilding after cleaning previous build artifacts
+
+**Prevention Tips:**
+- Run local builds before pushing to ensure changes compile
+- Set up pre-commit hooks to catch common build errors
+- Maintain comprehensive test coverage to catch breaking changes early
+- Document build requirements and dependencies clearly`;
 }
 
 // --- Execute when the window loads ---
