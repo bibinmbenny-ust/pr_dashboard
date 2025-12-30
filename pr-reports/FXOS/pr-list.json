@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2025-12-30T19:54:36Z",
+  "timestamp": "2025-12-30T20:00:25Z",
   "repository": "cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1",
   "total_count": 5,
   "pull_requests": [
@@ -21,7 +21,7 @@
       "ci_status": "failure",
       "check_status": "completed",
       "check_conclusion": "success",
-      "ai_suggestion": "**Root Cause:**  \nThe CI failure is likely caused either by the test update (`123` to `4321`), which may have broken test assertions, or README changes triggering a formatting or compliance check failure. The absence of detailed failure information ('Failed Checks:') makes identifying the exact issue challenging but suggests test-related or linting issues.\n\n**Fix Suggestions:**  \n1. Examine the CI logs to pinpoint the exact failed check (e.g., which test, formatting rule, or dependency).  \n2. Revisit the updated test, ensuring the new value (`4321`) aligns with expected test requirements. Fix test expectations or configurations if needed.  \n3. Verify README changes for issues like formatting errors, broken links, or compliance violations as flagged by CI.  \n\n**Prevention Tips:**  \n- Validate test changes locally before pushing, ensuring they align with assertions and logic.  \n- Use pre-commit hooks to detect and fix formatting issues.  \n- Monitor and document CI pipeline rules to anticipate common pitfalls like README compliance."
+      "ai_suggestion": "AI analysis unavailable"
     },
     {
       "author": "bbenny_cisco",
@@ -40,7 +40,7 @@
       "ci_status": "failure",
       "check_status": "completed",
       "check_conclusion": "success",
-      "ai_suggestion": "**Likely Root Cause:**  \nThe CI failure could stem from unaddressed compatibility issues, missing dependencies, or misplaced test updates within the recent `ChangesForPR` commit. The `dashboard_poc_v1` branch may have diverged significantly from the base branch, causing tests or build configurations to fail under current branch state.  \n\n**Specific Fix Suggestions:**  \n1. Identify the failed check logs from CI output, focusing on errors in dependencies, environment, or test case failures tied to `ChangesForPR`.  \n2. Recheck if new or updated code requires additional dependencies or environment variables and address missing configurations.  \n3. Run the test suite locally to identify branch-specific changes causing the failure before retrying the CI pipeline.  \n\n**Prevention Tips:**  \n1. Ensure alignment with the base branch by merging main/relevant branches into `dashboard_poc_v1` before pushing PR changes.  \n2. Use pre-commit hooks to standardize tests and lint checks locally before raising PRs.  \n3. Automate dependency/environment verification in CI pipeline with detailed logging for faster debugging.  "
+      "ai_suggestion": "AI analysis unavailable"
     },
     {
       "author": "bbenny_cisco",
@@ -59,7 +59,7 @@
       "ci_status": "failure",
       "check_status": "none",
       "check_conclusion": "none",
-      "ai_suggestion": "**1. Likely root cause:**  \nThe CI failure is likely caused by conflicts introduced during the merge of `uxbridge/FXOS_2_19_MAIN_ALPHA` into `PR_Dashboard_POC`. Changes to shared files such as `BAZEL.md` or the README may have created inconsistencies or syntax issues that violate CI build or linting rules. Additionally, semantic errors in updated sections could have triggered test or formatting failures.\n\n---\n\n**2. Specific fix suggestions:**  \n- **Action 1:** Review merge conflicts and ensure proper alignment between `uxbridge/FXOS_2_19_MAIN_ALPHA` and `PR_Dashboard_POC`. Manually verify or reapply changes to avoid broken references or syntax.  \n- **Action 2:** Run the test and lint commands locally (e.g., `bazel build/test` or any identified CI tasks) to troubleshoot and resolve errors. Ensure the affected files (`README`, `BAZEL.md`) pass all pre-commit hooks.  \n- **Action 3:** Examine recent commits, especially those modifying `README` and `BAZEL.md`, for missing dependencies, formatting discrepancies, or logical errors. Update these files accordingly.  \n\n---\n\n**3. Prevention tips:**  \n- Keep feature branches up to date with the base branch regularly to prevent large merge conflicts.  \n- Enforce stricter pre-commit validation (e.g., CI runs/tests locally before pushing changes).  \n- Use smaller, focused PRs to limit the scope of changes and potential inconsistencies."
+      "ai_suggestion": "AI analysis unavailable"
     },
     {
       "author": "dhapal_cisco",
@@ -78,7 +78,7 @@
       "ci_status": "failure",
       "check_status": "completed",
       "check_conclusion": "success",
-      "ai_suggestion": "### Analysis of CI Failure:\n\n#### 1. Likely Root Cause:\nThe CI failure could be due to missing or broken formatting/linting rules in the updated `README.md`. CI often includes checks for documentation formatting or other low-level syntax validation, and the PR likely introduced violations (e.g., Markdown errors) that broke those checks.\n\n#### 2. Specific Fix Suggestions:\n- Run Markdown linting locally using tools like `markdownlint` or `mdl` to identify formatting errors in the README file.\n- Review the CI logs to confirm the exact failure (e.g., broken links, invalid headings) and update the PR accordingly.\n- If the failure stems from outdated CI rules, update those configurations to align with current linting standards.\n\n#### 3. Prevention Tips:\n- Enforce pre-commit linting hooks for Markdown files to catch errors early before pushing to remote.\n- Add README-specific validation rules to the CI pipeline to ensure consistent formatting during development.\n- Maintain up-to-date documentation for contributors on the required syntax and formatting standards."
+      "ai_suggestion": "AI analysis unavailable"
     },
     {
       "author": "dhapal_cisco",
@@ -97,7 +97,7 @@
       "ci_status": "failure",
       "check_status": "completed",
       "check_conclusion": "success",
-      "ai_suggestion": "### Analysis of GitHub PR CI Failure\n\n**Likely Root Cause:**\nThe CI failure may stem from issues in the modified `README.md`. This could include formatting errors or breaking markdown syntax checks enforced by the CI pipeline. Alternatively, the failure could be due to overlooked tests in the pipeline triggered by changes in the repository.\n\n### Specific Fix Suggestions:\n1. **Validate Markdown**: Manually inspect `README.md` for syntax errors. Use a linting tool (e.g., `markdownlint`) to ensure compliance with formatting standards.\n2. **Check CI Logs**: Analyze the CI failure logs to identify failed checks (e.g., syntax validation, dependencies, or unrelated tests impacted by recent commits).\n3. **Run Local Tests**: Execute the CI pipeline or markdown-checking scripts locally to reproduce and diagnose the issue.\n\n### Prevention Tips:\n1. Run pre-commit hooks with linting tools to detect markdown issues before commits (e.g., `prettier`, `markdownlint-cli`).\n2. Implement stricter CI pipelines that validate documentation changes independently.\n3. Encourage team code reviews for documentation changes to catch potential errors early."
+      "ai_suggestion": "AI analysis unavailable"
     }
   ]
 }
