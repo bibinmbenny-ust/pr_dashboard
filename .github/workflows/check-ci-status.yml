@@ -86,6 +86,7 @@ jobs:
               created_at: .created_at,
               updated_at: .updated_at,
               head_branch: .head.ref,
+              head_sha: .head.sha,
               base_branch: .base.ref,
               html_url: .html_url,
               draft: .draft,
@@ -94,6 +95,40 @@ jobs:
             }]')
           
           echo "Found PRs:"
+          echo "$PRS_JSON" | jq .
+          
+          # Fetch CI status for each PR
+          PR_COUNT=$(echo "$PRS_JSON" | jq 'length')
+          ENRICHED_PRS="[]"
+          
+          for i in $(seq 0 $((PR_COUNT - 1))); do
+            PR=$(echo "$PRS_JSON" | jq ".[$i]")
+            PR_NUMBER=$(echo "$PR" | jq -r '.number')
+            HEAD_SHA=$(echo "$PR" | jq -r '.head_sha')
+            
+            echo "Fetching CI status for PR #$PR_NUMBER (SHA: $HEAD_SHA)"
+            
+            # Get commit status
+            STATUS_RESPONSE=$(gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/commits/$HEAD_SHA/status || echo '{}')
+            CI_STATE=$(echo "$STATUS_RESPONSE" | jq -r '.state // "unknown"')
+            
+            # Get check runs (GitHub Actions)
+            CHECKS_RESPONSE=$(gh api repos/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/commits/$HEAD_SHA/check-runs || echo '{"check_runs":[]}')
+            CHECK_CONCLUSION=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].conclusion // "none"')
+            CHECK_STATUS=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].status // "none"')
+            
+            # Combine PR data with CI status
+            ENRICHED_PR=$(echo "$PR" | jq \
+              --arg ci_state "$CI_STATE" \
+              --arg check_status "$CHECK_STATUS" \
+              --arg check_conclusion "$CHECK_CONCLUSION" \
+              '. + {ci_status: $ci_state, check_status: $check_status, check_conclusion: $check_conclusion}')
+            
+            ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
+          done
+          
+          PRS_JSON="$ENRICHED_PRS"
+          echo "Enriched PRs with CI status:"
           echo "$PRS_JSON" | jq .
           
           PR_COUNT=$(echo "$PRS_JSON" | jq 'length')
@@ -107,10 +142,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           
           if [ "$PR_COUNT" -gt 0 ]; then
-            echo "| PR # | Title | Author | Branch | Status |" >> $GITHUB_STEP_SUMMARY
-            echo "|------|-------|--------|--------|--------|" >> $GITHUB_STEP_SUMMARY
+            echo "| PR # | Title | Author | Branch | CI Status | Check Status |" >> $GITHUB_STEP_SUMMARY
+            echo "|------|-------|--------|--------|-----------|--------------|" >> $GITHUB_STEP_SUMMARY
             
-            echo "$PRS_JSON" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.mergeable_state) |"' >> $GITHUB_STEP_SUMMARY
+            echo "$PRS_JSON" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.ci_status) | \(.check_status) / \(.check_conclusion) |"' >> $GITHUB_STEP_SUMMARY
           else
             echo "No open pull requests found." >> $GITHUB_STEP_SUMMARY
           fi
