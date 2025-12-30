@@ -347,6 +347,57 @@ function renderMetadataCard(data) {
     `;
 }
 
+// Combined summary card with failed stages, commit details, and general metrics
+function renderCombinedSummaryCard(data) {
+    const shortHash = (data.commit_hash ?? 'N/A').substring(0, 7);
+    const prLink = data.commit_hash ? `${repoBaseUrl}${data.pr_id}/commits/${data.commit_hash}` : '#';
+    const durationDisplay = calculateDuration(data.ci_duration_seconds);
+    const overallStatus = getOverallStatus(data);
+    
+    const jenkinsUrl = data.jenkins_build_url || '#';
+    const buildNum = data.jenkins_build_number || 'N/A';
+    const prState = data.pr_state ? data.pr_state.toUpperCase() : 'N/A';
+    
+    // Failed stages section (conditional)
+    const failedStagesHtml = data.failed_stage 
+        ? `<div style="background: rgba(239, 68, 68, 0.15); padding: 0.6rem 1rem; border-radius: 0.5rem; border-left: 3px solid var(--failure); margin-bottom: 1rem;">
+             <strong>❌ Failed Stages:</strong> ${data.failed_stage}
+           </div>`
+        : '';
+    
+    return `
+        <div class="card" style="padding: 1.25rem;">
+            ${failedStagesHtml}
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: ${failedStagesHtml ? '0' : '0'};">
+                <!-- Left: Commit & CI Details -->
+                <div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Commit:</strong> <a href="${prLink}" target="_blank">${shortHash}</a></p>
+                        <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Duration:</strong> ${durationDisplay}</p>
+                        <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>State:</strong> <span class="status-badge ${getStatusBgClass(prState === 'OPEN' ? 'IN PROGRESS' : prState)}" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;">${prState}</span></p>
+                        <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Build:</strong> <span class="${getStatusClass(overallStatus)}">${overallStatus}</span></p>
+                    </div>
+                </div>
+                
+                <!-- Right: Branches & Actions -->
+                <div>
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;">
+                        <div>
+                            <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Base:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.base_branch || 'N/A'}</span></p>
+                            <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <a href="${prLink}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">View Commit</a>
+                            <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">Jenkins #${buildNum}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 // Main function to create a single collapsible revision card
 function createRevisionCard(data, isOpen = '') {
     const overallStatus = getOverallStatus(data);
@@ -355,19 +406,8 @@ function createRevisionCard(data, isOpen = '') {
     const shortHash = (data.commit_hash ?? 'N/A').substring(0, 7);
     const commitLink = data.commit_hash ? `${commitBaseUrl}${data.commit_hash}` : '#';
     
-    // Quick stats summary
-    const totalFailures = data.total_failures ?? 0;
-    const failedStages = data.failed_stage ?? 'None';
-    const quickStats = totalFailures > 0 
-        ? `<div style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 3px solid var(--failure);">
-             <strong>⚠️ ${totalFailures} Failed Stage(s):</strong> ${failedStages}
-           </div>`
-        : '';
-    
-    // Render the failure card only if there was a failure
-    const failureCardHtml = renderFailureCard(data);
-    // Render the new General Metrics card
-    const generalMetricsCardHtml = renderGeneralMetricsCard(data);
+    // Build combined summary card with failed stages, commit details, and general metrics
+    const combinedSummaryHtml = renderCombinedSummaryCard(data);
 
     return `
         <details class="revision-details" ${isOpen}>
@@ -382,13 +422,7 @@ function createRevisionCard(data, isOpen = '') {
             </summary>
             
             <div class="content-grid">
-                ${quickStats}
-                
-                ${failureCardHtml}
-
-                ${renderMetadataCard(data)}
-                
-                ${generalMetricsCardHtml}
+                ${combinedSummaryHtml}
 
                 <div class="card">
                     ${renderMetrics(data)}
