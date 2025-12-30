@@ -16,22 +16,42 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Import Secrets from Vault
-        uses: hashicorp/vault-action@v3
-        with:
-          url: ${{ secrets.VAULT_URL }}
-          namespace: ${{ secrets.VAULT_NAMESPACE }}
-          method: approle
-          roleId: ${{ secrets.VAULT_ROLE_ID }}
-          secretId: ${{ secrets.VAULT_SECRET_ID }}
-          secrets: |
-            secret/data/github token | GITHUB_PAT_TOKEN
+      - name: Get Token from Vault
+        id: vault
+        run: |
+          # Authenticate with Vault using AppRole
+          echo "Authenticating with Vault..."
+          VAULT_TOKEN=$(curl -s -X POST \
+            -H "X-Vault-Namespace: ${{ secrets.VAULT_NAMESPACE }}" \
+            -d '{"role_id":"${{ secrets.VAULT_ROLE_ID }}","secret_id":"${{ secrets.VAULT_SECRET_ID }}"}' \
+            ${{ secrets.VAULT_URL }}/v1/auth/approle/login | jq -r '.auth.client_token')
+          
+          if [ -z "$VAULT_TOKEN" ] || [ "$VAULT_TOKEN" == "null" ]; then
+            echo "❌ Failed to authenticate with Vault"
+            exit 1
+          fi
+          
+          echo "✅ Vault authentication successful"
+          
+          # Retrieve GitHub token from Vault
+          GITHUB_PAT=$(curl -s -X GET \
+            -H "X-Vault-Token: $VAULT_TOKEN" \
+            -H "X-Vault-Namespace: ${{ secrets.VAULT_NAMESPACE }}" \
+            ${{ secrets.VAULT_URL }}/v1/secret/data/github | jq -r '.data.data.token')
+          
+          if [ -z "$GITHUB_PAT" ] || [ "$GITHUB_PAT" == "null" ]; then
+            echo "❌ Failed to retrieve GitHub token from Vault"
+            exit 1
+          fi
+          
+          echo "✅ GitHub token retrieved from Vault"
+          echo "GITHUB_PAT_TOKEN=$GITHUB_PAT" >> $GITHUB_OUTPUT
 
       - name: Check CI Status of netsec-fxos-pr-dashboard-poc1
         id: check-status
         env:
           # Use token from Vault
-          GH_TOKEN: ${{ env.GITHUB_PAT_TOKEN }}
+          GH_TOKEN: ${{ steps.vault.outputs.GITHUB_PAT_TOKEN }}
         run: |
           echo "Checking CI status for cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
           
