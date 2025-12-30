@@ -539,6 +539,15 @@ async function loadMetrics() {
          return;
     }
 
+    // 4. Fetch CI status from pr-list.json
+    console.log(`Fetching CI status from: pr-reports/${currentProject.name}/pr-list.json`);
+    let prListData = await fetchWithRetry(`pr-reports/${currentProject.name}/pr-list.json`);
+    let ciStatusData = null;
+    if (prListData && prListData.pull_requests) {
+        ciStatusData = prListData.pull_requests.find(pr => pr.number === parseInt(prId));
+        console.log("CI Status Data:", ciStatusData);
+    }
+
     // Data is fetched, remove loading paragraph
     if (loadingParagraph) {
         loadingParagraph.remove();
@@ -622,6 +631,32 @@ async function loadMetrics() {
     const mergedStatusText = latestRevisionData.merged === undefined ? "N/A" : (latestRevisionData.merged ? "TRUE" : "FALSE");
     const mergedClass = getStatusClass(latestRevisionData.merged);
     
+    // --- Get CI Status info from PR list data if available ---
+    let ciStatusHtml = '';
+    const ciStatus = ciStatusData?.ci_status;
+    const checkStatus = ciStatusData?.check_status;
+    const checkConclusion = ciStatusData?.check_conclusion;
+    
+    if (ciStatus || checkStatus || checkConclusion) {
+        const getCIStatusBadge = (status) => {
+            if (!status || status === 'unknown' || status === 'none') return '<span class="status-badge status-warning-bg">N/A</span>';
+            if (status === 'success') return '<span class="status-badge status-success-bg">SUCCESS</span>';
+            if (status === 'failure') return '<span class="status-badge status-failure-bg">FAILURE</span>';
+            if (status === 'pending' || status === 'in_progress' || status === 'queued') return '<span class="status-badge status-inprogress-bg">PENDING</span>';
+            if (status === 'completed') return '<span class="status-badge status-success-bg">COMPLETED</span>';
+            return `<span class="status-badge status-warning-bg">${status.toUpperCase()}</span>`;
+        };
+        
+        ciStatusHtml = `
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 188, 235, 0.2);">
+                <h4 style="color: var(--cisco-blue); margin-bottom: 0.5rem;">GitHub CI/CD Status</h4>
+                <p><strong>Commit Status:</strong> ${getCIStatusBadge(ciStatus)}</p>
+                <p><strong>Check Status:</strong> ${getCIStatusBadge(checkStatus)}</p>
+                <p><strong>Check Conclusion:</strong> ${getCIStatusBadge(checkConclusion)}</p>
+            </div>
+        `;
+    }
+    
     const metadataHtml = `
         <div class="pr-metadata-grid">
             <div class="pr-metadata-left">
@@ -629,6 +664,7 @@ async function loadMetrics() {
                 <p><strong>Latest Revision:</strong> <span>${latestRevisionData.revision ?? 'N/A'}</span></p>
                 <p><strong>Latest Commit:</strong> <span><a href="${commitBaseUrl}${latestRevisionData.commit_hash ?? ''}" target="_blank">${(latestRevisionData.commit_hash ?? 'N/A').substring(0, 7)}</a></span></p>
                 ${fileDetailsHTML}
+                ${ciStatusHtml}
             </div>
             
             <div class="pr-metadata-right">
