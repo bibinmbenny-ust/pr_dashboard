@@ -260,20 +260,22 @@ function renderMetrics(data) {
         
         // Add error details and AI suggestion if available from JSON
         const errorSection = hasError ? `
-            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(239, 68, 68, 0.3);">
-                <details style="cursor: pointer;">
-                    <summary style="color: var(--failure); font-weight: 600; font-size: 0.85rem; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
-                        <span>⚠️ Error Details</span>
+            <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 2px solid rgba(239, 68, 68, 0.25);">
+                <details class="error-details-section">
+                    <summary style="color: var(--failure); font-weight: 700; font-size: 0.9rem; list-style: none; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; border-radius: 0.375rem; transition: background 0.2s;">
+                        <span style="font-size: 1.1rem;">⚠️</span>
+                        <span>Error Details</span>
+                        <span style="margin-left: auto; font-size: 0.7rem; opacity: 0.6;">▼</span>
                     </summary>
-                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(0, 0, 0, 0.3); border-radius: 0.375rem; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap; line-height: 1.4; color: #ff6b6b;">
+                    <div style="margin-top: 0.75rem; padding: 1rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%); border-left: 3px solid var(--failure); border-radius: 0.5rem; font-family: 'Courier New', monospace; font-size: 0.85rem; white-space: pre-wrap; line-height: 1.6; color: #ff8585; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
 ${errorDetails}</div>
                     ${aiSuggestion && aiSuggestion !== 'AI analysis temporarily unavailable. Please check logs manually.\n' ? `
-                        <div style="margin-top: 0.75rem; padding: 1rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.1) 0%, rgba(0, 188, 235, 0.05) 100%); border: 1px solid rgba(0, 188, 235, 0.3); border-radius: 0.5rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; color: var(--cisco-blue); font-weight: 600;">
-                                <span style="font-size: 1.1rem;">🤖</span>
+                        <div style="margin-top: 1rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.12) 0%, rgba(0, 188, 235, 0.05) 100%); border-left: 3px solid var(--cisco-blue); border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--cisco-blue); font-weight: 700; font-size: 0.95rem;">
+                                <span style="font-size: 1.2rem;">🤖</span>
                                 <span>AI Analysis & Suggestions</span>
                             </div>
-                            <div style="white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem; color: #e0e0e0;">
+                            <div style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem; color: #e8e8e8;">
 ${aiSuggestion}</div>
                         </div>
                     ` : ''}
