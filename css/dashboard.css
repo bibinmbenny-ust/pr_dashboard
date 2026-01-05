@@ -256,14 +256,20 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two equal columns */
     gap: 2rem;
+    align-items: start; /* Align items to the top */
+}
+.pr-metadata-left {
+    display: flex;
+    flex-direction: column;
+}
+.pr-metadata-left h3,
+.pr-metadata-right h3 {
+    margin-top: 0; /* Remove top margin on headers for alignment */
 }
 .pr-metadata-right {
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Push button to the bottom */
-}
-.pr-metadata-right h3 {
-    margin-top: 0; /* Remove top margin on the right-side header */
 }
 /* Style for the container around the button for alignment */
 .pr-metadata-btn-container {
