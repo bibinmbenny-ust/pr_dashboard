@@ -255,27 +255,27 @@ function renderMetrics(data) {
                  metricClass = 'status-success';
             }
 
-            return `<p style="margin-bottom: 0.65rem; font-size: 0.9rem; display: flex; align-items: center;"><strong style="min-width: 160px; color: var(--cisco-blue);">${metric.name}:</strong> <span class="${metricClass}">${value}</span></p>`;
+            return `<p style="margin-bottom: 0.35rem; font-size: 0.88rem; display: flex; align-items: center;"><strong style="min-width: 180px; color: var(--cisco-blue); font-weight: 600;">${metric.name}:</strong> <span class="${metricClass}">${value}</span></p>`;
         }).filter(Boolean).join(''); // filter(Boolean) removes null entries
         
         // Add error details and AI suggestion if available from JSON
         const errorSection = hasError ? `
-            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid rgba(239, 68, 68, 0.2);">
+            <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(239, 68, 68, 0.2);">
                 <details class="error-details-section">
-                    <summary style="color: var(--failure); font-weight: 700; font-size: 0.95rem; list-style: none; display: flex; align-items: center; gap: 0.65rem; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.5rem; transition: all 0.2s ease; background: rgba(239, 68, 68, 0.05);">
-                        <span style="font-size: 1.2rem;">⚠️</span>
+                    <summary style="color: var(--failure); font-weight: 700; font-size: 0.88rem; list-style: none; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem 0.65rem; border-radius: 0.4rem; transition: all 0.2s ease; background: rgba(239, 68, 68, 0.05);">
+                        <span style="font-size: 1.1rem;">⚠️</span>
                         <span>Error Details</span>
-                        <span class="arrow-indicator" style="margin-left: auto; font-size: 0.9rem; opacity: 0.7; transition: transform 0.3s ease;">▼</span>
+                        <span class="arrow-indicator" style="margin-left: auto; font-size: 0.85rem; opacity: 0.7; transition: transform 0.3s ease;">▼</span>
                     </summary>
-                    <div style="margin-top: 1rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.04) 100%); border-left: 4px solid var(--failure); border-radius: 0.5rem; font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Courier New', monospace; font-size: 0.88rem; white-space: pre-wrap; line-height: 1.7; color: #ffaaaa; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);">
+                    <div style="margin-top: 0.65rem; padding: 0.85rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.04) 100%); border-left: 3px solid var(--failure); border-radius: 0.4rem; font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.5; color: #ffaaaa; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
 ${errorDetails}</div>
                     ${aiSuggestion && aiSuggestion !== 'AI analysis temporarily unavailable. Please check logs manually.\n' ? `
-                        <div style="margin-top: 1.25rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.15) 0%, rgba(0, 188, 235, 0.06) 100%); border-left: 4px solid var(--cisco-blue); border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
-                            <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.1rem; color: var(--cisco-blue); font-weight: 700; font-size: 1rem;">
-                                <span style="font-size: 1.3rem;">🤖</span>
+                        <div style="margin-top: 0.75rem; padding: 0.9rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.15) 0%, rgba(0, 188, 235, 0.06) 100%); border-left: 3px solid var(--cisco-blue); border-radius: 0.4rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; color: var(--cisco-blue); font-weight: 700; font-size: 0.9rem;">
+                                <span style="font-size: 1.15rem;">🤖</span>
                                 <span>AI Analysis & Suggestions</span>
                             </div>
-                            <div style="white-space: pre-wrap; line-height: 1.75; font-size: 0.92rem; color: #f0f0f0;">
+                            <div style="white-space: pre-wrap; line-height: 1.6; font-size: 0.85rem; color: #f0f0f0;">
 ${aiSuggestion}</div>
                         </div>
                     ` : ''}

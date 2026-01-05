@@ -303,10 +303,10 @@ h1 {
 
 /* Collapsible Metrics Styling (Inner details for metric groups) */
 .metric-group details {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-left: 4px solid var(--cisco-dark-blue);
-    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid var(--cisco-dark-blue);
+    padding-left: 1rem;
     cursor: pointer;
     transition: border-color 0.3s ease;
 }
@@ -320,10 +320,10 @@ h1 {
 }
 
 .metric-group summary {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--cisco-blue);
-    padding: 0.65rem 0;
+    padding: 0.5rem 0;
     transition: all 0.2s ease;
     cursor: pointer;
     user-select: none;
@@ -336,18 +336,18 @@ h1 {
 
 .metric-group details[open] summary {
     color: var(--text);
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid rgba(0, 188, 235, 0.2);
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 188, 235, 0.2);
 }
 
 .metric-content {
-    padding-left: 0.5rem;
+    padding-left: 0.25rem;
 }
 
 .metric-content p {
-    margin-bottom: 0.65rem;
-    line-height: 1.6;
+    margin-bottom: 0.35rem;
+    line-height: 1.5;
 }
     margin-bottom: 0.5rem;
 }
