@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Select Type</title>
+    <title>NetSec Dashboard - Home</title>
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body class="landing-page">
@@ -11,46 +11,40 @@
     
     <div class="global-header">
         <div class="title-container">
-            <h1 class="animated-title" id="project-title">Dashboard</h1>
+            <h1 class="animated-title">NetSec Dashboard</h1>
         </div>
         <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
     </div>
 
     <div class="intro-section">
-        <a href="index.html" class="back-button">← Back to Projects</a>
-        <h2 class="hero-title" id="hero-title">Choose Your Dashboard</h2>
-        <p class="hero-subtitle">Select a dashboard type to monitor progress, track metrics, and analyze performance.</p>
-        <div class="feature-pills">
-            <span class="pill">✓ Real-time Monitoring</span>
-            <span class="pill">✓ Comprehensive Analytics</span>
-            <span class="pill">✓ Team Collaboration</span>
-        </div>
+        <h2 class="hero-title">Choose Your Dashboard</h2>
+        <p class="hero-subtitle">Access comprehensive insights across different aspects of your NetSec projects.</p>
     </div>
 
     <div class="dashboard-type-grid">
-        <div class="dashboard-type-card active" id="pr-dashboard">
+        <div class="dashboard-type-card active" onclick="location.href='pr-projects.html'">
             <div class="card-header-badge">
-                <span class="badge-ready">✓ Ready</span>
+                <span class="badge-ready">Ready</span>
             </div>
-            <div class="card-icon-large">🚀</div>
+            <div class="card-icon-large">📊</div>
             <h2>PR Dashboard</h2>
-            <p>Monitor pull requests with real-time CI/CD status, code metrics, and build analytics.</p>
+            <p>Monitor pull requests with real-time CI/CD status, code quality metrics, and build analytics.</p>
             <div class="card-features">
                 <span class="feature-item">✓ CI/CD Status</span>
                 <span class="feature-item">✓ Code Metrics</span>
                 <span class="feature-item">✓ Build Analytics</span>
                 <span class="feature-item">✓ AI Suggestions</span>
             </div>
-            <button class="btn btn-primary" onclick="navigateToDashboard('pr')">Launch Dashboard →</button>
+            <a href="pr-projects.html" class="btn btn-primary" onclick="event.stopPropagation()">Launch Dashboard →</a>
         </div>
 
         <div class="dashboard-type-card coming-soon">
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
             </div>
-            <div class="card-icon-large">📁</div>
+            <div class="card-icon-large">📦</div>
             <h2>Repo Dashboard</h2>
-            <p>Repository analytics with commit trends, contributor insights, and code statistics.</p>
+            <p>Comprehensive repository analytics including commit history, contributor insights, and codebase statistics.</p>
             <div class="card-features">
                 <span class="feature-item">⏳ Commit Trends</span>
                 <span class="feature-item">⏳ Contributors</span>
@@ -64,9 +58,9 @@
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
             </div>
-            <div class="card-icon-large">⚙️</div>
+            <div class="card-icon-large">🔨</div>
             <h2>Jenkins Dashboard</h2>
-            <p>CI/CD pipeline monitoring with build status, job history, and agent health tracking.</p>
+            <p>Track Jenkins build pipelines, job statuses, and execution history across all your CI/CD workflows.</p>
             <div class="card-features">
                 <span class="feature-item">⏳ Build Pipelines</span>
                 <span class="feature-item">⏳ Job History</span>
@@ -82,7 +76,7 @@
             </div>
             <div class="card-icon-large">🐛</div>
             <h2>Bug Tracker</h2>
-            <p>Issue tracking and management with priority queue, resolution metrics, and team statistics.</p>
+            <p>Centralized bug tracking with priority management, assignment tracking, and resolution analytics.</p>
             <div class="card-features">
                 <span class="feature-item">⏳ Issue Tracking</span>
                 <span class="feature-item">⏳ Priority Queue</span>
@@ -96,7 +90,7 @@
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
             </div>
-            <div class="card-icon-large">📋</div>
+            <div class="card-icon-large">�</div>
             <h2>JIRA Dashboard</h2>
             <p>Track JIRA issues, sprints, and team productivity metrics with velocity charts and workload analysis.</p>
             <div class="card-features">
@@ -108,24 +102,6 @@
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
     </div>
-
-    <script>
-        // Get project from URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const project = urlParams.get('project') || 'FXOS';
-        
-        // Update page title and hero with project name
-        document.getElementById('project-title').textContent = `${project} Dashboard`;
-        document.getElementById('hero-title').textContent = `${project} - Choose Your Dashboard`;
-        
-        // Navigate to appropriate dashboard with project parameter
-        function navigateToDashboard(dashboardType) {
-            if (dashboardType === 'pr') {
-                window.location.href = `pr-list.html?project=${project}`;
-            }
-            // Add more dashboard types here when they're ready
-        }
-    </script>
 
     <footer class="landing-footer">
         <div class="footer-content">

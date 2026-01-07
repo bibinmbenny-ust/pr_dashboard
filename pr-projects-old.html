@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NetSec Dashboard - Home</title>
+    <title>Dashboard - Select Type</title>
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body class="landing-page">
@@ -11,23 +11,24 @@
     
     <div class="global-header">
         <div class="title-container">
-            <h1 class="animated-title">NetSec Dashboard</h1>
+            <h1 class="animated-title" id="project-title">Dashboard</h1>
         </div>
         <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
     </div>
 
     <div class="intro-section">
-        <h2 class="hero-title">Select Your Project</h2>
-        <p class="hero-subtitle">Choose a project to access PR tracking, repository analytics, CI/CD pipelines, and issue management.</p>
+        <a href="index.html" class="back-button">← Back to Projects</a>
+        <h2 class="hero-title" id="hero-title">Choose Your Dashboard</h2>
+        <p class="hero-subtitle">Select a dashboard type to monitor progress, track metrics, and analyze performance.</p>
         <div class="feature-pills">
-            <span class="pill">✓ Multi-Dashboard Access</span>
             <span class="pill">✓ Real-time Monitoring</span>
             <span class="pill">✓ Comprehensive Analytics</span>
+            <span class="pill">✓ Team Collaboration</span>
         </div>
     </div>
 
-    <div class="project-grid">
-        <div class="project-card fxos-card" onclick="location.href='pr-projects.html?project=FXOS'">
+    <div class="dashboard-type-grid">
+        <div class="project-card fxos-card" onclick="location.href='pr-list.html?project=FXOS'">
             <div class="card-icon">🔥</div>
             <h2>FXOS</h2>
             <p>Firepower eXtensible Operating System</p>
@@ -35,10 +36,10 @@
                 <span class="stat">🔧 System Core</span>
                 <span class="stat">⚡ High Priority</span>
             </div>
-            <a href="pr-projects.html?project=FXOS" class="btn" onclick="event.stopPropagation()">Access Dashboards →</a>
+            <a href="pr-list.html?project=FXOS" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
 
-        <div class="project-card ims-card" onclick="location.href='pr-projects.html?project=IMS'">
+        <div class="project-card ims-card" onclick="location.href='pr-list.html?project=IMS'">
             <div class="card-icon">🔐</div>
             <h2>IMS</h2>
             <p>Identity Management System</p>
@@ -46,10 +47,10 @@
                 <span class="stat">👤 Authentication</span>
                 <span class="stat">🛡️ Security</span>
             </div>
-            <a href="pr-projects.html?project=IMS" class="btn" onclick="event.stopPropagation()">Access Dashboards →</a>
+            <a href="pr-list.html?project=IMS" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
 
-        <div class="project-card asa-card" onclick="location.href='pr-projects.html?project=ASA'">
+        <div class="project-card asa-card" onclick="location.href='pr-list.html?project=ASA'">
             <div class="card-icon">🛡️</div>
             <h2>ASA</h2>
             <p>Adaptive Security Appliance</p>
@@ -57,7 +58,7 @@
                 <span class="stat">🔒 Firewall</span>
                 <span class="stat">🌐 Network</span>
             </div>
-            <a href="pr-projects.html?project=ASA" class="btn" onclick="event.stopPropagation()">Access Dashboards →</a>
+            <a href="pr-list.html?project=ASA" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
     </div>
 
