@@ -533,12 +533,12 @@ function initializeProject() {
 function updatePageHeader() {
     if (currentProject) {
         // Update page title
-        document.title = `${currentProject.name} PR Dashboard`;
+        document.title = `${currentProject.name} Dashboard`;
         
         // Update header title
         const headerTitle = document.getElementById('dashboard-title');
         if (headerTitle) {
-            headerTitle.textContent = `${currentProject.name} PR Dashboard`;
+            headerTitle.textContent = `${currentProject.name} Dashboard`;
         }
         
         // Update subtitle
@@ -550,7 +550,7 @@ function updatePageHeader() {
         // Update footer
         const footer = document.getElementById('dashboard-footer');
         if (footer) {
-            footer.textContent = `${currentProject.name} PR Dashboard`;
+            footer.textContent = `${currentProject.name} Dashboard`;
         }
     }
 }
@@ -683,7 +683,7 @@ async function loadMetrics() {
 
     headerElement.innerHTML = `
         <div class="pr-title-block">
-            <h2>${latestRevisionData.title ?? 'PR Dashboard'}</h2>
+            <h2>${latestRevisionData.title ?? 'Dashboard'}</h2>
             ${overallStatusBadge}
         </div>
     `;
