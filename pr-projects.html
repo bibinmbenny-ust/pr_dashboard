@@ -27,83 +27,83 @@
         </div>
     </div>
 
-    <div class="dashboard-type-grid">
-        <div class="dashboard-type-card active" id="pr-dashboard">
+    <div class="project-grid">
+        <div class="project-card fxos-card active" onclick="navigateToDashboard('pr')">
+            <div class="card-icon">🚀</div>
             <div class="card-header-badge">
                 <span class="badge-ready">✓ Ready</span>
             </div>
-            <div class="card-icon-large">🚀</div>
             <h2>PR Dashboard</h2>
             <p>Monitor pull requests with real-time CI/CD status, code metrics, and build analytics.</p>
-            <div class="card-features">
-                <span class="feature-item">✓ CI/CD Status</span>
-                <span class="feature-item">✓ Code Metrics</span>
-                <span class="feature-item">✓ Build Analytics</span>
-                <span class="feature-item">✓ AI Suggestions</span>
+            <div class="card-stats">
+                <span class="stat">✓ CI/CD Status</span>
+                <span class="stat">✓ Code Metrics</span>
+                <span class="stat">✓ Build Analytics</span>
+                <span class="stat">✓ AI Suggestions</span>
             </div>
-            <button class="btn btn-primary" onclick="navigateToDashboard('pr')">Launch Dashboard →</button>
+            <button class="btn" onclick="event.stopPropagation(); navigateToDashboard('pr')">Launch Dashboard →</button>
         </div>
 
-        <div class="dashboard-type-card coming-soon">
+        <div class="project-card ims-card coming-soon">
+            <div class="card-icon">📁</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
             </div>
-            <div class="card-icon-large">📁</div>
             <h2>Repo Dashboard</h2>
             <p>Repository analytics with commit trends, contributor insights, and code statistics.</p>
-            <div class="card-features">
-                <span class="feature-item">⏳ Commit Trends</span>
-                <span class="feature-item">⏳ Contributors</span>
-                <span class="feature-item">⏳ Code Stats</span>
-                <span class="feature-item">⏳ Branch Analysis</span>
+            <div class="card-stats">
+                <span class="stat">⏳ Commit Trends</span>
+                <span class="stat">⏳ Contributors</span>
+                <span class="stat">⏳ Code Stats</span>
+                <span class="stat">⏳ Branch Analysis</span>
             </div>
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
 
-        <div class="dashboard-type-card coming-soon">
+        <div class="project-card asa-card coming-soon">
+            <div class="card-icon">⚙️</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
             </div>
-            <div class="card-icon-large">⚙️</div>
             <h2>Jenkins Dashboard</h2>
             <p>CI/CD pipeline monitoring with build status, job history, and agent health tracking.</p>
-            <div class="card-features">
-                <span class="feature-item">⏳ Build Pipelines</span>
-                <span class="feature-item">⏳ Job History</span>
-                <span class="feature-item">⏳ Queue Status</span>
-                <span class="feature-item">⏳ Agent Health</span>
+            <div class="card-stats">
+                <span class="stat">⏳ Build Pipelines</span>
+                <span class="stat">⏳ Job History</span>
+                <span class="stat">⏳ Queue Status</span>
+                <span class="stat">⏳ Agent Health</span>
             </div>
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
 
-        <div class="dashboard-type-card coming-soon">
+        <div class="project-card fxos-card coming-soon">
+            <div class="card-icon">🐛</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
             </div>
-            <div class="card-icon-large">🐛</div>
             <h2>Bug Tracker</h2>
             <p>Issue tracking and management with priority queue, resolution metrics, and team statistics.</p>
-            <div class="card-features">
-                <span class="feature-item">⏳ Issue Tracking</span>
-                <span class="feature-item">⏳ Priority Queue</span>
-                <span class="feature-item">⏳ Resolution Time</span>
-                <span class="feature-item">⏳ Team Stats</span>
+            <div class="card-stats">
+                <span class="stat">⏳ Issue Tracking</span>
+                <span class="stat">⏳ Priority Queue</span>
+                <span class="stat">⏳ Resolution Time</span>
+                <span class="stat">⏳ Team Stats</span>
             </div>
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
 
-        <div class="dashboard-type-card coming-soon">
+        <div class="project-card ims-card coming-soon">
+            <div class="card-icon">📋</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
             </div>
-            <div class="card-icon-large">📋</div>
             <h2>JIRA Dashboard</h2>
             <p>Track JIRA issues, sprints, and team productivity metrics with velocity charts and workload analysis.</p>
-            <div class="card-features">
-                <span class="feature-item">⏳ Sprint Status</span>
-                <span class="feature-item">⏳ Issue Tracking</span>
-                <span class="feature-item">⏳ Velocity Charts</span>
-                <span class="feature-item">⏳ Team Workload</span>
+            <div class="card-stats">
+                <span class="stat">⏳ Sprint Status</span>
+                <span class="stat">⏳ Issue Tracking</span>
+                <span class="stat">⏳ Velocity Charts</span>
+                <span class="stat">⏳ Team Workload</span>
             </div>
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
