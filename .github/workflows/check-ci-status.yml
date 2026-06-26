@@ -1,17 +1,13 @@
 name: Check CI Status
 
 on:
-  schedule:
-    # Run every 5 minutes (for testing)
-    - cron: '*/5 * * * *'
-  workflow_dispatch: # Allow manual trigger
-  push:
-    branches:
-      - main
+  workflow_dispatch: # Manual trigger only
 
 jobs:
   check-ci-status:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -43,13 +39,13 @@ jobs:
             exit 0
           fi
           
-          # Testing mode: only process the specific test branch PR
+          # Testing mode: only process PRs targeting the specific base branch
           TEST_BRANCH="feature/pr_dashboard_source"
-          echo "⚠️ Testing mode: filtering to PRs from branch: $TEST_BRANCH"
+          echo "⚠️ Testing mode: filtering to PRs targeting base branch: $TEST_BRANCH"
 
-          # Get all open pull requests (filtered to test branch only)
+          # Get all open pull requests (filtered to PRs whose target/base is TEST_BRANCH)
           PRS_JSON=$(gh api repos/$REPO_NAME/pulls \
-            --jq "[.[] | select(.head.ref == \"$TEST_BRANCH\") | {
+            --jq "[.[] | select(.base.ref == \"$TEST_BRANCH\") | {
               number: .number,
               title: .title,
               state: .state,
