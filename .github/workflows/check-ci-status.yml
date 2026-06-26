@@ -105,7 +105,147 @@ jobs:
             fi
             
             AI_SUGGESTION=""
-            
+
+            # ── Generate dashboard_<PR>.json ──────────────────────────────
+            PR_TITLE=$(echo "$PR" | jq -r '.title')
+            PR_AUTHOR=$(echo "$PR" | jq -r '.author')
+            PR_CREATED=$(echo "$PR" | jq -r '.created_at')
+            PR_UPDATED=$(echo "$PR" | jq -r '.updated_at')
+            PR_HEAD_BRANCH=$(echo "$PR" | jq -r '.head_branch')
+            PR_BASE_BRANCH=$(echo "$PR" | jq -r '.base_branch')
+
+            # Extra PR detail: file counts, additions, deletions, merged flag
+            PR_DETAIL=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER || echo '{}')
+            CHANGED_FILES_COUNT=$(echo "$PR_DETAIL" | jq '.changed_files // 0')
+            ADDITIONS=$(echo "$PR_DETAIL" | jq '.additions // 0')
+            DELETIONS=$(echo "$PR_DETAIL" | jq '.deletions // 0')
+            MERGED=$(echo "$PR_DETAIL" | jq '.merged // false')
+
+            # Changed files with diff patches
+            FILES_RESP=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER/files || echo '[]')
+            CHANGED_FILES_DETAILS=$(echo "$FILES_RESP" | jq '[.[] | {
+              file_name: .filename,
+              status: .status,
+              additions: .additions,
+              deletions: .deletions,
+              changes: .changes,
+              patch: (.patch // "")
+            }]')
+
+            # Build per-module metrics from check runs
+            MODULE_METRICS="{}"
+            FAILED_STAGES=""
+            TOTAL_FAILURES=0
+            DASH_ERRORS="[]"
+            DASH_ERROR_MSG=""
+            RUN_COUNT=$(echo "$CHECKS_RESPONSE" | jq '.check_runs | length')
+            CI_START_TIME=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].started_at // ""')
+            CI_COMPLETED_TIME=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].completed_at // ""')
+            JENKINS_BUILD_URL=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].details_url // ""')
+            JENKINS_BUILD_NUMBER=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].external_id // "N/A"')
+
+            if [ "$RUN_COUNT" -gt 0 ]; then
+              for j in $(seq 0 $((RUN_COUNT - 1))); do
+                RUN=$(echo "$CHECKS_RESPONSE" | jq ".check_runs[$j]")
+                RUN_NAME=$(echo "$RUN" | jq -r '.name')
+                RUN_CONCLUSION=$(echo "$RUN" | jq -r '.conclusion // "pending"')
+                RUN_URL=$(echo "$RUN" | jq -r '.details_url // ""')
+                RUN_TITLE=$(echo "$RUN" | jq -r '.output.title // ""')
+
+                if [ "$RUN_CONCLUSION" = "success" ]; then
+                  BUILD_STATUS="SUCCESS"
+                elif [ "$RUN_CONCLUSION" = "failure" ] || [ "$RUN_CONCLUSION" = "error" ]; then
+                  BUILD_STATUS="FAILURE"
+                  TOTAL_FAILURES=$((TOTAL_FAILURES + 1))
+                  FAILED_STAGES="${FAILED_STAGES:+$FAILED_STAGES, }$RUN_NAME"
+                  ERR_ENTRY=$(jq -n \
+                    --arg stage "$RUN_NAME" \
+                    --arg url "$RUN_URL" \
+                    --arg preview "$RUN_TITLE" \
+                    '{stage: $stage, status: "FAILURE", error_log_url: $url, stage_type: "build", error_count: 0, error_preview: $preview, has_full_details: false}')
+                  DASH_ERRORS=$(echo "$DASH_ERRORS" | jq --argjson e "$ERR_ENTRY" '. + [$e]')
+                  if [ -n "$DASH_ERROR_MSG" ]; then
+                    DASH_ERROR_MSG="$DASH_ERROR_MSG"$'\n'"❌ $RUN_NAME: $RUN_TITLE"
+                  else
+                    DASH_ERROR_MSG="❌ $RUN_NAME: $RUN_TITLE"
+                  fi
+                else
+                  BUILD_STATUS="PENDING"
+                fi
+
+                MODULE_METRICS=$(echo "$MODULE_METRICS" | jq \
+                  --arg k "${RUN_NAME}: Build Status" \
+                  --arg v "$BUILD_STATUS" \
+                  '. + {($k): $v}')
+              done
+            fi
+
+            # Calculate CI duration in seconds
+            if [ -n "$CI_START_TIME" ] && [ "$CI_START_TIME" != "null" ] && \
+               [ -n "$CI_COMPLETED_TIME" ] && [ "$CI_COMPLETED_TIME" != "null" ]; then
+              START_EPOCH=$(date -d "$CI_START_TIME" +%s 2>/dev/null || echo "0")
+              END_EPOCH=$(date -d "$CI_COMPLETED_TIME" +%s 2>/dev/null || echo "0")
+              CI_DURATION=$((END_EPOCH - START_EPOCH))
+            else
+              CI_DURATION=0
+            fi
+
+            # Assemble full dashboard entry
+            DASH_ENTRY=$(echo "$MODULE_METRICS" | jq \
+              --arg title "$PR_TITLE" \
+              --argjson changed_files "$CHANGED_FILES_COUNT" \
+              --argjson additions "$ADDITIONS" \
+              --argjson deletions "$DELETIONS" \
+              --argjson merged "$MERGED" \
+              --arg pr_id "$PR_NUMBER" \
+              --arg author "$PR_AUTHOR" \
+              --arg created_at "$PR_CREATED" \
+              --arg updated_at "$PR_UPDATED" \
+              --arg pr_state "open" \
+              --arg base_branch "$PR_BASE_BRANCH" \
+              --arg head_branch "$PR_HEAD_BRANCH" \
+              --arg commit_hash "$HEAD_SHA" \
+              --arg ci_start_time "$CI_START_TIME" \
+              --argjson ci_duration "$CI_DURATION" \
+              --arg jenkins_build_number "$JENKINS_BUILD_NUMBER" \
+              --arg jenkins_build_url "$JENKINS_BUILD_URL" \
+              --argjson total_failures "$TOTAL_FAILURES" \
+              --arg failed_stage "$FAILED_STAGES" \
+              --argjson errors "$DASH_ERRORS" \
+              --arg error_message "$DASH_ERROR_MSG" \
+              --argjson changed_files_details "$CHANGED_FILES_DETAILS" \
+              --arg ai_suggestion "" \
+              '. + {
+                title: $title,
+                changed_files: $changed_files,
+                additions: $additions,
+                deletions: $deletions,
+                merged: $merged,
+                pr_id: $pr_id,
+                author: $author,
+                created_at: $created_at,
+                updated_at: $updated_at,
+                pr_state: $pr_state,
+                base_branch: $base_branch,
+                head_branch: $head_branch,
+                commit_hash: $commit_hash,
+                ci_start_time: $ci_start_time,
+                ci_duration_seconds: $ci_duration,
+                jenkins_build_number: $jenkins_build_number,
+                jenkins_build_url: $jenkins_build_url,
+                total_failures: $total_failures,
+                failed_stage: $failed_stage,
+                errors: $errors,
+                error_message: $error_message,
+                changed_files_details: $changed_files_details,
+                revision: 1,
+                ai_suggestion: $ai_suggestion
+              }')
+
+            echo "[$DASH_ENTRY]" > pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json
+            echo "✅ Created dashboard_${PR_NUMBER}.json"
+            # ── End dashboard file ─────────────────────────────────────────
+
             # Combine PR data with CI status and AI suggestion
             ENRICHED_PR=$(echo "$PR" | jq \
               --arg ci_state "$FINAL_STATUS" \
@@ -163,7 +303,7 @@ jobs:
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pr-reports/$PROJECT_NAME/pr-list.json
+          git add pr-reports/$PROJECT_NAME/
           
           # Check if there are changes to commit
           if git diff --quiet && git diff --staged --quiet; then
