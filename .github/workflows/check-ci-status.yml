@@ -234,17 +234,51 @@ jobs:
             }]')
 
             # ── PR Review analytics ───────────────────────────────────────
+            REPO_OWNER=$(echo "$REPO_NAME" | cut -d'/' -f1)
+            REPO_REPO=$(echo "$REPO_NAME"  | cut -d'/' -f2)
+
             # Line-level code review comments (threads on diff hunks)
-            REVIEW_COMMENTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/comments?per_page=100" 2>/dev/null || echo '[]')
+            REVIEW_COMMENTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/comments?per_page=100" 2>/dev/null) \
+              || REVIEW_COMMENTS='[]'
             # Formal reviews (APPROVE / CHANGES_REQUESTED / COMMENT)
-            PR_REVIEWS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews" 2>/dev/null || echo '[]')
+            PR_REVIEWS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews" 2>/dev/null) \
+              || PR_REVIEWS='[]'
+            # General PR discussion comments (non-review)
+            GENERAL_COMMENTS_COUNT=$(gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=1" \
+              --include 2>/dev/null | grep -oP '(?<=x-total-count: )\d+' || \
+              gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" 2>/dev/null \
+              | jq 'length' || echo 0)
+
+            # GraphQL: accurate thread resolved/unresolved/outdated counts
+            GQL_THREADS=$(gh api graphql -f query="
+            {
+              repository(owner: \"${REPO_OWNER}\", name: \"${REPO_REPO}\") {
+                pullRequest(number: ${PR_NUMBER}) {
+                  reviewThreads(first: 100) {
+                    totalCount
+                    nodes { isResolved isOutdated }
+                  }
+                }
+              }
+            }" 2>/dev/null) || GQL_THREADS='{}'
+
+            GQL_TOTAL=$(echo "$GQL_THREADS" | jq -r '(.data.repository.pullRequest.reviewThreads.totalCount) // 0' 2>/dev/null || echo 0)
+            GQL_RESOLVED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == true)] | length' 2>/dev/null || echo 0)
+            GQL_UNRESOLVED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == false and .isOutdated == false)] | length' 2>/dev/null || echo 0)
+            GQL_OUTDATED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isOutdated == true)] | length' 2>/dev/null || echo 0)
 
             REVIEW_STATS=$(jq -n \
               --arg author "$PR_AUTHOR" \
               --argjson rc "$REVIEW_COMMENTS" \
               --argjson rv "$PR_REVIEWS" \
+              --argjson total_threads "$GQL_TOTAL" \
+              --argjson resolved_threads "$GQL_RESOLVED" \
+              --argjson unresolved_threads "$GQL_UNRESOLVED" \
+              --argjson outdated_threads_gql "$GQL_OUTDATED" \
+              --argjson general_comments "$GENERAL_COMMENTS_COUNT" \
               '{
                 total_review_comments:       ($rc | length),
+                general_comments:            $general_comments,
                 copilot_comments:            ($rc | [.[] | select(.user.login | ascii_downcase | test("copilot"))] | length),
                 copilot_addressed:           ($rc | [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position == null)] | length),
                 copilot_open:                ($rc | [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position != null)] | length),
@@ -252,17 +286,18 @@ jobs:
                 author_replies:              ($rc | [.[] | select(.user.login == $author and .in_reply_to_id != null)] | length),
                 author_own_comments:         ($rc | [.[] | select(.user.login == $author and .in_reply_to_id == null)] | length),
                 outdated_threads:            ($rc | [.[] | select(.position == null)] | length),
+                total_threads:               $total_threads,
+                resolved_threads:            $resolved_threads,
+                unresolved_threads:          $unresolved_threads,
+                outdated_threads_gql:        $outdated_threads_gql,
                 reviews_approved:            ($rv | [.[] | select(.state == "APPROVED")] | length),
                 reviews_changes_requested:   ($rv | [.[] | select(.state == "CHANGES_REQUESTED")] | length),
                 reviews_commented:           ($rv | [.[] | select(.state == "COMMENTED")] | length),
                 unique_reviewers:            ($rv | [.[] | select(.user.type != "Bot") | .user.login] | unique | length),
                 engagement_score: (
-                  if ($rc | length) == 0 then 100
+                  if $total_threads == 0 then 100
                   else
-                    ((
-                      ($rc | [.[] | select(.position == null)] | length) +
-                      ($rc | [.[] | select(.user.login == $author and .in_reply_to_id != null)] | length)
-                    ) * 100 / ($rc | length)) | floor | [100, .] | min
+                    ($resolved_threads * 100 / $total_threads) | floor | [100, .] | min
                   end
                 )
               }')

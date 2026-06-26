@@ -1099,7 +1099,9 @@ function renderScoreCard(dataList) {
     let hasReviewData = false;
 
     let rvTotalComments = 0, rvAuthorReplies = 0, rvCopilotTotal = 0, rvCopilotAddressed = 0;
-    let rvOutdated = 0, rvApproved = 0, rvChangesReq = 0, rvMaxReviewers = 0, rvAvgScore = 0;
+    let rvOutdated = 0, rvApproved = 0, rvChangesReq = 0, rvMaxReviewers = 0;
+    // GraphQL-based thread counts — use latest revision that has the data
+    let rvTotalThreads = null, rvResolvedThreads = null, rvUnresolvedThreads = null, rvOutdatedThreadsGql = null;
 
     if (revWithStats.length > 0) {
         hasReviewData = true;
@@ -1111,15 +1113,18 @@ function renderScoreCard(dataList) {
         rvApproved         = revWithStats[0].review_stats.reviews_approved || 0;
         rvChangesReq       = revWithStats[0].review_stats.reviews_changes_requested || 0;
         rvMaxReviewers     = Math.max(...revWithStats.map(d => d.review_stats.unique_reviewers || 0));
-        rvAvgScore         = Math.round(revWithStats.reduce((s, d) => s + (d.review_stats.engagement_score || 0), 0) / revWithStats.length);
 
-        const engagedCount    = Math.min(rvOutdated + rvAuthorReplies, rvTotalComments);
-        const notEngagedCount = Math.max(rvTotalComments - engagedCount, 0);
-        const rvCopilotOpen   = Math.max(rvCopilotTotal - rvCopilotAddressed, 0);
-        const rvCopilotPct    = rvCopilotTotal > 0 ? Math.round((rvCopilotAddressed / rvCopilotTotal) * 100) : 100;
+        // Prefer GraphQL thread data from the latest revision that has it
+        const latestWithGql = revWithStats.find(d => d.review_stats.total_threads != null);
+        if (latestWithGql) {
+            rvTotalThreads       = latestWithGql.review_stats.total_threads;
+            rvResolvedThreads    = latestWithGql.review_stats.resolved_threads || 0;
+            rvUnresolvedThreads  = latestWithGql.review_stats.unresolved_threads || 0;
+            rvOutdatedThreadsGql = latestWithGql.review_stats.outdated_threads_gql || 0;
+        }
 
-        const rvScoreColor = rvAvgScore >= 80 ? '#10b981' : rvAvgScore >= 50 ? '#f59e0b' : '#ef4444';
-        const rvScoreLabel = rvAvgScore >= 80 ? 'HIGHLY ENGAGED' : rvAvgScore >= 50 ? 'MODERATE' : 'LOW ENGAGEMENT';
+        const rvCopilotOpen = Math.max(rvCopilotTotal - rvCopilotAddressed, 0);
+        const rvCopilotPct  = rvCopilotTotal > 0 ? Math.round((rvCopilotAddressed / rvCopilotTotal) * 100) : null;
 
         const rvHumanComments = revWithStats.reduce((s, d) => s + (d.review_stats.human_reviewer_comments || 0), 0);
 
@@ -1129,27 +1134,58 @@ function renderScoreCard(dataList) {
                 <canvas id="sc-reviewBar"></canvas>
             </div>` : `<div style="font-size:0.82rem; color:#10b981; padding:0.5rem 0;">✅ No formal review changes requested</div>`;
 
-        reviewCardHtml = `
-            <div class="card" style="padding:1.5rem;">
-                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem;">
-                    💬 PR Review Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${revWithStats.length} revision${revWithStats.length !== 1 ? 's' : ''} analysed</span>
-                </h3>
-                <div style="display:grid; grid-template-columns:170px 170px 1fr; gap:2rem; align-items:start;">
-                    <!-- Pie 1: Engagement Rate -->
+        // ── Pie 1: Thread Resolution (GraphQL) or fallback empty state ──────
+        let pie1Html;
+        if (rvTotalThreads === null) {
+            // GraphQL data not yet available — old JSON entry
+            pie1Html = `
                     <div style="text-align:center;">
-                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Engagement Rate</div>
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Thread Resolution</div>
+                        <div style="width:150px; height:150px; margin:0 auto; display:flex; align-items:center; justify-content:center; border:2px dashed #334155; border-radius:50%; font-size:0.75rem; color:#64748b; text-align:center; padding:1rem;">
+                            Re-run workflow to load thread data
+                        </div>
+                    </div>`;
+        } else if (rvTotalThreads === 0) {
+            pie1Html = `
+                    <div style="text-align:center;">
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Thread Resolution</div>
+                        <div style="width:150px; height:150px; margin:0 auto; display:flex; align-items:center; justify-content:center; border:2px dashed #334155; border-radius:50%; font-size:0.75rem; color:#64748b; text-align:center; padding:1rem;">
+                            💬 No review threads yet
+                        </div>
+                    </div>`;
+        } else {
+            const resolvedPct = Math.round((rvResolvedThreads / rvTotalThreads) * 100);
+            const pieColor = resolvedPct === 100 ? '#10b981' : resolvedPct >= 50 ? '#f59e0b' : '#ef4444';
+            pie1Html = `
+                    <div style="text-align:center;">
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Thread Resolution</div>
                         <div style="position:relative; width:150px; margin:0 auto;">
                             <canvas id="sc-engagePie" width="150" height="150"></canvas>
                             <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-                                <div style="font-size:1.5rem; font-weight:700; color:${rvAvgScore >= 50 ? '#10b981' : '#ef4444'};">${rvAvgScore}%</div>
+                                <div style="font-size:1.5rem; font-weight:700; color:${pieColor};">${resolvedPct}%</div>
+                                <div style="font-size:0.65rem; color:#94a3b8;">resolved</div>
                             </div>
                         </div>
                         <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
-                            <span style="color:#10b981;">✔ ${engagedCount} addressed</span> &nbsp;
-                            <span style="color:#ef4444;">✘ ${notEngagedCount} open</span>
+                            <span style="color:#10b981;">✔ ${rvResolvedThreads} resolved</span> &nbsp;
+                            <span style="color:#ef4444;">✘ ${rvUnresolvedThreads} open</span>
+                            ${rvOutdatedThreadsGql > 0 ? `&nbsp;<span style="color:#f59e0b;">⚠ ${rvOutdatedThreadsGql} outdated</span>` : ''}
                         </div>
-                    </div>
-                    <!-- Pie 2: Copilot Address Rate -->
+                    </div>`;
+        }
+
+        // ── Pie 2: Copilot Address Rate ──────────────────────────────────────
+        let pie2Html;
+        if (rvCopilotTotal === 0) {
+            pie2Html = `
+                    <div style="text-align:center;">
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Copilot Comments</div>
+                        <div style="width:150px; height:150px; margin:0 auto; display:flex; align-items:center; justify-content:center; border:2px dashed #334155; border-radius:50%; font-size:0.75rem; color:#64748b; text-align:center; padding:1rem;">
+                            🤖 No Copilot comments
+                        </div>
+                    </div>`;
+        } else {
+            pie2Html = `
                     <div style="text-align:center;">
                         <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Copilot Address Rate</div>
                         <div style="position:relative; width:150px; margin:0 auto;">
@@ -1162,7 +1198,35 @@ function renderScoreCard(dataList) {
                             <span style="color:#a78bfa;">✔ ${rvCopilotAddressed} addressed</span> &nbsp;
                             <span style="color:#f59e0b;">✘ ${rvCopilotOpen} open</span>
                         </div>
-                    </div>
+                    </div>`;
+        }
+
+        // ── Thread summary tile (replaces old "Engage Score" tile) ──────────
+        let threadTileHtml;
+        if (rvTotalThreads === null) {
+            threadTileHtml = `
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:#64748b;">—</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Open Threads</div>
+                            </div>`;
+        } else {
+            const openColor = rvUnresolvedThreads === 0 ? '#10b981' : '#ef4444';
+            threadTileHtml = `
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${openColor};">${rvUnresolvedThreads}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Open Threads</div>
+                                <div style="font-size:0.65rem; color:#64748b;">${rvTotalThreads} total</div>
+                            </div>`;
+        }
+
+        reviewCardHtml = `
+            <div class="card" style="padding:1.5rem;">
+                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem;">
+                    💬 PR Review Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${revWithStats.length} revision${revWithStats.length !== 1 ? 's' : ''} analysed</span>
+                </h3>
+                <div style="display:grid; grid-template-columns:170px 170px 1fr; gap:2rem; align-items:start;">
+                    ${pie1Html}
+                    ${pie2Html}
                     <!-- Tiles + bar chart -->
                     <div>
                         <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
@@ -1178,11 +1242,7 @@ function renderScoreCard(dataList) {
                                 <div style="font-size:1.5rem; font-weight:700; color:#f59e0b;">${rvAuthorReplies}</div>
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Author Replies</div>
                             </div>
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:${rvScoreColor};">${rvAvgScore}</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Engage Score</div>
-                                <div style="font-size:0.65rem; color:${rvScoreColor}; font-weight:600;">${rvScoreLabel}</div>
-                            </div>
+                            ${threadTileHtml}
                         </div>
                         ${rvCopilotTotal > 0 ? `
                         <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#94a3b8;">
@@ -1304,20 +1364,27 @@ function renderScoreCard(dataList) {
 
     // ── PR Review charts ──────────────────────────────────────────────────────
     if (hasReviewData) {
-        const engagedCount    = Math.min(rvOutdated + rvAuthorReplies, rvTotalComments);
-        const notEngagedCount = Math.max(rvTotalComments - engagedCount, 0);
-        const rvCopilotOpen   = Math.max(rvCopilotTotal - rvCopilotAddressed, 0);
+        const rvCopilotOpen = Math.max(rvCopilotTotal - rvCopilotAddressed, 0);
 
-        new Chart(document.getElementById('sc-engagePie'), {
-            type: 'doughnut',
-            data: { datasets: [{ data: [engagedCount || 0.001, notEngagedCount], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 2, borderColor: '#1e293b' }] },
-            options: doughnutOpts
-        });
-        new Chart(document.getElementById('sc-copilotPie'), {
-            type: 'doughnut',
-            data: { datasets: [{ data: [rvCopilotAddressed || 0.001, rvCopilotOpen], backgroundColor: ['#a78bfa', '#f59e0b'], borderWidth: 2, borderColor: '#1e293b' }] },
-            options: doughnutOpts
-        });
+        // Pie 1: Thread Resolution — only rendered when we have GraphQL data and total > 0
+        const engagePieEl = document.getElementById('sc-engagePie');
+        if (engagePieEl && rvTotalThreads != null && rvTotalThreads > 0) {
+            new Chart(engagePieEl, {
+                type: 'doughnut',
+                data: { datasets: [{ data: [rvResolvedThreads || 0.001, rvUnresolvedThreads], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 2, borderColor: '#1e293b' }] },
+                options: doughnutOpts
+            });
+        }
+
+        // Pie 2: Copilot Address Rate — only rendered when there are copilot comments
+        const copilotPieEl = document.getElementById('sc-copilotPie');
+        if (copilotPieEl && rvCopilotTotal > 0) {
+            new Chart(copilotPieEl, {
+                type: 'doughnut',
+                data: { datasets: [{ data: [rvCopilotAddressed || 0.001, rvCopilotOpen], backgroundColor: ['#a78bfa', '#f59e0b'], borderWidth: 2, borderColor: '#1e293b' }] },
+                options: doughnutOpts
+            });
+        }
 
         const reviewBarEl = document.getElementById('sc-reviewBar');
         if (reviewBarEl && (rvApproved + rvChangesReq) > 0) {
