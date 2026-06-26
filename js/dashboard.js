@@ -147,7 +147,7 @@ function renderGeneralMetricsCard(data) {
     if (!hasGeneralMetrics) return '';
 
     const jenkinsUrl = data.jenkins_build_url || '#';
-    const buildNum = data.jenkins_build_number || 'N/A';
+    const buildNum = (data.jenkins_build_number && data.jenkins_build_number !== 'N/A') ? ` #${data.jenkins_build_number}` : '';
     const prState = data.pr_state ? data.pr_state.toUpperCase() : 'N/A';
 
     return `
@@ -161,7 +161,7 @@ function renderGeneralMetricsCard(data) {
                     <p style="margin: 0; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
                 </div>
                 <div>
-                    <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">Jenkins #${buildNum}</a>
+                    <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">Jenkins${buildNum}</a>
                 </div>
             </div>
         </div>
@@ -393,7 +393,7 @@ function renderCombinedSummaryCard(data) {
     const overallStatus = getOverallStatus(data);
     
     const jenkinsUrl = data.jenkins_build_url || '#';
-    const buildNum = data.jenkins_build_number || 'N/A';
+    const buildNum = (data.jenkins_build_number && data.jenkins_build_number !== 'N/A') ? ` #${data.jenkins_build_number}` : '';
     const prState = data.pr_state ? data.pr_state.toUpperCase() : 'N/A';
     
     // Failed stages section (conditional)
@@ -430,7 +430,7 @@ function renderCombinedSummaryCard(data) {
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <a href="${prLink}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">View Commit</a>
-                            <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">Jenkins #${buildNum}</a>
+                            <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">Jenkins${buildNum}</a>
                         </div>
                     </div>
                 </div>
