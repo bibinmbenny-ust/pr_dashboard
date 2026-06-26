@@ -1059,139 +1059,210 @@ function renderScoreCard(dataList) {
     const container = document.getElementById('scorecard-container');
     if (!container || dataList.length === 0) return;
 
+    // ── Build Score Card data ─────────────────────────────────────────────────
     const total = dataList.length;
-
-    // Build success rate
     const passedBuilds = dataList.filter(d => getOverallStatus(d) === 'PASSING BUILD').length;
     const failedBuilds  = total - passedBuilds;
     const buildSuccessRate = Math.round((passedBuilds / total) * 100);
 
-    // Unit test pass rate
     const utRevisions = dataList.filter(d => d['Unit Tests: Build Status'] && d['Unit Tests: Build Status'] !== 'N/A');
     const utPassed = utRevisions.filter(d => d['Unit Tests: Build Status'] === 'SUCCESS').length;
     const utFailed = utRevisions.length - utPassed;
     const utPassRate = utRevisions.length > 0 ? Math.round((utPassed / utRevisions.length) * 100) : 0;
 
-    // Average build duration
     const durRevisions = dataList.filter(d => d.ci_duration_seconds > 0);
     const avgDuration = durRevisions.length > 0
-        ? Math.round(durRevisions.reduce((s, d) => s + d.ci_duration_seconds, 0) / durRevisions.length)
-        : 0;
+        ? Math.round(durRevisions.reduce((s, d) => s + d.ci_duration_seconds, 0) / durRevisions.length) : 0;
 
-    // Average UT coverage
-    const covRevisions = dataList.filter(d => {
-        const c = d['Unit Tests: Coverage Percentage'];
-        return c && c !== 'N/A' && !isNaN(parseFloat(c));
-    });
+    const covRevisions = dataList.filter(d => { const c = d['Unit Tests: Coverage Percentage']; return c && c !== 'N/A' && !isNaN(parseFloat(c)); });
     const avgCoverage = covRevisions.length > 0
-        ? (covRevisions.reduce((s, d) => s + parseFloat(d['Unit Tests: Coverage Percentage']), 0) / covRevisions.length).toFixed(1)
-        : null;
+        ? (covRevisions.reduce((s, d) => s + parseFloat(d['Unit Tests: Coverage Percentage']), 0) / covRevisions.length).toFixed(1) : null;
 
-    // Average UT tests per run
     const utCountRevisions = dataList.filter(d => parseInt(d['Unit Tests: Unit Tests Passed']) > 0);
     const avgUtTests = utCountRevisions.length > 0
-        ? Math.round(utCountRevisions.reduce((s, d) =>
-            s + parseInt(d['Unit Tests: Unit Tests Passed'] || 0) + parseInt(d['Unit Tests: Unit Tests Failed'] || 0), 0
-          ) / utCountRevisions.length)
-        : 0;
+        ? Math.round(utCountRevisions.reduce((s, d) => s + parseInt(d['Unit Tests: Unit Tests Passed'] || 0) + parseInt(d['Unit Tests: Unit Tests Failed'] || 0), 0) / utCountRevisions.length) : 0;
 
-    // Module failure frequency
     const moduleFailures = {};
-    dataList.forEach(d => {
-        Object.keys(d).forEach(k => {
-            if (k.endsWith(': Build Status') && d[k] === 'FAILURE') {
-                const mod = k.replace(': Build Status', '');
-                if (mod !== 'Unit Tests') moduleFailures[mod] = (moduleFailures[mod] || 0) + 1;
-            }
-        });
-    });
+    dataList.forEach(d => { Object.keys(d).forEach(k => { if (k.endsWith(': Build Status') && d[k] === 'FAILURE') { const mod = k.replace(': Build Status', ''); if (mod !== 'Unit Tests') moduleFailures[mod] = (moduleFailures[mod] || 0) + 1; } }); });
     const sortedFailures = Object.entries(moduleFailures).sort((a, b) => b[1] - a[1]);
 
-    // Overall health score (0–100)
-    const healthScore = Math.round(
-        buildSuccessRate * 0.5 +
-        utPassRate * 0.3 +
-        (avgCoverage ? Math.min(parseFloat(avgCoverage), 100) : 50) * 0.2
-    );
+    const healthScore = Math.round(buildSuccessRate * 0.5 + utPassRate * 0.3 + (avgCoverage ? Math.min(parseFloat(avgCoverage), 100) : 50) * 0.2);
     const healthColor = healthScore >= 80 ? '#10b981' : healthScore >= 55 ? '#f59e0b' : '#ef4444';
     const healthLabel = healthScore >= 80 ? 'HEALTHY' : healthScore >= 55 ? 'MODERATE' : 'NEEDS ATTENTION';
 
+    // ── PR Review Score Card data ─────────────────────────────────────────────
+    const revWithStats = dataList.filter(d => d.review_stats);
+    let reviewCardHtml = `
+        <div class="card" style="padding:1.5rem; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:0.85rem;">
+            💬 PR Review data will appear after the workflow re-runs
+        </div>`;
+    let hasReviewData = false;
+
+    let rvTotalComments = 0, rvAuthorReplies = 0, rvCopilotTotal = 0, rvCopilotAddressed = 0;
+    let rvOutdated = 0, rvApproved = 0, rvChangesReq = 0, rvMaxReviewers = 0, rvAvgScore = 0;
+
+    if (revWithStats.length > 0) {
+        hasReviewData = true;
+        rvTotalComments    = revWithStats.reduce((s, d) => s + (d.review_stats.total_review_comments || 0), 0);
+        rvAuthorReplies    = revWithStats.reduce((s, d) => s + (d.review_stats.author_replies || 0), 0);
+        rvCopilotTotal     = revWithStats.reduce((s, d) => s + (d.review_stats.copilot_comments || 0), 0);
+        rvCopilotAddressed = revWithStats.reduce((s, d) => s + (d.review_stats.copilot_addressed || 0), 0);
+        rvOutdated         = revWithStats.reduce((s, d) => s + (d.review_stats.outdated_threads || 0), 0);
+        rvApproved         = revWithStats[0].review_stats.reviews_approved || 0;
+        rvChangesReq       = revWithStats[0].review_stats.reviews_changes_requested || 0;
+        rvMaxReviewers     = Math.max(...revWithStats.map(d => d.review_stats.unique_reviewers || 0));
+        rvAvgScore         = Math.round(revWithStats.reduce((s, d) => s + (d.review_stats.engagement_score || 0), 0) / revWithStats.length);
+
+        const engagedCount    = Math.min(rvOutdated + rvAuthorReplies, rvTotalComments);
+        const notEngagedCount = Math.max(rvTotalComments - engagedCount, 0);
+        const rvCopilotOpen   = Math.max(rvCopilotTotal - rvCopilotAddressed, 0);
+        const rvCopilotPct    = rvCopilotTotal > 0 ? Math.round((rvCopilotAddressed / rvCopilotTotal) * 100) : 100;
+
+        const rvScoreColor = rvAvgScore >= 80 ? '#10b981' : rvAvgScore >= 50 ? '#f59e0b' : '#ef4444';
+        const rvScoreLabel = rvAvgScore >= 80 ? 'HIGHLY ENGAGED' : rvAvgScore >= 50 ? 'MODERATE' : 'LOW ENGAGEMENT';
+
+        const rvHumanComments = revWithStats.reduce((s, d) => s + (d.review_stats.human_reviewer_comments || 0), 0);
+
+        const reviewDecisions = (rvApproved + rvChangesReq) > 0 ? `
+            <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.5rem; font-weight:600;">Review Decisions</div>
+            <div style="position:relative; height:${(rvApproved > 0 ? 28 : 0) + (rvChangesReq > 0 ? 28 : 0) + 8}px;">
+                <canvas id="sc-reviewBar"></canvas>
+            </div>` : `<div style="font-size:0.82rem; color:#10b981; padding:0.5rem 0;">✅ No formal review changes requested</div>`;
+
+        reviewCardHtml = `
+            <div class="card" style="padding:1.5rem;">
+                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem;">
+                    💬 PR Review Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${revWithStats.length} revision${revWithStats.length !== 1 ? 's' : ''} analysed</span>
+                </h3>
+                <div style="display:grid; grid-template-columns:170px 170px 1fr; gap:2rem; align-items:start;">
+                    <!-- Pie 1: Engagement Rate -->
+                    <div style="text-align:center;">
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Engagement Rate</div>
+                        <div style="position:relative; width:150px; margin:0 auto;">
+                            <canvas id="sc-engagePie" width="150" height="150"></canvas>
+                            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${rvAvgScore >= 50 ? '#10b981' : '#ef4444'};">${rvAvgScore}%</div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
+                            <span style="color:#10b981;">✔ ${engagedCount} addressed</span> &nbsp;
+                            <span style="color:#ef4444;">✘ ${notEngagedCount} open</span>
+                        </div>
+                    </div>
+                    <!-- Pie 2: Copilot Address Rate -->
+                    <div style="text-align:center;">
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Copilot Address Rate</div>
+                        <div style="position:relative; width:150px; margin:0 auto;">
+                            <canvas id="sc-copilotPie" width="150" height="150"></canvas>
+                            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${rvCopilotPct >= 50 ? '#a78bfa' : '#f59e0b'};">${rvCopilotPct}%</div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
+                            <span style="color:#a78bfa;">✔ ${rvCopilotAddressed} addressed</span> &nbsp;
+                            <span style="color:#f59e0b;">✘ ${rvCopilotOpen} open</span>
+                        </div>
+                    </div>
+                    <!-- Tiles + bar chart -->
+                    <div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${rvTotalComments}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Review Comments</div>
+                            </div>
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:#3b82f6;">${rvMaxReviewers}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Reviewers</div>
+                            </div>
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:#f59e0b;">${rvAuthorReplies}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Author Replies</div>
+                            </div>
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${rvScoreColor};">${rvAvgScore}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Engage Score</div>
+                                <div style="font-size:0.65rem; color:${rvScoreColor}; font-weight:600;">${rvScoreLabel}</div>
+                            </div>
+                        </div>
+                        ${rvCopilotTotal > 0 ? `
+                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#94a3b8;">
+                            <span>🤖 Copilot: <strong style="color:var(--text);">${rvCopilotTotal}</strong> comments</span>
+                            <span>👥 Human reviewers: <strong style="color:var(--text);">${rvHumanComments}</strong> comments</span>
+                        </div>` : ''}
+                        ${reviewDecisions}
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    // ── Set container HTML (side by side) ─────────────────────────────────────
     container.innerHTML = `
-        <div class="card" style="margin-bottom: 1.5rem; padding: 1.5rem;">
-            <h3 style="color: var(--cisco-blue); margin-bottom: 1.5rem; font-size: 1.15rem; border-bottom: 1px solid rgba(0,188,235,0.2); padding-bottom: 0.75rem;">
-                📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${total} build${total !== 1 ? 's' : ''} analysed</span>
-            </h3>
-
-            <div style="display: grid; grid-template-columns: 170px 170px 1fr; gap: 2rem; align-items: start;">
-
-                <!-- Pie 1: Build Success Rate -->
-                <div style="text-align:center;">
-                    <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Build Success Rate</div>
-                    <div style="position:relative; width:150px; margin:0 auto;">
-                        <canvas id="sc-buildPie" width="150" height="150"></canvas>
-                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-                            <div style="font-size:1.5rem; font-weight:700; color:${buildSuccessRate >= 50 ? '#10b981' : '#ef4444'};">${buildSuccessRate}%</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+            <div class="card" style="padding:1.5rem;">
+                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem;">
+                    📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${total} build${total !== 1 ? 's' : ''} analysed</span>
+                </h3>
+                <div style="display:grid; grid-template-columns:170px 170px 1fr; gap:2rem; align-items:start;">
+                    <div style="text-align:center;">
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Build Success Rate</div>
+                        <div style="position:relative; width:150px; margin:0 auto;">
+                            <canvas id="sc-buildPie" width="150" height="150"></canvas>
+                            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${buildSuccessRate >= 50 ? '#10b981' : '#ef4444'};">${buildSuccessRate}%</div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
+                            <span style="color:#10b981;">✔ ${passedBuilds} passed</span> &nbsp;
+                            <span style="color:#ef4444;">✘ ${failedBuilds} failed</span>
                         </div>
                     </div>
-                    <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
-                        <span style="color:#10b981;">✔ ${passedBuilds} passed</span> &nbsp;
-                        <span style="color:#ef4444;">✘ ${failedBuilds} failed</span>
+                    <div style="text-align:center;">
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Unit Test Pass Rate</div>
+                        <div style="position:relative; width:150px; margin:0 auto;">
+                            <canvas id="sc-utPie" width="150" height="150"></canvas>
+                            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${utPassRate >= 50 ? '#3b82f6' : '#f59e0b'};">${utPassRate}%</div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
+                            <span style="color:#3b82f6;">✔ ${utPassed} passed</span> &nbsp;
+                            <span style="color:#f59e0b;">✘ ${utFailed} failed</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${total}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Total Builds</div>
+                            </div>
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.3rem; font-weight:700; color:#f59e0b;">${avgDuration > 0 ? calculateDuration(avgDuration) : 'N/A'}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Avg Build Time</div>
+                            </div>
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:#a78bfa;">${avgCoverage ? avgCoverage + '%' : 'N/A'}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Avg UT Coverage</div>
+                            </div>
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${healthColor};">${healthScore}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Health Score</div>
+                                <div style="font-size:0.65rem; color:${healthColor}; font-weight:600;">${healthLabel}</div>
+                            </div>
+                        </div>
+                        ${avgUtTests > 0 ? `
+                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#94a3b8;">
+                            <span>🧪 Avg tests/run: <strong style="color:var(--text);">${avgUtTests}</strong></span>
+                            <span>📊 Coverage tracked: <strong style="color:var(--text);">${covRevisions.length} run${covRevisions.length !== 1 ? 's' : ''}</strong></span>
+                        </div>` : ''}
+                        ${sortedFailures.length > 0 ? `
+                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.5rem; font-weight:600;">Most Failed Modules</div>
+                        <div style="position:relative; height:${Math.min(sortedFailures.length, 6) * 28 + 8}px;">
+                            <canvas id="sc-moduleBar"></canvas>
+                        </div>` : `<div style="font-size:0.82rem; color:#10b981; padding:0.5rem 0;">✅ No module build failures across all builds</div>`}
                     </div>
                 </div>
-
-                <!-- Pie 2: UT Pass Rate -->
-                <div style="text-align:center;">
-                    <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Unit Test Pass Rate</div>
-                    <div style="position:relative; width:150px; margin:0 auto;">
-                        <canvas id="sc-utPie" width="150" height="150"></canvas>
-                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-                            <div style="font-size:1.5rem; font-weight:700; color:${utPassRate >= 50 ? '#3b82f6' : '#f59e0b'};">${utPassRate}%</div>
-                        </div>
-                    </div>
-                    <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
-                        <span style="color:#3b82f6;">✔ ${utPassed} passed</span> &nbsp;
-                        <span style="color:#f59e0b;">✘ ${utFailed} failed</span>
-                    </div>
-                </div>
-
-                <!-- Key Metrics + Failed Modules -->
-                <div>
-                    <!-- Stat tiles -->
-                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
-                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                            <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${total}</div>
-                            <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Total Builds</div>
-                        </div>
-                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                            <div style="font-size:1.3rem; font-weight:700; color:#f59e0b;">${avgDuration > 0 ? calculateDuration(avgDuration) : 'N/A'}</div>
-                            <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Avg Build Time</div>
-                        </div>
-                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                            <div style="font-size:1.5rem; font-weight:700; color:#a78bfa;">${avgCoverage ? avgCoverage + '%' : 'N/A'}</div>
-                            <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Avg UT Coverage</div>
-                        </div>
-                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                            <div style="font-size:1.5rem; font-weight:700; color:${healthColor};">${healthScore}</div>
-                            <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Health Score</div>
-                            <div style="font-size:0.65rem; color:${healthColor}; font-weight:600;">${healthLabel}</div>
-                        </div>
-                    </div>
-
-                    ${avgUtTests > 0 ? `
-                    <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#94a3b8;">
-                        <span>🧪 Avg tests/run: <strong style="color:var(--text);">${avgUtTests}</strong></span>
-                        <span>📊 Coverage tracked: <strong style="color:var(--text);">${covRevisions.length} run${covRevisions.length !== 1 ? 's' : ''}</strong></span>
-                    </div>` : ''}
-
-                    ${sortedFailures.length > 0 ? `
-                    <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.5rem; font-weight:600;">Most Failed Modules</div>
-                    <div style="position:relative; height:${Math.min(sortedFailures.length, 6) * 28 + 8}px;">
-                        <canvas id="sc-moduleBar"></canvas>
-                    </div>` : `
-                    <div style="font-size:0.82rem; color:#10b981; padding:0.5rem 0;">✅ No module build failures across all builds</div>`}
-                </div>
-
             </div>
+            ${reviewCardHtml}
         </div>
     `;
 
@@ -1205,25 +1276,12 @@ function renderScoreCard(dataList) {
 
     new Chart(document.getElementById('sc-buildPie'), {
         type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [passedBuilds || 0.001, failedBuilds],
-                backgroundColor: ['#10b981', '#ef4444'],
-                borderWidth: 2, borderColor: '#1e293b'
-            }]
-        },
+        data: { datasets: [{ data: [passedBuilds || 0.001, failedBuilds], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 2, borderColor: '#1e293b' }] },
         options: doughnutOpts
     });
-
     new Chart(document.getElementById('sc-utPie'), {
         type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [utPassed || 0.001, utFailed],
-                backgroundColor: ['#3b82f6', '#f59e0b'],
-                borderWidth: 2, borderColor: '#1e293b'
-            }]
-        },
+        data: { datasets: [{ data: [utPassed || 0.001, utFailed], backgroundColor: ['#3b82f6', '#f59e0b'], borderWidth: 2, borderColor: '#1e293b' }] },
         options: doughnutOpts
     });
 
@@ -1233,28 +1291,50 @@ function renderScoreCard(dataList) {
             type: 'bar',
             data: {
                 labels: topMods.map(([m]) => m),
-                datasets: [{
-                    data: topMods.map(([, c]) => c),
-                    backgroundColor: topMods.map(([, c]) => `rgba(239,68,68,${Math.min(0.4 + c * 0.1, 0.9)})`),
-                    borderColor: '#ef4444',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
+                datasets: [{ data: topMods.map(([, c]) => c), backgroundColor: topMods.map(([, c]) => `rgba(239,68,68,${Math.min(0.4 + c * 0.1, 0.9)})`), borderColor: '#ef4444', borderWidth: 1, borderRadius: 4 }]
             },
             options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: {
-                    label: ctx => ` Failed ${ctx.raw}× out of ${total} build${total !== 1 ? 's' : ''}`
-                }}},
-                scales: {
-                    x: { ticks: { color: '#64748b', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                    y: { ticks: { color: '#94a3b8', font: { size: 12 } }, grid: { display: false } }
-                },
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` Failed ${ctx.raw}× out of ${total} build${total !== 1 ? 's' : ''}` } } },
+                scales: { x: { ticks: { color: '#64748b', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#94a3b8', font: { size: 12 } }, grid: { display: false } } },
                 animation: { duration: 700 }
             }
         });
+    }
+
+    // ── PR Review charts ──────────────────────────────────────────────────────
+    if (hasReviewData) {
+        const engagedCount    = Math.min(rvOutdated + rvAuthorReplies, rvTotalComments);
+        const notEngagedCount = Math.max(rvTotalComments - engagedCount, 0);
+        const rvCopilotOpen   = Math.max(rvCopilotTotal - rvCopilotAddressed, 0);
+
+        new Chart(document.getElementById('sc-engagePie'), {
+            type: 'doughnut',
+            data: { datasets: [{ data: [engagedCount || 0.001, notEngagedCount], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 2, borderColor: '#1e293b' }] },
+            options: doughnutOpts
+        });
+        new Chart(document.getElementById('sc-copilotPie'), {
+            type: 'doughnut',
+            data: { datasets: [{ data: [rvCopilotAddressed || 0.001, rvCopilotOpen], backgroundColor: ['#a78bfa', '#f59e0b'], borderWidth: 2, borderColor: '#1e293b' }] },
+            options: doughnutOpts
+        });
+
+        const reviewBarEl = document.getElementById('sc-reviewBar');
+        if (reviewBarEl && (rvApproved + rvChangesReq) > 0) {
+            const labels = [], vals = [], colors = [];
+            if (rvApproved > 0)    { labels.push('Approved'); vals.push(rvApproved); colors.push('rgba(16,185,129,0.7)'); }
+            if (rvChangesReq > 0)  { labels.push('Changes Req.'); vals.push(rvChangesReq); colors.push('rgba(239,68,68,0.7)'); }
+            new Chart(reviewBarEl, {
+                type: 'bar',
+                data: { labels, datasets: [{ data: vals, backgroundColor: colors, borderColor: colors.map(c => c.replace('0.7', '1')), borderWidth: 1, borderRadius: 4 }] },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} review${ctx.raw !== 1 ? 's' : ''}` } } },
+                    scales: { x: { ticks: { color: '#64748b', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#94a3b8', font: { size: 12 } }, grid: { display: false } } },
+                    animation: { duration: 700 }
+                }
+            });
+        }
     }
 }
 // ── End Score Card ─────────────────────────────────────────────────────────────
