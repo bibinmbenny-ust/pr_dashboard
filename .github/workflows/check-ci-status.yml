@@ -75,12 +75,17 @@ jobs:
             
             echo "Fetching CI status for PR #$PR_NUMBER (SHA: $HEAD_SHA)"
             
-            # Get commit status
-            STATUS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/status || echo '{}')
+            # Get commit status (suppress stderr; override var on failure to avoid stdout/fallback concatenation)
+            STATUS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/status 2>/dev/null) \
+              || STATUS_RESPONSE='{}'
             CI_STATE=$(echo "$STATUS_RESPONSE" | jq -r '.state // "unknown"')
             
-            # Get check runs (GitHub Actions) and determine overall status
-            CHECKS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/check-runs || echo '{"check_runs":[]}')
+            # Get check runs — use assignment-form || to prevent gh error JSON concatenating with fallback
+            CHECKS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/check-runs 2>/dev/null) \
+              || CHECKS_RESPONSE='{"check_runs":[]}'
+            # Validate: if response has no check_runs key (e.g. API error body was captured), reset
+            echo "$CHECKS_RESPONSE" | jq -e '.check_runs' >/dev/null 2>&1 \
+              || CHECKS_RESPONSE='{"check_runs":[]}'
             
             # Check if any check run failed or is in error state
             HAS_FAILURE=$(echo "$CHECKS_RESPONSE" | jq -r '[.check_runs[].conclusion] | any(. == "failure" or . == "error")')
