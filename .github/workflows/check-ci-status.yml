@@ -39,9 +39,9 @@ jobs:
             exit 0
           fi
           
-          # Testing mode: only process PRs targeting the specific base branch
-          TEST_BRANCH="feature/pr_dashboard_source"
-          echo "⚠️ Testing mode: filtering to PRs targeting base branch: $TEST_BRANCH"
+          # Only process PRs targeting the specific base branch
+          TEST_BRANCH="uxbridge/FXOS_2_19_MAIN"
+          echo "Filtering to PRs targeting base branch: $TEST_BRANCH"
 
           # Get all open pull requests (filtered to PRs whose target/base is TEST_BRANCH)
           PRS_JSON=$(gh api repos/$REPO_NAME/pulls \
