@@ -239,28 +239,60 @@ jobs:
             DELETIONS=$(echo "$PR_DETAIL" | jq '.deletions // 0')
             MERGED=$(echo "$PR_DETAIL" | jq '.merged // false')
 
-            # Changed files with diff patches
-            FILES_RESP=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER/files || echo '[]')
+            # Changed files — name/status/counts only, no patch content (patches are huge)
+            FILES_RESP=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER/files 2>/dev/null || echo '[]')
             CHANGED_FILES_DETAILS=$(echo "$FILES_RESP" | jq '[.[] | {
               file_name: .filename, status: .status,
               additions: .additions, deletions: .deletions,
-              changes: .changes, patch: (.patch // "")
+              changes: .changes
             }]')
 
-            # ── PR Review analytics ───────────────────────────────────────
+            # ── PR Review analytics — counts only, never store full comment JSON ──
             REPO_OWNER=$(echo "$REPO_NAME" | cut -d'/' -f1)
             REPO_REPO=$(echo "$REPO_NAME"  | cut -d'/' -f2)
 
-            # Line-level code review comments (threads on diff hunks)
-            REVIEW_COMMENTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/comments?per_page=100" 2>/dev/null) \
-              || REVIEW_COMMENTS='[]'
-            # Formal reviews (APPROVE / CHANGES_REQUESTED / COMMENT)
-            PR_REVIEWS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews" 2>/dev/null) \
-              || PR_REVIEWS='[]'
-            # General PR discussion comments (non-review)
+            # Pipe API response directly through jq — extract counts, discard content
+            REVIEW_COUNTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/comments?per_page=100" 2>/dev/null \
+              | jq --arg author "$PR_AUTHOR" '{
+                  total:             length,
+                  copilot:           [.[] | select(.user.login | ascii_downcase | test("copilot"))] | length,
+                  copilot_addressed: [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position == null)] | length,
+                  copilot_open:      [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position != null)] | length,
+                  human:             [.[] | select(.user.type != "Bot" and .user.login != $author)] | length,
+                  author_replies:    [.[] | select(.user.login == $author and .in_reply_to_id != null)] | length,
+                  author_own:        [.[] | select(.user.login == $author and .in_reply_to_id == null)] | length,
+                  outdated:          [.[] | select(.position == null)] | length
+                }' 2>/dev/null) \
+              || REVIEW_COUNTS='{"total":0,"copilot":0,"copilot_addressed":0,"copilot_open":0,"human":0,"author_replies":0,"author_own":0,"outdated":0}'
+
+            TOTAL_REVIEW_COMMENTS=$(echo "$REVIEW_COUNTS" | jq '.total // 0')
+            COPILOT_COMMENTS=$(echo "$REVIEW_COUNTS"      | jq '.copilot // 0')
+            COPILOT_ADDRESSED=$(echo "$REVIEW_COUNTS"     | jq '.copilot_addressed // 0')
+            COPILOT_OPEN=$(echo "$REVIEW_COUNTS"          | jq '.copilot_open // 0')
+            HUMAN_REVIEWER_COMMENTS=$(echo "$REVIEW_COUNTS" | jq '.human // 0')
+            AUTHOR_REPLIES=$(echo "$REVIEW_COUNTS"        | jq '.author_replies // 0')
+            AUTHOR_OWN_COMMENTS=$(echo "$REVIEW_COUNTS"   | jq '.author_own // 0')
+            OUTDATED_THREADS=$(echo "$REVIEW_COUNTS"      | jq '.outdated // 0')
+
+            # Formal review decisions — counts only
+            REVIEW_DECISION_COUNTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews" 2>/dev/null \
+              | jq '{
+                  approved:           [.[] | select(.state == "APPROVED")] | length,
+                  changes_requested:  [.[] | select(.state == "CHANGES_REQUESTED")] | length,
+                  commented:          [.[] | select(.state == "COMMENTED")] | length,
+                  unique_reviewers:   ([.[] | select(.user.type != "Bot") | .user.login] | unique | length)
+                }' 2>/dev/null) \
+              || REVIEW_DECISION_COUNTS='{"approved":0,"changes_requested":0,"commented":0,"unique_reviewers":0}'
+
+            REVIEWS_APPROVED=$(echo "$REVIEW_DECISION_COUNTS"           | jq '.approved // 0')
+            REVIEWS_CHANGES_REQUESTED=$(echo "$REVIEW_DECISION_COUNTS" | jq '.changes_requested // 0')
+            REVIEWS_COMMENTED=$(echo "$REVIEW_DECISION_COUNTS"          | jq '.commented // 0')
+            UNIQUE_REVIEWERS=$(echo "$REVIEW_DECISION_COUNTS"           | jq '.unique_reviewers // 0')
+
+            # General PR discussion comments count (header only — no body fetched)
             GENERAL_COMMENTS_COUNT=$(gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=1" \
               --include 2>/dev/null | grep -oP '(?<=x-total-count: )\d+' || \
-              gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" 2>/dev/null \
+              gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=1" 2>/dev/null \
               | jq 'length' || echo 0)
 
             # GraphQL: accurate thread resolved/unresolved/outdated counts
@@ -281,37 +313,46 @@ jobs:
             GQL_UNRESOLVED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == false and .isOutdated == false)] | length' 2>/dev/null || echo 0)
             GQL_OUTDATED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isOutdated == true)] | length' 2>/dev/null || echo 0)
 
+            # Build REVIEW_STATS from small integers only — no large JSON passed as args
             REVIEW_STATS=$(jq -n \
-              --arg author "$PR_AUTHOR" \
-              --argjson rc "$REVIEW_COMMENTS" \
-              --argjson rv "$PR_REVIEWS" \
-              --argjson total_threads "$GQL_TOTAL" \
-              --argjson resolved_threads "$GQL_RESOLVED" \
-              --argjson unresolved_threads "$GQL_UNRESOLVED" \
-              --argjson outdated_threads_gql "$GQL_OUTDATED" \
-              --argjson general_comments "$GENERAL_COMMENTS_COUNT" \
+              --argjson total_review_comments     "$TOTAL_REVIEW_COMMENTS" \
+              --argjson general_comments          "$GENERAL_COMMENTS_COUNT" \
+              --argjson copilot_comments          "$COPILOT_COMMENTS" \
+              --argjson copilot_addressed         "$COPILOT_ADDRESSED" \
+              --argjson copilot_open              "$COPILOT_OPEN" \
+              --argjson human_reviewer_comments   "$HUMAN_REVIEWER_COMMENTS" \
+              --argjson author_replies            "$AUTHOR_REPLIES" \
+              --argjson author_own_comments       "$AUTHOR_OWN_COMMENTS" \
+              --argjson outdated_threads          "$OUTDATED_THREADS" \
+              --argjson total_threads             "$GQL_TOTAL" \
+              --argjson resolved_threads          "$GQL_RESOLVED" \
+              --argjson unresolved_threads        "$GQL_UNRESOLVED" \
+              --argjson outdated_threads_gql      "$GQL_OUTDATED" \
+              --argjson reviews_approved          "$REVIEWS_APPROVED" \
+              --argjson reviews_changes_requested "$REVIEWS_CHANGES_REQUESTED" \
+              --argjson reviews_commented         "$REVIEWS_COMMENTED" \
+              --argjson unique_reviewers          "$UNIQUE_REVIEWERS" \
               '{
-                total_review_comments:       ($rc | length),
+                total_review_comments:       $total_review_comments,
                 general_comments:            $general_comments,
-                copilot_comments:            ($rc | [.[] | select(.user.login | ascii_downcase | test("copilot"))] | length),
-                copilot_addressed:           ($rc | [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position == null)] | length),
-                copilot_open:                ($rc | [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position != null)] | length),
-                human_reviewer_comments:     ($rc | [.[] | select(.user.type != "Bot" and .user.login != $author)] | length),
-                author_replies:              ($rc | [.[] | select(.user.login == $author and .in_reply_to_id != null)] | length),
-                author_own_comments:         ($rc | [.[] | select(.user.login == $author and .in_reply_to_id == null)] | length),
-                outdated_threads:            ($rc | [.[] | select(.position == null)] | length),
+                copilot_comments:            $copilot_comments,
+                copilot_addressed:           $copilot_addressed,
+                copilot_open:               $copilot_open,
+                human_reviewer_comments:     $human_reviewer_comments,
+                author_replies:              $author_replies,
+                author_own_comments:         $author_own_comments,
+                outdated_threads:            $outdated_threads,
                 total_threads:               $total_threads,
                 resolved_threads:            $resolved_threads,
                 unresolved_threads:          $unresolved_threads,
                 outdated_threads_gql:        $outdated_threads_gql,
-                reviews_approved:            ($rv | [.[] | select(.state == "APPROVED")] | length),
-                reviews_changes_requested:   ($rv | [.[] | select(.state == "CHANGES_REQUESTED")] | length),
-                reviews_commented:           ($rv | [.[] | select(.state == "COMMENTED")] | length),
-                unique_reviewers:            ($rv | [.[] | select(.user.type != "Bot") | .user.login] | unique | length),
+                reviews_approved:            $reviews_approved,
+                reviews_changes_requested:   $reviews_changes_requested,
+                reviews_commented:           $reviews_commented,
+                unique_reviewers:            $unique_reviewers,
                 engagement_score: (
                   if $total_threads == 0 then 100
-                  else
-                    ($resolved_threads * 100 / $total_threads) | floor | [100, .] | min
+                  else ($resolved_threads * 100 / $total_threads) | floor | [100, .] | min
                   end
                 )
               }')
@@ -428,6 +469,8 @@ jobs:
               done < <(echo "$BANNER_BODY" | grep -P '^\| \*\*')
 
               # Write large blobs to temp files to avoid "Argument list too long"
+              CFD_TMP=$(mktemp /tmp/cfd_XXXXXX.json)
+              echo "$CHANGED_FILES_DETAILS" > "$CFD_TMP"
               GA_TMP=$(mktemp /tmp/ga_XXXXXX.json)
               echo "$GH_ACTIONS_FINAL" > "$GA_TMP"
               CR_TMP=$(mktemp /tmp/cr_XXXXXX.json)
@@ -458,13 +501,13 @@ jobs:
                 --arg failed_stage "$FAILED_STAGES" \
                 --argjson errors "$DASH_ERRORS" \
                 --arg error_message "$DASH_ERROR_MSG" \
-                --argjson changed_files_details "$CHANGED_FILES_DETAILS" \
                 --argjson revision "$BUILD_NUM" \
                 --arg banner_comment_id "$COMMENT_ID" \
                 --arg ai_suggestion "" \
                 --slurpfile check_runs "$CR_TMP" \
                 --slurpfile review_stats "$RS_TMP" \
                 --slurpfile github_actions_runs "$GA_TMP" \
+                --slurpfile cfd "$CFD_TMP" \
                 '. + {
                   title: $title, changed_files: $changed_files, additions: $additions,
                   deletions: $deletions, merged: $merged, pr_id: $pr_id, author: $author,
@@ -474,7 +517,7 @@ jobs:
                   jenkins_build_number: $jenkins_build_number, jenkins_build_url: $jenkins_build_url,
                   total_failures: $total_failures, failed_stage: $failed_stage,
                   errors: $errors, error_message: $error_message,
-                  changed_files_details: $changed_files_details,
+                  changed_files_details: $cfd[0],
                   revision: ($revision | tonumber),
                   banner_comment_id: ($banner_comment_id | tonumber),
                   ai_suggestion: $ai_suggestion,
@@ -482,7 +525,7 @@ jobs:
                   review_stats: $review_stats[0],
                   github_actions_runs: $github_actions_runs[0]
                 }')
-              rm -f "$CR_TMP" "$RS_TMP"
+              rm -f "$CR_TMP" "$RS_TMP" "$CFD_TMP"
 
               ENTRY_TMP=$(mktemp /tmp/dash_entry_XXXXXX.json)
               echo "$DASH_ENTRY" > "$ENTRY_TMP"
