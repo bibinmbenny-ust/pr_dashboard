@@ -464,6 +464,77 @@ ${window.currentPRAISuggestion}
 }
 
 // Main function to create a single collapsible revision card
+function renderCheckRuns(data) {
+    const checks = data.check_runs;
+    if (!checks || checks.length === 0) return '';
+
+    const iconFor = (conclusion, status) => {
+        if (status === 'in_progress' || status === 'queued') return '⏳';
+        switch (conclusion) {
+            case 'success':   return '✅';
+            case 'failure':   return '❌';
+            case 'cancelled': return '🚫';
+            case 'skipped':   return '⏭️';
+            case 'timed_out': return '⌛';
+            default:          return '🔵';
+        }
+    };
+
+    const colorFor = conclusion => {
+        switch (conclusion) {
+            case 'success':    return '#10b981';
+            case 'failure':    return '#ef4444';
+            case 'cancelled':  return '#64748b';
+            case 'timed_out':  return '#f59e0b';
+            case 'in_progress':return '#3b82f6';
+            default:           return '#94a3b8';
+        }
+    };
+
+    const rows = checks.map(c => {
+        const icon = iconFor(c.conclusion, c.status);
+        const color = colorFor(c.conclusion === 'in_progress' ? c.status : c.conclusion);
+        const dur = c.duration_seconds > 0 ? `<span style="color:#64748b;font-size:0.72rem;">${calculateDuration(c.duration_seconds)}</span>` : '';
+        const link = c.details_url
+            ? `<a href="${c.details_url}" target="_blank" style="color:var(--cisco-blue);font-size:0.78rem;text-decoration:none;">↗ details</a>`
+            : '';
+        const summary = c.summary ? `<div style="color:#64748b;font-size:0.72rem;margin-top:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;">${c.summary}</div>` : '';
+        const appBadge = c.app ? `<span style="font-size:0.65rem;color:#475569;background:rgba(255,255,255,0.05);padding:0.1rem 0.35rem;border-radius:0.25rem;">${c.app}</span>` : '';
+        return `
+            <div style="display:grid;grid-template-columns:1.4rem 1fr auto auto;align-items:start;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                <span style="font-size:1rem;">${icon}</span>
+                <div>
+                    <span style="color:${color};font-weight:600;font-size:0.82rem;">${c.name}</span>
+                    ${appBadge}
+                    ${summary}
+                </div>
+                ${dur}
+                ${link}
+            </div>`;
+    }).join('');
+
+    const failCount = checks.filter(c => c.conclusion === 'failure').length;
+    const pendCount = checks.filter(c => c.status === 'in_progress' || c.status === 'queued').length;
+    const passCount = checks.filter(c => c.conclusion === 'success').length;
+
+    const headerColor = failCount > 0 ? '#ef4444' : pendCount > 0 ? '#3b82f6' : '#10b981';
+    const headerLabel = failCount > 0 ? `${failCount} failed` : pendCount > 0 ? `${pendCount} in progress` : 'all passed';
+
+    return `
+        <div class="card" style="grid-column:1/-1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                <span style="font-weight:700;font-size:0.9rem;color:var(--cisco-blue);">🔍 Pre-Commit Checks</span>
+                <span style="font-size:0.78rem;color:${headerColor};">
+                    ✅ ${passCount} passed &nbsp;
+                    ${failCount > 0 ? `❌ ${failCount} failed &nbsp;` : ''}
+                    ${pendCount > 0 ? `⏳ ${pendCount} pending` : ''}
+                    — <strong>${headerLabel}</strong>
+                </span>
+            </div>
+            ${rows}
+        </div>`;
+}
+
 function createRevisionCard(data, isOpen = '') {
     const overallStatus = getOverallStatus(data);
     const summaryStatusBadge = `<span class="revision-status-display ${getStatusBgClass(overallStatus)}">${overallStatus}</span>`;
@@ -492,6 +563,8 @@ function createRevisionCard(data, isOpen = '') {
                 <div class="card">
                     ${renderMetrics(data)}
                 </div>
+
+                ${renderCheckRuns(data)}
 
                 ${renderFilesChanged(data)}
                 

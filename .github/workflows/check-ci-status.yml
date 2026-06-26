@@ -106,6 +106,32 @@ jobs:
             
             AI_SUGGESTION=""
 
+            # ── Extract structured check run details for dashboard ──────────
+            CHECK_RUNS_DATA=$(echo "$CHECKS_RESPONSE" | jq '[.check_runs[] | {
+              name: .name,
+              app: (.app.name // ""),
+              status: .status,
+              conclusion: (.conclusion // "in_progress"),
+              started_at: (.started_at // ""),
+              completed_at: (.completed_at // ""),
+              duration_seconds: (
+                if (.started_at != null and .completed_at != null
+                    and .started_at != "" and .completed_at != "") then
+                  ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
+                else 0 end
+              ),
+              details_url: (.details_url // ""),
+              summary: (.output.summary // "")
+            }]')
+
+            # Real CI duration from the Jenkins pre-commit check run (most accurate source)
+            JENKINS_CHECK_DURATION=$(echo "$CHECKS_RESPONSE" | jq -r '[
+              .check_runs[]
+              | select(.name | ascii_downcase | test("jenkins.*pre.*commit|pre.*commit.*workflow|jenkins-pre"))
+              | select(.started_at != null and .completed_at != null and .started_at != "")
+              | ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
+            ] | first // 0')
+
             # ── Generate dashboard_<PR>.json from Jenkins banner comments ──
             PR_TITLE=$(echo "$PR" | jq -r '.title')
             PR_AUTHOR=$(echo "$PR" | jq -r '.author')
@@ -168,6 +194,21 @@ jobs:
                 CI_START_TIME=$(date -d "$CI_START_RAW" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "$BANNER_CREATED")
               else
                 CI_START_TIME="$BANNER_CREATED"
+              fi
+
+              # CI duration: Jenkins posts the banner on build completion, so
+              # BANNER_CREATED ≈ build end time and ⏰ timestamp = build start time
+              CI_DURATION=0
+              if [ -n "$CI_START_RAW" ]; then
+                START_EPOCH=$(date -d "$CI_START_TIME" +%s 2>/dev/null || echo 0)
+                END_EPOCH=$(date -d "$BANNER_CREATED" +%s 2>/dev/null || echo 0)
+                if [ "$END_EPOCH" -gt "$START_EPOCH" ]; then
+                  CI_DURATION=$(( END_EPOCH - START_EPOCH ))
+                fi
+              fi
+              # Fall back to Jenkins GitHub check run timing if banner timing unavailable
+              if [ "$CI_DURATION" -eq 0 ] && [ "${JENKINS_CHECK_DURATION:-0}" -gt 0 ]; then
+                CI_DURATION="$JENKINS_CHECK_DURATION"
               fi
 
               # Unit Tests status (from <summary> line icon)
@@ -243,7 +284,7 @@ jobs:
                 --arg head_branch "$PR_HEAD_BRANCH" \
                 --arg commit_hash "$COMMIT_HASH" \
                 --arg ci_start_time "$CI_START_TIME" \
-                --argjson ci_duration 0 \
+                --argjson ci_duration "$CI_DURATION" \
                 --arg jenkins_build_number "$BUILD_NUM" \
                 --arg jenkins_build_url "$JENKINS_BUILD_URL" \
                 --argjson total_failures "$TOTAL_FAILURES" \
@@ -254,6 +295,7 @@ jobs:
                 --argjson revision "$BUILD_NUM" \
                 --arg banner_comment_id "$COMMENT_ID" \
                 --arg ai_suggestion "" \
+                --argjson check_runs "$CHECK_RUNS_DATA" \
                 '. + {
                   title: $title, changed_files: $changed_files, additions: $additions,
                   deletions: $deletions, merged: $merged, pr_id: $pr_id, author: $author,
@@ -266,7 +308,8 @@ jobs:
                   changed_files_details: $changed_files_details,
                   revision: ($revision | tonumber),
                   banner_comment_id: ($banner_comment_id | tonumber),
-                  ai_suggestion: $ai_suggestion
+                  ai_suggestion: $ai_suggestion,
+                  check_runs: $check_runs
                 }')
 
               jq --argjson entry "$DASH_ENTRY" '. + [$entry]' "$DASH_FILE" > /tmp/dash_tmp.json
