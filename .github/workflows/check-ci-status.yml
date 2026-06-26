@@ -113,6 +113,7 @@ jobs:
             PR_UPDATED=$(echo "$PR" | jq -r '.updated_at')
             PR_HEAD_BRANCH=$(echo "$PR" | jq -r '.head_branch')
             PR_BASE_BRANCH=$(echo "$PR" | jq -r '.base_branch')
+            JENKINS_BUILD_URL="https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-${PR_NUMBER}/"
 
             # Extra PR detail: file counts, additions, deletions, merged flag
             PR_DETAIL=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER || echo '{}')
@@ -132,139 +133,157 @@ jobs:
               patch: (.patch // "")
             }]')
 
-            # Build per-module metrics from check runs
-            MODULE_METRICS="{}"
-            FAILED_STAGES=""
-            TOTAL_FAILURES=0
-            DASH_ERRORS="[]"
-            DASH_ERROR_MSG=""
-            RUN_COUNT=$(echo "$CHECKS_RESPONSE" | jq '.check_runs | length')
-            CI_START_TIME=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].started_at // ""')
-            CI_COMPLETED_TIME=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].completed_at // ""')
-            JENKINS_BUILD_URL="https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-${PR_NUMBER}/"
-            JENKINS_BUILD_NUMBER=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].external_id // "N/A"')
+            # Fetch every commit on this PR
+            PR_COMMITS=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER/commits || echo '[]')
+            COMMIT_COUNT=$(echo "$PR_COMMITS" | jq 'length')
 
-            if [ "$RUN_COUNT" -gt 0 ]; then
-              for j in $(seq 0 $((RUN_COUNT - 1))); do
-                RUN=$(echo "$CHECKS_RESPONSE" | jq ".check_runs[$j]")
-                RUN_NAME=$(echo "$RUN" | jq -r '.name')
-                RUN_CONCLUSION=$(echo "$RUN" | jq -r '.conclusion // "pending"')
-                RUN_URL=$(echo "$RUN" | jq -r '.details_url // ""')
-                RUN_TITLE=$(echo "$RUN" | jq -r '.output.title // ""')
+            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
+            [ -f "$DASH_FILE" ] || echo "[]" > "$DASH_FILE"
 
-                if [ "$RUN_CONCLUSION" = "success" ]; then
-                  BUILD_STATUS="SUCCESS"
-                elif [ "$RUN_CONCLUSION" = "failure" ] || [ "$RUN_CONCLUSION" = "error" ]; then
-                  BUILD_STATUS="FAILURE"
-                  TOTAL_FAILURES=$((TOTAL_FAILURES + 1))
-                  FAILED_STAGES="${FAILED_STAGES:+$FAILED_STAGES, }$RUN_NAME"
-                  ERR_ENTRY=$(jq -n \
-                    --arg stage "$RUN_NAME" \
-                    --arg url "$RUN_URL" \
-                    --arg preview "$RUN_TITLE" \
-                    '{stage: $stage, status: "FAILURE", error_log_url: $url, stage_type: "build", error_count: 0, error_preview: $preview, has_full_details: false}')
-                  DASH_ERRORS=$(echo "$DASH_ERRORS" | jq --argjson e "$ERR_ENTRY" '. + [$e]')
-                  if [ -n "$DASH_ERROR_MSG" ]; then
-                    DASH_ERROR_MSG="$DASH_ERROR_MSG"$'\n'"❌ $RUN_NAME: $RUN_TITLE"
-                  else
-                    DASH_ERROR_MSG="❌ $RUN_NAME: $RUN_TITLE"
-                  fi
-                else
-                  BUILD_STATUS="PENDING"
+            for k in $(seq 0 $((COMMIT_COUNT - 1))); do
+              COMMIT_SHA=$(echo "$PR_COMMITS" | jq -r ".[$k].sha")
+
+              # Fetch CI check runs for this commit
+              COMMIT_CHECKS=$(gh api repos/$REPO_NAME/commits/$COMMIT_SHA/check-runs || echo '{"check_runs":[]}')
+
+              # Group by check_suite_id — each unique suite = one CI build trigger
+              # This handles: same commit re-triggered N times → N revisions
+              SUITE_IDS=$(echo "$COMMIT_CHECKS" | jq -r '[.check_runs[].check_suite.id] | unique | .[]' 2>/dev/null || echo "")
+
+              if [ -z "$SUITE_IDS" ]; then
+                echo "    No CI check suites for commit $COMMIT_SHA, skipping"
+                continue
+              fi
+
+              for SUITE_ID in $SUITE_IDS; do
+                # Deduplicate by commit_hash + check_suite_id
+                ALREADY=$(jq --arg sha "$COMMIT_SHA" --arg sid "$SUITE_ID" \
+                  '[.[] | select(.commit_hash == $sha and (.check_suite_id // "" | tostring) == $sid)] | length' "$DASH_FILE")
+                if [ "$ALREADY" -gt 0 ]; then
+                  echo "    Suite $SUITE_ID / commit $COMMIT_SHA already recorded, skipping"
+                  continue
                 fi
 
-                MODULE_METRICS=$(echo "$MODULE_METRICS" | jq \
-                  --arg k "${RUN_NAME}: Build Status" \
-                  --arg v "$BUILD_STATUS" \
-                  '. + {($k): $v}')
-              done
-            fi
+                # Runs belonging to this suite only
+                SUITE_RUNS=$(echo "$COMMIT_CHECKS" | jq --arg sid "$SUITE_ID" \
+                  '[.check_runs[] | select(.check_suite.id | tostring == $sid)]')
 
-            # Calculate CI duration in seconds
-            if [ -n "$CI_START_TIME" ] && [ "$CI_START_TIME" != "null" ] && \
-               [ -n "$CI_COMPLETED_TIME" ] && [ "$CI_COMPLETED_TIME" != "null" ]; then
-              START_EPOCH=$(date -d "$CI_START_TIME" +%s 2>/dev/null || echo "0")
-              END_EPOCH=$(date -d "$CI_COMPLETED_TIME" +%s 2>/dev/null || echo "0")
-              CI_DURATION=$((END_EPOCH - START_EPOCH))
-            else
-              CI_DURATION=0
-            fi
+                MODULE_METRICS="{}"
+                FAILED_STAGES=""
+                TOTAL_FAILURES=0
+                DASH_ERRORS="[]"
+                DASH_ERROR_MSG=""
+                CI_START_TIME=$(echo "$SUITE_RUNS" | jq -r '.[0].started_at // ""')
+                CI_COMPLETED_TIME=$(echo "$SUITE_RUNS" | jq -r '.[0].completed_at // ""')
+                JENKINS_BUILD_NUMBER=$(echo "$SUITE_RUNS" | jq -r '.[0].external_id // "N/A"')
+                SUITE_RUN_COUNT=$(echo "$SUITE_RUNS" | jq 'length')
 
-            # Assemble full dashboard entry
-            DASH_ENTRY=$(echo "$MODULE_METRICS" | jq \
-              --arg title "$PR_TITLE" \
-              --argjson changed_files "$CHANGED_FILES_COUNT" \
-              --argjson additions "$ADDITIONS" \
-              --argjson deletions "$DELETIONS" \
-              --argjson merged "$MERGED" \
-              --arg pr_id "$PR_NUMBER" \
-              --arg author "$PR_AUTHOR" \
-              --arg created_at "$PR_CREATED" \
-              --arg updated_at "$PR_UPDATED" \
-              --arg pr_state "open" \
-              --arg base_branch "$PR_BASE_BRANCH" \
-              --arg head_branch "$PR_HEAD_BRANCH" \
-              --arg commit_hash "$HEAD_SHA" \
-              --arg ci_start_time "$CI_START_TIME" \
-              --argjson ci_duration "$CI_DURATION" \
-              --arg jenkins_build_number "$JENKINS_BUILD_NUMBER" \
-              --arg jenkins_build_url "$JENKINS_BUILD_URL" \
-              --argjson total_failures "$TOTAL_FAILURES" \
-              --arg failed_stage "$FAILED_STAGES" \
-              --argjson errors "$DASH_ERRORS" \
-              --arg error_message "$DASH_ERROR_MSG" \
-              --argjson changed_files_details "$CHANGED_FILES_DETAILS" \
-              --arg ai_suggestion "" \
-              '. + {
-                title: $title,
-                changed_files: $changed_files,
-                additions: $additions,
-                deletions: $deletions,
-                merged: $merged,
-                pr_id: $pr_id,
-                author: $author,
-                created_at: $created_at,
-                updated_at: $updated_at,
-                pr_state: $pr_state,
-                base_branch: $base_branch,
-                head_branch: $head_branch,
-                commit_hash: $commit_hash,
-                ci_start_time: $ci_start_time,
-                ci_duration_seconds: $ci_duration,
-                jenkins_build_number: $jenkins_build_number,
-                jenkins_build_url: $jenkins_build_url,
-                total_failures: $total_failures,
-                failed_stage: $failed_stage,
-                errors: $errors,
-                error_message: $error_message,
-                changed_files_details: $changed_files_details,
-                ai_suggestion: $ai_suggestion
-              }')
+                for j in $(seq 0 $((SUITE_RUN_COUNT - 1))); do
+                  RUN=$(echo "$SUITE_RUNS" | jq ".[$j]")
+                  RUN_NAME=$(echo "$RUN" | jq -r '.name')
+                  RUN_CONCLUSION=$(echo "$RUN" | jq -r '.conclusion // "pending"')
+                  RUN_URL=$(echo "$RUN" | jq -r '.details_url // ""')
+                  RUN_TITLE=$(echo "$RUN" | jq -r '.output.title // ""')
 
-            # ── Revision-aware file write ──────────────────────────────────
-            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
-            if [ -f "$DASH_FILE" ]; then
-              # Check if this commit SHA already has an entry
-              SHA_EXISTS=$(jq --arg sha "$HEAD_SHA" '[.[] | select(.commit_hash == $sha)] | length' "$DASH_FILE")
-              if [ "$SHA_EXISTS" -gt 0 ]; then
-                # Same commit: update existing entry in place
-                UPDATED=$(jq --arg sha "$HEAD_SHA" --argjson entry "$DASH_ENTRY" \
-                  'map(if .commit_hash == $sha then $entry + {revision: .revision} else . end)' "$DASH_FILE")
-                echo "$UPDATED" > "$DASH_FILE"
-                echo "✅ Updated existing revision for SHA $HEAD_SHA in dashboard_${PR_NUMBER}.json"
-              else
-                # New commit: append as next revision
-                NEXT_REV=$(jq '[.[].revision] | max + 1' "$DASH_FILE")
-                DASH_ENTRY=$(echo "$DASH_ENTRY" | jq --argjson rev "$NEXT_REV" '. + {revision: $rev}')
+                  if [ "$RUN_CONCLUSION" = "success" ]; then
+                    BUILD_STATUS="SUCCESS"
+                  elif [ "$RUN_CONCLUSION" = "failure" ] || [ "$RUN_CONCLUSION" = "error" ]; then
+                    BUILD_STATUS="FAILURE"
+                    TOTAL_FAILURES=$((TOTAL_FAILURES + 1))
+                    FAILED_STAGES="${FAILED_STAGES:+$FAILED_STAGES, }$RUN_NAME"
+                    ERR_ENTRY=$(jq -n \
+                      --arg stage "$RUN_NAME" \
+                      --arg url "$RUN_URL" \
+                      --arg preview "$RUN_TITLE" \
+                      '{stage: $stage, status: "FAILURE", error_log_url: $url, stage_type: "build", error_count: 0, error_preview: $preview, has_full_details: false}')
+                    DASH_ERRORS=$(echo "$DASH_ERRORS" | jq --argjson e "$ERR_ENTRY" '. + [$e]')
+                    if [ -n "$DASH_ERROR_MSG" ]; then
+                      DASH_ERROR_MSG="$DASH_ERROR_MSG"$'\n'"❌ $RUN_NAME: $RUN_TITLE"
+                    else
+                      DASH_ERROR_MSG="❌ $RUN_NAME: $RUN_TITLE"
+                    fi
+                  else
+                    BUILD_STATUS="PENDING"
+                  fi
+
+                  MODULE_METRICS=$(echo "$MODULE_METRICS" | jq \
+                    --arg k "${RUN_NAME}: Build Status" \
+                    --arg v "$BUILD_STATUS" \
+                    '. + {($k): $v}')
+                done
+
+                # Calculate CI duration
+                if [ -n "$CI_START_TIME" ] && [ "$CI_START_TIME" != "null" ] && \
+                   [ -n "$CI_COMPLETED_TIME" ] && [ "$CI_COMPLETED_TIME" != "null" ]; then
+                  START_EPOCH=$(date -d "$CI_START_TIME" +%s 2>/dev/null || echo "0")
+                  END_EPOCH=$(date -d "$CI_COMPLETED_TIME" +%s 2>/dev/null || echo "0")
+                  CI_DURATION=$((END_EPOCH - START_EPOCH))
+                else
+                  CI_DURATION=0
+                fi
+
+                NEXT_REV=$(jq 'if length == 0 then 1 else ([.[].revision] | max + 1) end' "$DASH_FILE")
+
+                DASH_ENTRY=$(echo "$MODULE_METRICS" | jq \
+                  --arg title "$PR_TITLE" \
+                  --argjson changed_files "$CHANGED_FILES_COUNT" \
+                  --argjson additions "$ADDITIONS" \
+                  --argjson deletions "$DELETIONS" \
+                  --argjson merged "$MERGED" \
+                  --arg pr_id "$PR_NUMBER" \
+                  --arg author "$PR_AUTHOR" \
+                  --arg created_at "$PR_CREATED" \
+                  --arg updated_at "$PR_UPDATED" \
+                  --arg pr_state "open" \
+                  --arg base_branch "$PR_BASE_BRANCH" \
+                  --arg head_branch "$PR_HEAD_BRANCH" \
+                  --arg commit_hash "$COMMIT_SHA" \
+                  --arg ci_start_time "$CI_START_TIME" \
+                  --argjson ci_duration "$CI_DURATION" \
+                  --arg jenkins_build_number "$JENKINS_BUILD_NUMBER" \
+                  --arg jenkins_build_url "$JENKINS_BUILD_URL" \
+                  --argjson total_failures "$TOTAL_FAILURES" \
+                  --arg failed_stage "$FAILED_STAGES" \
+                  --argjson errors "$DASH_ERRORS" \
+                  --arg error_message "$DASH_ERROR_MSG" \
+                  --argjson changed_files_details "$CHANGED_FILES_DETAILS" \
+                  --argjson revision "$NEXT_REV" \
+                  --arg check_suite_id "$SUITE_ID" \
+                  --arg ai_suggestion "" \
+                  '. + {
+                    title: $title,
+                    changed_files: $changed_files,
+                    additions: $additions,
+                    deletions: $deletions,
+                    merged: $merged,
+                    pr_id: $pr_id,
+                    author: $author,
+                    created_at: $created_at,
+                    updated_at: $updated_at,
+                    pr_state: $pr_state,
+                    base_branch: $base_branch,
+                    head_branch: $head_branch,
+                    commit_hash: $commit_hash,
+                    ci_start_time: $ci_start_time,
+                    ci_duration_seconds: $ci_duration,
+                    jenkins_build_number: $jenkins_build_number,
+                    jenkins_build_url: $jenkins_build_url,
+                    total_failures: $total_failures,
+                    failed_stage: $failed_stage,
+                    errors: $errors,
+                    error_message: $error_message,
+                    changed_files_details: $changed_files_details,
+                    revision: $revision,
+                    check_suite_id: $check_suite_id,
+                    ai_suggestion: $ai_suggestion
+                  }')
+
                 jq --argjson entry "$DASH_ENTRY" '. + [$entry]' "$DASH_FILE" > /tmp/dash_tmp.json
                 mv /tmp/dash_tmp.json "$DASH_FILE"
-                echo "✅ Appended revision $NEXT_REV for new commit $HEAD_SHA in dashboard_${PR_NUMBER}.json"
-              fi
-            else
-              # First run: create file with revision 1
-              echo "[$(echo "$DASH_ENTRY" | jq '. + {revision: 1}')]" > "$DASH_FILE"
-              echo "✅ Created dashboard_${PR_NUMBER}.json (revision 1)"
-            fi
+                echo "✅ Appended revision $NEXT_REV (suite $SUITE_ID, commit $COMMIT_SHA)"
+              done
+            done
+            echo "dashboard_${PR_NUMBER}.json now has $(jq 'length' "$DASH_FILE") revision(s)"
             # ── End dashboard file ─────────────────────────────────────────
 
             # Combine PR data with CI status and AI suggestion
