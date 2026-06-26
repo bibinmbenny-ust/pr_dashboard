@@ -16,52 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🔐 Authenticate with Vault
+      - name: 🔐 Set GitHub Token
         id: vault_auth
         run: |
-          VAULT_NAMESPACE="${{ secrets.VAULT_NAMESPACE }}"
-          if [[ -z "$VAULT_NAMESPACE" ]]; then VAULT_NAMESPACE="firepower/git-emu"; fi
-          
-          # 1. Login (AppRole)
-          echo "Authenticating with Vault..."
-          AUTH_RESPONSE=$(curl -s -k -X POST \
-            -H "Content-Type: application/json" \
-            -H "X-Vault-Namespace: $VAULT_NAMESPACE" \
-            -d "{ \"role_id\": \"${{ secrets.VAULT_ROLE_ID }}\", \"secret_id\": \"${{ secrets.VAULT_SECRET_ID }}\" }" \
-            "${{ secrets.VAULT_URL }}/v1/auth/approle/login")
-          
-          if [[ $? -ne 0 ]]; then 
-            echo "❌ Curl failed."
-            exit 1
-          fi
-          
-          VAULT_TOKEN=$(echo "$AUTH_RESPONSE" | jq -r '.auth.client_token // empty')
-          
-          if [[ -z "$VAULT_TOKEN" ]]; then 
-            echo "❌ Auth Failed"
-            exit 1
-          fi
-          
-          echo "::add-mask::$VAULT_TOKEN"
-          echo "✅ Vault authentication successful"
-          
-          # 2. Get GitHub PAT (Generic key retrieval)
-          echo "Retrieving GitHub PAT from Vault..."
-          SECRET_RESPONSE=$(curl -s -k -X GET \
-            -H "X-Vault-Token: $VAULT_TOKEN" \
-            -H "X-Vault-Namespace: $VAULT_NAMESPACE" \
-            "${{ secrets.VAULT_URL }}/v1/test/data/snort3-kv")
-          
-          GH_PAT=$(echo "$SECRET_RESPONSE" | jq -r '.data.data | to_entries[0].value // empty')
-          
-          if [[ -z "$GH_PAT" ]]; then 
-            echo "❌ PAT not found."
-            exit 1
-          fi
-          
-          echo "::add-mask::$GH_PAT"
-          echo "✅ GitHub token retrieved from Vault"
-          echo "GH_TOKEN=$GH_PAT" >> $GITHUB_ENV
+          echo "GH_TOKEN=${{ secrets.FXOS_PAT }}" >> $GITHUB_ENV
+          echo "✅ GitHub token loaded from Actions secret"
 
       - name: Get All Open PRs from FXOS
         id: get-prs
@@ -70,7 +29,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PROJECT_NAME="FXOS"
-          REPO_NAME="cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1"
+          REPO_NAME="cisco-sbg-emu/netsec-fxos"
           
           echo "Fetching all open PRs from $REPO_NAME"
           
@@ -145,40 +104,7 @@ jobs:
               FINAL_STATUS="failure"
             fi
             
-            # AI Analysis for failed builds (using GitHub Models API)
             AI_SUGGESTION=""
-            if [ "$FINAL_STATUS" = "failure" ]; then
-              echo "🤖 Analyzing failure for PR #$PR_NUMBER with AI..."
-              
-              # Get PR details for context
-              PR_TITLE=$(echo "$PR" | jq -r '.title')
-              PR_BRANCH=$(echo "$PR" | jq -r '.head_branch')
-              
-              # Get recent commit messages for more context
-              COMMIT_MESSAGES=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER/commits --jq '.[].commit.message' | head -5 || echo "No commit messages")
-              
-              # Get check run details for error messages
-              CHECK_ERRORS=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[] | select(.conclusion == "failure") | .name + ": " + .output.title' 2>/dev/null || echo "No detailed error info")
-              
-              # Create AI prompt (single line to avoid YAML parsing issues)
-              AI_PROMPT="Analyze this GitHub PR CI failure and provide actionable suggestions: PR Title: $PR_TITLE, Branch: $PR_BRANCH, Failed Checks: $CHECK_ERRORS, Recent Commits: $COMMIT_MESSAGES. Provide: 1. Likely root cause (2-3 sentences) 2. Specific fix suggestions (2-3 action items) 3. Prevention tips. Be concise and technical."
-
-              # Call GitHub Models API (Copilot)
-              # Note: Using GITHUB_TOKEN with GitHub Models endpoint
-              AI_RESPONSE=$(curl -s -X POST \
-                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-                -H "Content-Type: application/json" \
-                -d "{
-                  \"model\": \"gpt-4o\",
-                  \"messages\": [{\"role\": \"user\", \"content\": $(echo "$AI_PROMPT" | jq -Rs .)}],
-                  \"max_tokens\": 500
-                }" \
-                "https://models.inference.ai.azure.com/chat/completions" 2>/dev/null || echo '{"error": "AI service unavailable"}')
-              
-              AI_SUGGESTION=$(echo "$AI_RESPONSE" | jq -r '.choices[0].message.content // "AI analysis unavailable"' 2>/dev/null || echo "AI analysis unavailable")
-              
-              echo "AI Suggestion: $AI_SUGGESTION"
-            fi
             
             # Combine PR data with CI status and AI suggestion
             ENRICHED_PR=$(echo "$PR" | jq \
@@ -218,8 +144,8 @@ jobs:
           # Save PR list to project-specific directory
           mkdir -p pr-reports/$PROJECT_NAME
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          echo "$PRS_JSON" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" \
-            '{project: $project, timestamp: $ts, repository: "'$REPO_NAME'", total_count: length, pull_requests: .}' \
+          echo "$PRS_JSON" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
+            '{project: $project, timestamp: $ts, repository: $repo, total_count: length, pull_requests: .}' \
             > pr-reports/$PROJECT_NAME/pr-list.json
 
       - name: Display PR Summary for FXOS

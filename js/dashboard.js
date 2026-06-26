@@ -2,7 +2,7 @@
 const PROJECT_CONFIG = {
     'FXOS': {
         name: 'FXOS',
-        repo: 'cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1',
+        repo: 'cisco-sbg-emu/netsec-fxos',
         displayName: 'Firepower eXtensible Operating System (FXOS)'
     },
     'IMS': {
