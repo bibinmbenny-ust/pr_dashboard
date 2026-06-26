@@ -143,8 +143,11 @@ jobs:
             GH_RUN_COUNT=$(echo "$GH_RUNS_RESP" | jq '.workflow_runs | length')
             echo "Found $GH_RUN_COUNT GitHub Actions run(s) for $HEAD_SHA"
 
-            if [ "$GH_RUN_COUNT" -gt 0 ]; then
-              for i in $(seq 0 $((GH_RUN_COUNT - 1))); do
+            # Cap to 10 most recent runs to avoid shell "Argument list too long"
+            GH_RUN_COUNT_CAP=$(( GH_RUN_COUNT > 10 ? 10 : GH_RUN_COUNT ))
+
+            if [ "$GH_RUN_COUNT_CAP" -gt 0 ]; then
+              for i in $(seq 0 $((GH_RUN_COUNT_CAP - 1))); do
                 GH_RUN=$(echo "$GH_RUNS_RESP" | jq ".workflow_runs[$i]")
                 GH_RUN_ID=$(echo "$GH_RUN" | jq -r '.id')
                 GH_RUN_NAME=$(echo "$GH_RUN" | jq -r '.name')
@@ -163,7 +166,10 @@ jobs:
 
                 # Fetch jobs + steps for this run
                 JOBS_RESP=$(gh api "repos/$REPO_NAME/actions/runs/$GH_RUN_ID/jobs" 2>/dev/null || echo '{"jobs":[]}')
-                JOBS_DATA=$(echo "$JOBS_RESP" | jq '[(.jobs // [])[] | {
+
+                # Write JOBS_DATA to a temp file to avoid "Argument list too long"
+                JOBS_TMP=$(mktemp /tmp/jobs_XXXXXX.json)
+                echo "$JOBS_RESP" | jq '[(.jobs // [])[] | {
                   name: .name,
                   status: .status,
                   conclusion: (.conclusion // "in_progress"),
@@ -188,9 +194,11 @@ jobs:
                         else 0 end
                       )
                     }]
-                }]')
+                }]' > "$JOBS_TMP"
 
-                GH_RUN_ENTRY=$(jq -n \
+                # Build GH_RUN_ENTRY using --slurpfile to avoid arg list overflow
+                ENTRY_TMP=$(mktemp /tmp/entry_XXXXXX.json)
+                jq -n \
                   --arg name "$GH_RUN_NAME" \
                   --arg workflow_id "$GH_RUN_ID" \
                   --argjson run_number "$GH_RUN_NUMBER" \
@@ -199,12 +207,18 @@ jobs:
                   --arg url "$GH_RUN_URL" \
                   --arg started_at "$GH_RUN_STARTED" \
                   --argjson duration_seconds "$GH_RUN_DURATION" \
-                  --argjson jobs "$JOBS_DATA" \
+                  --slurpfile jobs "$JOBS_TMP" \
                   '{name: $name, workflow_id: $workflow_id, run_number: $run_number,
                     status: $status, conclusion: $conclusion, url: $url,
                     started_at: $started_at, duration_seconds: $duration_seconds,
-                    jobs: $jobs}')
-                GH_ACTIONS_FINAL=$(echo "$GH_ACTIONS_FINAL" | jq --argjson e "$GH_RUN_ENTRY" '. + [$e]')
+                    jobs: $jobs[0]}' > "$ENTRY_TMP"
+                rm -f "$JOBS_TMP"
+
+                # Append entry using --slurpfile (avoids passing large arg on CLI)
+                FINAL_TMP=$(mktemp /tmp/final_XXXXXX.json)
+                echo "$GH_ACTIONS_FINAL" | jq --slurpfile e "$ENTRY_TMP" '. + $e' > "$FINAL_TMP"
+                GH_ACTIONS_FINAL=$(cat "$FINAL_TMP")
+                rm -f "$ENTRY_TMP" "$FINAL_TMP"
               done
             fi
 
@@ -413,6 +427,14 @@ jobs:
                   '. + {($k): $v, ($sk): $sv}')
               done < <(echo "$BANNER_BODY" | grep -P '^\| \*\*')
 
+              # Write large blobs to temp files to avoid "Argument list too long"
+              GA_TMP=$(mktemp /tmp/ga_XXXXXX.json)
+              echo "$GH_ACTIONS_FINAL" > "$GA_TMP"
+              CR_TMP=$(mktemp /tmp/cr_XXXXXX.json)
+              echo "$CHECK_RUNS_DATA" > "$CR_TMP"
+              RS_TMP=$(mktemp /tmp/rs_XXXXXX.json)
+              echo "$REVIEW_STATS" > "$RS_TMP"
+
               # Assemble dashboard entry
               DASH_ENTRY=$(echo "$MODULE_METRICS" | jq \
                 --arg title "$PR_TITLE" \
@@ -440,9 +462,9 @@ jobs:
                 --argjson revision "$BUILD_NUM" \
                 --arg banner_comment_id "$COMMENT_ID" \
                 --arg ai_suggestion "" \
-                --argjson check_runs "$CHECK_RUNS_DATA" \
-                --argjson review_stats "$REVIEW_STATS" \
-                --argjson github_actions_runs "$GH_ACTIONS_FINAL" \
+                --slurpfile check_runs "$CR_TMP" \
+                --slurpfile review_stats "$RS_TMP" \
+                --slurpfile github_actions_runs "$GA_TMP" \
                 '. + {
                   title: $title, changed_files: $changed_files, additions: $additions,
                   deletions: $deletions, merged: $merged, pr_id: $pr_id, author: $author,
@@ -456,12 +478,16 @@ jobs:
                   revision: ($revision | tonumber),
                   banner_comment_id: ($banner_comment_id | tonumber),
                   ai_suggestion: $ai_suggestion,
-                  check_runs: $check_runs,
-                  review_stats: $review_stats,
-                  github_actions_runs: $github_actions_runs
+                  check_runs: $check_runs[0],
+                  review_stats: $review_stats[0],
+                  github_actions_runs: $github_actions_runs[0]
                 }')
+              rm -f "$CR_TMP" "$RS_TMP"
 
-              jq --argjson entry "$DASH_ENTRY" '. + [$entry]' "$DASH_FILE" > /tmp/dash_tmp.json
+              ENTRY_TMP=$(mktemp /tmp/dash_entry_XXXXXX.json)
+              echo "$DASH_ENTRY" > "$ENTRY_TMP"
+              jq --slurpfile entry "$ENTRY_TMP" '. + $entry' "$DASH_FILE" > /tmp/dash_tmp.json
+              rm -f "$ENTRY_TMP"
               mv /tmp/dash_tmp.json "$DASH_FILE"
               echo "✅ Revision $BUILD_NUM (comment $COMMENT_ID) → dashboard_${PR_NUMBER}.json"
             done
@@ -471,16 +497,21 @@ jobs:
             # review_stats reflects the live state of PR reviews (changes over time).
             # check_runs and github_actions_runs may be missing from entries that were
             # recorded before these fields were added — backfill them now.
+            RS_TMP2=$(mktemp /tmp/rs2_XXXXXX.json)
+            CR_TMP2=$(mktemp /tmp/cr2_XXXXXX.json)
+            echo "$REVIEW_STATS" > "$RS_TMP2"
+            echo "$CHECK_RUNS_DATA" > "$CR_TMP2"
             jq \
-              --argjson rs "$REVIEW_STATS" \
-              --argjson cr "$CHECK_RUNS_DATA" \
-              --argjson ga "$GH_ACTIONS_FINAL" \
+              --slurpfile rs "$RS_TMP2" \
+              --slurpfile cr "$CR_TMP2" \
+              --slurpfile ga "$GA_TMP" \
               '[.[] |
-                . + {review_stats: $rs} |
-                if .check_runs == null          then . + {check_runs: $cr}           else . end |
-                if .github_actions_runs == null then . + {github_actions_runs: $ga}  else . end
+                . + {review_stats: $rs[0]} |
+                if .check_runs == null          then . + {check_runs: $cr[0]}           else . end |
+                if .github_actions_runs == null then . + {github_actions_runs: $ga[0]}  else . end
               ]' "$DASH_FILE" > /tmp/dash_refresh.json \
               && mv /tmp/dash_refresh.json "$DASH_FILE"
+            rm -f "$RS_TMP2" "$CR_TMP2" "$GA_TMP"
             echo "✅ Refreshed review_stats and backfilled missing fields in all entries"
             # ── End dashboard file ─────────────────────────────────────────
 
