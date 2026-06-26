@@ -464,6 +464,75 @@ ${window.currentPRAISuggestion}
 }
 
 // Main function to create a single collapsible revision card
+function renderGHActions(data) {
+    const runs = data.github_actions_runs;
+    if (!runs || runs.length === 0) return '';
+
+    const iconFor = c => ({ success:'✅', failure:'❌', cancelled:'🚫', skipped:'⏭️', timed_out:'⌛', in_progress:'⏳' }[c] || '🔵');
+    const colorFor = c => ({ success:'#10b981', failure:'#ef4444', cancelled:'#64748b', timed_out:'#f59e0b', in_progress:'#3b82f6' }[c] || '#94a3b8');
+
+    const runsHtml = runs.map(run => {
+        const rColor = colorFor(run.conclusion);
+        const rDur = run.duration_seconds > 0 ? `<span style="color:#64748b;font-size:0.72rem;">${calculateDuration(run.duration_seconds)}</span>` : '';
+
+        const jobsHtml = (run.jobs || []).map(job => {
+            const jColor = colorFor(job.conclusion);
+            const jDur = job.duration_seconds > 0 ? `<span style="color:#64748b;font-size:0.7rem;margin-left:auto;">${calculateDuration(job.duration_seconds)}</span>` : '';
+            const jobLink = job.url ? `<a href="${job.url}" target="_blank" style="color:var(--cisco-blue);font-size:0.7rem;text-decoration:none;">↗</a>` : '';
+
+            const stepsHtml = (job.steps || []).map(step => {
+                const sColor = colorFor(step.conclusion);
+                const sDur = step.duration_seconds > 0 ? `<span style="color:#475569;margin-left:auto;font-size:0.68rem;">${step.duration_seconds}s</span>` : '';
+                return `<div style="display:flex;align-items:center;gap:0.4rem;padding:0.15rem 0;font-size:0.74rem;border-bottom:1px solid rgba(255,255,255,0.03);">
+                    <span>${iconFor(step.conclusion)}</span>
+                    <span style="color:${sColor};">${step.name}</span>
+                    ${sDur}
+                </div>`;
+            }).join('');
+
+            return `<div style="margin-left:1rem;margin-bottom:0.35rem;padding:0.4rem 0.65rem;background:rgba(0,0,0,0.2);border-left:2px solid ${jColor}50;border-radius:0 0.3rem 0.3rem 0;">
+                <div style="display:flex;align-items:center;gap:0.45rem;${stepsHtml ? 'margin-bottom:0.4rem;' : ''}">
+                    <span>${iconFor(job.conclusion)}</span>
+                    <span style="color:${jColor};font-size:0.8rem;font-weight:600;">${job.name}</span>
+                    ${jDur}
+                    ${jobLink}
+                </div>
+                ${stepsHtml ? `<div style="padding-left:1rem;">${stepsHtml}</div>` : ''}
+            </div>`;
+        }).join('');
+
+        return `<div style="border:1px solid rgba(255,255,255,0.07);border-radius:0.5rem;padding:0.65rem 0.8rem;margin-bottom:0.5rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;${jobsHtml ? 'margin-bottom:0.5rem;' : ''}">
+                <span style="font-size:1rem;">${iconFor(run.conclusion)}</span>
+                <span style="color:${rColor};font-weight:700;font-size:0.85rem;">${run.name}</span>
+                <span style="font-size:0.72rem;color:#475569;">#${run.run_number}</span>
+                <div style="margin-left:auto;display:flex;gap:0.5rem;align-items:center;">
+                    ${rDur}
+                    <a href="${run.url}" target="_blank" style="color:var(--cisco-blue);font-size:0.75rem;text-decoration:none;">↗ View</a>
+                </div>
+            </div>
+            ${jobsHtml}
+        </div>`;
+    }).join('');
+
+    const passCount = runs.filter(r => r.conclusion === 'success').length;
+    const failCount = runs.filter(r => r.conclusion === 'failure').length;
+    const pendCount = runs.filter(r => r.status !== 'completed').length;
+
+    return `
+        <div class="card" style="grid-column:1/-1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                <span style="font-weight:700;font-size:0.9rem;color:var(--cisco-blue);">⚙️ GitHub Actions</span>
+                <span style="font-size:0.78rem;color:#64748b;">
+                    <span style="color:#10b981;">✅ ${passCount} passed</span>
+                    ${failCount > 0 ? `<span style="color:#ef4444;"> &nbsp;❌ ${failCount} failed</span>` : ''}
+                    ${pendCount > 0 ? `<span style="color:#3b82f6;"> &nbsp;⏳ ${pendCount} running</span>` : ''}
+                </span>
+            </div>
+            ${runsHtml}
+        </div>`;
+}
+
 function renderReviewStats(data) {
     const rs = data.review_stats;
     if (!rs) return '';
@@ -660,6 +729,8 @@ function createRevisionCard(data, isOpen = '') {
                 </div>
 
                 ${renderCheckRuns(data)}
+
+                ${renderGHActions(data)}
 
                 ${renderReviewStats(data)}
 

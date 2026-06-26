@@ -132,6 +132,77 @@ jobs:
               | ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
             ] | first // 0')
 
+            # ── GitHub Actions workflow runs (jobs + steps) ───────────────────────
+            GH_RUNS_RESP=$(gh api "repos/$REPO_NAME/actions/runs?head_sha=$HEAD_SHA&per_page=20" 2>/dev/null || echo '{"workflow_runs":[]}')
+            GH_ACTIONS_FINAL="[]"
+            GH_RUN_COUNT=$(echo "$GH_RUNS_RESP" | jq '.workflow_runs | length')
+            echo "Found $GH_RUN_COUNT GitHub Actions run(s) for $HEAD_SHA"
+
+            if [ "$GH_RUN_COUNT" -gt 0 ]; then
+              for i in $(seq 0 $((GH_RUN_COUNT - 1))); do
+                GH_RUN=$(echo "$GH_RUNS_RESP" | jq ".workflow_runs[$i]")
+                GH_RUN_ID=$(echo "$GH_RUN" | jq -r '.id')
+                GH_RUN_NAME=$(echo "$GH_RUN" | jq -r '.name')
+                GH_RUN_NUMBER=$(echo "$GH_RUN" | jq '.run_number')
+                GH_RUN_STATUS=$(echo "$GH_RUN" | jq -r '.status')
+                GH_RUN_CONCLUSION=$(echo "$GH_RUN" | jq -r '.conclusion // "in_progress"')
+                GH_RUN_URL=$(echo "$GH_RUN" | jq -r '.html_url')
+                GH_RUN_STARTED=$(echo "$GH_RUN" | jq -r '.run_started_at // ""')
+                GH_RUN_UPDATED=$(echo "$GH_RUN" | jq -r '.updated_at // ""')
+                GH_RUN_DURATION=0
+                if [ -n "$GH_RUN_STARTED" ] && [ -n "$GH_RUN_UPDATED" ] && [ "$GH_RUN_STATUS" = "completed" ]; then
+                  S=$(date -d "$GH_RUN_STARTED" +%s 2>/dev/null || echo 0)
+                  E=$(date -d "$GH_RUN_UPDATED" +%s 2>/dev/null || echo 0)
+                  [ "$E" -gt "$S" ] && GH_RUN_DURATION=$(( E - S ))
+                fi
+
+                # Fetch jobs + steps for this run
+                JOBS_RESP=$(gh api "repos/$REPO_NAME/actions/runs/$GH_RUN_ID/jobs" 2>/dev/null || echo '{"jobs":[]}')
+                JOBS_DATA=$(echo "$JOBS_RESP" | jq '[(.jobs // [])[] | {
+                  name: .name,
+                  status: .status,
+                  conclusion: (.conclusion // "in_progress"),
+                  started_at: (.started_at // ""),
+                  completed_at: (.completed_at // ""),
+                  duration_seconds: (
+                    if (.started_at != null and .completed_at != null
+                        and .started_at != "" and .completed_at != "") then
+                      ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
+                    else 0 end
+                  ),
+                  url: (.html_url // ""),
+                  steps: [(.steps // [])[]
+                    | select(.name != "Set up job" and .name != "Complete job") | {
+                      name: .name,
+                      conclusion: (.conclusion // "in_progress"),
+                      number: .number,
+                      duration_seconds: (
+                        if (.started_at != null and .completed_at != null
+                            and .started_at != "" and .completed_at != "") then
+                          ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
+                        else 0 end
+                      )
+                    }]
+                }]')
+
+                GH_RUN_ENTRY=$(jq -n \
+                  --arg name "$GH_RUN_NAME" \
+                  --arg workflow_id "$GH_RUN_ID" \
+                  --argjson run_number "$GH_RUN_NUMBER" \
+                  --arg status "$GH_RUN_STATUS" \
+                  --arg conclusion "$GH_RUN_CONCLUSION" \
+                  --arg url "$GH_RUN_URL" \
+                  --arg started_at "$GH_RUN_STARTED" \
+                  --argjson duration_seconds "$GH_RUN_DURATION" \
+                  --argjson jobs "$JOBS_DATA" \
+                  '{name: $name, workflow_id: $workflow_id, run_number: $run_number,
+                    status: $status, conclusion: $conclusion, url: $url,
+                    started_at: $started_at, duration_seconds: $duration_seconds,
+                    jobs: $jobs}')
+                GH_ACTIONS_FINAL=$(echo "$GH_ACTIONS_FINAL" | jq --argjson e "$GH_RUN_ENTRY" '. + [$e]')
+              done
+            fi
+
             # ── Generate dashboard_<PR>.json from Jenkins banner comments ──
             PR_TITLE=$(echo "$PR" | jq -r '.title')
             PR_AUTHOR=$(echo "$PR" | jq -r '.author')
@@ -331,6 +402,7 @@ jobs:
                 --arg ai_suggestion "" \
                 --argjson check_runs "$CHECK_RUNS_DATA" \
                 --argjson review_stats "$REVIEW_STATS" \
+                --argjson github_actions_runs "$GH_ACTIONS_FINAL" \
                 '. + {
                   title: $title, changed_files: $changed_files, additions: $additions,
                   deletions: $deletions, merged: $merged, pr_id: $pr_id, author: $author,
@@ -345,7 +417,8 @@ jobs:
                   banner_comment_id: ($banner_comment_id | tonumber),
                   ai_suggestion: $ai_suggestion,
                   check_runs: $check_runs,
-                  review_stats: $review_stats
+                  review_stats: $review_stats,
+                  github_actions_runs: $github_actions_runs
                 }')
 
               jq --argjson entry "$DASH_ENTRY" '. + [$entry]' "$DASH_FILE" > /tmp/dash_tmp.json
