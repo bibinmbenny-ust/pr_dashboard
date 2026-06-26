@@ -464,6 +464,101 @@ ${window.currentPRAISuggestion}
 }
 
 // Main function to create a single collapsible revision card
+function renderReviewStats(data) {
+    const rs = data.review_stats;
+    if (!rs) return '';
+
+    const score = rs.engagement_score ?? 100;
+    const scoreColor = score >= 80 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
+    const scoreLabel = score >= 80 ? 'Highly Engaged' : score >= 50 ? 'Partially Addressed' : 'Low Engagement';
+
+    // Review decision badges
+    const decisionBadges = [
+        rs.reviews_approved > 0
+            ? `<span style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.35);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#10b981;">✅ ${rs.reviews_approved} Approved</span>` : '',
+        rs.reviews_changes_requested > 0
+            ? `<span style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.35);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#ef4444;">🔴 ${rs.reviews_changes_requested} Changes Requested</span>` : '',
+        rs.reviews_commented > 0
+            ? `<span style="background:rgba(148,163,184,0.1);border:1px solid rgba(148,163,184,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#94a3b8;">💬 ${rs.reviews_commented} Commented</span>` : '',
+        rs.unique_reviewers > 0
+            ? `<span style="background:rgba(0,188,235,0.1);border:1px solid rgba(0,188,235,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:var(--cisco-blue);">👥 ${rs.unique_reviewers} Reviewer${rs.unique_reviewers !== 1 ? 's' : ''}</span>` : '',
+    ].filter(Boolean).join(' ');
+
+    // Copilot section (only shown if Copilot left comments)
+    const copilotSection = rs.copilot_comments > 0 ? (() => {
+        const pct = Math.round((rs.copilot_addressed / rs.copilot_comments) * 100);
+        const barColor = pct >= 80 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
+        return `
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);">
+                <div style="font-size:0.82rem;color:#94a3b8;font-weight:600;margin-bottom:0.6rem;">🤖 Copilot Review</div>
+                <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+                    <div style="text-align:center;">
+                        <div style="font-size:1.4rem;font-weight:700;color:var(--cisco-blue);">${rs.copilot_comments}</div>
+                        <div style="font-size:0.7rem;color:#64748b;">Total</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:1.4rem;font-weight:700;color:#10b981;">${rs.copilot_addressed}</div>
+                        <div style="font-size:0.7rem;color:#64748b;">Addressed</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:1.4rem;font-weight:700;color:#ef4444;">${rs.copilot_open}</div>
+                        <div style="font-size:0.7rem;color:#64748b;">Still Open</div>
+                    </div>
+                    <div style="flex:1;min-width:140px;">
+                        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#64748b;margin-bottom:0.3rem;">
+                            <span>Address Rate</span><span style="color:${barColor};font-weight:600;">${pct}%</span>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.08);border-radius:1rem;height:8px;overflow:hidden;">
+                            <div style="width:${pct}%;height:100%;background:${barColor};border-radius:1rem;transition:width 0.6s;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    })() : '';
+
+    // Comment activity row
+    const totalActivity = rs.total_review_comments;
+    const humanComments = rs.human_reviewer_comments;
+    const authorReplies = rs.author_replies;
+    const authorOwn = rs.author_own_comments;
+
+    return `
+        <div class="card" style="grid-column:1/-1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem;">
+                <span style="font-weight:700;font-size:0.9rem;color:var(--cisco-blue);">💬 PR Review</span>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <span style="font-size:0.78rem;color:#64748b;">Engagement Score</span>
+                    <span style="font-size:1rem;font-weight:700;color:${scoreColor};background:rgba(255,255,255,0.05);padding:0.15rem 0.6rem;border-radius:0.4rem;border:1px solid ${scoreColor}40;">${score} — ${scoreLabel}</span>
+                </div>
+            </div>
+
+            <!-- Review decisions -->
+            ${decisionBadges ? `<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.9rem;">${decisionBadges}</div>` : ''}
+
+            <!-- Comment activity stats -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;">
+                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#94a3b8;">${totalActivity}</div>
+                    <div style="font-size:0.7rem;color:#475569;">Review Comments</div>
+                </div>
+                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#a78bfa;">${humanComments}</div>
+                    <div style="font-size:0.7rem;color:#475569;">From Reviewers</div>
+                </div>
+                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#3b82f6;">${authorReplies}</div>
+                    <div style="font-size:0.7rem;color:#475569;">Author Replies</div>
+                </div>
+                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#f59e0b;">${rs.outdated_threads}</div>
+                    <div style="font-size:0.7rem;color:#475569;">Threads Resolved</div>
+                </div>
+            </div>
+
+            ${copilotSection}
+        </div>`;
+}
+
 function renderCheckRuns(data) {
     const checks = data.check_runs;
     if (!checks || checks.length === 0) return '';
@@ -565,6 +660,8 @@ function createRevisionCard(data, isOpen = '') {
                 </div>
 
                 ${renderCheckRuns(data)}
+
+                ${renderReviewStats(data)}
 
                 ${renderFilesChanged(data)}
                 

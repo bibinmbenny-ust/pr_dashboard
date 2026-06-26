@@ -157,6 +157,40 @@ jobs:
               changes: .changes, patch: (.patch // "")
             }]')
 
+            # ── PR Review analytics ───────────────────────────────────────
+            # Line-level code review comments (threads on diff hunks)
+            REVIEW_COMMENTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/comments?per_page=100" 2>/dev/null || echo '[]')
+            # Formal reviews (APPROVE / CHANGES_REQUESTED / COMMENT)
+            PR_REVIEWS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews" 2>/dev/null || echo '[]')
+
+            REVIEW_STATS=$(jq -n \
+              --arg author "$PR_AUTHOR" \
+              --argjson rc "$REVIEW_COMMENTS" \
+              --argjson rv "$PR_REVIEWS" \
+              '{
+                total_review_comments:       ($rc | length),
+                copilot_comments:            ($rc | [.[] | select(.user.login | ascii_downcase | test("copilot"))] | length),
+                copilot_addressed:           ($rc | [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position == null)] | length),
+                copilot_open:                ($rc | [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position != null)] | length),
+                human_reviewer_comments:     ($rc | [.[] | select(.user.type != "Bot" and .user.login != $author)] | length),
+                author_replies:              ($rc | [.[] | select(.user.login == $author and .in_reply_to_id != null)] | length),
+                author_own_comments:         ($rc | [.[] | select(.user.login == $author and .in_reply_to_id == null)] | length),
+                outdated_threads:            ($rc | [.[] | select(.position == null)] | length),
+                reviews_approved:            ($rv | [.[] | select(.state == "APPROVED")] | length),
+                reviews_changes_requested:   ($rv | [.[] | select(.state == "CHANGES_REQUESTED")] | length),
+                reviews_commented:           ($rv | [.[] | select(.state == "COMMENTED")] | length),
+                unique_reviewers:            ($rv | [.[] | select(.user.type != "Bot") | .user.login] | unique | length),
+                engagement_score: (
+                  if ($rc | length) == 0 then 100
+                  else
+                    ((
+                      ($rc | [.[] | select(.position == null)] | length) +
+                      ($rc | [.[] | select(.user.login == $author and .in_reply_to_id != null)] | length)
+                    ) * 100 / ($rc | length)) | floor | [100, .] | min
+                  end
+                )
+              }')
+
             DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
             [ -f "$DASH_FILE" ] || echo "[]" > "$DASH_FILE"
 
@@ -296,6 +330,7 @@ jobs:
                 --arg banner_comment_id "$COMMENT_ID" \
                 --arg ai_suggestion "" \
                 --argjson check_runs "$CHECK_RUNS_DATA" \
+                --argjson review_stats "$REVIEW_STATS" \
                 '. + {
                   title: $title, changed_files: $changed_files, additions: $additions,
                   deletions: $deletions, merged: $merged, pr_id: $pr_id, author: $author,
@@ -309,7 +344,8 @@ jobs:
                   revision: ($revision | tonumber),
                   banner_comment_id: ($banner_comment_id | tonumber),
                   ai_suggestion: $ai_suggestion,
-                  check_runs: $check_runs
+                  check_runs: $check_runs,
+                  review_stats: $review_stats
                 }')
 
               jq --argjson entry "$DASH_ENTRY" '. + [$entry]' "$DASH_FILE" > /tmp/dash_tmp.json
