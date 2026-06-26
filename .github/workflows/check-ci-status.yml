@@ -43,9 +43,13 @@ jobs:
             exit 0
           fi
           
-          # Get all open pull requests
+          # Testing mode: only process the specific test branch PR
+          TEST_BRANCH="feature/pr_dashboard_source"
+          echo "⚠️ Testing mode: filtering to PRs from branch: $TEST_BRANCH"
+
+          # Get all open pull requests (filtered to test branch only)
           PRS_JSON=$(gh api repos/$REPO_NAME/pulls \
-            --jq '[.[] | {
+            --jq "[.[] | select(.head.ref == \"$TEST_BRANCH\") | {
               number: .number,
               title: .title,
               state: .state,
@@ -59,7 +63,7 @@ jobs:
               draft: .draft,
               mergeable_state: .mergeable_state,
               labels: [.labels[].name]
-            }]')
+            }]")
           
           echo "Found PRs:"
           echo "$PRS_JSON" | jq .
