@@ -141,7 +141,7 @@ jobs:
             RUN_COUNT=$(echo "$CHECKS_RESPONSE" | jq '.check_runs | length')
             CI_START_TIME=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].started_at // ""')
             CI_COMPLETED_TIME=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].completed_at // ""')
-            JENKINS_BUILD_URL=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].details_url // ""')
+            JENKINS_BUILD_URL="https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-${PR_NUMBER}/"
             JENKINS_BUILD_NUMBER=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].external_id // "N/A"')
 
             if [ "$RUN_COUNT" -gt 0 ]; then
@@ -238,12 +238,33 @@ jobs:
                 errors: $errors,
                 error_message: $error_message,
                 changed_files_details: $changed_files_details,
-                revision: 1,
                 ai_suggestion: $ai_suggestion
               }')
 
-            echo "[$DASH_ENTRY]" > pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json
-            echo "✅ Created dashboard_${PR_NUMBER}.json"
+            # ── Revision-aware file write ──────────────────────────────────
+            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
+            if [ -f "$DASH_FILE" ]; then
+              # Check if this commit SHA already has an entry
+              SHA_EXISTS=$(jq --arg sha "$HEAD_SHA" '[.[] | select(.commit_hash == $sha)] | length' "$DASH_FILE")
+              if [ "$SHA_EXISTS" -gt 0 ]; then
+                # Same commit: update existing entry in place
+                UPDATED=$(jq --arg sha "$HEAD_SHA" --argjson entry "$DASH_ENTRY" \
+                  'map(if .commit_hash == $sha then $entry + {revision: .revision} else . end)' "$DASH_FILE")
+                echo "$UPDATED" > "$DASH_FILE"
+                echo "✅ Updated existing revision for SHA $HEAD_SHA in dashboard_${PR_NUMBER}.json"
+              else
+                # New commit: append as next revision
+                NEXT_REV=$(jq '[.[].revision] | max + 1' "$DASH_FILE")
+                DASH_ENTRY=$(echo "$DASH_ENTRY" | jq --argjson rev "$NEXT_REV" '. + {revision: $rev}')
+                jq --argjson entry "$DASH_ENTRY" '. + [$entry]' "$DASH_FILE" > /tmp/dash_tmp.json
+                mv /tmp/dash_tmp.json "$DASH_FILE"
+                echo "✅ Appended revision $NEXT_REV for new commit $HEAD_SHA in dashboard_${PR_NUMBER}.json"
+              fi
+            else
+              # First run: create file with revision 1
+              echo "[$(echo "$DASH_ENTRY" | jq '. + {revision: 1}')]" > "$DASH_FILE"
+              echo "✅ Created dashboard_${PR_NUMBER}.json (revision 1)"
+            fi
             # ── End dashboard file ─────────────────────────────────────────
 
             # Combine PR data with CI status and AI suggestion
