@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2026-06-26T10:52:13Z",
+  "timestamp": "2026-06-26T11:34:49Z",
   "repository": "cisco-sbg-emu/netsec-fxos",
   "total_count": 1,
   "pull_requests": [
@@ -19,8 +19,8 @@
       "title": "Fixes: CSCwv09683 bbenny - test change for PR validation",
       "updated_at": "2026-06-26T10:01:01Z",
       "ci_status": "pending",
-      "check_status": "none\nnone",
-      "check_conclusion": "none\nnone",
+      "check_status": "none",
+      "check_conclusion": "none",
       "ai_suggestion": ""
     }
   ]
