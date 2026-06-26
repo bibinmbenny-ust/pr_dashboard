@@ -431,6 +431,22 @@ jobs:
               echo "✅ Revision $BUILD_NUM (comment $COMMENT_ID) → dashboard_${PR_NUMBER}.json"
             done
             echo "dashboard_${PR_NUMBER}.json now has $(jq 'length' "$DASH_FILE") revision(s)"
+
+            # ── Always refresh current-state fields on ALL entries ────────────
+            # review_stats reflects the live state of PR reviews (changes over time).
+            # check_runs and github_actions_runs may be missing from entries that were
+            # recorded before these fields were added — backfill them now.
+            jq \
+              --argjson rs "$REVIEW_STATS" \
+              --argjson cr "$CHECK_RUNS_DATA" \
+              --argjson ga "$GH_ACTIONS_FINAL" \
+              '[.[] |
+                . + {review_stats: $rs} |
+                if .check_runs == null          then . + {check_runs: $cr}           else . end |
+                if .github_actions_runs == null then . + {github_actions_runs: $ga}  else . end
+              ]' "$DASH_FILE" > /tmp/dash_refresh.json \
+              && mv /tmp/dash_refresh.json "$DASH_FILE"
+            echo "✅ Refreshed review_stats and backfilled missing fields in all entries"
             # ── End dashboard file ─────────────────────────────────────────
 
             # Combine PR data with CI status and AI suggestion
