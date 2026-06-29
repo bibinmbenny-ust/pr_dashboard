@@ -730,10 +730,6 @@ function createRevisionCard(data, isOpen = '') {
 
                 ${renderCheckRuns(data)}
 
-                ${renderGHActions(data)}
-
-                ${renderReviewStats(data)}
-
                 ${renderFilesChanged(data)}
                 
             </div>

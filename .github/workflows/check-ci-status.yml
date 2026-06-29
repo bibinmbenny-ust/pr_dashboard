@@ -361,10 +361,15 @@ jobs:
             [ -f "$DASH_FILE" ] || echo "[]" > "$DASH_FILE"
 
             # Fetch all PR comments and filter to Jenkins banner comments
-            ALL_COMMENTS=$(gh api repos/$REPO_NAME/issues/$PR_NUMBER/comments || echo '[]')
+            # Use per_page=100 to avoid missing banners beyond the default 30-comment page
+            ALL_COMMENTS=$(gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" 2>/dev/null || echo '[]')
             BANNERS=$(echo "$ALL_COMMENTS" | jq '[.[] | select(.body | contains("FXOS Pre-Commit CI Pipeline"))]')
             BANNER_COUNT=$(echo "$BANNERS" | jq 'length')
             echo "Found $BANNER_COUNT banner comment(s) for PR #$PR_NUMBER"
+
+            # Create GA_TMP before the loop so it's available even when BANNER_COUNT=0
+            GA_TMP=$(mktemp /tmp/ga_XXXXXX.json)
+            echo "$GH_ACTIONS_FINAL" > "$GA_TMP"
 
             for b in $(seq 0 $((BANNER_COUNT - 1))); do
               BANNER=$(echo "$BANNERS" | jq ".[$b]")
@@ -471,8 +476,6 @@ jobs:
               # Write large blobs to temp files to avoid "Argument list too long"
               CFD_TMP=$(mktemp /tmp/cfd_XXXXXX.json)
               echo "$CHANGED_FILES_DETAILS" > "$CFD_TMP"
-              GA_TMP=$(mktemp /tmp/ga_XXXXXX.json)
-              echo "$GH_ACTIONS_FINAL" > "$GA_TMP"
               CR_TMP=$(mktemp /tmp/cr_XXXXXX.json)
               echo "$CHECK_RUNS_DATA" > "$CR_TMP"
               RS_TMP=$(mktemp /tmp/rs_XXXXXX.json)
@@ -535,6 +538,14 @@ jobs:
               echo "✅ Revision $BUILD_NUM (comment $COMMENT_ID) → dashboard_${PR_NUMBER}.json"
             done
             echo "dashboard_${PR_NUMBER}.json now has $(jq 'length' "$DASH_FILE") revision(s)"
+
+            # ── Skip PRs with no Jenkins banner ──────────────────────────────
+            # No banner = old or broken PR; exclude from dashboard entirely.
+            if [ "$(jq 'length' "$DASH_FILE")" -eq 0 ]; then
+              echo "⚠️  No Jenkins banner found for PR #$PR_NUMBER — skipping (old/broken PR)"
+              rm -f "$GA_TMP"
+              continue
+            fi
 
             # ── Always refresh current-state fields on ALL entries ────────────
             # review_stats reflects the live state of PR reviews (changes over time).
@@ -615,6 +626,12 @@ jobs:
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Remove any empty dashboard files left by old/broken PRs
+          for f in pr-reports/$PROJECT_NAME/dashboard_*.json; do
+            [ -f "$f" ] && [ "$(jq 'length' "$f")" -eq 0 ] && git rm -f "$f" && echo "Removed empty: $f"
+          done
+
           git add pr-reports/$PROJECT_NAME/
           
           # Check if there are changes to commit
