@@ -1,1 +1,510 @@
-[]
+[
+  {
+    "Unit Tests: Build Status": "SUCCESS",
+    "Unit Tests: Coverage Percentage": "N/A",
+    "Unit Tests: Unit Tests Passed": "15",
+    "Unit Tests: Unit Tests Failed": "0",
+    "Unit Tests: Unit Tests Skipped": "0",
+    "Unit Tests: Static Analysis Issues": 0,
+    "ssp: Build Status": "SUCCESS",
+    "ssp: Static Analysis Issues": 0,
+    "smp: Build Status": "SUCCESS",
+    "smp: Static Analysis Issues": 0,
+    "FP1K: Build Status": "SUCCESS",
+    "FP1K: Static Analysis Issues": 0,
+    "FP3K: Build Status": "SUCCESS",
+    "FP3K: Static Analysis Issues": 0,
+    "FP4K: Build Status": "SUCCESS",
+    "FP4K: Static Analysis Issues": 0,
+    "WPK: Build Status": "SUCCESS",
+    "WPK: Static Analysis Issues": 0,
+    "ARM: Build Status": "SUCCESS",
+    "ARM: Static Analysis Issues": 0,
+    "ARMV: Build Status": "SUCCESS",
+    "ARMV: Static Analysis Issues": 0,
+    "ARSENAL: Build Status": "SUCCESS",
+    "ARSENAL: Static Analysis Issues": 0,
+    "NINEELMS: Build Status": "SUCCESS",
+    "NINEELMS: Static Analysis Issues": 0,
+    "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
+    "changed_files": 3,
+    "additions": 4065,
+    "deletions": 47,
+    "merged": false,
+    "pr_id": "1263",
+    "author": "bbenny_cisco",
+    "created_at": "2026-06-26T12:10:04Z",
+    "updated_at": "2026-06-26T13:49:46Z",
+    "pr_state": "open",
+    "base_branch": "uxbridge/FXOS_2_19_MAIN",
+    "head_branch": "feature/pr_dashboard_v3",
+    "commit_hash": "911c7995c740cf7a4dc7233c6397a75d723643b5",
+    "ci_start_time": "2026-06-26T13:49:43Z",
+    "ci_duration_seconds": 1,
+    "jenkins_build_number": "3",
+    "jenkins_build_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/3/",
+    "total_failures": 0,
+    "failed_stage": "",
+    "errors": [],
+    "error_message": "",
+    "changed_files_details": [
+      {
+        "file_name": "Jenkinsfile_git.ci",
+        "status": "modified",
+        "additions": 647,
+        "deletions": 47,
+        "changes": 694
+      },
+      {
+        "file_name": "Jenkinsfile_git_org.ci",
+        "status": "added",
+        "additions": 1095,
+        "deletions": 0,
+        "changes": 1095
+      },
+      {
+        "file_name": "jenkinsfile_git_pr.ci",
+        "status": "added",
+        "additions": 2323,
+        "deletions": 0,
+        "changes": 2323
+      }
+    ],
+    "revision": 3,
+    "banner_comment_id": 4810177877,
+    "ai_suggestion": "",
+    "check_runs": [],
+    "review_stats": {
+      "total_review_comments": 7,
+      "general_comments": 1,
+      "copilot_comments": 7,
+      "copilot_addressed": 0,
+      "copilot_open": 7,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 7,
+      "resolved_threads": 0,
+      "unresolved_threads": 6,
+      "outdated_threads_gql": 1,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 1,
+      "unique_reviewers": 0,
+      "engagement_score": 0
+    },
+    "github_actions_runs": [
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28251668874",
+        "run_number": 37431,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28251668874",
+        "started_at": "2026-06-26T16:36:35Z",
+        "duration_seconds": 13,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T16:36:42Z",
+            "completed_at": "2026-06-26T16:36:46Z",
+            "duration_seconds": 4,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28251668874/job/83704436911",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28251668865",
+        "run_number": 9770,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28251668865",
+        "started_at": "2026-06-26T16:36:35Z",
+        "duration_seconds": 13,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T16:36:42Z",
+            "completed_at": "2026-06-26T16:36:48Z",
+            "duration_seconds": 6,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28251668865/job/83704436937",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28242311751",
+        "run_number": 37409,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28242311751",
+        "started_at": "2026-06-26T13:49:36Z",
+        "duration_seconds": 9,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T13:49:40Z",
+            "completed_at": "2026-06-26T13:49:44Z",
+            "duration_seconds": 4,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28242311751/job/83672077831",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28242311726",
+        "run_number": 9748,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28242311726",
+        "started_at": "2026-06-26T13:49:36Z",
+        "duration_seconds": 13,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T13:49:40Z",
+            "completed_at": "2026-06-26T13:49:49Z",
+            "duration_seconds": 9,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28242311726/job/83672078138",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28241408795",
+        "run_number": 9747,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28241408795",
+        "started_at": "2026-06-26T13:33:04Z",
+        "duration_seconds": 15,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T13:33:09Z",
+            "completed_at": "2026-06-26T13:33:19Z",
+            "duration_seconds": 10,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28241408795/job/83668964847",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28241408764",
+        "run_number": 37408,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28241408764",
+        "started_at": "2026-06-26T13:33:04Z",
+        "duration_seconds": 11,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T13:33:09Z",
+            "completed_at": "2026-06-26T13:33:14Z",
+            "duration_seconds": 5,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28241408764/job/83668965033",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28237660888",
+        "run_number": 37405,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237660888",
+        "started_at": "2026-06-26T12:21:14Z",
+        "duration_seconds": 12,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T12:21:21Z",
+            "completed_at": "2026-06-26T12:21:26Z",
+            "duration_seconds": 5,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237660888/job/83656343472",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28237660901",
+        "run_number": 9744,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237660901",
+        "started_at": "2026-06-26T12:21:14Z",
+        "duration_seconds": 17,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T12:21:21Z",
+            "completed_at": "2026-06-26T12:21:30Z",
+            "duration_seconds": 9,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237660901/job/83656343449",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28237652083",
+        "run_number": 9743,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237652083",
+        "started_at": "2026-06-26T12:21:03Z",
+        "duration_seconds": 17,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T12:21:11Z",
+            "completed_at": "2026-06-26T12:21:19Z",
+            "duration_seconds": 8,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237652083/job/83656314435",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28237652077",
+        "run_number": 37404,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237652077",
+        "started_at": "2026-06-26T12:21:03Z",
+        "duration_seconds": 16,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-26T12:21:12Z",
+            "completed_at": "2026-06-26T12:21:18Z",
+            "duration_seconds": 6,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28237652077/job/83656314384",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
