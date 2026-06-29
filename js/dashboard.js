@@ -1253,7 +1253,7 @@ function renderScoreCard(dataList) {
 
     // ── Set container HTML (side by side) ─────────────────────────────────────
     container.innerHTML = `
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+        <div style="display:grid; grid-template-columns:1fr; gap:1rem; margin-bottom:1.5rem;">
             <div class="card" style="padding:1.5rem;">
                 <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem;">
                     📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${total} build${total !== 1 ? 's' : ''} analysed</span>
