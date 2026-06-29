@@ -626,12 +626,18 @@ jobs:
           # Commit changes
           git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
 
-          # Push with retry — use merge (-X ours) so concurrent runs never conflict.
-          # These JSON files are always fully regenerated, so "ours" is always correct.
+          # Push with retry — merge (-X ours) so concurrent runs never conflict.
+          # JSON files are always fully regenerated; our version is always correct.
           PUSH_OK=false
           for attempt in 1 2 3; do
             git fetch origin main
-            git merge -X ours origin/main --no-edit -m "merge remote (concurrent run)" 2>/dev/null || true
+            # Merge remote; on any conflict always take our freshly-generated files
+            if ! git merge -X ours --no-edit origin/main 2>/dev/null; then
+              # merge left conflicts — force-resolve by taking ours, then commit
+              git checkout --ours pr-reports/$PROJECT_NAME/ 2>/dev/null || true
+              git add pr-reports/$PROJECT_NAME/
+              git commit --no-edit -m "auto-resolve conflicts (ours)" 2>/dev/null || true
+            fi
             if git push origin main; then
               PUSH_OK=true
               break
