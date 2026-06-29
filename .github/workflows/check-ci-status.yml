@@ -625,14 +625,18 @@ jobs:
           
           # Commit changes
           git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
-          
-          # Pull with rebase to avoid conflicts, then push
-          git pull --rebase origin main || {
-            echo "Rebase failed, trying to continue..."
-            git rebase --abort
-            git pull --no-rebase origin main
-            git push origin main
-            exit 0
-          }
-          
-          git push origin main
+
+          # Push with retry — use merge (-X ours) so concurrent runs never conflict.
+          # These JSON files are always fully regenerated, so "ours" is always correct.
+          PUSH_OK=false
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git merge -X ours origin/main --no-edit -m "merge remote (concurrent run)" 2>/dev/null || true
+            if git push origin main; then
+              PUSH_OK=true
+              break
+            fi
+            echo "Push attempt $attempt failed, retrying in ${attempt}s..."
+            sleep $attempt
+          done
+          $PUSH_OK || { echo "All push attempts failed"; exit 1; }
