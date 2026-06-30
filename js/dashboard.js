@@ -1082,23 +1082,12 @@ function renderScoreCard(dataList) {
     dataList.forEach(d => { Object.keys(d).forEach(k => { if (k.endsWith(': Build Status') && d[k] === 'FAILURE') { const mod = k.replace(': Build Status', ''); if (mod !== 'Unit Tests') moduleFailures[mod] = (moduleFailures[mod] || 0) + 1; } }); });
     const sortedFailures = Object.entries(moduleFailures).sort((a, b) => b[1] - a[1]);
 
-    const healthScore = Math.round(buildSuccessRate * 0.5 + utPassRate * 0.3 + (avgCoverage ? Math.min(parseFloat(avgCoverage), 100) : 50) * 0.2);
-    const healthColor = healthScore >= 80 ? '#10b981' : healthScore >= 55 ? '#f59e0b' : '#ef4444';
-    const healthLabel = healthScore >= 80 ? 'HEALTHY' : healthScore >= 55 ? 'MODERATE' : 'NEEDS ATTENTION';
-
-    // ── PR Review Score Card data ─────────────────────────────────────────────
+    // ── PR Review thread data (from review_stats) ─────────────────────────────
     const revWithStats = dataList.filter(d => d.review_stats);
-    let reviewCardHtml = `
-        <div class="card" style="padding:1.5rem; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:0.85rem;">
-            💬 PR Review data will appear after the workflow re-runs
-        </div>`;
-    let hasReviewData = false;
-
+    let rvTotalThreads = null, rvResolvedThreads = null, rvUnresolvedThreads = null, rvOutdatedThreadsGql = null;
     let rvTotalComments = 0, rvAuthorReplies = 0, rvCopilotTotal = 0, rvCopilotAddressed = 0;
     let rvOutdated = 0, rvApproved = 0, rvChangesReq = 0, rvMaxReviewers = 0;
-    // GraphQL-based thread counts — use latest revision that has the data
-    let rvTotalThreads = null, rvResolvedThreads = null, rvUnresolvedThreads = null, rvOutdatedThreadsGql = null;
-
+    let hasReviewData = false;
     if (revWithStats.length > 0) {
         hasReviewData = true;
         rvTotalComments    = revWithStats.reduce((s, d) => s + (d.review_stats.total_review_comments || 0), 0);
@@ -1109,8 +1098,6 @@ function renderScoreCard(dataList) {
         rvApproved         = revWithStats[0].review_stats.reviews_approved || 0;
         rvChangesReq       = revWithStats[0].review_stats.reviews_changes_requested || 0;
         rvMaxReviewers     = Math.max(...revWithStats.map(d => d.review_stats.unique_reviewers || 0));
-
-        // Prefer GraphQL thread data from the latest revision that has it
         const latestWithGql = revWithStats.find(d => d.review_stats.total_threads != null);
         if (latestWithGql) {
             rvTotalThreads       = latestWithGql.review_stats.total_threads;
@@ -1118,140 +1105,23 @@ function renderScoreCard(dataList) {
             rvUnresolvedThreads  = latestWithGql.review_stats.unresolved_threads || 0;
             rvOutdatedThreadsGql = latestWithGql.review_stats.outdated_threads_gql || 0;
         }
-
-        const rvCopilotOpen = Math.max(rvCopilotTotal - rvCopilotAddressed, 0);
-        const rvCopilotPct  = rvCopilotTotal > 0 ? Math.round((rvCopilotAddressed / rvCopilotTotal) * 100) : null;
-
-        const rvHumanComments = revWithStats.reduce((s, d) => s + (d.review_stats.human_reviewer_comments || 0), 0);
-
-        const reviewDecisions = (rvApproved + rvChangesReq) > 0 ? `
-            <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.5rem; font-weight:600;">Review Decisions</div>
-            <div style="position:relative; height:${(rvApproved > 0 ? 28 : 0) + (rvChangesReq > 0 ? 28 : 0) + 8}px;">
-                <canvas id="sc-reviewBar"></canvas>
-            </div>` : `<div style="font-size:0.82rem; color:#10b981; padding:0.5rem 0;">✅ No formal review changes requested</div>`;
-
-        // ── Pie 1: Thread Resolution (GraphQL) or fallback empty state ──────
-        let pie1Html;
-        if (rvTotalThreads === null) {
-            // GraphQL data not yet available — old JSON entry
-            pie1Html = `
-                    <div style="text-align:center;">
-                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Thread Resolution</div>
-                        <div style="width:150px; height:150px; margin:0 auto; display:flex; align-items:center; justify-content:center; border:2px dashed #334155; border-radius:50%; font-size:0.75rem; color:#64748b; text-align:center; padding:1rem;">
-                            Re-run workflow to load thread data
-                        </div>
-                    </div>`;
-        } else if (rvTotalThreads === 0) {
-            pie1Html = `
-                    <div style="text-align:center;">
-                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Thread Resolution</div>
-                        <div style="width:150px; height:150px; margin:0 auto; display:flex; align-items:center; justify-content:center; border:2px dashed #334155; border-radius:50%; font-size:0.75rem; color:#64748b; text-align:center; padding:1rem;">
-                            💬 No review threads yet
-                        </div>
-                    </div>`;
-        } else {
-            const resolvedPct = Math.round((rvResolvedThreads / rvTotalThreads) * 100);
-            const pieColor = resolvedPct === 100 ? '#10b981' : resolvedPct >= 50 ? '#f59e0b' : '#ef4444';
-            pie1Html = `
-                    <div style="text-align:center;">
-                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Thread Resolution</div>
-                        <div style="position:relative; width:150px; margin:0 auto;">
-                            <canvas id="sc-engagePie" width="150" height="150"></canvas>
-                            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-                                <div style="font-size:1.5rem; font-weight:700; color:${pieColor};">${resolvedPct}%</div>
-                                <div style="font-size:0.65rem; color:#94a3b8;">resolved</div>
-                            </div>
-                        </div>
-                        <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
-                            <span style="color:#10b981;">✔ ${rvResolvedThreads} resolved</span> &nbsp;
-                            <span style="color:#ef4444;">✘ ${rvUnresolvedThreads} open</span>
-                            ${rvOutdatedThreadsGql > 0 ? `&nbsp;<span style="color:#f59e0b;">⚠ ${rvOutdatedThreadsGql} outdated</span>` : ''}
-                        </div>
-                    </div>`;
-        }
-
-        // ── Pie 2: Copilot Address Rate ──────────────────────────────────────
-        let pie2Html;
-        if (rvCopilotTotal === 0) {
-            pie2Html = `
-                    <div style="text-align:center;">
-                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Copilot Comments</div>
-                        <div style="width:150px; height:150px; margin:0 auto; display:flex; align-items:center; justify-content:center; border:2px dashed #334155; border-radius:50%; font-size:0.75rem; color:#64748b; text-align:center; padding:1rem;">
-                            🤖 No Copilot comments
-                        </div>
-                    </div>`;
-        } else {
-            pie2Html = `
-                    <div style="text-align:center;">
-                        <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.6rem; font-weight:600;">Copilot Address Rate</div>
-                        <div style="position:relative; width:150px; margin:0 auto;">
-                            <canvas id="sc-copilotPie" width="150" height="150"></canvas>
-                            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-                                <div style="font-size:1.5rem; font-weight:700; color:${rvCopilotPct >= 50 ? '#a78bfa' : '#f59e0b'};">${rvCopilotPct}%</div>
-                            </div>
-                        </div>
-                        <div style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
-                            <span style="color:#a78bfa;">✔ ${rvCopilotAddressed} addressed</span> &nbsp;
-                            <span style="color:#f59e0b;">✘ ${rvCopilotOpen} open</span>
-                        </div>
-                    </div>`;
-        }
-
-        // ── Thread summary tile (replaces old "Engage Score" tile) ──────────
-        let threadTileHtml;
-        if (rvTotalThreads === null) {
-            threadTileHtml = `
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:#64748b;">—</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Open Threads</div>
-                            </div>`;
-        } else {
-            const openColor = rvUnresolvedThreads === 0 ? '#10b981' : '#ef4444';
-            threadTileHtml = `
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:${openColor};">${rvUnresolvedThreads}</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Open Threads</div>
-                                <div style="font-size:0.65rem; color:#64748b;">${rvTotalThreads} total</div>
-                            </div>`;
-        }
-
-        reviewCardHtml = `
-            <div class="card" style="padding:1.5rem;">
-                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem;">
-                    💬 PR Review Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${revWithStats.length} revision${revWithStats.length !== 1 ? 's' : ''} analysed</span>
-                </h3>
-                <div style="display:grid; grid-template-columns:170px 170px 1fr; gap:2rem; align-items:start;">
-                    ${pie1Html}
-                    ${pie2Html}
-                    <!-- Tiles + bar chart -->
-                    <div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${rvTotalComments}</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Review Comments</div>
-                            </div>
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:#3b82f6;">${rvMaxReviewers}</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Reviewers</div>
-                            </div>
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:#f59e0b;">${rvAuthorReplies}</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Author Replies</div>
-                            </div>
-                            ${threadTileHtml}
-                        </div>
-                        ${rvCopilotTotal > 0 ? `
-                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#94a3b8;">
-                            <span>🤖 Copilot: <strong style="color:var(--text);">${rvCopilotTotal}</strong> comments</span>
-                            <span>👥 Human reviewers: <strong style="color:var(--text);">${rvHumanComments}</strong> comments</span>
-                        </div>` : ''}
-                        ${reviewDecisions}
-                    </div>
-                </div>
-            </div>`;
     }
 
-    // ── Set container HTML (side by side) ─────────────────────────────────────
+    // Thread resolution rate for health score (0-100); neutral 50 if no data yet
+    const threadResolvedPct = (rvTotalThreads != null && rvTotalThreads > 0)
+        ? Math.round((rvResolvedThreads / rvTotalThreads) * 100)
+        : (rvTotalThreads === 0 ? 100 : null);
+
+    const healthScore = Math.round(
+        buildSuccessRate * 0.4 +
+        utPassRate       * 0.25 +
+        (avgCoverage ? Math.min(parseFloat(avgCoverage), 100) : 50) * 0.15 +
+        (threadResolvedPct != null ? threadResolvedPct : 50) * 0.20
+    );
+    const healthColor = healthScore >= 80 ? '#10b981' : healthScore >= 55 ? '#f59e0b' : '#ef4444';
+    const healthLabel = healthScore >= 80 ? 'HEALTHY' : healthScore >= 55 ? 'MODERATE' : 'NEEDS ATTENTION';
+
+    // ── Set container HTML ─────────────────────────────────────────────────────
     container.innerHTML = `
         <div style="display:grid; grid-template-columns:1fr; gap:1rem; margin-bottom:1.5rem;">
             <div class="card" style="padding:1.5rem;">
@@ -1315,10 +1185,41 @@ function renderScoreCard(dataList) {
                         <div style="position:relative; height:${Math.min(sortedFailures.length, 6) * 28 + 8}px;">
                             <canvas id="sc-moduleBar"></canvas>
                         </div>` : `<div style="font-size:0.82rem; color:#10b981; padding:0.5rem 0;">✅ No module build failures across all builds</div>`}
+
+                        ${(() => {
+                            if (!hasReviewData) return '<div style="font-size:0.8rem;color:#334155;margin-top:0.75rem;">💬 Review thread data will appear after the next workflow run</div>';
+                            const barPct = threadResolvedPct != null ? threadResolvedPct : 0;
+                            const barColor = barPct === 100 ? '#10b981' : barPct >= 50 ? '#f59e0b' : '#ef4444';
+                            const openColor = rvUnresolvedThreads === 0 ? '#10b981' : '#ef4444';
+                            const resolvedLabel = rvTotalThreads != null ? `${rvResolvedThreads} / ${rvTotalThreads}` : '—';
+                            const openLabel    = rvTotalThreads != null ? `${rvUnresolvedThreads}` : '—';
+                            const pctLabel     = threadResolvedPct != null ? `${threadResolvedPct}%` : '—';
+                            return `
+                        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid rgba(0,188,235,0.12);">
+                            <div style="font-size:0.82rem;color:#94a3b8;font-weight:600;margin-bottom:0.6rem;">💬 PR Review Threads</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.6rem;margin-bottom:0.75rem;">
+                                <div style="background:#0f172a;border:1px solid rgba(16,185,129,0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                    <div style="font-size:1.3rem;font-weight:700;color:#10b981;">${resolvedLabel}</div>
+                                    <div style="font-size:0.68rem;color:#64748b;margin-top:0.15rem;">Resolved</div>
+                                </div>
+                                <div style="background:#0f172a;border:1px solid rgba(${rvUnresolvedThreads === 0 ? '16,185,129' : '239,68,68'},0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                    <div style="font-size:1.3rem;font-weight:700;color:${openColor};">${openLabel}</div>
+                                    <div style="font-size:0.68rem;color:#64748b;margin-top:0.15rem;">Open</div>
+                                </div>
+                                <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                    <div style="font-size:1.3rem;font-weight:700;color:${barColor};">${pctLabel}</div>
+                                    <div style="font-size:0.68rem;color:#64748b;margin-top:0.15rem;">Resolution Rate</div>
+                                </div>
+                            </div>
+                            <div style="background:#1e293b;border-radius:0.3rem;height:7px;overflow:hidden;">
+                                <div style="height:100%;width:${barPct}%;background:${barColor};border-radius:0.3rem;transition:width 0.6s ease;"></div>
+                            </div>
+                            ${rvOutdatedThreadsGql > 0 ? `<div style="font-size:0.7rem;color:#f59e0b;margin-top:0.35rem;">⚠ ${rvOutdatedThreadsGql} outdated thread${rvOutdatedThreadsGql !== 1 ? 's' : ''}</div>` : ''}
+                        </div>`;
+                        })()}
                     </div>
                 </div>
             </div>
-            ${reviewCardHtml}
         </div>
     `;
 
