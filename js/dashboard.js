@@ -117,7 +117,7 @@ function formatCiRunTime(timestamp) {
 }
 
 function calculateDuration(seconds) {
-    if (seconds === undefined || seconds === null) return 'N/A';
+    if (seconds === undefined || seconds === null || seconds <= 0) return 'N/A';
     if (seconds < 60) return `${seconds}s`;
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
@@ -1071,14 +1071,18 @@ function renderScoreCard(dataList) {
     // Effective duration: prefer Jenkins ci_duration_seconds, fall back to
     // the longest GH Actions run duration, then to check_runs elapsed time
     const effectiveDuration = (d) => {
-        if (d.ci_duration_seconds > 0) return d.ci_duration_seconds;
-        const gaMax = Math.max(0, ...((d.github_actions_runs || []).map(r => r.duration_seconds || 0)));
+        // Require >10s to filter out timing noise (e.g. 1s from near-instant banner timestamps)
+        if ((d.ci_duration_seconds || 0) > 10) return d.ci_duration_seconds;
+        // Only use GH Actions runs >60s — utility workflows (PR-title setter, AI review) are 10-20s
+        const gaRuns = (d.github_actions_runs || []).filter(r => (r.duration_seconds || 0) > 60);
+        const gaMax = gaRuns.length > 0 ? Math.max(...gaRuns.map(r => r.duration_seconds)) : 0;
         if (gaMax > 0) return gaMax;
+        // Check runs: only count if >60s (skip quick linting/scanning runs)
         const crRuns = (d.check_runs || []).filter(r => r.started_at && r.completed_at);
         if (crRuns.length > 0) {
             const elapsed = Math.max(...crRuns.map(r =>
                 Math.round((new Date(r.completed_at) - new Date(r.started_at)) / 1000)));
-            if (elapsed > 0) return elapsed;
+            if (elapsed > 60) return elapsed;
         }
         return 0;
     };
