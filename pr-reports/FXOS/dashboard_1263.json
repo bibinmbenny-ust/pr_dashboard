@@ -75,22 +75,22 @@
     "ai_suggestion": "",
     "check_runs": [],
     "review_stats": {
-      "total_review_comments": 7,
+      "total_review_comments": 25,
       "general_comments": 1,
-      "copilot_comments": 7,
+      "copilot_comments": 25,
       "copilot_addressed": 0,
-      "copilot_open": 7,
+      "copilot_open": 25,
       "human_reviewer_comments": 0,
       "author_replies": 0,
       "author_own_comments": 0,
       "outdated_threads": 0,
-      "total_threads": 7,
+      "total_threads": 25,
       "resolved_threads": 0,
-      "unresolved_threads": 6,
+      "unresolved_threads": 24,
       "outdated_threads_gql": 1,
       "reviews_approved": 0,
       "reviews_changes_requested": 0,
-      "reviews_commented": 1,
+      "reviews_commented": 3,
       "unique_reviewers": 0,
       "engagement_score": 0
     },
@@ -499,6 +499,2124 @@
                 "name": "Run cisco-actions/github-script@v7",
                 "conclusion": "success",
                 "number": 2,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Unit Tests: Build Status": "FAILURE",
+    "Unit Tests: Coverage Percentage": "N/A",
+    "Unit Tests: Unit Tests Passed": "0",
+    "Unit Tests: Unit Tests Failed": "0",
+    "Unit Tests: Unit Tests Skipped": "0",
+    "ssp: Build Status": "FAILURE",
+    "ssp: Static Analysis Issues": 0,
+    "smp: Build Status": "FAILURE",
+    "smp: Static Analysis Issues": 0,
+    "Unit Tests: Static Analysis Issues": 0,
+    "FP1K: Build Status": "FAILURE",
+    "FP1K: Static Analysis Issues": 0,
+    "FP3K: Build Status": "FAILURE",
+    "FP3K: Static Analysis Issues": 0,
+    "FP4K: Build Status": "FAILURE",
+    "FP4K: Static Analysis Issues": 0,
+    "WPK: Build Status": "FAILURE",
+    "WPK: Static Analysis Issues": 0,
+    "ARM: Build Status": "FAILURE",
+    "ARM: Static Analysis Issues": 0,
+    "ARMV: Build Status": "FAILURE",
+    "ARMV: Static Analysis Issues": 0,
+    "ARSENAL: Build Status": "FAILURE",
+    "ARSENAL: Static Analysis Issues": 0,
+    "NINEELMS: Build Status": "FAILURE",
+    "NINEELMS: Static Analysis Issues": 0,
+    "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
+    "changed_files": 3,
+    "additions": 4068,
+    "deletions": 48,
+    "merged": false,
+    "pr_id": "1263",
+    "author": "bbenny_cisco",
+    "created_at": "2026-06-26T12:10:04Z",
+    "updated_at": "2026-06-30T10:31:51Z",
+    "pr_state": "open",
+    "base_branch": "uxbridge/FXOS_2_19_MAIN",
+    "head_branch": "feature/pr_dashboard_v3",
+    "commit_hash": "03a93b327138673bfba92cbe613b72be6715813f",
+    "ci_start_time": "2026-06-30T09:36:22Z",
+    "ci_duration_seconds": 179,
+    "jenkins_build_number": "4",
+    "jenkins_build_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/",
+    "total_failures": 11,
+    "failed_stage": "ssp, smp, Unit Tests, FP1K, FP3K, FP4K, WPK, ARM, ARMV, ARSENAL, NINEELMS",
+    "errors": [
+      {
+        "stage": "ssp",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/ssp-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "smp",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/smp-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "Unit Tests",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/Unit Tests-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "FP1K",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/FP1K-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "FP3K",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/FP3K-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "FP4K",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/FP4K-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "WPK",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/WPK-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "ARM",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/ARM-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "ARMV",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/ARMV-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "ARSENAL",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/ARSENAL-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      },
+      {
+        "stage": "NINEELMS",
+        "status": "FAILURE",
+        "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/4/artifact/image/NINEELMS-grepErrorOutFile.txt",
+        "stage_type": "build",
+        "error_count": 0,
+        "error_preview": "Build failed - check logs",
+        "has_full_details": false
+      }
+    ],
+    "error_message": "❌ ssp: build failed\\n❌ smp: build failed\\n❌ Unit Tests: build failed\\n❌ FP1K: build failed\\n❌ FP3K: build failed\\n❌ FP4K: build failed\\n❌ WPK: build failed\\n❌ ARM: build failed\\n❌ ARMV: build failed\\n❌ ARSENAL: build failed\\n❌ NINEELMS: build failed",
+    "changed_files_details": [
+      {
+        "file_name": "Jenkinsfile_git.ci",
+        "status": "modified",
+        "additions": 649,
+        "deletions": 48,
+        "changes": 697
+      },
+      {
+        "file_name": "Jenkinsfile_git_org.ci",
+        "status": "added",
+        "additions": 1095,
+        "deletions": 0,
+        "changes": 1095
+      },
+      {
+        "file_name": "jenkinsfile_git_pr.ci",
+        "status": "added",
+        "additions": 2324,
+        "deletions": 0,
+        "changes": 2324
+      }
+    ],
+    "revision": 4,
+    "banner_comment_id": 4841952025,
+    "ai_suggestion": "",
+    "check_runs": [],
+    "review_stats": {
+      "total_review_comments": 25,
+      "general_comments": 1,
+      "copilot_comments": 25,
+      "copilot_addressed": 0,
+      "copilot_open": 25,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 25,
+      "resolved_threads": 0,
+      "unresolved_threads": 24,
+      "outdated_threads_gql": 1,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 3,
+      "unique_reviewers": 0,
+      "engagement_score": 0
+    },
+    "github_actions_runs": [
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28437896912",
+        "run_number": 37593,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896912",
+        "started_at": "2026-06-30T10:31:40Z",
+        "duration_seconds": 13,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T10:31:47Z",
+            "completed_at": "2026-06-30T10:31:52Z",
+            "duration_seconds": 5,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896912/job/84268212490",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28437896938",
+        "run_number": 9936,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896938",
+        "started_at": "2026-06-30T10:31:40Z",
+        "duration_seconds": 14,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T10:31:46Z",
+            "completed_at": "2026-06-30T10:31:53Z",
+            "duration_seconds": 7,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896938/job/84268212262",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28434956964",
+        "run_number": 9933,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956964",
+        "started_at": "2026-06-30T09:39:17Z",
+        "duration_seconds": 12,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:39:21Z",
+            "completed_at": "2026-06-30T09:39:28Z",
+            "duration_seconds": 7,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956964/job/84258546079",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28434956878",
+        "run_number": 37590,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956878",
+        "started_at": "2026-06-30T09:39:17Z",
+        "duration_seconds": 9,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:39:22Z",
+            "completed_at": "2026-06-30T09:39:25Z",
+            "duration_seconds": 3,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956878/job/84258545583",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Running Copilot Code Review",
+        "workflow_id": "28434925738",
+        "run_number": 455,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434925738",
+        "started_at": "2026-06-30T09:38:43Z",
+        "duration_seconds": 353,
+        "jobs": [
+          {
+            "name": "copilot-pull-request-reviewer",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:49Z",
+            "completed_at": "2026-06-30T09:44:35Z",
+            "duration_seconds": 346,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434925738/job/84258444415",
+            "steps": [
+              {
+                "name": "Initialize",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Validate runner OS",
+                "conclusion": "skipped",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Validate firewall settings (Linux)",
+                "conclusion": "skipped",
+                "number": 4,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Validate firewall settings (Windows)",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Pre-cache Playwright MCP server in the background (Linux)",
+                "conclusion": "success",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Pre-cache Playwright MCP server in the background (Windows)",
+                "conclusion": "skipped",
+                "number": 7,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Prepare Copilot (Linux)",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 7
+              },
+              {
+                "name": "Prepare Copilot (Windows)",
+                "conclusion": "skipped",
+                "number": 9,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Download Autofind (Linux)",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Download Autofind (Windows)",
+                "conclusion": "skipped",
+                "number": 11,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Generate agent firewall CA (Linux)",
+                "conclusion": "success",
+                "number": 12,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Start MCP Servers (Linux)",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Start MCP Servers (Windows)",
+                "conclusion": "skipped",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Setup Agent (Linux)",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Agent (Windows)",
+                "conclusion": "skipped",
+                "number": 16,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Processing Request (Linux)",
+                "conclusion": "success",
+                "number": 17,
+                "duration_seconds": 330
+              },
+              {
+                "name": "Processing Request (Windows)",
+                "conclusion": "skipped",
+                "number": 18,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Clean Up (Linux)",
+                "conclusion": "success",
+                "number": 19,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Clean Up (Windows)",
+                "conclusion": "skipped",
+                "number": 20,
+                "duration_seconds": 0
+              },
+              {
+                "name": "[Optional] Archive Details",
+                "conclusion": "skipped",
+                "number": 21,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Auto Rebase PR on Test Branch Update",
+        "workflow_id": "28434919751",
+        "run_number": 925,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434919751",
+        "started_at": "2026-06-30T09:38:37Z",
+        "duration_seconds": 131,
+        "jobs": [
+          {
+            "name": "auto-rebase-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:40:47Z",
+            "duration_seconds": 124,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434919751/job/84258421410",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 117
+              },
+              {
+                "name": "Skip LFS smudge filter",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure Git",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Install yq for YAML parsing",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check if PR author is exempted",
+                "conclusion": "success",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check if PR changes only skip-eligible files",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Determine whether PR overlaps with recent base-branch changes",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Exempted user - skip rebase",
+                "conclusion": "skipped",
+                "number": 9,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Fork PR - comment with instructions",
+                "conclusion": "skipped",
+                "number": 10,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Draft PR - skip rebase and comment",
+                "conclusion": "skipped",
+                "number": 11,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Rebase PR (only when overlap detected)",
+                "conclusion": "skipped",
+                "number": 12,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 24,
+                "duration_seconds": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS LFS File Size Validation",
+        "workflow_id": "28434918706",
+        "run_number": 6757,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918706",
+        "started_at": "2026-06-30T09:38:36Z",
+        "duration_seconds": 16,
+        "jobs": [
+          {
+            "name": "validate-large-files",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:38:51Z",
+            "duration_seconds": 8,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918706/job/84258418146",
+            "steps": [
+              {
+                "name": "Resolve PR details",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check large files against .gitattributes",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "PR #1263",
+        "workflow_id": "28434918142",
+        "run_number": 3546,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142",
+        "started_at": "2026-06-30T09:38:35Z",
+        "duration_seconds": 353,
+        "jobs": [
+          {
+            "name": "Analyze (ruby)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:44Z",
+            "completed_at": "2026-06-30T09:40:36Z",
+            "duration_seconds": 112,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418866",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 52
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 11
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 3
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 35
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (go)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:42:35Z",
+            "duration_seconds": 232,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418868",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 51
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 20
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 3
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 31
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 120
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:41:23Z",
+            "duration_seconds": 160,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418874",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 46
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 10
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 95
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (java-kotlin)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:44:28Z",
+            "duration_seconds": 345,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418888",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 50
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 18
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 267
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (actions)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:40:44Z",
+            "duration_seconds": 121,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418911",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 50
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 10
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 47
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (python)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:42:13Z",
+            "duration_seconds": 210,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418925",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 50
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 16
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 128
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Unit Tests: Build Status": "SUCCESS",
+    "Unit Tests: Coverage Percentage": "N/A",
+    "Unit Tests: Unit Tests Passed": "15",
+    "Unit Tests: Unit Tests Failed": "0",
+    "Unit Tests: Unit Tests Skipped": "0",
+    "Unit Tests: Static Analysis Issues": 0,
+    "ssp: Build Status": "SUCCESS",
+    "ssp: Static Analysis Issues": 0,
+    "smp: Build Status": "SUCCESS",
+    "smp: Static Analysis Issues": 0,
+    "FP1K: Build Status": "SUCCESS",
+    "FP1K: Static Analysis Issues": 0,
+    "FP3K: Build Status": "SUCCESS",
+    "FP3K: Static Analysis Issues": 0,
+    "FP4K: Build Status": "SUCCESS",
+    "FP4K: Static Analysis Issues": 0,
+    "WPK: Build Status": "SUCCESS",
+    "WPK: Static Analysis Issues": 0,
+    "ARM: Build Status": "SUCCESS",
+    "ARM: Static Analysis Issues": 0,
+    "ARMV: Build Status": "SUCCESS",
+    "ARMV: Static Analysis Issues": 0,
+    "ARSENAL: Build Status": "SUCCESS",
+    "ARSENAL: Static Analysis Issues": 0,
+    "NINEELMS: Build Status": "SUCCESS",
+    "NINEELMS: Static Analysis Issues": 0,
+    "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
+    "changed_files": 3,
+    "additions": 4068,
+    "deletions": 48,
+    "merged": false,
+    "pr_id": "1263",
+    "author": "bbenny_cisco",
+    "created_at": "2026-06-26T12:10:04Z",
+    "updated_at": "2026-06-30T10:31:51Z",
+    "pr_state": "open",
+    "base_branch": "uxbridge/FXOS_2_19_MAIN",
+    "head_branch": "feature/pr_dashboard_v3",
+    "commit_hash": "03a93b327138673bfba92cbe613b72be6715813f",
+    "ci_start_time": "2026-06-30T09:39:11Z",
+    "ci_duration_seconds": 3156,
+    "jenkins_build_number": "6",
+    "jenkins_build_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/6/",
+    "total_failures": 0,
+    "failed_stage": "",
+    "errors": [],
+    "error_message": "",
+    "changed_files_details": [
+      {
+        "file_name": "Jenkinsfile_git.ci",
+        "status": "modified",
+        "additions": 649,
+        "deletions": 48,
+        "changes": 697
+      },
+      {
+        "file_name": "Jenkinsfile_git_org.ci",
+        "status": "added",
+        "additions": 1095,
+        "deletions": 0,
+        "changes": 1095
+      },
+      {
+        "file_name": "jenkinsfile_git_pr.ci",
+        "status": "added",
+        "additions": 2324,
+        "deletions": 0,
+        "changes": 2324
+      }
+    ],
+    "revision": 6,
+    "banner_comment_id": 4842416128,
+    "ai_suggestion": "",
+    "check_runs": [],
+    "review_stats": {
+      "total_review_comments": 25,
+      "general_comments": 1,
+      "copilot_comments": 25,
+      "copilot_addressed": 0,
+      "copilot_open": 25,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 25,
+      "resolved_threads": 0,
+      "unresolved_threads": 24,
+      "outdated_threads_gql": 1,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 3,
+      "unique_reviewers": 0,
+      "engagement_score": 0
+    },
+    "github_actions_runs": [
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28437896912",
+        "run_number": 37593,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896912",
+        "started_at": "2026-06-30T10:31:40Z",
+        "duration_seconds": 13,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T10:31:47Z",
+            "completed_at": "2026-06-30T10:31:52Z",
+            "duration_seconds": 5,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896912/job/84268212490",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28437896938",
+        "run_number": 9936,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896938",
+        "started_at": "2026-06-30T10:31:40Z",
+        "duration_seconds": 14,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T10:31:46Z",
+            "completed_at": "2026-06-30T10:31:53Z",
+            "duration_seconds": 7,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28437896938/job/84268212262",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AI Code Review Check",
+        "workflow_id": "28434956964",
+        "run_number": 9933,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956964",
+        "started_at": "2026-06-30T09:39:17Z",
+        "duration_seconds": 12,
+        "jobs": [
+          {
+            "name": "validate-ai-review",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:39:21Z",
+            "completed_at": "2026-06-30T09:39:28Z",
+            "duration_seconds": 7,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956964/job/84258546079",
+            "steps": [
+              {
+                "name": "Checkout config file",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Check bypass users and groups",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check AI Code Review Comments Resolved",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Skip notification",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout config file",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS Auto-Set PR Title",
+        "workflow_id": "28434956878",
+        "run_number": 37590,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956878",
+        "started_at": "2026-06-30T09:39:17Z",
+        "duration_seconds": 9,
+        "jobs": [
+          {
+            "name": "update-title",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:39:22Z",
+            "completed_at": "2026-06-30T09:39:25Z",
+            "duration_seconds": 3,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434956878/job/84258545583",
+            "steps": [
+              {
+                "name": "Run cisco-actions/github-script@v7",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Running Copilot Code Review",
+        "workflow_id": "28434925738",
+        "run_number": 455,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434925738",
+        "started_at": "2026-06-30T09:38:43Z",
+        "duration_seconds": 353,
+        "jobs": [
+          {
+            "name": "copilot-pull-request-reviewer",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:49Z",
+            "completed_at": "2026-06-30T09:44:35Z",
+            "duration_seconds": 346,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434925738/job/84258444415",
+            "steps": [
+              {
+                "name": "Initialize",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Validate runner OS",
+                "conclusion": "skipped",
+                "number": 3,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Validate firewall settings (Linux)",
+                "conclusion": "skipped",
+                "number": 4,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Validate firewall settings (Windows)",
+                "conclusion": "skipped",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Pre-cache Playwright MCP server in the background (Linux)",
+                "conclusion": "success",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Pre-cache Playwright MCP server in the background (Windows)",
+                "conclusion": "skipped",
+                "number": 7,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Prepare Copilot (Linux)",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 7
+              },
+              {
+                "name": "Prepare Copilot (Windows)",
+                "conclusion": "skipped",
+                "number": 9,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Download Autofind (Linux)",
+                "conclusion": "success",
+                "number": 10,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Download Autofind (Windows)",
+                "conclusion": "skipped",
+                "number": 11,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Generate agent firewall CA (Linux)",
+                "conclusion": "success",
+                "number": 12,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Start MCP Servers (Linux)",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Start MCP Servers (Windows)",
+                "conclusion": "skipped",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Setup Agent (Linux)",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Agent (Windows)",
+                "conclusion": "skipped",
+                "number": 16,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Processing Request (Linux)",
+                "conclusion": "success",
+                "number": 17,
+                "duration_seconds": 330
+              },
+              {
+                "name": "Processing Request (Windows)",
+                "conclusion": "skipped",
+                "number": 18,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Clean Up (Linux)",
+                "conclusion": "success",
+                "number": 19,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Clean Up (Windows)",
+                "conclusion": "skipped",
+                "number": 20,
+                "duration_seconds": 0
+              },
+              {
+                "name": "[Optional] Archive Details",
+                "conclusion": "skipped",
+                "number": 21,
+                "duration_seconds": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Auto Rebase PR on Test Branch Update",
+        "workflow_id": "28434919751",
+        "run_number": 925,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434919751",
+        "started_at": "2026-06-30T09:38:37Z",
+        "duration_seconds": 131,
+        "jobs": [
+          {
+            "name": "auto-rebase-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:40:47Z",
+            "duration_seconds": 124,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434919751/job/84258421410",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 117
+              },
+              {
+                "name": "Skip LFS smudge filter",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure Git",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Install yq for YAML parsing",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check if PR author is exempted",
+                "conclusion": "success",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check if PR changes only skip-eligible files",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Determine whether PR overlaps with recent base-branch changes",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Exempted user - skip rebase",
+                "conclusion": "skipped",
+                "number": 9,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Fork PR - comment with instructions",
+                "conclusion": "skipped",
+                "number": 10,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Draft PR - skip rebase and comment",
+                "conclusion": "skipped",
+                "number": 11,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Rebase PR (only when overlap detected)",
+                "conclusion": "skipped",
+                "number": 12,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 24,
+                "duration_seconds": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FXOS LFS File Size Validation",
+        "workflow_id": "28434918706",
+        "run_number": 6757,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918706",
+        "started_at": "2026-06-30T09:38:36Z",
+        "duration_seconds": 16,
+        "jobs": [
+          {
+            "name": "validate-large-files",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:38:51Z",
+            "duration_seconds": 8,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918706/job/84258418146",
+            "steps": [
+              {
+                "name": "Resolve PR details",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Check large files against .gitattributes",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "PR #1263",
+        "workflow_id": "28434918142",
+        "run_number": 3546,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142",
+        "started_at": "2026-06-30T09:38:35Z",
+        "duration_seconds": 353,
+        "jobs": [
+          {
+            "name": "Analyze (ruby)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:44Z",
+            "completed_at": "2026-06-30T09:40:36Z",
+            "duration_seconds": 112,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418866",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 52
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 11
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 3
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 35
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (go)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:42:35Z",
+            "duration_seconds": 232,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418868",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 51
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 20
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 3
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 31
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 120
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:41:23Z",
+            "duration_seconds": 160,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418874",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 46
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 10
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 95
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (java-kotlin)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:44:28Z",
+            "duration_seconds": 345,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418888",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 50
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 18
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 267
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (actions)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:40:44Z",
+            "duration_seconds": 121,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418911",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 50
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 10
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 47
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
+                "duration_seconds": 0
+              }
+            ]
+          },
+          {
+            "name": "Analyze (python)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-06-30T09:38:43Z",
+            "completed_at": "2026-06-30T09:42:13Z",
+            "duration_seconds": 210,
+            "url": "https://github.com/cisco-sbg-emu/netsec-fxos/actions/runs/28434918142/job/84258418925",
+            "steps": [
+              {
+                "name": "Checkout repository",
+                "conclusion": "success",
+                "number": 2,
+                "duration_seconds": 50
+              },
+              {
+                "name": "Initialize CodeQL",
+                "conclusion": "success",
+                "number": 3,
+                "duration_seconds": 16
+              },
+              {
+                "name": "Setup proxy for registries",
+                "conclusion": "success",
+                "number": 4,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Configure",
+                "conclusion": "success",
+                "number": 5,
+                "duration_seconds": 2
+              },
+              {
+                "name": "Setup Go",
+                "conclusion": "skipped",
+                "number": 6,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Autobuild",
+                "conclusion": "success",
+                "number": 7,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 8,
+                "duration_seconds": 128
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "conclusion": "success",
+                "number": 13,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "conclusion": "success",
+                "number": 14,
+                "duration_seconds": 0
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "conclusion": "success",
+                "number": 15,
+                "duration_seconds": 1
+              },
+              {
+                "name": "Post Checkout repository",
+                "conclusion": "success",
+                "number": 16,
                 "duration_seconds": 0
               }
             ]
