@@ -1097,8 +1097,10 @@ function renderScoreCard(dataList) {
     const utCountRevisions = dataList.filter(d => parseInt(d['Unit Tests: Unit Tests Passed']) > 0);
     const avgUtTests = utCountRevisions.length > 0
         ? Math.round(utCountRevisions.reduce((s, d) => s + parseInt(d['Unit Tests: Unit Tests Passed'] || 0) + parseInt(d['Unit Tests: Unit Tests Failed'] || 0), 0) / utCountRevisions.length) : 0;
-    const totalUtTestsPassed = dataList.reduce((s, d) => s + (parseInt(d['Unit Tests: Unit Tests Passed']) || 0), 0);
-    const totalUtTestsFailed = dataList.reduce((s, d) => s + (parseInt(d['Unit Tests: Unit Tests Failed']) || 0), 0);
+    // Use the most recent build's UT count (last revision with UT data), not a cumulative sum
+    const lastUtRevision = [...dataList].reverse().find(d => (parseInt(d['Unit Tests: Unit Tests Passed']) || 0) > 0 || (parseInt(d['Unit Tests: Unit Tests Failed']) || 0) > 0);
+    const totalUtTestsPassed = lastUtRevision ? (parseInt(lastUtRevision['Unit Tests: Unit Tests Passed']) || 0) : 0;
+    const totalUtTestsFailed = lastUtRevision ? (parseInt(lastUtRevision['Unit Tests: Unit Tests Failed']) || 0) : 0;
     const totalUtTests = totalUtTestsPassed + totalUtTestsFailed;
 
     const moduleFailures = {};
