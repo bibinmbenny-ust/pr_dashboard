@@ -118,8 +118,10 @@ function formatCiRunTime(timestamp) {
 
 function calculateDuration(seconds) {
     if (seconds === undefined || seconds === null) return 'N/A';
-    const minutes = Math.round(seconds / 60);
-    return `${minutes} min`;
+    if (seconds < 60) return `${seconds}s`;
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    return h > 0 ? `${h}h ${m}m` : `${m} min`;
 }
 
 // Helper to render the failure card if data exists
@@ -1066,9 +1068,23 @@ function renderScoreCard(dataList) {
     const utFailed = utRevisions.length - utPassed;
     const utPassRate = utRevisions.length > 0 ? Math.round((utPassed / utRevisions.length) * 100) : 0;
 
-    const durRevisions = dataList.filter(d => d.ci_duration_seconds > 0);
+    // Effective duration: prefer Jenkins ci_duration_seconds, fall back to
+    // the longest GH Actions run duration, then to check_runs elapsed time
+    const effectiveDuration = (d) => {
+        if (d.ci_duration_seconds > 0) return d.ci_duration_seconds;
+        const gaMax = Math.max(0, ...((d.github_actions_runs || []).map(r => r.duration_seconds || 0)));
+        if (gaMax > 0) return gaMax;
+        const crRuns = (d.check_runs || []).filter(r => r.started_at && r.completed_at);
+        if (crRuns.length > 0) {
+            const elapsed = Math.max(...crRuns.map(r =>
+                Math.round((new Date(r.completed_at) - new Date(r.started_at)) / 1000)));
+            if (elapsed > 0) return elapsed;
+        }
+        return 0;
+    };
+    const durRevisions = dataList.filter(d => effectiveDuration(d) > 0);
     const avgDuration = durRevisions.length > 0
-        ? Math.round(durRevisions.reduce((s, d) => s + d.ci_duration_seconds, 0) / durRevisions.length) : 0;
+        ? Math.round(durRevisions.reduce((s, d) => s + effectiveDuration(d), 0) / durRevisions.length) : 0;
 
     const covRevisions = dataList.filter(d => { const c = d['Unit Tests: Coverage Percentage']; return c && c !== 'N/A' && !isNaN(parseFloat(c)); });
     const avgCoverage = covRevisions.length > 0
@@ -1077,6 +1093,9 @@ function renderScoreCard(dataList) {
     const utCountRevisions = dataList.filter(d => parseInt(d['Unit Tests: Unit Tests Passed']) > 0);
     const avgUtTests = utCountRevisions.length > 0
         ? Math.round(utCountRevisions.reduce((s, d) => s + parseInt(d['Unit Tests: Unit Tests Passed'] || 0) + parseInt(d['Unit Tests: Unit Tests Failed'] || 0), 0) / utCountRevisions.length) : 0;
+    const totalUtTestsPassed = dataList.reduce((s, d) => s + (parseInt(d['Unit Tests: Unit Tests Passed']) || 0), 0);
+    const totalUtTestsFailed = dataList.reduce((s, d) => s + (parseInt(d['Unit Tests: Unit Tests Failed']) || 0), 0);
+    const totalUtTests = totalUtTestsPassed + totalUtTestsFailed;
 
     const moduleFailures = {};
     dataList.forEach(d => { Object.keys(d).forEach(k => { if (k.endsWith(': Build Status') && d[k] === 'FAILURE') { const mod = k.replace(': Build Status', ''); if (mod !== 'Unit Tests') moduleFailures[mod] = (moduleFailures[mod] || 0) + 1; } }); });
@@ -1146,8 +1165,8 @@ function renderScoreCard(dataList) {
                                 <span style="color:${buildSuccessRate >= 50 ? '#10b981' : '#ef4444'}; font-weight:600;">${passedBuilds} / ${total}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#94a3b8;">🧪 UT runs passed</span>
-                                <span style="color:${utPassRate >= 50 ? '#3b82f6' : '#f59e0b'}; font-weight:600;">${utPassed} / ${utRevisions.length || total}</span>
+                                <span style="color:#94a3b8;">🧪 UT tests passed</span>
+                                <span style="color:${totalUtTests > 0 && totalUtTestsFailed === 0 ? '#3b82f6' : '#f59e0b'}; font-weight:600;">${totalUtTests > 0 ? `${totalUtTestsPassed} / ${totalUtTests}` : `${utPassed} / ${utRevisions.length || total} rev`}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
                                 <span style="color:#94a3b8;">💬 Threads resolved</span>
