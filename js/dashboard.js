@@ -1053,6 +1053,358 @@ async function loadMetrics() {
 // This client-side code only displays pre-generated suggestions from the dashboard_*.json files
 
 // ── Score Card ────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+//  Dashboard Insight Sections
+//  Each helper is self-contained and returns an HTML string (or '' when it has no
+//  data to show), so any single feature can be removed without touching the others.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Shared: effective build duration for a revision (filters out timing noise)
+function getEffectiveDuration(d) {
+    if ((d.ci_duration_seconds || 0) > 10) return d.ci_duration_seconds;
+    const gaRuns = (d.github_actions_runs || []).filter(r => (r.duration_seconds || 0) > 60);
+    const gaMax = gaRuns.length > 0 ? Math.max(...gaRuns.map(r => r.duration_seconds)) : 0;
+    if (gaMax > 0) return gaMax;
+    const crRuns = (d.check_runs || []).filter(r => r.started_at && r.completed_at);
+    if (crRuns.length > 0) {
+        const elapsed = Math.max(...crRuns.map(r => Math.round((new Date(r.completed_at) - new Date(r.started_at)) / 1000)));
+        if (elapsed > 60) return elapsed;
+    }
+    return 0;
+}
+
+// Shared: chronological (oldest → newest) copy of the revision list
+function chronological(dataList) {
+    return [...dataList].sort((a, b) => (a.revision ?? 0) - (b.revision ?? 0));
+}
+
+// Shared: humanise a millisecond span → "3d 4h" / "5h 12m" / "8m"
+function formatAgeSpan(ms) {
+    if (ms == null || isNaN(ms) || ms < 0) return 'N/A';
+    const days = Math.floor(ms / 86400000);
+    const hrs  = Math.floor((ms % 86400000) / 3600000);
+    const mins = Math.floor((ms % 3600000) / 60000);
+    if (days > 0) return `${days}d ${hrs}h`;
+    if (hrs  > 0) return `${hrs}h ${mins}m`;
+    return `${mins}m`;
+}
+
+// Feature 1: Merge Readiness Checklist (traffic-light on the latest revision)
+function renderMergeReadiness(dataList) {
+    const latest = dataList[0];
+    if (!latest) return '';
+    const rs = latest.review_stats || {};
+
+    const buildsPass   = getOverallStatus(latest) === 'PASSING BUILD';
+    const utStatus     = latest['Unit Tests: Build Status'];
+    const utFailedCnt  = parseInt(latest['Unit Tests: Unit Tests Failed']) || 0;
+    const utPass       = utStatus === 'SUCCESS' && utFailedCnt === 0;
+    const unresolved   = rs.unresolved_threads;
+    const threadsOk    = unresolved != null ? unresolved === 0 : null;
+    const approvals    = rs.reviews_approved || 0;
+    const changesReq   = rs.reviews_changes_requested || 0;
+
+    const items = [
+        { label: 'All module builds passing', ok: buildsPass, detail: buildsPass ? 'All green' : `${latest.failed_stage || 'Some'} failing` },
+        { label: 'Unit tests green',           ok: (utStatus === 'SUCCESS' || utStatus == null) ? (utStatus == null ? null : utPass) : false, detail: utStatus == null ? 'No data' : (utPass ? 'Passed' : (utFailedCnt ? `${utFailedCnt} failed` : 'Not passing')) },
+        { label: 'No unresolved review threads', ok: threadsOk, detail: threadsOk == null ? 'No data yet' : (threadsOk ? 'All resolved' : `${unresolved} open`) },
+        { label: 'Has reviewer approval',      ok: approvals > 0, detail: approvals > 0 ? `${approvals} approval${approvals !== 1 ? 's' : ''}` : 'None yet' },
+        { label: 'No changes requested',       ok: changesReq === 0, detail: changesReq === 0 ? 'Clear' : `${changesReq} requested` },
+    ];
+
+    const hardChecks  = items.filter(i => i.ok !== null);
+    const passedCount = hardChecks.filter(i => i.ok === true).length;
+    const allReady    = hardChecks.length > 0 && hardChecks.every(i => i.ok === true);
+    const verdictColor = allReady ? '#10b981' : (passedCount >= hardChecks.length - 1 ? '#f59e0b' : '#ef4444');
+    const verdictText  = allReady ? 'READY TO MERGE' : 'NOT READY';
+
+    const rows = items.map(i => {
+        const icon = i.ok === true ? '✅' : i.ok === false ? '❌' : '⚪';
+        const col  = i.ok === true ? '#10b981' : i.ok === false ? '#ef4444' : '#64748b';
+        return `<div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="font-size:0.95rem;">${icon}</span>
+            <span style="flex:1;font-size:0.82rem;color:var(--text);">${i.label}</span>
+            <span style="font-size:0.72rem;color:${col};font-weight:600;">${i.detail}</span>
+        </div>`;
+    }).join('');
+
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0;">🚦 Merge Readiness</h3>
+            <span style="background:${verdictColor}22;color:${verdictColor};border:1px solid ${verdictColor}55;padding:0.25rem 0.75rem;border-radius:1rem;font-size:0.72rem;font-weight:700;letter-spacing:0.03em;">${verdictText}</span>
+        </div>
+        ${rows}
+    </div>`;
+}
+
+// Feature 2: Build History Timeline (Rev1 ❌ 30min → Rev2 ✅ 27min ...)
+function renderBuildTimeline(dataList) {
+    const chrono = chronological(dataList);
+    if (chrono.length === 0) return '';
+    const chips = chrono.map((d, i) => {
+        const pass = getOverallStatus(d) === 'PASSING BUILD';
+        const col  = pass ? '#10b981' : '#ef4444';
+        const icon = pass ? '✅' : '❌';
+        const dur  = getEffectiveDuration(d);
+        const durLabel = dur > 0 ? calculateDuration(dur) : '—';
+        const arrow = i < chrono.length - 1 ? `<span style="color:#475569;font-size:1.1rem;">→</span>` : '';
+        return `
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+            <div style="text-align:center;min-width:72px;background:#0f172a;border:1px solid ${col}55;border-radius:0.5rem;padding:0.5rem 0.6rem;">
+                <div style="font-size:0.7rem;color:#94a3b8;font-weight:600;">Rev ${d.revision ?? (i + 1)}</div>
+                <div style="font-size:1rem;margin:0.15rem 0;">${icon}</div>
+                <div style="font-size:0.68rem;color:${col};font-weight:600;">${durLabel}</div>
+            </div>
+            ${arrow}
+        </div>`;
+    }).join('');
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">📈 Build History Timeline</h3>
+        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;overflow-x:auto;padding-bottom:0.25rem;">
+            ${chips}
+        </div>
+    </div>`;
+}
+
+// Feature 3: PR Age & Velocity
+function renderPrVelocity(dataList) {
+    const chrono = chronological(dataList);
+    if (chrono.length === 0) return '';
+    const parseD = s => { const t = Date.parse(s); return isNaN(t) ? null : t; };
+    const now = Date.now();
+    const firstCreated = parseD(chrono[0].created_at);
+    const lastUpdated  = parseD(dataList[0].updated_at) || parseD(dataList[0].created_at);
+    const age = firstCreated != null ? now - firstCreated : null;
+
+    const times = chrono.map(d => parseD(d.created_at)).filter(t => t != null);
+    let avgGap = null;
+    if (times.length > 1) {
+        let sum = 0;
+        for (let i = 1; i < times.length; i++) sum += times[i] - times[i - 1];
+        avgGap = sum / (times.length - 1);
+    }
+    const lastActivity = lastUpdated != null ? now - lastUpdated : null;
+
+    const tile = (val, label, color) => `
+        <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.6rem;padding:0.75rem;text-align:center;">
+            <div style="font-size:1.2rem;font-weight:700;color:${color};">${val}</div>
+            <div style="font-size:0.68rem;color:#64748b;margin-top:0.2rem;">${label}</div>
+        </div>`;
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">⏱️ PR Age & Velocity</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.6rem;">
+            ${tile(formatAgeSpan(age), 'PR Age', '#3b82f6')}
+            ${tile(chrono.length, 'Revisions', 'var(--cisco-blue)')}
+            ${tile(avgGap != null ? formatAgeSpan(avgGap) : 'N/A', 'Avg / Revision', '#a78bfa')}
+            ${tile(lastActivity != null ? formatAgeSpan(lastActivity) + ' ago' : 'N/A', 'Last Activity', '#f59e0b')}
+        </div>
+    </div>`;
+}
+
+// Feature 4: Trend charts (coverage, churn, duration) — HTML shell; charts init later
+function renderTrendCharts(dataList) {
+    if (chronological(dataList).length < 2) return '';
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">📉 Trends Across Revisions</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+            <div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-bottom:0.4rem;">Coverage %</div>
+                <div style="height:90px;"><canvas id="sc-trendCoverage"></canvas></div>
+            </div>
+            <div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-bottom:0.4rem;">Code Churn (± lines)</div>
+                <div style="height:90px;"><canvas id="sc-trendChurn"></canvas></div>
+            </div>
+            <div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-bottom:0.4rem;">Build Duration</div>
+                <div style="height:90px;"><canvas id="sc-trendDuration"></canvas></div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function initTrendCharts(dataList) {
+    const chrono = chronological(dataList);
+    if (chrono.length < 2) return;
+    const labels = chrono.map(d => 'R' + (d.revision ?? ''));
+    const baseOpts = (fmt) => ({
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) } } },
+        scales: {
+            x: { ticks: { color: '#64748b', font: { size: 9 } }, grid: { display: false } },
+            y: { ticks: { color: '#64748b', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        },
+        animation: { duration: 600 }, elements: { point: { radius: 2 } }
+    });
+
+    const covCanvas = document.getElementById('sc-trendCoverage');
+    if (covCanvas) {
+        const cov = chrono.map(d => { const c = parseFloat(d['Unit Tests: Coverage Percentage']); return isNaN(c) ? null : c; });
+        new Chart(covCanvas, { type: 'line', data: { labels, datasets: [{ data: cov, borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.15)', fill: true, tension: 0.3, spanGaps: true }] }, options: baseOpts(v => v + '%') });
+    }
+    const churnCanvas = document.getElementById('sc-trendChurn');
+    if (churnCanvas) {
+        const adds = chrono.map(d => parseInt(d.additions) || 0);
+        const dels = chrono.map(d => -(parseInt(d.deletions) || 0));
+        new Chart(churnCanvas, {
+            type: 'bar',
+            data: { labels, datasets: [
+                { data: adds, backgroundColor: 'rgba(16,185,129,0.7)' },
+                { data: dels, backgroundColor: 'rgba(239,68,68,0.7)' }
+            ] },
+            options: { ...baseOpts(v => (v >= 0 ? '+' : '') + v + ' lines'),
+                scales: {
+                    x: { stacked: true, ticks: { color: '#64748b', font: { size: 9 } }, grid: { display: false } },
+                    y: { stacked: true, ticks: { color: '#64748b', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                } }
+        });
+    }
+    const durCanvas = document.getElementById('sc-trendDuration');
+    if (durCanvas) {
+        const durs = chrono.map(d => { const s = getEffectiveDuration(d); return s > 0 ? Math.round(s / 60) : null; });
+        new Chart(durCanvas, { type: 'line', data: { labels, datasets: [{ data: durs, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.15)', fill: true, tension: 0.3, spanGaps: true }] }, options: baseOpts(v => v + ' min') });
+    }
+}
+
+// Feature 5: Build cache hit-rate tiles (bitbake + bazel)
+function renderCacheTiles(dataList) {
+    const rev = dataList.find(d => d.bitbake_cache_percentage != null || d.bazel_cache_percentage != null);
+    if (!rev) return '';
+    const tile = (val, label) => {
+        const has = val != null && !isNaN(parseFloat(val));
+        const v = has ? parseFloat(val) : null;
+        const col = !has ? '#64748b' : v >= 80 ? '#10b981' : v >= 50 ? '#f59e0b' : '#ef4444';
+        return `
+        <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.6rem;padding:0.85rem;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">
+                <span style="font-size:0.78rem;color:#94a3b8;">${label}</span>
+                <span style="font-size:0.9rem;font-weight:700;color:${col};">${has ? v + '%' : 'N/A'}</span>
+            </div>
+            <div style="background:#1e293b;border-radius:0.3rem;height:6px;overflow:hidden;">
+                <div style="height:100%;width:${has ? v : 0}%;background:${col};border-radius:0.3rem;transition:width 0.6s ease;"></div>
+            </div>
+        </div>`;
+    };
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">⚡ Build Cache Hit Rate</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+            ${tile(rev.bitbake_cache_percentage, '🍥 Bitbake Cache')}
+            ${tile(rev.bazel_cache_percentage, '🧱 Bazel Cache')}
+        </div>
+    </div>`;
+}
+
+// Feature 6: Reviewer Engagement panel
+function renderReviewerEngagement(dataList) {
+    const rev = dataList.find(d => d.review_stats);
+    if (!rev) return '';
+    const rs = rev.review_stats;
+    const tile = (val, label, color) => `
+        <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.6rem;padding:0.7rem;text-align:center;">
+            <div style="font-size:1.3rem;font-weight:700;color:${color};">${val}</div>
+            <div style="font-size:0.66rem;color:#64748b;margin-top:0.15rem;">${label}</div>
+        </div>`;
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">👥 Reviewer Engagement</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;">
+            ${tile(rs.unique_reviewers || 0, 'Reviewers', 'var(--cisco-blue)')}
+            ${tile(rs.reviews_approved || 0, 'Approvals', '#10b981')}
+            ${tile(rs.reviews_changes_requested || 0, 'Changes Req', '#ef4444')}
+            ${tile(rs.total_review_comments || 0, 'Comments', '#a78bfa')}
+        </div>
+    </div>`;
+}
+
+// Feature 7: Flaky Module Detection (modules that both passed AND failed across revisions)
+function renderFlakyModules(dataList) {
+    if (dataList.length < 2) return '';
+    const mod = {};
+    dataList.forEach(d => {
+        Object.keys(d).forEach(k => {
+            if (k.endsWith(': Build Status')) {
+                const name = k.replace(': Build Status', '');
+                const st = d[k];
+                if (st === 'SUCCESS' || st === 'FAILURE') {
+                    mod[name] = mod[name] || { pass: 0, fail: 0 };
+                    if (st === 'SUCCESS') mod[name].pass++; else mod[name].fail++;
+                }
+            }
+        });
+    });
+    const flaky = Object.entries(mod).filter(([, v]) => v.pass > 0 && v.fail > 0).sort((a, b) => b[1].fail - a[1].fail);
+    if (flaky.length === 0) return '';
+    const rows = flaky.map(([name, v]) => {
+        const total = v.pass + v.fail;
+        const failPct = Math.round(v.fail / total * 100);
+        return `
+        <div style="display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0;">
+            <span style="flex:1;font-family:monospace;font-size:0.8rem;color:var(--text);">${name}</span>
+            <span style="font-size:0.72rem;color:#10b981;">${v.pass}✓</span>
+            <span style="font-size:0.72rem;color:#ef4444;">${v.fail}✗</span>
+            <div style="width:80px;background:#1e293b;border-radius:0.3rem;height:6px;overflow:hidden;">
+                <div style="height:100%;width:${failPct}%;background:#f59e0b;"></div>
+            </div>
+        </div>`;
+    }).join('');
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.35rem 0;">🎲 Flaky Modules</h3>
+        <div style="font-size:0.72rem;color:#64748b;margin-bottom:0.6rem;">Modules that both passed and failed across revisions</div>
+        ${rows}
+    </div>`;
+}
+
+// Feature 8: Error Fingerprint (group error_message by type across builds)
+function renderErrorFingerprint(dataList) {
+    const errs = {};
+    dataList.forEach(d => {
+        const msg = d.error_message;
+        if (msg && msg !== 'N/A' && String(msg).trim()) {
+            const m = String(msg);
+            let type = 'Other';
+            if (/linker|undefined reference|vtable/i.test(m)) type = 'Linker Error';
+            else if (/compil|syntax|expected|undeclared/i.test(m)) type = 'Compilation Error';
+            else if (/timeout|timed out/i.test(m)) type = 'Timeout';
+            else if (/test|assert/i.test(m)) type = 'Test Failure';
+            else if (/dependency|not found|no such file|missing/i.test(m)) type = 'Missing Dependency';
+            else if (/permission|denied|auth/i.test(m)) type = 'Permission / Auth';
+            errs[type] = errs[type] || { count: 0, sample: m };
+            errs[type].count++;
+        }
+    });
+    const entries = Object.entries(errs).sort((a, b) => b[1].count - a[1].count);
+    if (entries.length === 0) return '';
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const rows = entries.map(([type, v]) => `
+        <div style="padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.82rem;color:#ef4444;font-weight:600;">⚠ ${type}</span>
+                <span style="font-size:0.72rem;color:#94a3b8;">${v.count}×</span>
+            </div>
+            <div style="font-size:0.7rem;color:#64748b;margin-top:0.2rem;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(v.sample.slice(0, 100))}</div>
+        </div>`).join('');
+    return `
+    <div class="card" style="padding:1.25rem;">
+        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.6rem 0;">🧬 Error Fingerprint</h3>
+        ${rows}
+    </div>`;
+}
+
+// Feature 9: CDET / bug ticket badge (linked to CDETS)
+function renderCdetLink(dataList) {
+    const rev = dataList.find(d => d.cdet && d.cdet !== 'N/A' && d.cdet !== 'No CDET found');
+    if (!rev) return '';
+    const cdet = rev.cdet;
+    const url = `https://cdetsng.cisco.com/summary/#/defect/${cdet}`;
+    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:#0f172a;border:1px solid rgba(0,188,235,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--cisco-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
+}
+
 function renderScoreCard(dataList) {
     const container = document.getElementById('scorecard-container');
     if (!container || dataList.length === 0) return;
@@ -1146,12 +1498,25 @@ function renderScoreCard(dataList) {
     const healthColor = healthScore >= 80 ? '#10b981' : healthScore >= 55 ? '#f59e0b' : '#ef4444';
     const healthLabel = healthScore >= 80 ? 'HEALTHY' : healthScore >= 55 ? 'MODERATE' : 'NEEDS ATTENTION';
 
+    // ── Additional insight sections (each modular / independently removable) ───
+    const cdetBadge = renderCdetLink(dataList);
+    const extraSections =
+        renderMergeReadiness(dataList) +
+        renderBuildTimeline(dataList) +
+        renderTrendCharts(dataList) +
+        renderPrVelocity(dataList) +
+        renderCacheTiles(dataList) +
+        renderReviewerEngagement(dataList) +
+        renderFlakyModules(dataList) +
+        renderErrorFingerprint(dataList);
+
     // ── Set container HTML ─────────────────────────────────────────────────────
     container.innerHTML = `
         <div style="display:grid; grid-template-columns:1fr; gap:1rem; margin-bottom:1.5rem;">
             <div class="card" style="padding:1.5rem;">
-                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem;">
-                    📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${total} build${total !== 1 ? 's' : ''} analysed</span>
+                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+                    <span>📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${total} build${total !== 1 ? 's' : ''} analysed</span></span>
+                    ${cdetBadge}
                 </h3>
                 <div style="display:grid; grid-template-columns:220px 1fr; gap:2rem; align-items:start;">
                     <!-- Overall Score doughnut -->
@@ -1241,6 +1606,7 @@ function renderScoreCard(dataList) {
                     </div>
                 </div>
             </div>
+            ${extraSections}
         </div>
     `;
 
@@ -1287,6 +1653,9 @@ function renderScoreCard(dataList) {
             }
         });
     }
+
+    // Trend sparklines (coverage / churn / duration) for the new insight section
+    initTrendCharts(dataList);
 }
 // ── End Score Card ─────────────────────────────────────────────────────────────
 
