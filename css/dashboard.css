@@ -1166,3 +1166,290 @@ footer {
         min-width: 100%;
     }
 }
+
+/* ==================================================================== */
+/* PR OVERVIEW / ANALYTICS PAGE                                          */
+/* ==================================================================== */
+.ov-card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ov-card-title {
+    color: var(--cisco-blue);
+    font-size: 1.05rem;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.ov-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.ov-card-header .ov-card-title { margin-bottom: 0; }
+
+.ov-subtle {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.ov-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .ov-grid-2 { grid-template-columns: 1fr; }
+}
+
+/* --- KPI tiles --- */
+.ov-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1100px) { .ov-kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px)  { .ov-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.ov-kpi {
+    background: var(--card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ov-kpi:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.ov-kpi-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+
+.ov-kpi-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.ov-kpi-suffix {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.6;
+    margin-left: 2px;
+}
+
+.ov-kpi-label {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* --- Charts --- */
+.ov-chart-wrap {
+    position: relative;
+    height: 260px;
+}
+
+/* --- Contributors --- */
+.ov-contrib-list { display: flex; flex-direction: column; gap: 0.7rem; }
+
+.ov-contrib-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 32px;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.ov-contrib-name {
+    font-size: 0.82rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ov-contrib-bar-track {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.ov-contrib-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cisco-dark-blue), var(--cisco-blue));
+    border-radius: 6px;
+}
+
+.ov-contrib-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cisco-blue);
+    text-align: right;
+}
+
+/* --- Lowest score table --- */
+.ov-table-wrap { overflow-x: auto; }
+
+.ov-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.ov-table thead th {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ov-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ov-table tbody tr:hover { background: rgba(0, 188, 235, 0.06); }
+
+.ov-table td { padding: 0.7rem 0.75rem; vertical-align: middle; }
+
+.ov-td-num { font-weight: 700; color: var(--cisco-blue); white-space: nowrap; }
+
+.ov-td-title { max-width: 340px; color: var(--text); }
+
+.ov-td-author { font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+.ov-score-cell { display: flex; align-items: center; gap: 0.6rem; min-width: 130px; }
+
+.ov-score-bar-track {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.ov-score-bar { height: 100%; border-radius: 6px; }
+
+.ov-score-num { font-weight: 800; font-size: 0.9rem; min-width: 26px; text-align: right; }
+
+.ov-td-issues { max-width: 260px; }
+
+.ov-issue-tag {
+    display: inline-block;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    margin: 0.1rem 0.2rem 0.1rem 0;
+    white-space: nowrap;
+}
+
+/* --- Stale list --- */
+.ov-stale-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.ov-stale-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.ov-stale-row:hover { border-color: var(--cisco-blue); background: rgba(0, 188, 235, 0.05); }
+
+.ov-stale-main { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+
+.ov-stale-pr { font-weight: 700; color: var(--cisco-blue); white-space: nowrap; }
+
+.ov-stale-title {
+    font-size: 0.82rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 260px;
+}
+
+.ov-stale-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 0.15rem; white-space: nowrap; }
+
+.ov-stale-age { font-size: 0.8rem; font-weight: 700; }
+
+/* --- Aggregate metrics --- */
+.ov-agg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 560px) { .ov-agg-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.ov-agg-tile {
+    background: #0f172a;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem 0.75rem;
+    text-align: center;
+}
+
+.ov-agg-value { font-size: 1.4rem; font-weight: 800; }
+
+.ov-agg-label {
+    margin-top: 0.35rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+}
+
+.ov-timestamp {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0.5rem 0 1.5rem;
+}
+
+/* --- Overview link button on PR list page --- */
+.pr-overview-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--cisco-blue), #0095c7);
+    color: var(--bg);
+    padding: 0.55rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pr-overview-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 188, 235, 0.35);
+}

@@ -356,6 +356,10 @@ async function initializePage() {
     document.getElementById('project-title').insertAdjacentHTML('beforeend', 
         `<div style="font-size: 0.85rem; opacity: 0.8; font-weight: 400; margin-top: 0.3rem;">${currentProject.displayName}</div>`
     );
+
+    // Point the overview button at this project
+    const overviewLink = document.getElementById('overview-link');
+    if (overviewLink) overviewLink.href = `pr-overview.html?project=${currentProject.name}`;
     
     // Fetch PR list
     const prListPath = `pr-reports/${currentProject.name}/pr-list.json`;

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PR Overview - NetSec Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="global-header">
+        <div class="title-container">
+            <h1 id="project-title">Loading...</h1>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">
+                <a id="back-link" href="pr-list.html" style="color: var(--cisco-blue); text-decoration: none;">← Back to PR List</a>
+            </p>
+        </div>
+        <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
+    </div>
+
+    <p id="loading-message" style="padding: 1rem;">Loading PR analytics…</p>
+
+    <div id="overview-content" style="display: none;">
+
+        <!-- KPI Tiles -->
+        <div id="kpi-grid" class="ov-kpi-grid"></div>
+
+        <!-- Charts row -->
+        <div class="ov-grid-2">
+            <div class="card ov-card">
+                <h3 class="ov-card-title">📊 PR Status Distribution</h3>
+                <div class="ov-chart-wrap"><canvas id="statusChart"></canvas></div>
+            </div>
+            <div class="card ov-card">
+                <h3 class="ov-card-title">🩺 PR Health Distribution</h3>
+                <div class="ov-chart-wrap"><canvas id="healthChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Build health + Contributors -->
+        <div class="ov-grid-2">
+            <div class="card ov-card">
+                <h3 class="ov-card-title">🏗️ Build Health (latest revision)</h3>
+                <div class="ov-chart-wrap"><canvas id="buildChart"></canvas></div>
+            </div>
+            <div class="card ov-card">
+                <h3 class="ov-card-title">👥 Top Contributors</h3>
+                <div id="contributors" class="ov-contrib-list"></div>
+            </div>
+        </div>
+
+        <!-- Lowest score PRs -->
+        <div class="card ov-card">
+            <div class="ov-card-header">
+                <h3 class="ov-card-title">⚠️ Lowest Health Score — Needs Attention</h3>
+                <span class="ov-subtle">Sorted by health score (ascending)</span>
+            </div>
+            <div id="lowest-table" class="ov-table-wrap"></div>
+        </div>
+
+        <!-- Stale PRs + Aggregate metrics -->
+        <div class="ov-grid-2">
+            <div class="card ov-card">
+                <h3 class="ov-card-title">🕰️ Stalest Pull Requests</h3>
+                <div id="stale-list" class="ov-stale-list"></div>
+            </div>
+            <div class="card ov-card">
+                <h3 class="ov-card-title">🧮 Aggregate Metrics</h3>
+                <div id="aggregate-grid" class="ov-agg-grid"></div>
+            </div>
+        </div>
+
+        <p id="ov-timestamp" class="ov-timestamp"></p>
+    </div>
+
+    <footer id="dashboard-footer">
+        NetSec Dashboard
+    </footer>
+
+    <script src="js/pr-overview.js"></script>
+</body>
+</html>
