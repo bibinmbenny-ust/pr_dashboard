@@ -1055,6 +1055,10 @@ footer {
     padding-left: 2.1rem;
 }
 
+.pr-input-wrap input[type="text"] {
+    padding-left: 2.1rem;
+}
+
 .pr-toolbar input:focus,
 .pr-toolbar select:focus {
     outline: none;

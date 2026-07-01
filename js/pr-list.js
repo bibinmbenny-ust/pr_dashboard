@@ -142,12 +142,12 @@ function renderPRItem(pr) {
 // Apply current search / sort / date-range settings to allPRs
 function applyFilters() {
     const searchEl = document.getElementById('pr-search');
-    const sortEl = document.getElementById('pr-sort');
+    const authorEl = document.getElementById('pr-author');
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
 
     const searchTerm = (searchEl?.value || '').trim();
-    const sortMode = sortEl?.value || 'default';
+    const authorTerm = (authorEl?.value || '').trim().toLowerCase();
     const fromVal = fromEl?.value || '';
     const toVal = toEl?.value || '';
 
@@ -156,6 +156,11 @@ function applyFilters() {
     // Search by PR number (substring match on the number)
     if (searchTerm) {
         list = list.filter(pr => String(pr.number).includes(searchTerm));
+    }
+
+    // Search by author (case-insensitive substring match)
+    if (authorTerm) {
+        list = list.filter(pr => String(pr.author || '').toLowerCase().includes(authorTerm));
     }
 
     // Date range on updated_at (inclusive)
@@ -171,17 +176,6 @@ function applyFilters() {
         list = list.filter(pr => {
             const t = new Date(pr.updated_at).getTime();
             return !isNaN(t) && t <= toTime;
-        });
-    }
-
-    // Sort by author
-    if (sortMode === 'author-asc' || sortMode === 'author-desc') {
-        const dir = sortMode === 'author-asc' ? 1 : -1;
-        list.sort((a, b) => {
-            const cmp = String(a.author || '').toLowerCase()
-                .localeCompare(String(b.author || '').toLowerCase());
-            if (cmp !== 0) return cmp * dir;
-            return (b.number || 0) - (a.number || 0);
         });
     }
 
@@ -288,19 +282,19 @@ function renderPagination(totalPages) {
 // Wire up toolbar controls
 function initToolbar() {
     const searchEl = document.getElementById('pr-search');
-    const sortEl = document.getElementById('pr-sort');
+    const authorEl = document.getElementById('pr-author');
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
     const clearEl = document.getElementById('pr-clear-filters');
 
     searchEl?.addEventListener('input', applyFilters);
-    sortEl?.addEventListener('change', applyFilters);
+    authorEl?.addEventListener('input', applyFilters);
     fromEl?.addEventListener('change', applyFilters);
     toEl?.addEventListener('change', applyFilters);
 
     clearEl?.addEventListener('click', () => {
         if (searchEl) searchEl.value = '';
-        if (sortEl) sortEl.value = 'default';
+        if (authorEl) authorEl.value = '';
         if (fromEl) fromEl.value = '';
         if (toEl) toEl.value = '';
         applyFilters();
