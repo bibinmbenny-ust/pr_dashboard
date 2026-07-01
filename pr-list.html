@@ -23,8 +23,50 @@
             <span id="pr-count-badge" class="status-badge status-inprogress-bg">Loading...</span>
         </div>
         <p id="loading-message">Loading pull requests...</p>
+
+        <!-- Toolbar: search / sort / date range -->
+        <div id="pr-toolbar" class="pr-toolbar" style="display: none;">
+            <div class="pr-toolbar-field pr-toolbar-search">
+                <label for="pr-search">Search by PR #</label>
+                <div class="pr-input-wrap">
+                    <span class="pr-input-icon">🔍</span>
+                    <input type="text" id="pr-search" inputmode="numeric" autocomplete="off"
+                           placeholder="e.g. 1263" />
+                </div>
+            </div>
+
+            <div class="pr-toolbar-field">
+                <label for="pr-sort">Sort by author</label>
+                <select id="pr-sort">
+                    <option value="default">Default (recent)</option>
+                    <option value="author-asc">Author A → Z</option>
+                    <option value="author-desc">Author Z → A</option>
+                </select>
+            </div>
+
+            <div class="pr-toolbar-field">
+                <label for="pr-date-from">Updated from</label>
+                <input type="date" id="pr-date-from" />
+            </div>
+
+            <div class="pr-toolbar-field">
+                <label for="pr-date-to">Updated to</label>
+                <input type="date" id="pr-date-to" />
+            </div>
+
+            <div class="pr-toolbar-field pr-toolbar-actions">
+                <button type="button" id="pr-clear-filters" class="pr-btn-clear">Clear</button>
+            </div>
+        </div>
+
+        <div id="pr-results-info" class="pr-results-info" style="display: none;"></div>
+
         <div id="pr-list-content" style="display: none;">
             <!-- PR list will be populated here -->
+        </div>
+
+        <div id="pr-pagination" class="pr-pagination" style="display: none;">
+            <!-- Pagination controls -->
         </div>
     </div>
 

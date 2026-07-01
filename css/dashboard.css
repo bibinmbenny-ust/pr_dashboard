@@ -9,6 +9,8 @@
     --failure: #ef4444; /* Red-500 - Red */
     --warning: #f59e0b; /* Amber-500 - Yellow */
     --in-progress: #3b82f6; /* Blue-500 */
+    --border-color: #334155; /* Slate-700 - subtle borders */
+    --text-secondary: #94a3b8; /* Slate-400 - muted text */
 }
 
 /* Base Styles */
@@ -987,5 +989,180 @@ footer {
     
     .card-features {
         grid-template-columns: 1fr;
+    }
+}
+
+/* --- PR List Toolbar (search / sort / date range) --- */
+.pr-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding: 1.25rem;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+.pr-toolbar-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 150px;
+}
+
+.pr-toolbar-search {
+    flex: 1 1 220px;
+}
+
+.pr-toolbar-field label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+.pr-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pr-input-icon {
+    position: absolute;
+    left: 0.7rem;
+    font-size: 0.85rem;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.pr-toolbar input[type="text"],
+.pr-toolbar input[type="date"],
+.pr-toolbar select {
+    width: 100%;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pr-toolbar-search input[type="text"] {
+    padding-left: 2.1rem;
+}
+
+.pr-toolbar input:focus,
+.pr-toolbar select:focus {
+    outline: none;
+    border-color: var(--cisco-blue);
+    box-shadow: 0 0 0 3px rgba(0, 188, 235, 0.15);
+}
+
+.pr-toolbar input[type="date"] {
+    color-scheme: dark;
+}
+
+.pr-toolbar-actions {
+    min-width: auto;
+}
+
+.pr-btn-clear {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.55rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.pr-btn-clear:hover {
+    border-color: var(--cisco-blue);
+    color: var(--cisco-blue);
+}
+
+/* --- Results info line --- */
+.pr-results-info {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.pr-results-info strong {
+    color: var(--text);
+}
+
+/* --- Empty state --- */
+.pr-empty-state {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    border: 1px dashed var(--border-color);
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+/* --- Pagination --- */
+.pr-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+}
+
+.pr-page-btn {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 0.7rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.pr-page-btn:hover:not(:disabled):not(.active) {
+    border-color: var(--cisco-blue);
+    color: var(--cisco-blue);
+}
+
+.pr-page-btn.active {
+    background: var(--cisco-blue);
+    border-color: var(--cisco-blue);
+    color: var(--bg);
+    cursor: default;
+}
+
+.pr-page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pr-page-nav {
+    font-weight: 600;
+}
+
+.pr-page-ellipsis {
+    color: var(--text-secondary);
+    padding: 0 0.3rem;
+    user-select: none;
+}
+
+@media (max-width: 640px) {
+    .pr-toolbar-field {
+        flex: 1 1 100%;
+        min-width: 100%;
     }
 }
