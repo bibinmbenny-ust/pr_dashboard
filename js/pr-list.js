@@ -50,22 +50,32 @@ async function fetchPRList(url, maxRetries = 3) {
     }
 }
 
-// Get status badge class
-function getStatusBadgeClass(ci_status, check_status, check_conclusion) {
-    // Only check ci_status for badge color
-    if (ci_status === 'failure') return 'status-failure-bg';
-    if (ci_status === 'success') return 'status-success-bg';
-    if (ci_status === 'pending') return 'status-inprogress-bg';
-    return 'status-warning-bg';
+// Get PR status badge class (reflects PR review/lifecycle status, not build CI)
+function getStatusBadgeClass(pr_status) {
+    switch (pr_status) {
+        case 'merged':
+        case 'approved':          return 'status-success-bg';
+        case 'closed':
+        case 'changes_requested': return 'status-failure-bg';
+        case 'review_required':
+        case 'open':              return 'status-inprogress-bg';
+        case 'draft':
+        default:                  return 'status-warning-bg';
+    }
 }
 
-// Get status text
-function getStatusText(ci_status, check_status, check_conclusion) {
-    // Only display ci_status
-    if (ci_status && ci_status !== 'unknown' && ci_status !== 'none') {
-        return ci_status.toUpperCase();
-    }
-    return 'UNKNOWN';
+// Get PR status display text
+function getStatusText(pr_status) {
+    const labels = {
+        merged: 'MERGED',
+        approved: 'APPROVED',
+        closed: 'CLOSED',
+        changes_requested: 'CHANGES REQUESTED',
+        review_required: 'REVIEW REQUIRED',
+        open: 'OPEN',
+        draft: 'DRAFT'
+    };
+    return labels[pr_status] || 'OPEN';
 }
 
 // Format date
@@ -102,8 +112,8 @@ function renderPRList(prData) {
     }
     
     const prListHTML = pullRequests.map(pr => {
-        const statusBadgeClass = getStatusBadgeClass(pr.ci_status, pr.check_status, pr.check_conclusion);
-        const statusText = getStatusText(pr.ci_status, pr.check_status, pr.check_conclusion);
+        const statusBadgeClass = getStatusBadgeClass(pr.pr_status);
+        const statusText = getStatusText(pr.pr_status);
         const updatedDate = formatDate(pr.updated_at);
         const isDraft = pr.draft ? '<span style="opacity: 0.6; font-size: 0.85rem;">[DRAFT]</span>' : '';
         

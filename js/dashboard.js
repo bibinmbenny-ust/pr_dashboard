@@ -981,28 +981,36 @@ async function loadMetrics() {
     const mergedStatusText = latestRevisionData.merged === undefined ? "N/A" : (latestRevisionData.merged ? "TRUE" : "FALSE");
     const mergedClass = getStatusClass(latestRevisionData.merged);
     
-    // --- Get CI Status info from PR list data if available ---
+    // --- Get PR status info from PR list data if available ---
+    // Build/CI status comes from the Jenkins revision data; this panel shows the
+    // GitHub PR lifecycle status (approved / changes requested / merged / etc.).
     let ciStatusHtml = '';
-    const ciStatus = ciStatusData?.ci_status;
-    const checkStatus = ciStatusData?.check_status;
-    const checkConclusion = ciStatusData?.check_conclusion;
-    
-    if (ciStatus || checkStatus || checkConclusion) {
-        const getCIStatusBadge = (status) => {
-            if (!status || status === 'unknown' || status === 'none') return '<span class="status-badge status-warning-bg">N/A</span>';
-            if (status === 'success') return '<span class="status-badge status-success-bg">SUCCESS</span>';
-            if (status === 'failure') return '<span class="status-badge status-failure-bg">FAILURE</span>';
-            if (status === 'pending' || status === 'in_progress' || status === 'queued') return '<span class="status-badge status-inprogress-bg">PENDING</span>';
-            if (status === 'completed') return '<span class="status-badge status-success-bg">COMPLETED</span>';
-            return `<span class="status-badge status-warning-bg">${status.toUpperCase()}</span>`;
+    const prStatus = ciStatusData?.pr_status;
+    const prReviewDecision = ciStatusData?.review_decision;
+
+    if (prStatus) {
+        const prStatusBadge = (status) => {
+            const map = {
+                merged:            ['status-success-bg', 'MERGED'],
+                approved:          ['status-success-bg', 'APPROVED'],
+                closed:            ['status-failure-bg', 'CLOSED'],
+                changes_requested: ['status-failure-bg', 'CHANGES REQUESTED'],
+                review_required:   ['status-inprogress-bg', 'REVIEW REQUIRED'],
+                open:              ['status-inprogress-bg', 'OPEN'],
+                draft:             ['status-warning-bg', 'DRAFT']
+            };
+            const [cls, label] = map[status] || ['status-warning-bg', (status || 'N/A').toUpperCase()];
+            return `<span class="status-badge ${cls}">${label}</span>`;
         };
-        
+        const decisionLabel = prReviewDecision
+            ? prReviewDecision.replace(/_/g, ' ')
+            : 'No review yet';
+
         ciStatusHtml = `
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 188, 235, 0.2);">
-                <h4 style="color: var(--cisco-blue); margin-bottom: 0.5rem;">GitHub CI/CD Status</h4>
-                <p><strong>Commit Status:</strong> ${getCIStatusBadge(ciStatus)}</p>
-                <p><strong>Check Status:</strong> ${getCIStatusBadge(checkStatus)}</p>
-                <p><strong>Check Conclusion:</strong> ${getCIStatusBadge(checkConclusion)}</p>
+                <h4 style="color: var(--cisco-blue); margin-bottom: 0.5rem;">GitHub PR Status</h4>
+                <p><strong>PR Status:</strong> ${prStatusBadge(prStatus)}</p>
+                <p><strong>Review Decision:</strong> <span style="text-transform: capitalize;">${decisionLabel.toLowerCase()}</span></p>
             </div>
         `;
     }

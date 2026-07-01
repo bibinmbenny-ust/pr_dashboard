@@ -1,10 +1,14 @@
-name: Check CI Status
+name: Check PR Status
+
+# This workflow ONLY tracks pull-request status and review/comment activity.
+# All build / CI / unit-test / cache data comes from the Jenkins CI job, which
+# writes dashboard_<PR>.json directly. This workflow never touches those fields.
 
 on:
   workflow_dispatch: # Manual trigger only
 
 jobs:
-  check-ci-status:
+  check-pr-status:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -18,240 +22,82 @@ jobs:
           echo "GH_TOKEN=${{ secrets.FXOS_PAT }}" >> $GITHUB_ENV
           echo "✅ GitHub token loaded from Actions secret"
 
-      - name: Get All Open PRs from FXOS
+      - name: Update PR status and review info
         id: get-prs
         env:
           GH_TOKEN: ${{ env.GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -uo pipefail
           PROJECT_NAME="FXOS"
           REPO_NAME="cisco-sbg-emu/netsec-fxos"
-          
-          echo "Fetching all open PRs from $REPO_NAME"
-          
-          # First, verify we can access the repository
-          if ! gh api repos/$REPO_NAME > /dev/null 2>&1; then
-            echo "⚠️ WARNING: Cannot access repository $REPO_NAME"
-            echo "[]" > /tmp/empty-prs.json
-            echo "pr_count=0" >> $GITHUB_OUTPUT
-            mkdir -p pr-reports/$PROJECT_NAME
-            echo "[]" > pr-reports/$PROJECT_NAME/pr-list.json
+          BASE_BRANCH="uxbridge/FXOS_2_19_MAIN"
+          REPO_OWNER="${REPO_NAME%%/*}"
+          REPO_REPO="${REPO_NAME##*/}"
+          mkdir -p "pr-reports/$PROJECT_NAME"
+
+          # Bail out gracefully if the repo is unreachable
+          if ! gh api "repos/$REPO_NAME" > /dev/null 2>&1; then
+            echo "⚠️  Cannot access repository $REPO_NAME"
+            [ -f "pr-reports/$PROJECT_NAME/pr-list.json" ] || \
+              echo "{\"project\":\"$PROJECT_NAME\",\"pull_requests\":[],\"total_count\":0}" \
+                > "pr-reports/$PROJECT_NAME/pr-list.json"
+            echo "pr_count=0" >> "$GITHUB_OUTPUT"
+            echo "project_name=$PROJECT_NAME" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          
-          # Only process PRs targeting the specific base branch
-          TEST_BRANCH="uxbridge/FXOS_2_19_MAIN"
-          echo "Filtering to PRs targeting base branch: $TEST_BRANCH"
 
-          # Get all open pull requests (filtered to PRs whose target/base is TEST_BRANCH)
-          PRS_JSON=$(gh api repos/$REPO_NAME/pulls \
-            --jq "[.[] | select(.base.ref == \"$TEST_BRANCH\") | {
-              number: .number,
-              title: .title,
-              state: .state,
-              author: .user.login,
-              created_at: .created_at,
-              updated_at: .updated_at,
-              head_branch: .head.ref,
-              head_sha: .head.sha,
-              base_branch: .base.ref,
-              html_url: .html_url,
-              draft: .draft,
-              mergeable_state: .mergeable_state,
-              labels: [.labels[].name]
-            }]")
-          
-          echo "Found PRs:"
-          echo "$PRS_JSON" | jq .
-          
-          # Fetch CI status for each PR
-          PR_COUNT=$(echo "$PRS_JSON" | jq 'length')
-          ENRICHED_PRS="[]"
-          
-          for i in $(seq 0 $((PR_COUNT - 1))); do
-            PR=$(echo "$PRS_JSON" | jq ".[$i]")
-            PR_NUMBER=$(echo "$PR" | jq -r '.number')
-            HEAD_SHA=$(echo "$PR" | jq -r '.head_sha')
-            
-            echo "Fetching CI status for PR #$PR_NUMBER (SHA: $HEAD_SHA)"
-            
-            # Get commit status (suppress stderr; override var on failure to avoid stdout/fallback concatenation)
-            STATUS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/status 2>/dev/null) \
-              || STATUS_RESPONSE='{}'
-            CI_STATE=$(echo "$STATUS_RESPONSE" | jq -r '.state // "unknown"')
-            
-            # Get check runs — use assignment-form || to prevent gh error JSON concatenating with fallback
-            CHECKS_RESPONSE=$(gh api repos/$REPO_NAME/commits/$HEAD_SHA/check-runs 2>/dev/null) \
-              || CHECKS_RESPONSE='{"check_runs":[]}'
-            # Validate: if response has no check_runs key (e.g. API error body was captured), reset
-            echo "$CHECKS_RESPONSE" | jq -e '.check_runs' >/dev/null 2>&1 \
-              || CHECKS_RESPONSE='{"check_runs":[]}'
-            
-            # Check if any check run failed or is in error state
-            HAS_FAILURE=$(echo "$CHECKS_RESPONSE" | jq -r '[.check_runs[].conclusion] | any(. == "failure" or . == "error")')
-            HAS_PENDING=$(echo "$CHECKS_RESPONSE" | jq -r '[.check_runs[].status] | any(. == "queued" or . == "in_progress")')
-            
-            # Determine overall check conclusion
-            if [ "$HAS_FAILURE" = "true" ]; then
-              CHECK_CONCLUSION="failure"
-            elif [ "$HAS_PENDING" = "true" ]; then
-              CHECK_CONCLUSION="pending"
-            else
-              CHECK_CONCLUSION=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].conclusion // "none"')
-            fi
-            
-            # Overall check status
-            CHECK_STATUS=$(echo "$CHECKS_RESPONSE" | jq -r '.check_runs[0].status // "none"')
-            
-            # Determine final CI status (prefer commit status, but also consider checks)
-            FINAL_STATUS="$CI_STATE"
-            if [ "$CI_STATE" = "success" ] && [ "$CHECK_CONCLUSION" = "failure" ]; then
-              FINAL_STATUS="failure"
-            fi
-            
-            AI_SUGGESTION=""
+          # ════════════════════════════════════════════════════════════════
+          #  Helper: friendly PR status (approved / changes_requested /
+          #  review_required / draft / open / closed / merged) via GraphQL.
+          #  Echoes: {state, pr_status, merged, is_draft, review_decision, updated_at}
+          # ════════════════════════════════════════════════════════════════
+          compute_pr_status() {
+            local PR_NUMBER="$1" GQL STATE DRAFT MERGED DECISION UPDATED PR_STATUS PR_STATE
+            GQL=$(gh api graphql \
+              -f query='query($owner:String!,$repo:String!,$num:Int!){
+                repository(owner:$owner,name:$repo){
+                  pullRequest(number:$num){ state isDraft merged reviewDecision updatedAt }
+                }
+              }' -F owner="$REPO_OWNER" -F repo="$REPO_REPO" -F num="$PR_NUMBER" 2>/dev/null) || GQL='{}'
 
-            # ── Extract structured check run details for dashboard ──────────
-            CHECK_RUNS_DATA=$(echo "$CHECKS_RESPONSE" | jq '[.check_runs[] | {
-              name: .name,
-              app: (.app.name // ""),
-              status: .status,
-              conclusion: (.conclusion // "in_progress"),
-              started_at: (.started_at // ""),
-              completed_at: (.completed_at // ""),
-              duration_seconds: (
-                if (.started_at != null and .completed_at != null
-                    and .started_at != "" and .completed_at != "") then
-                  ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
-                else 0 end
-              ),
-              details_url: (.details_url // ""),
-              summary: (.output.summary // "")
-            }]')
+            STATE=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.state          // "OPEN"')
+            DRAFT=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.isDraft         // false')
+            MERGED=$(echo "$GQL"   | jq -r '.data.repository.pullRequest.merged          // false')
+            DECISION=$(echo "$GQL" | jq -r '.data.repository.pullRequest.reviewDecision  // ""')
+            UPDATED=$(echo "$GQL"  | jq -r '.data.repository.pullRequest.updatedAt        // ""')
 
-            # Real CI duration from the Jenkins pre-commit check run (most accurate source)
-            JENKINS_CHECK_DURATION=$(echo "$CHECKS_RESPONSE" | jq -r '[
-              .check_runs[]
-              | select(.name | ascii_downcase | test("jenkins.*pre.*commit|pre.*commit.*workflow|jenkins-pre"))
-              | select(.started_at != null and .completed_at != null and .started_at != "")
-              | ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
-            ] | first // 0')
-
-            # ── GitHub Actions workflow runs (jobs + steps) ───────────────────────
-            GH_RUNS_RESP=$(gh api "repos/$REPO_NAME/actions/runs?head_sha=$HEAD_SHA&per_page=20" 2>/dev/null || echo '{"workflow_runs":[]}')
-            GH_ACTIONS_FINAL="[]"
-            GH_RUN_COUNT=$(echo "$GH_RUNS_RESP" | jq '.workflow_runs | length')
-            echo "Found $GH_RUN_COUNT GitHub Actions run(s) for $HEAD_SHA"
-
-            # Cap to 10 most recent runs to avoid shell "Argument list too long"
-            GH_RUN_COUNT_CAP=$(( GH_RUN_COUNT > 10 ? 10 : GH_RUN_COUNT ))
-
-            if [ "$GH_RUN_COUNT_CAP" -gt 0 ]; then
-              for i in $(seq 0 $((GH_RUN_COUNT_CAP - 1))); do
-                GH_RUN=$(echo "$GH_RUNS_RESP" | jq ".workflow_runs[$i]")
-                GH_RUN_ID=$(echo "$GH_RUN" | jq -r '.id')
-                GH_RUN_NAME=$(echo "$GH_RUN" | jq -r '.name')
-                GH_RUN_NUMBER=$(echo "$GH_RUN" | jq '.run_number')
-                GH_RUN_STATUS=$(echo "$GH_RUN" | jq -r '.status')
-                GH_RUN_CONCLUSION=$(echo "$GH_RUN" | jq -r '.conclusion // "in_progress"')
-                GH_RUN_URL=$(echo "$GH_RUN" | jq -r '.html_url')
-                GH_RUN_STARTED=$(echo "$GH_RUN" | jq -r '.run_started_at // ""')
-                GH_RUN_UPDATED=$(echo "$GH_RUN" | jq -r '.updated_at // ""')
-                GH_RUN_DURATION=0
-                if [ -n "$GH_RUN_STARTED" ] && [ -n "$GH_RUN_UPDATED" ] && [ "$GH_RUN_STATUS" = "completed" ]; then
-                  S=$(date -d "$GH_RUN_STARTED" +%s 2>/dev/null || echo 0)
-                  E=$(date -d "$GH_RUN_UPDATED" +%s 2>/dev/null || echo 0)
-                  [ "$E" -gt "$S" ] && GH_RUN_DURATION=$(( E - S ))
-                fi
-
-                # Fetch jobs + steps for this run
-                JOBS_RESP=$(gh api "repos/$REPO_NAME/actions/runs/$GH_RUN_ID/jobs" 2>/dev/null || echo '{"jobs":[]}')
-
-                # Write JOBS_DATA to a temp file to avoid "Argument list too long"
-                JOBS_TMP=$(mktemp /tmp/jobs_XXXXXX.json)
-                echo "$JOBS_RESP" | jq '[(.jobs // [])[] | {
-                  name: .name,
-                  status: .status,
-                  conclusion: (.conclusion // "in_progress"),
-                  started_at: (.started_at // ""),
-                  completed_at: (.completed_at // ""),
-                  duration_seconds: (
-                    if (.started_at != null and .completed_at != null
-                        and .started_at != "" and .completed_at != "") then
-                      ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
-                    else 0 end
-                  ),
-                  url: (.html_url // ""),
-                  steps: [(.steps // [])[]
-                    | select(.name != "Set up job" and .name != "Complete job") | {
-                      name: .name,
-                      conclusion: (.conclusion // "in_progress"),
-                      number: .number,
-                      duration_seconds: (
-                        if (.started_at != null and .completed_at != null
-                            and .started_at != "" and .completed_at != "") then
-                          ((.completed_at | fromdateiso8601) - (.started_at | fromdateiso8601)) | floor
-                        else 0 end
-                      )
-                    }]
-                }]' > "$JOBS_TMP"
-
-                # Build GH_RUN_ENTRY using --slurpfile to avoid arg list overflow
-                ENTRY_TMP=$(mktemp /tmp/entry_XXXXXX.json)
-                jq -n \
-                  --arg name "$GH_RUN_NAME" \
-                  --arg workflow_id "$GH_RUN_ID" \
-                  --argjson run_number "$GH_RUN_NUMBER" \
-                  --arg status "$GH_RUN_STATUS" \
-                  --arg conclusion "$GH_RUN_CONCLUSION" \
-                  --arg url "$GH_RUN_URL" \
-                  --arg started_at "$GH_RUN_STARTED" \
-                  --argjson duration_seconds "$GH_RUN_DURATION" \
-                  --slurpfile jobs "$JOBS_TMP" \
-                  '{name: $name, workflow_id: $workflow_id, run_number: $run_number,
-                    status: $status, conclusion: $conclusion, url: $url,
-                    started_at: $started_at, duration_seconds: $duration_seconds,
-                    jobs: $jobs[0]}' > "$ENTRY_TMP"
-                rm -f "$JOBS_TMP"
-
-                # Append entry using --slurpfile (avoids passing large arg on CLI)
-                FINAL_TMP=$(mktemp /tmp/final_XXXXXX.json)
-                echo "$GH_ACTIONS_FINAL" | jq --slurpfile e "$ENTRY_TMP" '. + $e' > "$FINAL_TMP"
-                GH_ACTIONS_FINAL=$(cat "$FINAL_TMP")
-                rm -f "$ENTRY_TMP" "$FINAL_TMP"
-              done
+            if   [ "$MERGED" = "true" ];                then PR_STATUS="merged"
+            elif [ "$STATE"  = "CLOSED" ];              then PR_STATUS="closed"
+            elif [ "$DRAFT"  = "true" ];                then PR_STATUS="draft"
+            elif [ "$DECISION" = "APPROVED" ];          then PR_STATUS="approved"
+            elif [ "$DECISION" = "CHANGES_REQUESTED" ]; then PR_STATUS="changes_requested"
+            elif [ "$DECISION" = "REVIEW_REQUIRED" ];   then PR_STATUS="review_required"
+            else                                             PR_STATUS="open"
             fi
 
-            # ── Generate dashboard_<PR>.json from Jenkins banner comments ──
-            PR_TITLE=$(echo "$PR" | jq -r '.title')
-            PR_AUTHOR=$(echo "$PR" | jq -r '.author')
-            PR_CREATED=$(echo "$PR" | jq -r '.created_at')
-            PR_UPDATED=$(echo "$PR" | jq -r '.updated_at')
-            PR_HEAD_BRANCH=$(echo "$PR" | jq -r '.head_branch')
-            PR_BASE_BRANCH=$(echo "$PR" | jq -r '.base_branch')
-            COMMIT_HASH=$(echo "$PR" | jq -r '.head_sha')
-            JENKINS_JOB_URL="https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-${PR_NUMBER}"
+            case "$STATE" in
+              MERGED) PR_STATE="merged" ;;
+              CLOSED) PR_STATE="closed" ;;
+              *)      PR_STATE="open"   ;;
+            esac
 
-            # Extra PR detail
-            PR_DETAIL=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER || echo '{}')
-            CHANGED_FILES_COUNT=$(echo "$PR_DETAIL" | jq '.changed_files // 0')
-            ADDITIONS=$(echo "$PR_DETAIL" | jq '.additions // 0')
-            DELETIONS=$(echo "$PR_DETAIL" | jq '.deletions // 0')
-            MERGED=$(echo "$PR_DETAIL" | jq '.merged // false')
+            jq -n \
+              --arg state "$PR_STATE" --arg pr_status "$PR_STATUS" \
+              --argjson merged "$MERGED" --argjson is_draft "$DRAFT" \
+              --arg review_decision "$DECISION" --arg updated_at "$UPDATED" \
+              '{state:$state, pr_status:$pr_status, merged:$merged,
+                is_draft:$is_draft, review_decision:$review_decision, updated_at:$updated_at}'
+          }
 
-            # Changed files — name/status/counts only, no patch content (patches are huge)
-            FILES_RESP=$(gh api repos/$REPO_NAME/pulls/$PR_NUMBER/files 2>/dev/null || echo '[]')
-            CHANGED_FILES_DETAILS=$(echo "$FILES_RESP" | jq '[.[] | {
-              file_name: .filename, status: .status,
-              additions: .additions, deletions: .deletions,
-              changes: .changes
-            }]')
+          # ════════════════════════════════════════════════════════════════
+          #  Helper: review / comment analytics (counts only, no content).
+          # ════════════════════════════════════════════════════════════════
+          compute_review_stats() {
+            local PR_NUMBER="$1" PR_AUTHOR="$2"
+            local REVIEW_COUNTS REVIEW_DECISION_COUNTS GENERAL_COMMENTS_COUNT GQL_THREADS
+            local GQL_TOTAL GQL_RESOLVED GQL_UNRESOLVED GQL_OUTDATED
 
-            # ── PR Review analytics — counts only, never store full comment JSON ──
-            REPO_OWNER=$(echo "$REPO_NAME" | cut -d'/' -f1)
-            REPO_REPO=$(echo "$REPO_NAME"  | cut -d'/' -f2)
-
-            # Pipe API response directly through jq — extract counts, discard content
             REVIEW_COUNTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/comments?per_page=100" 2>/dev/null \
               | jq --arg author "$PR_AUTHOR" '{
                   total:             length,
@@ -265,392 +111,187 @@ jobs:
                 }' 2>/dev/null) \
               || REVIEW_COUNTS='{"total":0,"copilot":0,"copilot_addressed":0,"copilot_open":0,"human":0,"author_replies":0,"author_own":0,"outdated":0}'
 
-            TOTAL_REVIEW_COMMENTS=$(echo "$REVIEW_COUNTS" | jq '.total // 0')
-            COPILOT_COMMENTS=$(echo "$REVIEW_COUNTS"      | jq '.copilot // 0')
-            COPILOT_ADDRESSED=$(echo "$REVIEW_COUNTS"     | jq '.copilot_addressed // 0')
-            COPILOT_OPEN=$(echo "$REVIEW_COUNTS"          | jq '.copilot_open // 0')
-            HUMAN_REVIEWER_COMMENTS=$(echo "$REVIEW_COUNTS" | jq '.human // 0')
-            AUTHOR_REPLIES=$(echo "$REVIEW_COUNTS"        | jq '.author_replies // 0')
-            AUTHOR_OWN_COMMENTS=$(echo "$REVIEW_COUNTS"   | jq '.author_own // 0')
-            OUTDATED_THREADS=$(echo "$REVIEW_COUNTS"      | jq '.outdated // 0')
-
-            # Formal review decisions — counts only
-            REVIEW_DECISION_COUNTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews" 2>/dev/null \
+            REVIEW_DECISION_COUNTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews?per_page=100" 2>/dev/null \
               | jq '{
-                  approved:           [.[] | select(.state == "APPROVED")] | length,
-                  changes_requested:  [.[] | select(.state == "CHANGES_REQUESTED")] | length,
-                  commented:          [.[] | select(.state == "COMMENTED")] | length,
-                  unique_reviewers:   ([.[] | select(.user.type != "Bot") | .user.login] | unique | length)
+                  approved:          [.[] | select(.state == "APPROVED")] | length,
+                  changes_requested: [.[] | select(.state == "CHANGES_REQUESTED")] | length,
+                  commented:         [.[] | select(.state == "COMMENTED")] | length,
+                  unique_reviewers:  ([.[] | select(.user.type != "Bot") | .user.login] | unique | length)
                 }' 2>/dev/null) \
               || REVIEW_DECISION_COUNTS='{"approved":0,"changes_requested":0,"commented":0,"unique_reviewers":0}'
 
-            REVIEWS_APPROVED=$(echo "$REVIEW_DECISION_COUNTS"           | jq '.approved // 0')
-            REVIEWS_CHANGES_REQUESTED=$(echo "$REVIEW_DECISION_COUNTS" | jq '.changes_requested // 0')
-            REVIEWS_COMMENTED=$(echo "$REVIEW_DECISION_COUNTS"          | jq '.commented // 0')
-            UNIQUE_REVIEWERS=$(echo "$REVIEW_DECISION_COUNTS"           | jq '.unique_reviewers // 0')
+            GENERAL_COMMENTS_COUNT=$(gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" 2>/dev/null \
+              | jq 'length' 2>/dev/null || echo 0)
 
-            # General PR discussion comments count (header only — no body fetched)
-            GENERAL_COMMENTS_COUNT=$(gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=1" \
-              --include 2>/dev/null | grep -oP '(?<=x-total-count: )\d+' || \
-              gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=1" 2>/dev/null \
-              | jq 'length' || echo 0)
-
-            # GraphQL: accurate thread resolved/unresolved/outdated counts
-            GQL_THREADS=$(gh api graphql -f query="
-            {
-              repository(owner: \"${REPO_OWNER}\", name: \"${REPO_REPO}\") {
-                pullRequest(number: ${PR_NUMBER}) {
-                  reviewThreads(first: 100) {
-                    totalCount
-                    nodes { isResolved isOutdated }
-                  }
-                }
+            GQL_THREADS=$(gh api graphql -f query='query($owner:String!,$repo:String!,$num:Int!){
+              repository(owner:$owner,name:$repo){
+                pullRequest(number:$num){ reviewThreads(first:100){ totalCount nodes{ isResolved isOutdated } } }
               }
-            }" 2>/dev/null) || GQL_THREADS='{}'
+            }' -F owner="$REPO_OWNER" -F repo="$REPO_REPO" -F num="$PR_NUMBER" 2>/dev/null) || GQL_THREADS='{}'
 
-            GQL_TOTAL=$(echo "$GQL_THREADS" | jq -r '(.data.repository.pullRequest.reviewThreads.totalCount) // 0' 2>/dev/null || echo 0)
-            GQL_RESOLVED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == true)] | length' 2>/dev/null || echo 0)
-            GQL_UNRESOLVED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == false and .isOutdated == false)] | length' 2>/dev/null || echo 0)
-            GQL_OUTDATED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isOutdated == true)] | length' 2>/dev/null || echo 0)
+            GQL_TOTAL=$(echo "$GQL_THREADS"      | jq -r '(.data.repository.pullRequest.reviewThreads.totalCount) // 0')
+            GQL_RESOLVED=$(echo "$GQL_THREADS"   | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == true)] | length')
+            GQL_UNRESOLVED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == false and .isOutdated == false)] | length')
+            GQL_OUTDATED=$(echo "$GQL_THREADS"   | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isOutdated == true)] | length')
 
-            # Build REVIEW_STATS from small integers only — no large JSON passed as args
-            REVIEW_STATS=$(jq -n \
-              --argjson total_review_comments     "$TOTAL_REVIEW_COMMENTS" \
-              --argjson general_comments          "$GENERAL_COMMENTS_COUNT" \
-              --argjson copilot_comments          "$COPILOT_COMMENTS" \
-              --argjson copilot_addressed         "$COPILOT_ADDRESSED" \
-              --argjson copilot_open              "$COPILOT_OPEN" \
-              --argjson human_reviewer_comments   "$HUMAN_REVIEWER_COMMENTS" \
-              --argjson author_replies            "$AUTHOR_REPLIES" \
-              --argjson author_own_comments       "$AUTHOR_OWN_COMMENTS" \
-              --argjson outdated_threads          "$OUTDATED_THREADS" \
-              --argjson total_threads             "$GQL_TOTAL" \
-              --argjson resolved_threads          "$GQL_RESOLVED" \
-              --argjson unresolved_threads        "$GQL_UNRESOLVED" \
-              --argjson outdated_threads_gql      "$GQL_OUTDATED" \
-              --argjson reviews_approved          "$REVIEWS_APPROVED" \
-              --argjson reviews_changes_requested "$REVIEWS_CHANGES_REQUESTED" \
-              --argjson reviews_commented         "$REVIEWS_COMMENTED" \
-              --argjson unique_reviewers          "$UNIQUE_REVIEWERS" \
+            jq -n \
+              --argjson total_review_comments     "$(echo "$REVIEW_COUNTS" | jq '.total // 0')" \
+              --argjson general_comments          "${GENERAL_COMMENTS_COUNT:-0}" \
+              --argjson copilot_comments          "$(echo "$REVIEW_COUNTS" | jq '.copilot // 0')" \
+              --argjson copilot_addressed         "$(echo "$REVIEW_COUNTS" | jq '.copilot_addressed // 0')" \
+              --argjson copilot_open              "$(echo "$REVIEW_COUNTS" | jq '.copilot_open // 0')" \
+              --argjson human_reviewer_comments   "$(echo "$REVIEW_COUNTS" | jq '.human // 0')" \
+              --argjson author_replies            "$(echo "$REVIEW_COUNTS" | jq '.author_replies // 0')" \
+              --argjson author_own_comments       "$(echo "$REVIEW_COUNTS" | jq '.author_own // 0')" \
+              --argjson outdated_threads          "$(echo "$REVIEW_COUNTS" | jq '.outdated // 0')" \
+              --argjson total_threads             "${GQL_TOTAL:-0}" \
+              --argjson resolved_threads          "${GQL_RESOLVED:-0}" \
+              --argjson unresolved_threads        "${GQL_UNRESOLVED:-0}" \
+              --argjson outdated_threads_gql      "${GQL_OUTDATED:-0}" \
+              --argjson reviews_approved          "$(echo "$REVIEW_DECISION_COUNTS" | jq '.approved // 0')" \
+              --argjson reviews_changes_requested "$(echo "$REVIEW_DECISION_COUNTS" | jq '.changes_requested // 0')" \
+              --argjson reviews_commented         "$(echo "$REVIEW_DECISION_COUNTS" | jq '.commented // 0')" \
+              --argjson unique_reviewers          "$(echo "$REVIEW_DECISION_COUNTS" | jq '.unique_reviewers // 0')" \
               '{
-                total_review_comments:       $total_review_comments,
-                general_comments:            $general_comments,
-                copilot_comments:            $copilot_comments,
-                copilot_addressed:           $copilot_addressed,
-                copilot_open:               $copilot_open,
-                human_reviewer_comments:     $human_reviewer_comments,
-                author_replies:              $author_replies,
-                author_own_comments:         $author_own_comments,
-                outdated_threads:            $outdated_threads,
-                total_threads:               $total_threads,
-                resolved_threads:            $resolved_threads,
-                unresolved_threads:          $unresolved_threads,
-                outdated_threads_gql:        $outdated_threads_gql,
-                reviews_approved:            $reviews_approved,
-                reviews_changes_requested:   $reviews_changes_requested,
-                reviews_commented:           $reviews_commented,
-                unique_reviewers:            $unique_reviewers,
-                engagement_score: (
-                  if $total_threads == 0 then 100
-                  else ($resolved_threads * 100 / $total_threads) | floor | [100, .] | min
-                  end
-                )
-              }')
+                total_review_comments:$total_review_comments, general_comments:$general_comments,
+                copilot_comments:$copilot_comments, copilot_addressed:$copilot_addressed, copilot_open:$copilot_open,
+                human_reviewer_comments:$human_reviewer_comments, author_replies:$author_replies,
+                author_own_comments:$author_own_comments, outdated_threads:$outdated_threads,
+                total_threads:$total_threads, resolved_threads:$resolved_threads,
+                unresolved_threads:$unresolved_threads, outdated_threads_gql:$outdated_threads_gql,
+                reviews_approved:$reviews_approved, reviews_changes_requested:$reviews_changes_requested,
+                reviews_commented:$reviews_commented, unique_reviewers:$unique_reviewers,
+                engagement_score: ( if $total_threads == 0 then 100
+                                    else ($resolved_threads * 100 / $total_threads) | floor | [100, .] | min end )
+              }'
+          }
+
+          # Apply status + review_stats to every entry of a Jenkins dashboard file
+          refresh_dashboard_file() {
+            local DASH_FILE="$1" STATUS_JSON="$2" RS_JSON="$3"
+            jq --argjson status "$STATUS_JSON" --argjson rs "$RS_JSON" \
+              '[.[] | . + {
+                 pr_state:  $status.state,
+                 pr_status: $status.pr_status,
+                 merged:    $status.merged,
+                 review_stats: $rs
+               }]' "$DASH_FILE" > /tmp/dash_upd.json && mv /tmp/dash_upd.json "$DASH_FILE"
+          }
+
+          # ── 1) Open PRs on the base branch → pr-list.json + refresh dashboards
+          echo "Fetching open PRs targeting $BASE_BRANCH ..."
+          OPEN_PRS=$(gh api "repos/$REPO_NAME/pulls?state=open&per_page=100" \
+            --jq "[.[] | select(.base.ref == \"$BASE_BRANCH\") | {
+              number:.number, title:.title, author:.user.login,
+              created_at:.created_at, updated_at:.updated_at,
+              head_branch:.head.ref, base_branch:.base.ref,
+              html_url:.html_url, draft:.draft, labels:[.labels[].name]
+            }]")
+
+          PR_COUNT=$(echo "$OPEN_PRS" | jq 'length')
+          echo "Found $PR_COUNT open PR(s)"
+          ENRICHED_PRS="[]"
+
+          for i in $(seq 0 $((PR_COUNT - 1))); do
+            PR=$(echo "$OPEN_PRS" | jq ".[$i]")
+            PR_NUMBER=$(echo "$PR" | jq -r '.number')
+            PR_AUTHOR=$(echo "$PR" | jq -r '.author')
+            echo "→ PR #$PR_NUMBER: checking status + reviews"
+
+            STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
+            RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
+
+            ENRICHED_PR=$(echo "$PR" | jq \
+              --argjson status "$STATUS_JSON" \
+              --argjson review_stats "$RS_JSON" \
+              '. + {
+                 pr_status:       $status.pr_status,
+                 state:           $status.state,
+                 merged:          $status.merged,
+                 review_decision: $status.review_decision,
+                 review_stats:    $review_stats
+               }')
+            ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
 
             DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
-            [ -f "$DASH_FILE" ] || echo "[]" > "$DASH_FILE"
+            if [ -f "$DASH_FILE" ] && [ "$(jq 'length' "$DASH_FILE")" -gt 0 ]; then
+              refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
+              echo "   ✔ refreshed status/reviews in $(basename "$DASH_FILE")"
+            fi
+          done
 
-            # Fetch all PR comments and filter to Jenkins banner comments
-            # Use per_page=100 to avoid missing banners beyond the default 30-comment page
-            ALL_COMMENTS=$(gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" 2>/dev/null || echo '[]')
-            BANNERS=$(echo "$ALL_COMMENTS" | jq '[.[] | select(.body | contains("FXOS Pre-Commit CI Pipeline"))]')
-            BANNER_COUNT=$(echo "$BANNERS" | jq 'length')
-            echo "Found $BANNER_COUNT banner comment(s) for PR #$PR_NUMBER"
-
-            # Create GA_TMP before the loop so it's available even when BANNER_COUNT=0
-            GA_TMP=$(mktemp /tmp/ga_XXXXXX.json)
-            echo "$GH_ACTIONS_FINAL" > "$GA_TMP"
-
-            for b in $(seq 0 $((BANNER_COUNT - 1))); do
-              BANNER=$(echo "$BANNERS" | jq ".[$b]")
-              COMMENT_ID=$(echo "$BANNER" | jq -r '.id | tostring')
-              BANNER_BODY=$(echo "$BANNER" | jq -r '.body')
-              BANNER_CREATED=$(echo "$BANNER" | jq -r '.created_at')
-
-              # Deduplicate by GitHub comment ID
-              ALREADY=$(jq --arg cid "$COMMENT_ID" \
-                '[.[] | select((.banner_comment_id // "") | tostring == $cid)] | length' "$DASH_FILE")
-              if [ "$ALREADY" -gt 0 ]; then
-                echo "    Banner $COMMENT_ID already recorded, skipping"
-                continue
-              fi
-
-              # ── Parse banner fields ────────────────────────────────────────
-              # Build number → use as revision number
-              BUILD_NUM=$(echo "$BANNER_BODY" | grep -oP 'Build #\K\d+' | head -1 || echo "")
-              if [ -z "$BUILD_NUM" ]; then
-                BUILD_NUM=$(jq 'if length == 0 then 1 else ([.[].revision] | max + 1) end' "$DASH_FILE")
-              fi
-              JENKINS_BUILD_URL="${JENKINS_JOB_URL}/${BUILD_NUM}/"
-
-              # CI start time from banner timestamp
-              CI_START_RAW=$(echo "$BANNER_BODY" | grep -oP '⏰ \*\*\K[^*]+' | head -1 || echo "")
-              if [ -n "$CI_START_RAW" ]; then
-                CI_START_TIME=$(date -d "$CI_START_RAW" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "$BANNER_CREATED")
-              else
-                CI_START_TIME="$BANNER_CREATED"
-              fi
-
-              # CI duration: Jenkins posts the banner on build completion, so
-              # BANNER_CREATED ≈ build end time and ⏰ timestamp = build start time
-              CI_DURATION=0
-              if [ -n "$CI_START_RAW" ]; then
-                START_EPOCH=$(date -d "$CI_START_TIME" +%s 2>/dev/null || echo 0)
-                END_EPOCH=$(date -d "$BANNER_CREATED" +%s 2>/dev/null || echo 0)
-                if [ "$END_EPOCH" -gt "$START_EPOCH" ]; then
-                  CI_DURATION=$(( END_EPOCH - START_EPOCH ))
-                fi
-              fi
-              # Fall back to Jenkins GitHub check run timing if banner timing unavailable
-              if [ "$CI_DURATION" -eq 0 ] && [ "${JENKINS_CHECK_DURATION:-0}" -gt 0 ]; then
-                CI_DURATION="$JENKINS_CHECK_DURATION"
-              fi
-
-              # Unit Tests status (from <summary> line icon)
-              UT_STATUS="N/A"
-              if echo "$BANNER_BODY" | grep -qP 'Unit Tests ✅'; then UT_STATUS="SUCCESS"
-              elif echo "$BANNER_BODY" | grep -qP 'Unit Tests ❌'; then UT_STATUS="FAILURE"
-              fi
-
-              # UT detail metrics
-              UT_COVERAGE=$(echo "$BANNER_BODY" | grep -oP '\*\*Coverage\*\* \| 📊 \*\*\K[^*]+' | head -1 || echo "N/A")
-              UT_PASSED=$(echo "$BANNER_BODY"  | grep -oP '\*\*Passed\*\* \|[^|]+\*\*\K\d+(?=\*\*)' | head -1 || echo "0")
-              UT_FAILED=$(echo "$BANNER_BODY"  | grep -oP '\*\*Failed\*\* \|[^|]+\*\*\K\d+(?=\*\*)' | head -1 || echo "0")
-              UT_SKIPPED=$(echo "$BANNER_BODY" | grep -oP '\*\*Skipped\*\* \|[^|]+\*\*\K\d+(?=\*\*)' | head -1 || echo "0")
-
-              # Initialise MODULE_METRICS with UT fields
-              MODULE_METRICS=$(jq -n \
-                --arg uts "$UT_STATUS" --arg cov "$UT_COVERAGE" \
-                --arg passed "$UT_PASSED" --arg failed "$UT_FAILED" --arg skipped "$UT_SKIPPED" \
-                '{"Unit Tests: Build Status": $uts,
-                  "Unit Tests: Coverage Percentage": $cov,
-                  "Unit Tests: Unit Tests Passed": $passed,
-                  "Unit Tests: Unit Tests Failed": $failed,
-                  "Unit Tests: Unit Tests Skipped": $skipped}')
-
-              FAILED_STAGES=""
-              TOTAL_FAILURES=0
-              DASH_ERRORS="[]"
-              DASH_ERROR_MSG=""
-
-              # Parse module table rows: | **MODULE** | emoji STATUS | emoji N |
-              while IFS= read -r line; do
-                MOD=$(echo "$line" | grep -oP '(?<=\| \*\*)[^*]+(?=\*\*)')
-                [ -z "$MOD" ] && continue
-                # Skip UT metric rows (Status, Coverage, Passed, etc.)
-                echo "$MOD" | grep -qiP '^(Status|Coverage|Passed|Failed|Skipped|Module|Metric|SA Issues)$' && continue
-
-                SA_ISSUES=$(echo "$line" | grep -oP '\d+' | tail -1 || echo "0")
-
-                if echo "$line" | grep -qP '✅.*(SUCCESS|\[SUCCESS\])'; then
-                  MOD_STATUS="SUCCESS"
-                elif echo "$line" | grep -qP '❌'; then
-                  MOD_STATUS="FAILURE"
-                  TOTAL_FAILURES=$((TOTAL_FAILURES + 1))
-                  FAILED_STAGES="${FAILED_STAGES:+$FAILED_STAGES, }$MOD"
-                  ERR_URL=$(echo "$line" | grep -oP '\[FAILURE\]\(\K[^)]+' || echo "$JENKINS_BUILD_URL")
-                  ERR_ENTRY=$(jq -n --arg s "$MOD" --arg u "$ERR_URL" \
-                    '{stage: $s, status: "FAILURE", error_log_url: $u, stage_type: "build", error_count: 0, error_preview: "Build failed - check logs", has_full_details: false}')
-                  DASH_ERRORS=$(echo "$DASH_ERRORS" | jq --argjson e "$ERR_ENTRY" '. + [$e]')
-                  DASH_ERROR_MSG="${DASH_ERROR_MSG:+$DASH_ERROR_MSG\n}❌ $MOD: build failed"
-                else
-                  continue
-                fi
-
-                MODULE_METRICS=$(echo "$MODULE_METRICS" | jq \
-                  --arg k "${MOD}: Build Status" --arg v "$MOD_STATUS" \
-                  --arg sk "${MOD}: Static Analysis Issues" --argjson sv "${SA_ISSUES:-0}" \
-                  '. + {($k): $v, ($sk): $sv}')
-              done < <(echo "$BANNER_BODY" | grep -P '^\| \*\*')
-
-              # Write large blobs to temp files to avoid "Argument list too long"
-              CFD_TMP=$(mktemp /tmp/cfd_XXXXXX.json)
-              echo "$CHANGED_FILES_DETAILS" > "$CFD_TMP"
-              CR_TMP=$(mktemp /tmp/cr_XXXXXX.json)
-              echo "$CHECK_RUNS_DATA" > "$CR_TMP"
-              RS_TMP=$(mktemp /tmp/rs_XXXXXX.json)
-              echo "$REVIEW_STATS" > "$RS_TMP"
-
-              # Assemble dashboard entry
-              DASH_ENTRY=$(echo "$MODULE_METRICS" | jq \
-                --arg title "$PR_TITLE" \
-                --argjson changed_files "$CHANGED_FILES_COUNT" \
-                --argjson additions "$ADDITIONS" \
-                --argjson deletions "$DELETIONS" \
-                --argjson merged "$MERGED" \
-                --arg pr_id "$PR_NUMBER" \
-                --arg author "$PR_AUTHOR" \
-                --arg created_at "$PR_CREATED" \
-                --arg updated_at "$PR_UPDATED" \
-                --arg pr_state "open" \
-                --arg base_branch "$PR_BASE_BRANCH" \
-                --arg head_branch "$PR_HEAD_BRANCH" \
-                --arg commit_hash "$COMMIT_HASH" \
-                --arg ci_start_time "$CI_START_TIME" \
-                --argjson ci_duration "$CI_DURATION" \
-                --arg jenkins_build_number "$BUILD_NUM" \
-                --arg jenkins_build_url "$JENKINS_BUILD_URL" \
-                --argjson total_failures "$TOTAL_FAILURES" \
-                --arg failed_stage "$FAILED_STAGES" \
-                --argjson errors "$DASH_ERRORS" \
-                --arg error_message "$DASH_ERROR_MSG" \
-                --argjson revision "$BUILD_NUM" \
-                --arg banner_comment_id "$COMMENT_ID" \
-                --arg ai_suggestion "" \
-                --slurpfile check_runs "$CR_TMP" \
-                --slurpfile review_stats "$RS_TMP" \
-                --slurpfile github_actions_runs "$GA_TMP" \
-                --slurpfile cfd "$CFD_TMP" \
-                '. + {
-                  title: $title, changed_files: $changed_files, additions: $additions,
-                  deletions: $deletions, merged: $merged, pr_id: $pr_id, author: $author,
-                  created_at: $created_at, updated_at: $updated_at, pr_state: $pr_state,
-                  base_branch: $base_branch, head_branch: $head_branch, commit_hash: $commit_hash,
-                  ci_start_time: $ci_start_time, ci_duration_seconds: $ci_duration,
-                  jenkins_build_number: $jenkins_build_number, jenkins_build_url: $jenkins_build_url,
-                  total_failures: $total_failures, failed_stage: $failed_stage,
-                  errors: $errors, error_message: $error_message,
-                  changed_files_details: $cfd[0],
-                  revision: ($revision | tonumber),
-                  banner_comment_id: ($banner_comment_id | tonumber),
-                  ai_suggestion: $ai_suggestion,
-                  check_runs: $check_runs[0],
-                  review_stats: $review_stats[0],
-                  github_actions_runs: $github_actions_runs[0]
-                }')
-              rm -f "$CR_TMP" "$RS_TMP" "$CFD_TMP"
-
-              ENTRY_TMP=$(mktemp /tmp/dash_entry_XXXXXX.json)
-              echo "$DASH_ENTRY" > "$ENTRY_TMP"
-              jq --slurpfile entry "$ENTRY_TMP" '. + $entry' "$DASH_FILE" > /tmp/dash_tmp.json
-              rm -f "$ENTRY_TMP"
-              mv /tmp/dash_tmp.json "$DASH_FILE"
-              echo "✅ Revision $BUILD_NUM (comment $COMMENT_ID) → dashboard_${PR_NUMBER}.json"
-            done
-            echo "dashboard_${PR_NUMBER}.json now has $(jq 'length' "$DASH_FILE") revision(s)"
-
-            # ── Skip PRs with no Jenkins banner ──────────────────────────────
-            # No banner = old or broken PR; exclude from dashboard entirely.
-            if [ "$(jq 'length' "$DASH_FILE")" -eq 0 ]; then
-              echo "⚠️  No Jenkins banner found for PR #$PR_NUMBER — skipping (old/broken PR)"
-              rm -f "$GA_TMP"
+          # ── 2) Closed / merged PRs Jenkins already built → refresh their files
+          for DASH_FILE in pr-reports/$PROJECT_NAME/dashboard_*.json; do
+            [ -f "$DASH_FILE" ] || continue
+            [ "$(jq 'length' "$DASH_FILE")" -gt 0 ] || continue
+            PR_NUMBER=$(basename "$DASH_FILE" | sed -E 's/dashboard_([0-9]+)\.json/\1/')
+            # Skip PRs already handled in the open-PR loop
+            if echo "$ENRICHED_PRS" | jq -e --argjson n "$PR_NUMBER" 'any(.number == $n)' >/dev/null 2>&1; then
               continue
             fi
-
-            # ── Always refresh current-state fields on ALL entries ────────────
-            # review_stats reflects the live state of PR reviews (changes over time).
-            # check_runs and github_actions_runs may be missing from entries that were
-            # recorded before these fields were added — backfill them now.
-            RS_TMP2=$(mktemp /tmp/rs2_XXXXXX.json)
-            CR_TMP2=$(mktemp /tmp/cr2_XXXXXX.json)
-            echo "$REVIEW_STATS" > "$RS_TMP2"
-            echo "$CHECK_RUNS_DATA" > "$CR_TMP2"
-            jq \
-              --slurpfile rs "$RS_TMP2" \
-              --slurpfile cr "$CR_TMP2" \
-              --slurpfile ga "$GA_TMP" \
-              '[.[] |
-                . + {review_stats: $rs[0]} |
-                if .check_runs == null          then . + {check_runs: $cr[0]}           else . end |
-                if .github_actions_runs == null then . + {github_actions_runs: $ga[0]}  else . end
-              ]' "$DASH_FILE" > /tmp/dash_refresh.json \
-              && mv /tmp/dash_refresh.json "$DASH_FILE"
-            rm -f "$RS_TMP2" "$CR_TMP2" "$GA_TMP"
-            echo "✅ Refreshed review_stats and backfilled missing fields in all entries"
-            # ── End dashboard file ─────────────────────────────────────────
-
-            # Combine PR data with CI status and AI suggestion
-            ENRICHED_PR=$(echo "$PR" | jq \
-              --arg ci_state "$FINAL_STATUS" \
-              --arg check_status "$CHECK_STATUS" \
-              --arg check_conclusion "$CHECK_CONCLUSION" \
-              --arg ai_suggestion "$AI_SUGGESTION" \
-              '. + {ci_status: $ci_state, check_status: $check_status, check_conclusion: $check_conclusion, ai_suggestion: $ai_suggestion}')
-            
-            ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
+            PR_AUTHOR=$(jq -r '.[0].author // ""' "$DASH_FILE")
+            echo "→ PR #$PR_NUMBER (closed/merged): refreshing status + reviews"
+            STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
+            RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
+            refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
+            echo "   ✔ refreshed $(basename "$DASH_FILE")"
           done
-          
-          PRS_JSON="$ENRICHED_PRS"
-          echo "Enriched PRs with CI status:"
-          echo "$PRS_JSON" | jq .
-          
-          PR_COUNT=$(echo "$PRS_JSON" | jq 'length')
-          echo "pr_count=$PR_COUNT" >> $GITHUB_OUTPUT
-          echo "project_name=$PROJECT_NAME" >> $GITHUB_OUTPUT
-          
-          # Create a summary
-          echo "## 📋 Open Pull Requests - $PROJECT_NAME" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Repository:** $REPO_NAME" >> $GITHUB_STEP_SUMMARY
-          echo "**Total Open PRs:** $PR_COUNT" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          
-          if [ "$PR_COUNT" -gt 0 ]; then
-            echo "| PR # | Title | Author | Branch | CI Status | Check Status |" >> $GITHUB_STEP_SUMMARY
-            echo "|------|-------|--------|--------|-----------|--------------|" >> $GITHUB_STEP_SUMMARY
-            
-            echo "$PRS_JSON" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.ci_status) | \(.check_status) / \(.check_conclusion) |"' >> $GITHUB_STEP_SUMMARY
-          else
-            echo "No open pull requests found." >> $GITHUB_STEP_SUMMARY
-          fi
-          
-          # Save PR list to project-specific directory
-          mkdir -p pr-reports/$PROJECT_NAME
+
+          # ── 3) Write pr-list.json + job summary ──────────────────────────
+          echo "pr_count=$PR_COUNT" >> "$GITHUB_OUTPUT"
+          echo "project_name=$PROJECT_NAME" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## 📋 Open Pull Requests — $PROJECT_NAME"
+            echo ""
+            echo "**Repository:** $REPO_NAME"
+            echo "**Total Open PRs:** $PR_COUNT"
+            echo ""
+            if [ "$PR_COUNT" -gt 0 ]; then
+              echo "| PR # | Title | Author | Branch | PR Status |"
+              echo "|------|-------|--------|--------|-----------|"
+              echo "$ENRICHED_PRS" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.pr_status) |"'
+            else
+              echo "No open pull requests found."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          echo "$PRS_JSON" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
-            '{project: $project, timestamp: $ts, repository: $repo, total_count: length, pull_requests: .}' \
-            > pr-reports/$PROJECT_NAME/pr-list.json
+          echo "$ENRICHED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
+            '{project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:.}' \
+            > "pr-reports/$PROJECT_NAME/pr-list.json"
+          echo "✅ Wrote pr-reports/$PROJECT_NAME/pr-list.json"
 
       - name: Display PR Summary for FXOS
         run: |
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
-          echo "=== $PROJECT_NAME ===" 
+          echo "=== $PROJECT_NAME ==="
           echo "Total Open PRs: ${{ steps.get-prs.outputs.pr_count }}"
-          
-          if [ -f pr-reports/$PROJECT_NAME/pr-list.json ]; then
+          if [ -f "pr-reports/$PROJECT_NAME/pr-list.json" ]; then
             echo "PR list saved to pr-reports/$PROJECT_NAME/pr-list.json"
           fi
-          
-      - name: Commit and push PR list for FXOS
+
+      - name: Commit and push PR status updates
         run: |
           PROJECT_NAME="${{ steps.get-prs.outputs.project_name }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Remove any empty dashboard files left by old/broken PRs
-          for f in pr-reports/$PROJECT_NAME/dashboard_*.json; do
-            [ -f "$f" ] && [ "$(jq 'length' "$f")" -eq 0 ] && git rm -f "$f" && echo "Removed empty: $f"
-          done
-
           git add pr-reports/$PROJECT_NAME/
-          
-          # Check if there are changes to commit
+
+          # Nothing changed? exit cleanly
           if git diff --quiet && git diff --staged --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          
-          # Commit changes
-          git commit -m "Update $PROJECT_NAME PR list [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
 
-          # Push with retry — merge (-X ours) so concurrent runs never conflict.
-          # JSON files are always fully regenerated; our version is always correct.
+          git commit -m "Update $PROJECT_NAME PR status & reviews [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
+
+          # Push with retry — always take our freshly-generated files on conflict
           PUSH_OK=false
           for attempt in 1 2 3; do
             git fetch origin main
-            # Merge remote; on any conflict always take our freshly-generated files
             if ! git merge -X ours --no-edit origin/main 2>/dev/null; then
-              # merge left conflicts — force-resolve by taking ours, then commit
               git checkout --ours pr-reports/$PROJECT_NAME/ 2>/dev/null || true
               git add pr-reports/$PROJECT_NAME/
               git commit --no-edit -m "auto-resolve conflicts (ours)" 2>/dev/null || true
