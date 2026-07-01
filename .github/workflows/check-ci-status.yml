@@ -196,6 +196,16 @@ jobs:
             PR=$(echo "$OPEN_PRS" | jq ".[$i]")
             PR_NUMBER=$(echo "$PR" | jq -r '.number')
             PR_AUTHOR=$(echo "$PR" | jq -r '.author')
+
+            # Only track PRs Jenkins has built — i.e. that have a dashboard file
+            # (Jenkins creates dashboard_<PR>.json when it posts the PR Dashboard
+            # banner). PRs without a banner/dashboard file are skipped entirely.
+            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
+            if [ ! -f "$DASH_FILE" ] || [ "$(jq 'length' "$DASH_FILE")" -eq 0 ]; then
+              echo "⏭  PR #$PR_NUMBER has no dashboard banner yet — skipping"
+              continue
+            fi
+
             echo "→ PR #$PR_NUMBER: checking status + reviews"
 
             STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
@@ -213,11 +223,8 @@ jobs:
                }')
             ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
 
-            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
-            if [ -f "$DASH_FILE" ] && [ "$(jq 'length' "$DASH_FILE")" -gt 0 ]; then
-              refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
-              echo "   ✔ refreshed status/reviews in $(basename "$DASH_FILE")"
-            fi
+            refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
+            echo "   ✔ refreshed status/reviews in $(basename "$DASH_FILE")"
           done
 
           # ── 2) Closed / merged PRs Jenkins already built → refresh their files
@@ -238,21 +245,25 @@ jobs:
           done
 
           # ── 3) Write pr-list.json + job summary ──────────────────────────
-          echo "pr_count=$PR_COUNT" >> "$GITHUB_OUTPUT"
+          # Count of PRs actually tracked (those with a dashboard banner/file),
+          # which may be fewer than the total number of open PRs.
+          TRACKED_COUNT=$(echo "$ENRICHED_PRS" | jq 'length')
+          echo "pr_count=$TRACKED_COUNT" >> "$GITHUB_OUTPUT"
           echo "project_name=$PROJECT_NAME" >> "$GITHUB_OUTPUT"
 
           {
-            echo "## 📋 Open Pull Requests — $PROJECT_NAME"
+            echo "## 📋 Tracked Pull Requests — $PROJECT_NAME"
             echo ""
             echo "**Repository:** $REPO_NAME"
-            echo "**Total Open PRs:** $PR_COUNT"
+            echo "**Open PRs on $BASE_BRANCH:** $PR_COUNT"
+            echo "**Tracked (with dashboard banner):** $TRACKED_COUNT"
             echo ""
-            if [ "$PR_COUNT" -gt 0 ]; then
+            if [ "$TRACKED_COUNT" -gt 0 ]; then
               echo "| PR # | Title | Author | Branch | PR Status |"
               echo "|------|-------|--------|--------|-----------|"
               echo "$ENRICHED_PRS" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.pr_status) |"'
             else
-              echo "No open pull requests found."
+              echo "No PRs with a dashboard banner found."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
