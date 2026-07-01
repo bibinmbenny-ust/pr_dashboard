@@ -43,7 +43,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-26T10:38:55Z",
     "updated_at": "2025-11-26T10:45:41Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "dashboard_poc_v3",
     "commit_hash": "287e2443a549c5da995f5d84203a81f42cd39067",
@@ -85,6 +85,27 @@
       }
     ],
     "revision": 1,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   }
 ]

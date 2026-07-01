@@ -41,7 +41,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-18T12:48:27Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "0d3f7cb221ee0fc639581ba3cafde9c34f8753d0",
@@ -62,7 +62,28 @@
       }
     ],
     "revision": 1,
-    "ai_suggestion": "1. **Root Cause**: The build failure for ARM and ARSENAL likely stems from configuration issues, missing dependencies, or code changes incompatible with these architectures. The build logs should reveal specific errors such as unsupported flags, missing libraries, or syntax issues.\n\n2. **Fix Suggestions**:  \n   - Review the build logs to identify the exact error message and affected files. Address the specific issue (e.g., incorrect configuration, missing dependency).  \n   - Double-check the ARM and ARSENAL environment settings in your build scripts for compatibility and correct paths. Ensure required SDKs or tools are installed.  \n   - Test the build locally for ARM and ARSENAL configurations with verbose logging enabled to reproduce and debug the failure.\n\n3. **Prevention Tips**:  \n   - Implement automated architecture-specific build tests in your CI/CD pipeline to catch such issues early.  \n   - Maintain updated documentation for ARM and ARSENAL build requirements, ensuring dependencies and configurations are consistently reviewed.  \n   - Regularly validate configurations against upgrades or patches for tools affecting ARM and ARSENAL builds.\n"
+    "ai_suggestion": "1. **Root Cause**: The build failure for ARM and ARSENAL likely stems from configuration issues, missing dependencies, or code changes incompatible with these architectures. The build logs should reveal specific errors such as unsupported flags, missing libraries, or syntax issues.\n\n2. **Fix Suggestions**:  \n   - Review the build logs to identify the exact error message and affected files. Address the specific issue (e.g., incorrect configuration, missing dependency).  \n   - Double-check the ARM and ARSENAL environment settings in your build scripts for compatibility and correct paths. Ensure required SDKs or tools are installed.  \n   - Test the build locally for ARM and ARSENAL configurations with verbose logging enabled to reproduce and debug the failure.\n\n3. **Prevention Tips**:  \n   - Implement automated architecture-specific build tests in your CI/CD pipeline to catch such issues early.  \n   - Maintain updated documentation for ARM and ARSENAL build requirements, ensuring dependencies and configurations are consistently reviewed.  \n   - Regularly validate configurations against upgrades or patches for tools affecting ARM and ARSENAL builds.\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "Unit Tests: Unit Tests Passed": 15,
@@ -88,7 +109,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-18T15:23:24Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "0d3f7cb221ee0fc639581ba3cafde9c34f8753d0",
@@ -109,7 +130,28 @@
       }
     ],
     "revision": 2,
-    "ai_suggestion": "### Root Cause:\nThe build failed across multiple platforms or configurations (ssp, smp, etc.), indicating a potential issue common to all targets, such as dependency mismatch, misconfigured build scripts, or corrupt/unsupported toolchain. Reviewing the build logs will clarify whether an error like missing libraries, syntax issues, or incompatible compiler flags caused the problem.\n\n### Fix Suggestions:\n1. **Check Build Logs:** Identify specific error messages in the logs to pinpoint the root cause (e.g., missing dependencies, syntax errors, or misconfigurations).\n2. **Audit Environment:** Verify toolchain versions, dependencies, and configurations for consistency across platforms. Update or patch components as necessary.\n3. **Test Sequentially:** Build each target/component independently to isolate failing modules and identify inconsistencies.\n\n### Prevention Tips:\n1. Standardize build configuration files for all platforms to eliminate discrepancies.\n2. Automate dependency checks in the CI pipeline to ensure required tools and libraries are properly installed.\n3. Enable detailed logging in builds and configure alerts in the CI/CD system for faster issue detection.\n"
+    "ai_suggestion": "### Root Cause:\nThe build failed across multiple platforms or configurations (ssp, smp, etc.), indicating a potential issue common to all targets, such as dependency mismatch, misconfigured build scripts, or corrupt/unsupported toolchain. Reviewing the build logs will clarify whether an error like missing libraries, syntax issues, or incompatible compiler flags caused the problem.\n\n### Fix Suggestions:\n1. **Check Build Logs:** Identify specific error messages in the logs to pinpoint the root cause (e.g., missing dependencies, syntax errors, or misconfigurations).\n2. **Audit Environment:** Verify toolchain versions, dependencies, and configurations for consistency across platforms. Update or patch components as necessary.\n3. **Test Sequentially:** Build each target/component independently to isolate failing modules and identify inconsistencies.\n\n### Prevention Tips:\n1. Standardize build configuration files for all platforms to eliminate discrepancies.\n2. Automate dependency checks in the CI pipeline to ensure required tools and libraries are properly installed.\n3. Enable detailed logging in builds and configure alerts in the CI/CD system for faster issue detection.\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "ssp: Build Status": "FAILURE",
@@ -131,7 +173,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-18T15:35:05Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "63326a641e56b09dd16f00d96c63b4f79420c43d",
@@ -160,7 +202,28 @@
       }
     ],
     "revision": 3,
-    "ai_suggestion": "**Root Cause**: The failure across multiple components (ssp, smp, Unit Tests, etc.) suggests a systemic issue stemming from either missing or incompatible dependencies, misconfigured build settings, or a widespread code change that introduced bugs. The build logs will likely reveal errors indicating missing libraries, version mismatches, or syntax issues.\n\n**Fix Suggestions**:  \n1. Review build logs for specific error messages and pinpoint failing dependencies, configuration issues, or code faults.  \n2. Revert to the last successful build and incrementally test recent changes to isolate the problematic code.  \n3. Ensure proper versions of dependencies and build tools are installed, aligning all components to consistent environments.\n\n**Prevention Tips**:  \n- Implement CI/CD pipelines that automatically validate builds for individual components before integrating system-wide.  \n- Use containerization (e.g., Docker) or build environments to prevent dependency/version mismatches.  \n- Establish automated pre-merge checks for syntax errors, integration issues, and dependency validation.\n"
+    "ai_suggestion": "**Root Cause**: The failure across multiple components (ssp, smp, Unit Tests, etc.) suggests a systemic issue stemming from either missing or incompatible dependencies, misconfigured build settings, or a widespread code change that introduced bugs. The build logs will likely reveal errors indicating missing libraries, version mismatches, or syntax issues.\n\n**Fix Suggestions**:  \n1. Review build logs for specific error messages and pinpoint failing dependencies, configuration issues, or code faults.  \n2. Revert to the last successful build and incrementally test recent changes to isolate the problematic code.  \n3. Ensure proper versions of dependencies and build tools are installed, aligning all components to consistent environments.\n\n**Prevention Tips**:  \n- Implement CI/CD pipelines that automatically validate builds for individual components before integrating system-wide.  \n- Use containerization (e.g., Docker) or build environments to prevent dependency/version mismatches.  \n- Establish automated pre-merge checks for syntax errors, integration issues, and dependency validation.\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "Unit Tests: Unit Tests Passed": 15,
@@ -198,7 +261,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-19T00:11:23Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "133ac07fb7cb74ed94dd55e98474547f4e04dc1e",
@@ -227,7 +290,28 @@
       }
     ],
     "revision": 4,
-    "ai_suggestion": "### Root Cause:  \nThe failure across multiple products suggests a common issue, such as a misconfigured global build setting, dependency mismatch, or a corrupted shared resource (e.g., compiler, libraries). Alternatively, a recent change affecting shared components might be propagating errors across these builds.\n\n---\n\n### Fix Suggestions:  \n1. **Inspect Logs**: Review key sections of the build logs for errors, focusing on dependencies, compiler errors, or environment conflicts. Pay attention to shared build scripts or libraries.  \n2. **Rollback Recent Changes**: Temporarily revert recent code or configuration changes to isolate the issue if a specific commit triggered the error.  \n3. **Clear and Rebuild**: Clean the workspace/builder cache and perform incremental or full rebuilds to address any corruption.  \n\n---\n\n### Prevention Tips:  \n1. Implement pre-build checks for dependencies and environment consistency across all product pipelines.  \n2. Automate testing for shared components or configurations before merging new changes.  \n3. Set up monitoring alerts for recurring issues to quickly identify common patterns in build failures.\n"
+    "ai_suggestion": "### Root Cause:  \nThe failure across multiple products suggests a common issue, such as a misconfigured global build setting, dependency mismatch, or a corrupted shared resource (e.g., compiler, libraries). Alternatively, a recent change affecting shared components might be propagating errors across these builds.\n\n---\n\n### Fix Suggestions:  \n1. **Inspect Logs**: Review key sections of the build logs for errors, focusing on dependencies, compiler errors, or environment conflicts. Pay attention to shared build scripts or libraries.  \n2. **Rollback Recent Changes**: Temporarily revert recent code or configuration changes to isolate the issue if a specific commit triggered the error.  \n3. **Clear and Rebuild**: Clean the workspace/builder cache and perform incremental or full rebuilds to address any corruption.  \n\n---\n\n### Prevention Tips:  \n1. Implement pre-build checks for dependencies and environment consistency across all product pipelines.  \n2. Automate testing for shared components or configurations before merging new changes.  \n3. Set up monitoring alerts for recurring issues to quickly identify common patterns in build failures.\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "Unit Tests: Unit Tests Passed": 15,
@@ -265,7 +349,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-19T06:34:33Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "133ac07fb7cb74ed94dd55e98474547f4e04dc1e",
@@ -294,7 +378,28 @@
       }
     ],
     "revision": 5,
-    "ai_suggestion": "### 1. Root Cause:\nThe build failure across multiple platforms (FP1K, FP3K, FP4K, WPK, ARM, ARSENAL) suggests a common issue, likely a dependency mismatch, incorrect configuration, or shared code changes introducing errors globally. The issue affects all build targets, indicating a systemic rather than platform-specific problem such as a bad merge or missing files.\n\n---\n\n### 2. Fix Suggestions:\n1. **Review Build Logs:** Examine the error messages in the logs for all failed platforms to identify the root cause (e.g., missing dependencies, incorrect flags, syntax errors).\n2. **Dependency Verification:** Ensure all required libraries, modules, or frameworks are correctly installed and compatible across all targets.\n3. **Debug Recent Changes:** Identify recent commits or configuration changes that could have introduced the issue and revert/patch as necessary.\n\n---\n\n### 3. Prevention Tips:\n1. **Automated Pre-Build Testing:** Implement unit and integration tests to catch issues before initiating full builds.\n2. **Build Isolation:** Use containerized or isolated build environments per platform to avoid cross-platform conflicts.\n3. **Dependency Version Locking:** Lock dependency versions in configuration files (e.g., `package.json`, `requirements.txt`) to ensure compatibility stability across builds.\n"
+    "ai_suggestion": "### 1. Root Cause:\nThe build failure across multiple platforms (FP1K, FP3K, FP4K, WPK, ARM, ARSENAL) suggests a common issue, likely a dependency mismatch, incorrect configuration, or shared code changes introducing errors globally. The issue affects all build targets, indicating a systemic rather than platform-specific problem such as a bad merge or missing files.\n\n---\n\n### 2. Fix Suggestions:\n1. **Review Build Logs:** Examine the error messages in the logs for all failed platforms to identify the root cause (e.g., missing dependencies, incorrect flags, syntax errors).\n2. **Dependency Verification:** Ensure all required libraries, modules, or frameworks are correctly installed and compatible across all targets.\n3. **Debug Recent Changes:** Identify recent commits or configuration changes that could have introduced the issue and revert/patch as necessary.\n\n---\n\n### 3. Prevention Tips:\n1. **Automated Pre-Build Testing:** Implement unit and integration tests to catch issues before initiating full builds.\n2. **Build Isolation:** Use containerized or isolated build environments per platform to avoid cross-platform conflicts.\n3. **Dependency Version Locking:** Lock dependency versions in configuration files (e.g., `package.json`, `requirements.txt`) to ensure compatibility stability across builds.\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -335,7 +440,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-19T08:42:26Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "133ac07fb7cb74ed94dd55e98474547f4e04dc1e",
@@ -385,7 +490,28 @@
       }
     ],
     "revision": 6,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -426,7 +552,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-19T08:57:25Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "133ac07fb7cb74ed94dd55e98474547f4e04dc1e",
@@ -476,7 +602,28 @@
       }
     ],
     "revision": 7,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -522,7 +669,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-19T09:17:29Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "133ac07fb7cb74ed94dd55e98474547f4e04dc1e",
@@ -572,7 +719,28 @@
       }
     ],
     "revision": 8,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -613,7 +781,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-21T06:28:35Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "133ac07fb7cb74ed94dd55e98474547f4e04dc1e",
@@ -663,7 +831,28 @@
       }
     ],
     "revision": 9,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -704,7 +893,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-21T06:41:06Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "133ac07fb7cb74ed94dd55e98474547f4e04dc1e",
@@ -754,7 +943,28 @@
       }
     ],
     "revision": 10,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "ssp: Error Details": "/data/precommit/workspace/XOS-P4GIT_FXOS-PR-Dashboard_PR-6-2/13/sspsa/fxos/tools/bazel/bazel: line 2: oid: command not found\nsize: '71550476': No such file\nARTIFACTORY_TOKEN expired or invalid. Please check it. You can refer to the BAZEL.md file.\nmake[1]: *** [Makefile.bazel:330: check_bazel_mod_graph] Error 1\nmake[1]: Leaving directory '/data/precommit/workspace/XOS-P4GIT_FXOS-PR-Dashboard_PR-6-2/13/sspsa/image'\nmake: *** [Makefile:15: all] Error 2\n === ssp BUILD FAILED ===",
@@ -798,7 +1008,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-21T06:59:29Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "1888ba485df9833f31ab977d7239aab6890829ff",
@@ -911,7 +1121,28 @@
       }
     ],
     "revision": 11,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -957,7 +1188,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-21T07:04:24Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "1888ba485df9833f31ab977d7239aab6890829ff",
@@ -1007,7 +1238,28 @@
       }
     ],
     "revision": 12,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1051,7 +1303,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-21T12:29:59Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "1888ba485df9833f31ab977d7239aab6890829ff",
@@ -1137,7 +1389,28 @@
       }
     ],
     "revision": 13,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1200,7 +1473,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-25T06:56:19Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "1888ba485df9833f31ab977d7239aab6890829ff",
@@ -1250,7 +1523,28 @@
       }
     ],
     "revision": 14,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -1296,7 +1590,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-25T07:05:10Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "e2cbf2555ba5d611eb3857a4e8cdababcec78825",
@@ -1346,7 +1640,28 @@
       }
     ],
     "revision": 15,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "ARSENAL: Build Status": "FAILURE",
@@ -1392,7 +1707,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-25T07:19:46Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "e2cbf2555ba5d611eb3857a4e8cdababcec78825",
@@ -1442,7 +1757,28 @@
       }
     ],
     "revision": 16,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -1488,7 +1824,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-25T07:37:32Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "e2cbf2555ba5d611eb3857a4e8cdababcec78825",
@@ -1538,7 +1874,28 @@
       }
     ],
     "revision": 17,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -1584,7 +1941,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-25T08:03:31Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "e2cbf2555ba5d611eb3857a4e8cdababcec78825",
@@ -1634,7 +1991,28 @@
       }
     ],
     "revision": 18,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "ssp: Build Status": "SUCCESS",
@@ -1680,7 +2058,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-25T08:13:46Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "e2cbf2555ba5d611eb3857a4e8cdababcec78825",
@@ -1730,7 +2108,28 @@
       }
     ],
     "revision": 19,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -1776,7 +2175,7 @@
     "author": "bbenny_cisco",
     "created_at": "2025-11-18T12:40:58Z",
     "updated_at": "2025-11-25T08:23:51Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN_ALPHA",
     "head_branch": "PR_Dashboard_POC",
     "commit_hash": "e2cbf2555ba5d611eb3857a4e8cdababcec78825",
@@ -1826,6 +2225,27 @@
       }
     ],
     "revision": 20,
-    "ai_suggestion": "AI analysis unavailable\n"
+    "ai_suggestion": "AI analysis unavailable\n",
+    "pr_status": "closed",
+    "review_stats": {
+      "total_review_comments": 0,
+      "general_comments": 0,
+      "copilot_comments": 0,
+      "copilot_addressed": 0,
+      "copilot_open": 0,
+      "human_reviewer_comments": 0,
+      "author_replies": 0,
+      "author_own_comments": 0,
+      "outdated_threads": 0,
+      "total_threads": 0,
+      "resolved_threads": 0,
+      "unresolved_threads": 0,
+      "outdated_threads_gql": 0,
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "reviews_commented": 0,
+      "unique_reviewers": 0,
+      "engagement_score": 100
+    }
   }
 ]

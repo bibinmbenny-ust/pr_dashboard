@@ -9,7 +9,7 @@
     "author": "bbenny_cisco",
     "created_at": "2026-06-24T10:26:40Z",
     "updated_at": "2026-06-26T05:06:31Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "feature/pr_dashboard_source",
     "head_branch": "feature/pr_dashboard_v3",
     "commit_hash": "7977caa70c8504648acd8bdc4186e2b3427a1be4",
@@ -43,7 +43,7 @@
     "revision": 1,
     "review_stats": {
       "total_review_comments": 0,
-      "general_comments": 15,
+      "general_comments": 19,
       "copilot_comments": 0,
       "copilot_addressed": 0,
       "copilot_open": 0,
@@ -508,7 +508,8 @@
           }
         ]
       }
-    ]
+    ],
+    "pr_status": "closed"
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -546,7 +547,7 @@
     "author": "bbenny_cisco",
     "created_at": "2026-06-24T10:26:40Z",
     "updated_at": "2026-06-26T05:06:31Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "feature/pr_dashboard_source",
     "head_branch": "feature/pr_dashboard_v3",
     "commit_hash": "7977caa70c8504648acd8bdc4186e2b3427a1be4",
@@ -609,7 +610,7 @@
     "ai_suggestion": "",
     "review_stats": {
       "total_review_comments": 0,
-      "general_comments": 15,
+      "general_comments": 19,
       "copilot_comments": 0,
       "copilot_addressed": 0,
       "copilot_open": 0,
@@ -1074,7 +1075,8 @@
           }
         ]
       }
-    ]
+    ],
+    "pr_status": "closed"
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1112,7 +1114,7 @@
     "author": "bbenny_cisco",
     "created_at": "2026-06-24T10:26:40Z",
     "updated_at": "2026-06-26T05:06:31Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "feature/pr_dashboard_source",
     "head_branch": "feature/pr_dashboard_v3",
     "commit_hash": "7977caa70c8504648acd8bdc4186e2b3427a1be4",
@@ -1175,7 +1177,7 @@
     "ai_suggestion": "",
     "review_stats": {
       "total_review_comments": 0,
-      "general_comments": 15,
+      "general_comments": 19,
       "copilot_comments": 0,
       "copilot_addressed": 0,
       "copilot_open": 0,
@@ -1640,7 +1642,8 @@
           }
         ]
       }
-    ]
+    ],
+    "pr_status": "closed"
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1678,7 +1681,7 @@
     "author": "bbenny_cisco",
     "created_at": "2026-06-24T10:26:40Z",
     "updated_at": "2026-06-26T10:01:01Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "feature/pr_dashboard_source",
     "head_branch": "feature/pr_dashboard_v3",
     "commit_hash": "7977caa70c8504648acd8bdc4186e2b3427a1be4",
@@ -1713,7 +1716,7 @@
     "ai_suggestion": "",
     "review_stats": {
       "total_review_comments": 0,
-      "general_comments": 15,
+      "general_comments": 19,
       "copilot_comments": 0,
       "copilot_addressed": 0,
       "copilot_open": 0,
@@ -2178,6 +2181,7 @@
           }
         ]
       }
-    ]
+    ],
+    "pr_status": "closed"
   }
 ]
