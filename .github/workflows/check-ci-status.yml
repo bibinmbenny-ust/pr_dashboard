@@ -53,7 +53,7 @@ jobs:
           #  Echoes: {state, pr_status, merged, is_draft, review_decision, updated_at}
           # ════════════════════════════════════════════════════════════════
           compute_pr_status() {
-            local PR_NUMBER="$1" GQL STATE DRAFT MERGED DECISION UPDATED PR_STATUS PR_STATE
+            local PR_NUMBER="$1" GQL STATE DRAFT MERGED DECISION UPDATED PR_STATUS PR_STATE EXISTS
             GQL=$(gh api graphql \
               -f query='query($owner:String!,$repo:String!,$num:Int!){
                 repository(owner:$owner,name:$repo){
@@ -82,12 +82,18 @@ jobs:
               *)      PR_STATE="open"   ;;
             esac
 
+            # exists=false when the PR number is not present on the live repo
+            # (e.g. demo / manually added dashboards). Callers use this to avoid
+            # overwriting such files with default/empty values.
+            EXISTS=$(echo "$GQL" | jq -r 'if (.data.repository.pullRequest == null) then "false" else "true" end')
+
             jq -n \
               --arg state "$PR_STATE" --arg pr_status "$PR_STATUS" \
               --argjson merged "$MERGED" --argjson is_draft "$DRAFT" \
               --arg review_decision "$DECISION" --arg updated_at "$UPDATED" \
+              --argjson exists "$EXISTS" \
               '{state:$state, pr_status:$pr_status, merged:$merged,
-                is_draft:$is_draft, review_decision:$review_decision, updated_at:$updated_at}'
+                is_draft:$is_draft, review_decision:$review_decision, updated_at:$updated_at, exists:$exists}'
           }
 
           # ════════════════════════════════════════════════════════════════
@@ -237,8 +243,14 @@ jobs:
               continue
             fi
             PR_AUTHOR=$(jq -r '.[0].author // ""' "$DASH_FILE")
-            echo "→ PR #$PR_NUMBER (closed/merged): refreshing status + reviews"
             STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
+            # Never overwrite dashboards for PRs that don't exist on the live
+            # repo (demo / manually added). Leave their data exactly as-is.
+            if [ "$(echo "$STATUS_JSON" | jq -r '.exists // "true"')" = "false" ]; then
+              echo "⏭  PR #$PR_NUMBER not found on $REPO_NAME (demo/manual) — leaving $(basename "$DASH_FILE") untouched"
+              continue
+            fi
+            echo "→ PR #$PR_NUMBER (closed/merged): refreshing status + reviews"
             RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
             refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
             echo "   ✔ refreshed $(basename "$DASH_FILE")"
@@ -268,10 +280,25 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          echo "$ENRICHED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
+          # ── MERGE, never overwrite ────────────────────────────────────────
+          # Preserve every PR already present in pr-list.json (including demo /
+          # manually added PRs). Upsert the freshly enriched PRs by number:
+          # refreshed PRs replace their old entry in place; brand-new PRs are
+          # appended. This workflow NEVER removes a PR from the list.
+          EXISTING_PRS='[]'
+          if [ -f "pr-reports/$PROJECT_NAME/pr-list.json" ]; then
+            EXISTING_PRS=$(jq '.pull_requests // []' "pr-reports/$PROJECT_NAME/pr-list.json" 2>/dev/null || echo '[]')
+          fi
+          MERGED_PRS=$(jq -n --argjson existing "$EXISTING_PRS" --argjson enriched "$ENRICHED_PRS" '
+            ($enriched | map({(.number|tostring): .}) | add // {}) as $byNum
+            | ($existing | map( (.number|tostring) as $n | ($byNum[$n] // .) )) as $updated
+            | ($updated | map(.number)) as $have
+            | $updated + ($enriched | map(select(.number as $n | ($have | index($n)) | not)))
+          ')
+          echo "$MERGED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
             '{project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:.}' \
             > "pr-reports/$PROJECT_NAME/pr-list.json"
-          echo "✅ Wrote pr-reports/$PROJECT_NAME/pr-list.json"
+          echo "✅ Wrote pr-reports/$PROJECT_NAME/pr-list.json ($(echo "$MERGED_PRS" | jq 'length') PR(s), merged — none removed)"
 
       - name: Display PR Summary for FXOS
         run: |
