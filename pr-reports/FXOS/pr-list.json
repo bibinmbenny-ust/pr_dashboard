@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2026-07-03T05:30:12Z",
+  "timestamp": "2026-07-03T05:35:47Z",
   "repository": "cisco-sbg-emu/netsec-fxos",
   "total_count": 37,
   "pull_requests": [
@@ -30,14 +30,14 @@
         "author_own_comments": 0,
         "outdated_threads": 0,
         "total_threads": 31,
-        "resolved_threads": 0,
-        "unresolved_threads": 30,
+        "resolved_threads": 1,
+        "unresolved_threads": 29,
         "outdated_threads_gql": 1,
         "reviews_approved": 0,
         "reviews_changes_requested": 0,
         "reviews_commented": 4,
         "unique_reviewers": 0,
-        "engagement_score": 0
+        "engagement_score": 3
       }
     },
     {
