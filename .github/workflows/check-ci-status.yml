@@ -5,7 +5,9 @@ name: Check PR Status
 # writes dashboard_<PR>.json directly. This workflow never touches those fields.
 
 on:
-  workflow_dispatch: # Manual trigger only
+  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: '*/15 * * * *' # Every 15 minutes to keep PR status up to date
 
 jobs:
   check-pr-status:
