@@ -1278,35 +1278,6 @@ function initTrendCharts(dataList) {
     }
 }
 
-// Feature 5: Build cache hit-rate tiles (bitbake + bazel)
-function renderCacheTiles(dataList) {
-    const rev = dataList.find(d => d.bitbake_cache_percentage != null || d.bazel_cache_percentage != null);
-    if (!rev) return '';
-    const tile = (val, label) => {
-        const has = val != null && !isNaN(parseFloat(val));
-        const v = has ? parseFloat(val) : null;
-        const col = !has ? '#64748b' : v >= 80 ? '#10b981' : v >= 50 ? '#f59e0b' : '#ef4444';
-        return `
-        <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.6rem;padding:0.85rem;">
-            <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">
-                <span style="font-size:0.78rem;color:#94a3b8;">${label}</span>
-                <span style="font-size:0.9rem;font-weight:700;color:${col};">${has ? v + '%' : 'N/A'}</span>
-            </div>
-            <div style="background:#1e293b;border-radius:0.3rem;height:6px;overflow:hidden;">
-                <div style="height:100%;width:${has ? v : 0}%;background:${col};border-radius:0.3rem;transition:width 0.6s ease;"></div>
-            </div>
-        </div>`;
-    };
-    return `
-    <div class="card" style="padding:1.25rem;">
-        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">⚡ Build Cache Hit Rate</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
-            ${tile(rev.bitbake_cache_percentage, '🍥 Bitbake Cache')}
-            ${tile(rev.bazel_cache_percentage, '🧱 Bazel Cache')}
-        </div>
-    </div>`;
-}
-
 // Feature 6: Reviewer Engagement panel
 function renderReviewerEngagement(dataList) {
     const rev = dataList.find(d => d.review_stats);
@@ -1513,7 +1484,6 @@ function renderScoreCard(dataList) {
         renderBuildTimeline(dataList) +
         renderTrendCharts(dataList) +
         renderPrVelocity(dataList) +
-        renderCacheTiles(dataList) +
         renderReviewerEngagement(dataList) +
         renderFlakyModules(dataList) +
         renderErrorFingerprint(dataList);
