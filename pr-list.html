@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PR List - NetSec Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard.css?v=20260703b">
 </head>
 <body>
     <div class="global-header">
@@ -57,6 +57,14 @@
                 <input type="date" id="pr-date-to" />
             </div>
 
+            <div class="pr-toolbar-field pr-toolbar-waterfall">
+                <label>Waterfall</label>
+                <label for="pr-waterfall" class="pr-checkbox-label">
+                    <input type="checkbox" id="pr-waterfall" />
+                    <span>🌊 Waterfall PRs only</span>
+                </label>
+            </div>
+
             <div class="pr-toolbar-field pr-toolbar-actions">
                 <button type="button" id="pr-clear-filters" class="pr-btn-clear">Clear</button>
             </div>
@@ -77,6 +85,6 @@
         NetSec Dashboard
     </footer>
 
-    <script src="js/pr-list.js"></script>
+    <script src="js/pr-list.js?v=20260703b"></script>
 </body>
 </html>

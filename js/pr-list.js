@@ -103,6 +103,17 @@ let allPRs = [];          // full, unfiltered list
 let filteredPRs = [];     // after search/sort/date filters
 let currentPage = 1;
 
+// Waterfall PR detection. A waterfall PR title looks like:
+//   "Change <short_sha/cdets> from <parent> to <child>"
+//   e.g. "Change 4cf194d from IMS_10_5_MAIN to IMS_10_5_CDFMC_MAIN"
+// Prefer the is_waterfall flag written by the GitHub Action; fall back to a
+// title match so the filter also works before the JSON is refreshed.
+const WATERFALL_RE = /^\s*Change\s+\S+\s+from\s+\S+\s+to\s+\S+/i;
+function isWaterfallPR(pr) {
+    if (typeof pr.is_waterfall === 'boolean') return pr.is_waterfall;
+    return WATERFALL_RE.test(pr.title || '');
+}
+
 // Build a single PR card's HTML
 function renderPRItem(pr) {
     const statusBadgeClass = getStatusBadgeClass(pr.pr_status);
@@ -145,11 +156,13 @@ function applyFilters() {
     const authorEl = document.getElementById('pr-author');
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
+    const waterfallEl = document.getElementById('pr-waterfall');
 
     const searchTerm = (searchEl?.value || '').trim();
     const authorTerm = (authorEl?.value || '').trim().toLowerCase();
     const fromVal = fromEl?.value || '';
     const toVal = toEl?.value || '';
+    const waterfallOnly = !!(waterfallEl && waterfallEl.checked);
 
     let list = allPRs.slice();
 
@@ -177,6 +190,11 @@ function applyFilters() {
             const t = new Date(pr.updated_at).getTime();
             return !isNaN(t) && t <= toTime;
         });
+    }
+
+    // Waterfall PRs only
+    if (waterfallOnly) {
+        list = list.filter(isWaterfallPR);
     }
 
     filteredPRs = list;
@@ -286,17 +304,20 @@ function initToolbar() {
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
     const clearEl = document.getElementById('pr-clear-filters');
+    const waterfallEl = document.getElementById('pr-waterfall');
 
     searchEl?.addEventListener('input', applyFilters);
     authorEl?.addEventListener('input', applyFilters);
     fromEl?.addEventListener('change', applyFilters);
     toEl?.addEventListener('change', applyFilters);
+    waterfallEl?.addEventListener('change', applyFilters);
 
     clearEl?.addEventListener('click', () => {
         if (searchEl) searchEl.value = '';
         if (authorEl) authorEl.value = '';
         if (fromEl) fromEl.value = '';
         if (toEl) toEl.value = '';
+        if (waterfallEl) waterfallEl.checked = false;
         applyFilters();
     });
 

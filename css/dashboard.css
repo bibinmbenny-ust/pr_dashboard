@@ -1024,6 +1024,34 @@ footer {
     color: var(--text-secondary);
 }
 
+.pr-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.6);
+    white-space: nowrap;
+}
+
+.pr-checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--cisco-blue);
+    cursor: pointer;
+}
+
+.pr-checkbox-label:hover {
+    border-color: var(--cisco-blue);
+}
+
 .pr-input-wrap {
     position: relative;
     display: flex;

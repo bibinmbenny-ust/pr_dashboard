@@ -38,6 +38,19 @@ jobs:
           REPO_REPO="${REPO_NAME##*/}"
           mkdir -p "pr-reports/$PROJECT_NAME"
 
+          # ── Waterfall PR detection ───────────────────────────────────────
+          # A waterfall PR title looks like:
+          #   "Change <short_sha/cdets> from <parent> to <child>"
+          #   e.g. "Change 4cf194d from IMS_10_5_MAIN to IMS_10_5_CDFMC_MAIN"
+          # add_wf tags any object that has a .title with is_waterfall + the
+          # parsed ref / from / to branches.
+          WF_DEF='def add_wf:
+            (.title // "") as $t
+            | . + (if ($t | test("^\\s*Change\\s+\\S+\\s+from\\s+\\S+\\s+to\\s+\\S+"; "i"))
+                   then ($t | capture("(?i)^\\s*Change\\s+(?<ref>\\S+)\\s+from\\s+(?<parent>\\S+)\\s+to\\s+(?<child>\\S+)")
+                         | {is_waterfall:true, waterfall_ref:.ref, waterfall_from:.parent, waterfall_to:.child})
+                   else {is_waterfall:false, waterfall_ref:null, waterfall_from:null, waterfall_to:null} end);'
+
           # Bail out gracefully if the repo is unreachable
           if ! gh api "repos/$REPO_NAME" > /dev/null 2>&1; then
             echo "⚠️  Cannot access repository $REPO_NAME"
@@ -177,13 +190,13 @@ jobs:
           # Apply status + review_stats to every entry of a Jenkins dashboard file
           refresh_dashboard_file() {
             local DASH_FILE="$1" STATUS_JSON="$2" RS_JSON="$3"
-            jq --argjson status "$STATUS_JSON" --argjson rs "$RS_JSON" \
-              '[.[] | . + {
+            jq --argjson status "$STATUS_JSON" --argjson rs "$RS_JSON" "$WF_DEF"'
+              [.[] | (. + {
                  pr_state:  $status.state,
                  pr_status: $status.pr_status,
                  merged:    $status.merged,
                  review_stats: $rs
-               }]' "$DASH_FILE" > /tmp/dash_upd.json && mv /tmp/dash_upd.json "$DASH_FILE"
+               }) | add_wf]' "$DASH_FILE" > /tmp/dash_upd.json && mv /tmp/dash_upd.json "$DASH_FILE"
           }
 
           # ── 1) Open PRs on the base branch → pr-list.json + refresh dashboards
@@ -297,8 +310,8 @@ jobs:
             | ($updated | map(.number)) as $have
             | $updated + ($enriched | map(select(.number as $n | ($have | index($n)) | not)))
           ')
-          echo "$MERGED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
-            '{project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:.}' \
+          echo "$MERGED_PRS" | jq "$WF_DEF" --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
+            '{project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:(map(add_wf))}' \
             > "pr-reports/$PROJECT_NAME/pr-list.json"
           echo "✅ Wrote pr-reports/$PROJECT_NAME/pr-list.json ($(echo "$MERGED_PRS" | jq 'length') PR(s), merged — none removed)"
 
