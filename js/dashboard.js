@@ -1557,7 +1557,7 @@ function renderScoreCard(dataList) {
                         </div>` : ''}
                         ${sortedFailures.length > 0 ? `
                         <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.5rem; font-weight:600;">Most Failed Modules</div>
-                        <div style="position:relative; height:${Math.min(sortedFailures.length, 6) * 28 + 8}px;">
+                        <div style="position:relative; height:${Math.min(sortedFailures.length, 6) * 32 + 36}px;">
                             <canvas id="sc-moduleBar"></canvas>
                         </div>` : `<div style="font-size:0.82rem; color:#10b981; padding:0.5rem 0;">✅ No module build failures across all builds</div>`}
 
@@ -1636,7 +1636,7 @@ function renderScoreCard(dataList) {
             },
             options: {
                 indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                layout: { padding: { right: 12 } },
+                layout: { padding: { right: 12, bottom: 4 } },
                 plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` Failed ${ctx.raw}× out of ${total} revision${total !== 1 ? 's' : ''}` } } },
                 scales: { x: { beginAtZero: true, max: total, ticks: { color: '#64748b', stepSize: 1, precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#94a3b8', font: { size: 12 } }, grid: { display: false } } },
                 animation: { duration: 700 }
