@@ -288,11 +288,19 @@ ${aiSuggestion}</div>
         // Only open by default if it's a failure
         const isOpen = String(stageStatus).toUpperCase() === "FAILURE" ? 'open' : '';
 
+        // Fallback: if a stage only reports a build status (no detailed metrics and no error),
+        // show the build status so the expanded panel is never blank.
+        const hasVisibleContent = metricContent.trim() !== '' || errorSection.trim() !== '';
+        const fallbackContent = !hasVisibleContent
+            ? `<p style="margin-bottom: 0.35rem; font-size: 0.88rem; display: flex; align-items: center;"><strong style="min-width: 180px; color: var(--cisco-blue); font-weight: 600;">Build Status:</strong> <span class="${getStatusClass(stageStatus)}">${String(stageStatus).toUpperCase()}</span></p>`
+            : '';
+
         metricsHtml.push(`
             <details ${isOpen}>
                 <summary>${summaryTitle}</summary>
                 <div class="metric-content">
                     ${metricContent}
+                    ${fallbackContent}
                     ${errorSection}
                 </div>
             </details>
@@ -1115,7 +1123,7 @@ function renderMergeReadiness(dataList) {
     const items = [
         { label: 'All module builds passing', ok: buildsPass, detail: buildsPass ? 'All green' : `${latest.failed_stage || 'Some'} failing` },
         { label: 'Unit tests green',           ok: (utStatus === 'SUCCESS' || utStatus == null) ? (utStatus == null ? null : utPass) : false, detail: utStatus == null ? 'No data' : (utPass ? 'Passed' : (utFailedCnt ? `${utFailedCnt} failed` : 'Not passing')) },
-        { label: 'No unresolved review threads', ok: threadsOk, detail: threadsOk == null ? 'No data yet' : (threadsOk ? 'All resolved' : `${unresolved} open`) },
+        { label: 'Review threads resolved', ok: threadsOk, detail: threadsOk == null ? 'No data yet' : (threadsOk ? 'All resolved' : `${unresolved} unresolved`) },
         { label: 'Has reviewer approval',      ok: approvals > 0, detail: approvals > 0 ? `${approvals} approval${approvals !== 1 ? 's' : ''}` : 'None yet' },
         { label: 'No changes requested',       ok: changesReq === 0, detail: changesReq === 0 ? 'Clear' : `${changesReq} requested` },
     ];
@@ -1503,14 +1511,17 @@ function renderScoreCard(dataList) {
                         <div style="position:relative; width:190px; margin:0 auto;">
                             <canvas id="sc-overallPie" width="190" height="190"></canvas>
                             <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-                                <div style="font-size:2rem; font-weight:700; color:${healthColor};">${healthScore}</div>
-                                <div style="font-size:0.65rem; color:${healthColor}; font-weight:600; letter-spacing:0.05em;">${healthLabel}</div>
+                                <div style="display:flex; align-items:baseline; justify-content:center; gap:0.1rem; color:${healthColor};">
+                                    <span style="font-size:2rem; font-weight:700; line-height:1;">${healthScore}</span>
+                                    <span style="font-size:0.85rem; font-weight:600; opacity:0.75;">/ 100</span>
+                                </div>
+                                <div style="font-size:0.65rem; color:${healthColor}; font-weight:600; letter-spacing:0.05em; margin-top:0.15rem;">${healthLabel}</div>
                             </div>
                         </div>
                         <!-- 3 signal breakdown below the chart -->
                         <div style="margin-top:0.9rem; display:flex; flex-direction:column; gap:0.35rem; text-align:left; padding:0 0.25rem;">
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#94a3b8;">🔨 Builds passed</span>
+                                <span style="color:#94a3b8;">🔨 Revisions passed</span>
                                 <span style="color:${buildSuccessRate >= 50 ? '#10b981' : '#ef4444'}; font-weight:600;">${passedBuilds} / ${total}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
@@ -1528,7 +1539,7 @@ function renderScoreCard(dataList) {
                         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
                             <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${total}</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Total Builds</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Total Revisions</div>
                             </div>
                             <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.3rem; font-weight:700; color:#f59e0b;">${avgDuration > 0 ? calculateDuration(avgDuration) : 'N/A'}</div>
@@ -1625,8 +1636,9 @@ function renderScoreCard(dataList) {
             },
             options: {
                 indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` Failed ${ctx.raw}× out of ${total} build${total !== 1 ? 's' : ''}` } } },
-                scales: { x: { ticks: { color: '#64748b', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#94a3b8', font: { size: 12 } }, grid: { display: false } } },
+                layout: { padding: { right: 12 } },
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` Failed ${ctx.raw}× out of ${total} revision${total !== 1 ? 's' : ''}` } } },
+                scales: { x: { beginAtZero: true, max: total, ticks: { color: '#64748b', stepSize: 1, precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#94a3b8', font: { size: 12 } }, grid: { display: false } } },
                 animation: { duration: 700 }
             }
         });
