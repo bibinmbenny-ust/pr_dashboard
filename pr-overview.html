@@ -22,6 +22,34 @@
 
     <div id="overview-content" style="display: none;">
 
+        <!-- Filters -->
+        <div id="ov-filters" class="ov-filters">
+            <div class="ov-filter-group">
+                <label for="filter-author">👤 Author</label>
+                <select id="filter-author"><option value="">All authors</option></select>
+            </div>
+            <div class="ov-filter-group">
+                <label for="filter-period">🗓️ Period</label>
+                <select id="filter-period">
+                    <option value="0">All time</option>
+                    <option value="7">Last 7 days</option>
+                    <option value="14">Last 14 days</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+            </div>
+            <div class="ov-filter-group">
+                <label for="filter-from">From</label>
+                <input type="date" id="filter-from">
+            </div>
+            <div class="ov-filter-group">
+                <label for="filter-to">To</label>
+                <input type="date" id="filter-to">
+            </div>
+            <button id="filter-reset" class="ov-filter-reset" type="button">Reset</button>
+            <span id="filter-count" class="ov-filter-count"></span>
+        </div>
+
         <!-- KPI Tiles -->
         <div id="kpi-grid" class="ov-kpi-grid"></div>
 

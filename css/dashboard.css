@@ -1202,6 +1202,81 @@ footer {
     color: var(--text-secondary);
 }
 
+/* --- Filter bar --- */
+.ov-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    background: var(--card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.ov-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.ov-filter-group label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.ov-filter-group select,
+.ov-filter-group input[type="date"] {
+    background: var(--bg, #0f172a);
+    color: var(--text);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.85rem;
+    min-width: 150px;
+    color-scheme: dark;
+}
+
+.ov-filter-group select:focus,
+.ov-filter-group input[type="date"]:focus {
+    outline: none;
+    border-color: var(--cisco-blue);
+}
+
+.ov-filter-reset {
+    background: transparent;
+    color: var(--cisco-blue);
+    border: 1px solid var(--cisco-blue);
+    border-radius: 8px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ov-filter-reset:hover {
+    background: var(--cisco-blue);
+    color: #04222b;
+}
+
+.ov-filter-count {
+    margin-left: auto;
+    align-self: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 560px) {
+    .ov-filter-group select,
+    .ov-filter-group input[type="date"] { min-width: 120px; }
+    .ov-filter-count { margin-left: 0; width: 100%; }
+}
+
 .ov-grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -20,6 +20,10 @@ const PROJECT_CONFIG = {
 let currentProject = null;
 const charts = {};
 
+// All analysed PRs (unfiltered) + metadata, used by the filter controls.
+let allPRs = [];
+let prListTimestamp = null;
+
 // ── Fetch helpers ───────────────────────────────────────────────────────
 async function fetchJSON(url) {
     try {
@@ -353,6 +357,70 @@ async function init() {
     document.getElementById('loading-message').style.display = 'none';
     document.getElementById('overview-content').style.display = 'block';
 
+    allPRs = prs;
+    prListTimestamp = prList.timestamp;
+    populateAuthorFilter(prs);
+    setupFilters();
+    applyFilters();
+}
+
+// ── Filtering (by author / date period) ─────────────────────────────────
+function getPRDate(p) {
+    return p.created_at || p.updated_at || null;
+}
+
+function populateAuthorFilter(prs) {
+    const sel = document.getElementById('filter-author');
+    if (!sel) return;
+    const authors = [...new Set(prs.map(p => p.author).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b));
+    sel.innerHTML = '<option value="">All authors</option>' +
+        authors.map(a => `<option value="${a}">@${a}</option>`).join('');
+}
+
+function setupFilters() {
+    ['filter-author', 'filter-period', 'filter-from', 'filter-to'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', applyFilters);
+    });
+    const reset = document.getElementById('filter-reset');
+    if (reset) reset.addEventListener('click', () => {
+        document.getElementById('filter-author').value = '';
+        document.getElementById('filter-period').value = '0';
+        document.getElementById('filter-from').value = '';
+        document.getElementById('filter-to').value = '';
+        applyFilters();
+    });
+}
+
+function applyFilters() {
+    const author = document.getElementById('filter-author')?.value || '';
+    const period = parseInt(document.getElementById('filter-period')?.value) || 0;
+    const fromStr = document.getElementById('filter-from')?.value || '';
+    const toStr = document.getElementById('filter-to')?.value || '';
+
+    const now = Date.now();
+    const periodTs = period > 0 ? now - period * 86400000 : null;
+    const fromTs = fromStr ? Date.parse(`${fromStr}T00:00:00`) : null;
+    const toTs = toStr ? Date.parse(`${toStr}T23:59:59`) : null;
+
+    const filtered = allPRs.filter(p => {
+        if (author && p.author !== author) return false;
+        if (periodTs != null || fromTs != null || toTs != null) {
+            const ds = getPRDate(p);
+            const t = ds ? Date.parse(ds) : NaN;
+            if (isNaN(t)) return false;
+            if (periodTs != null && t < periodTs) return false;
+            if (fromTs != null && t < fromTs) return false;
+            if (toTs != null && t > toTs) return false;
+        }
+        return true;
+    });
+
+    renderAll(filtered);
+}
+
+function renderAll(prs) {
     renderKPIs(prs);
     renderStatusChart(prs);
     renderHealthChart(prs);
@@ -362,8 +430,14 @@ async function init() {
     renderStale(prs);
     renderAggregate(prs);
 
+    const countEl = document.getElementById('filter-count');
+    if (countEl) {
+        countEl.textContent = prs.length === allPRs.length
+            ? `Showing all ${allPRs.length} PRs`
+            : `Showing ${prs.length} of ${allPRs.length} PRs`;
+    }
     document.getElementById('ov-timestamp').textContent =
-        `Analyzed ${prs.length} PRs · Data as of ${formatDate(prList.timestamp)}`;
+        `Analyzed ${prs.length} PRs · Data as of ${formatDate(prListTimestamp)}`;
 }
 
 window.onload = init;
