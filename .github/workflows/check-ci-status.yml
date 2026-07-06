@@ -458,8 +458,8 @@ jobs:
             | ($updated | map(.number)) as $have
             | $updated + ($enriched | map(select(.number as $n | ($have | index($n)) | not)))
           ')
-          echo "$MERGED_PRS" | jq "$WF_DEF" --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" \
-            '{project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:(map(add_wf))}' \
+          echo "$MERGED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" "$WF_DEF"'
+            {project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:(map(add_wf))}' \
             > "pr-reports/$PROJECT_NAME/pr-list.json"
           echo "✅ Wrote pr-reports/$PROJECT_NAME/pr-list.json ($(echo "$MERGED_PRS" | jq 'length') PR(s), merged — none removed)"
 
