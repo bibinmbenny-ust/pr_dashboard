@@ -202,6 +202,9 @@ jobs:
           # Apply status + review_stats to every entry of a Jenkins dashboard file
           refresh_dashboard_file() {
             local DASH_FILE="$1" STATUS_JSON="$2" RS_JSON="$3"
+            # Defense-in-depth: never let malformed JSON reach --argjson.
+            echo "$STATUS_JSON" | jq -e . >/dev/null 2>&1 || STATUS_JSON='{"state":"open","pr_status":"open","merged":false}'
+            echo "$RS_JSON"     | jq -e . >/dev/null 2>&1 || RS_JSON='null'
             jq --argjson status "$STATUS_JSON" --argjson rs "$RS_JSON" "$WF_DEF"'
               [.[] | (. + {
                  pr_state:  $status.state,
@@ -393,6 +396,13 @@ jobs:
             PR_NUMBER=$(basename "$DASH_FILE" | sed -E 's/dashboard_([0-9]+)\.json/\1/')
             # Skip PRs already handled in the open-PR loop
             if echo "$ENRICHED_PRS" | jq -e --argjson n "$PR_NUMBER" 'any(.number == $n)' >/dev/null 2>&1; then
+              continue
+            fi
+            # Reliable existence check via REST (the GraphQL-based exists flag can
+            # misfire for out-of-range / demo PR numbers, e.g. 9001-9005). A 404
+            # here means the PR isn't on the live repo → leave its dashboard as-is.
+            if ! gh api "repos/$REPO_NAME/pulls/$PR_NUMBER" >/dev/null 2>&1; then
+              echo "⏭  PR #$PR_NUMBER not found on $REPO_NAME (demo/manual) — leaving $(basename "$DASH_FILE") untouched"
               continue
             fi
             PR_AUTHOR=$(jq -r '.[0].author // ""' "$DASH_FILE")
