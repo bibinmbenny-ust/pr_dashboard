@@ -320,12 +320,11 @@ jobs:
               "- 🧪 UT pass rate: ${UTR}%" \
               "- 📈 Avg coverage: ${AC_DISP}" \
               "- 💬 Threads resolved: ${TP}" \
-              "" \
-              "👉 [View full score card »](${DASH_URL})" \
               "<!-- /pr-score-gate -->")
 
+            # Score block goes at the TOP of the description.
             if [ -n "$CLEANED" ]; then
-              NEW_BODY=$(printf '%s\n\n%s' "$CLEANED" "$BLOCK")
+              NEW_BODY=$(printf '%s\n\n%s' "$BLOCK" "$CLEANED")
             else
               NEW_BODY="$BLOCK"
             fi
