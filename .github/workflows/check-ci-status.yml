@@ -75,12 +75,23 @@ jobs:
                   pullRequest(number:$num){ state isDraft merged reviewDecision updatedAt }
                 }
               }' -F owner="$REPO_OWNER" -F repo="$REPO_REPO" -F num="$PR_NUMBER" 2>/dev/null) || GQL='{}'
+            # Guard against empty/blank stdout (e.g. gh exits 0 with no body for a
+            # non-existent PR) — otherwise the jq extractions below yield empty
+            # strings and break the --argjson booleans further down.
+            [ -n "$GQL" ] || GQL='{}'
+            echo "$GQL" | jq -e . >/dev/null 2>&1 || GQL='{}'
 
-            STATE=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.state          // "OPEN"')
-            DRAFT=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.isDraft         // false')
-            MERGED=$(echo "$GQL"   | jq -r '.data.repository.pullRequest.merged          // false')
-            DECISION=$(echo "$GQL" | jq -r '.data.repository.pullRequest.reviewDecision  // ""')
-            UPDATED=$(echo "$GQL"  | jq -r '.data.repository.pullRequest.updatedAt        // ""')
+            STATE=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.state          // "OPEN"'  2>/dev/null)
+            DRAFT=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.isDraft         // false'   2>/dev/null)
+            MERGED=$(echo "$GQL"   | jq -r '.data.repository.pullRequest.merged          // false'   2>/dev/null)
+            DECISION=$(echo "$GQL" | jq -r '.data.repository.pullRequest.reviewDecision  // ""'      2>/dev/null)
+            UPDATED=$(echo "$GQL"  | jq -r '.data.repository.pullRequest.updatedAt        // ""'      2>/dev/null)
+
+            # Normalise to guaranteed-valid values (never empty) so the jq -n
+            # --argjson calls below can't receive invalid JSON.
+            [ -n "$STATE" ] || STATE="OPEN"
+            [ "$MERGED" = "true" ] || MERGED="false"
+            [ "$DRAFT"  = "true" ] || DRAFT="false"
 
             if   [ "$MERGED" = "true" ];                then PR_STATUS="merged"
             elif [ "$STATE"  = "CLOSED" ];              then PR_STATUS="closed"
@@ -100,7 +111,8 @@ jobs:
             # exists=false when the PR number is not present on the live repo
             # (e.g. demo / manually added dashboards). Callers use this to avoid
             # overwriting such files with default/empty values.
-            EXISTS=$(echo "$GQL" | jq -r 'if (.data.repository.pullRequest == null) then "false" else "true" end')
+            EXISTS=$(echo "$GQL" | jq -r 'if (.data.repository.pullRequest == null) then "false" else "true" end' 2>/dev/null)
+            [ "$EXISTS" = "true" ] || EXISTS="false"
 
             jq -n \
               --arg state "$PR_STATE" --arg pr_status "$PR_STATUS" \
