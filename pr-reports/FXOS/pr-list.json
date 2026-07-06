@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2026-07-03T10:21:57Z",
+  "timestamp": "2026-07-06T10:18:36Z",
   "repository": "cisco-sbg-emu/netsec-fxos",
   "total_count": 42,
   "pull_requests": [
@@ -38,7 +38,11 @@
         "reviews_commented": 4,
         "unique_reviewers": 0,
         "engagement_score": 6
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "arjun_cisco",
@@ -117,7 +121,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 0,
         "engagement_score": 100
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "dmueller_cisco",
@@ -153,7 +161,11 @@
         "reviews_commented": 1,
         "unique_reviewers": 4,
         "engagement_score": 83
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "bbenny_cisco",
@@ -189,7 +201,11 @@
         "reviews_commented": 4,
         "unique_reviewers": 1,
         "engagement_score": 67
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "koconnor_cisco",
@@ -225,7 +241,11 @@
         "reviews_commented": 6,
         "unique_reviewers": 1,
         "engagement_score": 21
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "spillai_cisco",
@@ -261,7 +281,11 @@
         "reviews_commented": 6,
         "unique_reviewers": 3,
         "engagement_score": 97
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "mgarcia_cisco",
@@ -297,7 +321,11 @@
         "reviews_commented": 5,
         "unique_reviewers": 3,
         "engagement_score": 85
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "meera_cisco",
@@ -376,7 +404,11 @@
         "reviews_commented": 4,
         "unique_reviewers": 4,
         "engagement_score": 95
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "koconnor_cisco",
@@ -412,7 +444,11 @@
         "reviews_commented": 1,
         "unique_reviewers": 4,
         "engagement_score": 79
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "achen_cisco",
@@ -448,7 +484,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 3,
         "engagement_score": 89
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "lwang_cisco",
@@ -484,7 +524,11 @@
         "reviews_commented": 6,
         "unique_reviewers": 4,
         "engagement_score": 80
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "jsmith_cisco",
@@ -520,7 +564,11 @@
         "reviews_commented": 1,
         "unique_reviewers": 1,
         "engagement_score": 98
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "lwang_cisco",
@@ -556,7 +604,11 @@
         "reviews_commented": 4,
         "unique_reviewers": 1,
         "engagement_score": 34
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "koconnor_cisco",
@@ -592,7 +644,11 @@
         "reviews_commented": 1,
         "unique_reviewers": 1,
         "engagement_score": 84
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "bbenny_cisco",
@@ -671,7 +727,11 @@
         "reviews_commented": 5,
         "unique_reviewers": 4,
         "engagement_score": 40
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "kiran_cisco",
@@ -750,7 +810,11 @@
         "reviews_commented": 3,
         "unique_reviewers": 1,
         "engagement_score": 59
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "rpatel_cisco",
@@ -786,7 +850,11 @@
         "reviews_commented": 1,
         "unique_reviewers": 3,
         "engagement_score": 96
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "sofia_cisco",
@@ -865,7 +933,11 @@
         "reviews_commented": 4,
         "unique_reviewers": 1,
         "engagement_score": 85
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "mgarcia_cisco",
@@ -901,7 +973,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 1,
         "engagement_score": 60
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "rpatel_cisco",
@@ -937,7 +1013,11 @@
         "reviews_commented": 4,
         "unique_reviewers": 2,
         "engagement_score": 86
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "koconnor_cisco",
@@ -973,7 +1053,11 @@
         "reviews_commented": 4,
         "unique_reviewers": 0,
         "engagement_score": 24
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "spillai_cisco",
@@ -1009,7 +1093,11 @@
         "reviews_commented": 2,
         "unique_reviewers": 2,
         "engagement_score": 90
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "lwang_cisco",
@@ -1045,7 +1133,11 @@
         "reviews_commented": 1,
         "unique_reviewers": 4,
         "engagement_score": 81
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "mgarcia_cisco",
@@ -1081,7 +1173,11 @@
         "reviews_commented": 5,
         "unique_reviewers": 4,
         "engagement_score": 79
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "koconnor_cisco",
@@ -1117,7 +1213,11 @@
         "reviews_commented": 5,
         "unique_reviewers": 4,
         "engagement_score": 17
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "spillai_cisco",
@@ -1153,7 +1253,11 @@
         "reviews_commented": 2,
         "unique_reviewers": 0,
         "engagement_score": 82
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "achen_cisco",
@@ -1189,7 +1293,11 @@
         "reviews_commented": 5,
         "unique_reviewers": 1,
         "engagement_score": 65
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "achen_cisco",
@@ -1225,7 +1333,11 @@
         "reviews_commented": 2,
         "unique_reviewers": 0,
         "engagement_score": 77
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "dmueller_cisco",
@@ -1261,7 +1373,11 @@
         "reviews_commented": 3,
         "unique_reviewers": 2,
         "engagement_score": 66
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "nicktang_cisco",
@@ -1297,7 +1413,11 @@
         "reviews_commented": 5,
         "unique_reviewers": 2,
         "engagement_score": 44
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "bbenny_cisco",
@@ -1333,7 +1453,11 @@
         "reviews_commented": 1,
         "unique_reviewers": 2,
         "engagement_score": 37
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "lwang_cisco",
@@ -1369,7 +1493,11 @@
         "reviews_commented": 6,
         "unique_reviewers": 0,
         "engagement_score": 84
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "bbenny_cisco",
@@ -1405,7 +1533,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 0,
         "engagement_score": 100
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "bbenny_cisco",
@@ -1441,7 +1573,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 0,
         "engagement_score": 100
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "bbenny_cisco",
@@ -1477,7 +1613,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 0,
         "engagement_score": 100
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "bbenny_cisco",
@@ -1513,7 +1653,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 0,
         "engagement_score": 100
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     },
     {
       "author": "dhapal_cisco",
@@ -1549,7 +1693,11 @@
         "reviews_commented": 0,
         "unique_reviewers": 0,
         "engagement_score": 100
-      }
+      },
+      "is_waterfall": false,
+      "waterfall_ref": null,
+      "waterfall_from": null,
+      "waterfall_to": null
     }
   ]
 }

@@ -509,7 +509,11 @@
         ]
       }
     ],
-    "pr_status": "closed"
+    "pr_status": "closed",
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1076,7 +1080,11 @@
         ]
       }
     ],
-    "pr_status": "closed"
+    "pr_status": "closed",
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1643,7 +1651,11 @@
         ]
       }
     ],
-    "pr_status": "closed"
+    "pr_status": "closed",
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -2182,6 +2194,10 @@
         ]
       }
     ],
-    "pr_status": "closed"
+    "pr_status": "closed",
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   }
 ]

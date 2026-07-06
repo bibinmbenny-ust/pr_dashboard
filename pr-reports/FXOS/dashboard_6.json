@@ -83,7 +83,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Unit Tests Passed": 15,
@@ -151,7 +155,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Build Status": "FAILURE",
@@ -223,7 +231,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Unit Tests Passed": 15,
@@ -311,7 +323,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Unit Tests Passed": 15,
@@ -399,7 +415,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -511,7 +531,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -623,7 +647,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -740,7 +768,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -852,7 +884,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "smp: Build Status": "SUCCESS",
@@ -964,7 +1000,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Error Details": "/data/precommit/workspace/XOS-P4GIT_FXOS-PR-Dashboard_PR-6-2/13/sspsa/fxos/tools/bazel/bazel: line 2: oid: command not found\nsize: '71550476': No such file\nARTIFACTORY_TOKEN expired or invalid. Please check it. You can refer to the BAZEL.md file.\nmake[1]: *** [Makefile.bazel:330: check_bazel_mod_graph] Error 1\nmake[1]: Leaving directory '/data/precommit/workspace/XOS-P4GIT_FXOS-PR-Dashboard_PR-6-2/13/sspsa/image'\nmake: *** [Makefile:15: all] Error 2\n === ssp BUILD FAILED ===",
@@ -1142,7 +1182,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1259,7 +1303,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1410,7 +1458,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -1544,7 +1596,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -1661,7 +1717,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ARSENAL: Build Status": "FAILURE",
@@ -1778,7 +1838,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -1895,7 +1959,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -2012,7 +2080,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Build Status": "SUCCESS",
@@ -2129,7 +2201,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "WPK: Build Status": "SUCCESS",
@@ -2246,6 +2322,10 @@
       "reviews_commented": 0,
       "unique_reviewers": 0,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   }
 ]

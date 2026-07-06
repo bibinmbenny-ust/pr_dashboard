@@ -102,7 +102,11 @@
       "reviews_commented": 1,
       "unique_reviewers": 0,
       "engagement_score": 0
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "SUCCESS",
@@ -207,6 +211,10 @@
       "reviews_commented": 1,
       "unique_reviewers": 0,
       "engagement_score": 0
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   }
 ]

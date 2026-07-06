@@ -102,6 +102,10 @@
       "reviews_commented": 24,
       "unique_reviewers": 6,
       "engagement_score": 92
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   }
 ]

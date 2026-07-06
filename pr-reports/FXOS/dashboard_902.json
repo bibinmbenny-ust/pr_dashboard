@@ -81,7 +81,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 1,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "FAILURE",
@@ -186,7 +190,11 @@
       "reviews_commented": 0,
       "unique_reviewers": 1,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "Unit Tests: Build Status": "FAILURE",
@@ -270,6 +278,10 @@
       "reviews_commented": 0,
       "unique_reviewers": 1,
       "engagement_score": 100
-    }
+    },
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   }
 ]

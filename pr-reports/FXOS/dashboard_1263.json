@@ -84,7 +84,11 @@
     },
     "pr_state": "open",
     "pr_status": "review_required",
-    "merged": false
+    "merged": false,
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Build Status": "SUCCESS",
@@ -171,7 +175,11 @@
     },
     "pr_state": "open",
     "pr_status": "review_required",
-    "merged": false
+    "merged": false,
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Build Status": "SUCCESS",
@@ -258,7 +266,11 @@
     },
     "pr_state": "open",
     "pr_status": "review_required",
-    "merged": false
+    "merged": false,
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Build Status": "SUCCESS",
@@ -345,7 +357,11 @@
     },
     "pr_state": "open",
     "pr_status": "review_required",
-    "merged": false
+    "merged": false,
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Build Status": "SUCCESS",
@@ -432,7 +448,11 @@
     },
     "pr_state": "open",
     "pr_status": "review_required",
-    "merged": false
+    "merged": false,
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   },
   {
     "ssp: Build Status": "SUCCESS",
@@ -519,6 +539,10 @@
     },
     "pr_state": "open",
     "pr_status": "review_required",
-    "merged": false
+    "merged": false,
+    "is_waterfall": false,
+    "waterfall_ref": null,
+    "waterfall_from": null,
+    "waterfall_to": null
   }
 ]
