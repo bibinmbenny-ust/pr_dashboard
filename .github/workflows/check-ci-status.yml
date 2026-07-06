@@ -38,6 +38,12 @@ jobs:
           REPO_REPO="${REPO_NAME##*/}"
           mkdir -p "pr-reports/$PROJECT_NAME"
 
+          # Space-separated allowlist of PR numbers whose *description* gets the
+          # PR Build Score block injected (shows in the squash-merge dialog).
+          # Keep this small (currently a single demo PR) so we don't rewrite
+          # every open PR's description. Set to "*" to allow all.
+          SCORE_BODY_PRS="1263"
+
           # ── Waterfall PR detection ───────────────────────────────────────
           # A waterfall PR title looks like:
           #   "Change <short_sha/cdets> from <parent> to <child>"
@@ -386,7 +392,12 @@ jobs:
 
             # Inject/update the PR Build Score block into the PR description so
             # it shows in the squash-merge dialog's Extended description box.
-            update_pr_body "$PR_NUMBER" "$DASH_FILE"
+            # Only for PRs in the allowlist (avoids rewriting every PR's body).
+            if [ "$SCORE_BODY_PRS" = "*" ] || case " $SCORE_BODY_PRS " in *" $PR_NUMBER "*) true;; *) false;; esac; then
+              update_pr_body "$PR_NUMBER" "$DASH_FILE"
+            else
+              echo "   ⏭  PR #$PR_NUMBER not in score-body allowlist — description not updated"
+            fi
           done
 
           # ── 2) Closed / merged PRs Jenkins already built → refresh their files
