@@ -199,6 +199,128 @@ jobs:
                }) | add_wf]' "$DASH_FILE" > /tmp/dash_upd.json && mv /tmp/dash_upd.json "$DASH_FILE"
           }
 
+          # ════════════════════════════════════════════════════════════════
+          #  Helper: PR build score (0-100). Mirrors the frontend healthScore
+          #  in js/dashboard.js exactly:
+          #    build success 40% + UT pass 25% + coverage 15% + threads 20%.
+          #  Echoes JSON: {score, build_passed, build_total, ut_rate, avg_cov,
+          #  thread_pct, label}. Reads the (status-refreshed) dashboard file.
+          # ════════════════════════════════════════════════════════════════
+          compute_pr_score() {
+            local DASH_FILE="$1"
+            jq -n --slurpfile d "$DASH_FILE" '
+              ($d[0]) as $arr
+              | def overall(r):
+                  ([r | to_entries[] | select(.key | test("Build Status")) | (.value|tostring|ascii_upcase)]) as $s
+                  | if ($s|length)==0 then "UNKNOWN"
+                    elif ($s | any(. == "FAILURE")) then "FAILING BUILD"
+                    elif ($s | any(. == "IN PROGRESS" or . == "PENDING" or . == "UNKNOWN")) then "IN PROGRESS"
+                    elif ($s | any(. == "SUCCESS")) then "PASSING BUILD"
+                    else "UNKNOWN" end;
+              ($arr|length) as $total
+              | if $total == 0 then {score:null} else
+                  ([$arr[] | select(overall(.) == "PASSING BUILD")] | length) as $passed
+                | (($passed*100/$total) | round) as $bsr
+                | ([$arr[] | select((.["Unit Tests: Build Status"] // "N/A") != "N/A")]) as $utrev
+                | ($utrev|length) as $utn
+                | ([$utrev[] | select(.["Unit Tests: Build Status"] == "SUCCESS")] | length) as $utp
+                | (if $utn>0 then (($utp*100/$utn)|round) else 0 end) as $utrate
+                | ([$arr[] | (.["Unit Tests: Coverage Percentage"] // "N/A") | tostring
+                    | (try (capture("(?<n>[0-9.]+)").n | tonumber) catch empty)]) as $cov
+                | (if ($cov|length)>0 then (($cov|add)/($cov|length)) else null end) as $avgcov
+                | ([$arr[] | select(.review_stats != null and .review_stats.total_threads != null)]) as $rs
+                | (if ($rs|length)>0 then $rs[0].review_stats else null end) as $r0
+                | (if $r0 == null then null
+                   elif ($r0.total_threads // 0) > 0 then ((($r0.resolved_threads // 0)*100/$r0.total_threads)|round)
+                   else 100 end) as $trp
+                | (( $bsr*0.4 ) + ( $utrate*0.25 )
+                   + ((if $avgcov != null then ([$avgcov,100]|min) else 50 end)*0.15)
+                   + ((if $trp   != null then $trp    else 50 end)*0.20) | round) as $score
+                | {score:$score, build_passed:$passed, build_total:$total, ut_rate:$utrate,
+                   avg_cov:(if $avgcov != null then ($avgcov*10|round/10) else null end),
+                   thread_pct:$trp,
+                   label:(if $score>=80 then "HEALTHY" elif $score>=55 then "MODERATE" else "NEEDS ATTENTION" end)}
+                end
+            '
+          }
+
+          # ════════════════════════════════════════════════════════════════
+          #  Helper: inject/update a "PR Build Score" block inside the PR body
+          #  (description). Because GitHub's squash-merge dialog pre-fills the
+          #  Extended description from the PR body, this makes the score + merge
+          #  warning appear right in the merge confirmation box. The block is
+          #  wrapped in markers and upserted in place — never duplicated, and
+          #  the rest of the description is left untouched.
+          # ════════════════════════════════════════════════════════════════
+          update_pr_body() {
+            local PR_NUMBER="$1" DASH_FILE="$2"
+            local SCORE_JSON SCORE LABEL BP BT UTR AC TP AC_DISP DASH_URL BANNER
+            local CUR_BODY CLEANED BLOCK NEW_BODY
+            local THRESHOLD=70
+
+            SCORE_JSON=$(compute_pr_score "$DASH_FILE")
+            SCORE=$(echo "$SCORE_JSON" | jq -r '.score // empty')
+            [ -n "$SCORE" ] || { echo "   ⏭  no score for PR #$PR_NUMBER — body not updated"; return 0; }
+
+            LABEL=$(echo "$SCORE_JSON" | jq -r '.label')
+            BP=$(echo "$SCORE_JSON"    | jq -r '.build_passed')
+            BT=$(echo "$SCORE_JSON"    | jq -r '.build_total')
+            UTR=$(echo "$SCORE_JSON"   | jq -r '.ut_rate')
+            AC=$(echo "$SCORE_JSON"    | jq -r '.avg_cov // "N/A"')
+            TP=$(echo "$SCORE_JSON"    | jq -r 'if .thread_pct==null then "N/A" else (.thread_pct|tostring)+"%" end')
+            [ "$AC" = "N/A" ] && AC_DISP="N/A" || AC_DISP="${AC}%"
+            DASH_URL="https://upgraded-doodle-g411qgk.pages.github.io/dashboard.html?project=${PROJECT_NAME}&pr=${PR_NUMBER}"
+
+            if [ "$SCORE" -ge "$THRESHOLD" ]; then
+              BANNER="✅ Score meets the recommended ${THRESHOLD} threshold — OK to merge."
+            else
+              BANNER="⚠️ Below the recommended ${THRESHOLD} threshold. Please review before you confirm this merge."
+            fi
+
+            # Current body (may be empty / null)
+            CUR_BODY=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER" --jq '.body // ""' 2>/dev/null) || {
+              echo "   ⚠ could not read body for PR #$PR_NUMBER"; return 0; }
+
+            # Strip any previous score block (between markers, inclusive)
+            CLEANED=$(printf '%s' "$CUR_BODY" | awk '
+              /<!-- pr-score-gate -->/ {skip=1}
+              skip==0 {print}
+              /<!-- \/pr-score-gate -->/ {skip=0}
+            ')
+            # Trim trailing blank lines
+            CLEANED=$(printf '%s' "$CLEANED" | sed -e :a -e '/^\n*$/{$d;N;ba}' 2>/dev/null || printf '%s' "$CLEANED")
+
+            BLOCK=$(printf '%s\n' \
+              "<!-- pr-score-gate -->" \
+              "### 📊 PR Build Score: ${SCORE} / 100 — ${LABEL}" \
+              "${BANNER}" \
+              "" \
+              "- 🔨 Revisions passed: ${BP} / ${BT}" \
+              "- 🧪 UT pass rate: ${UTR}%" \
+              "- 📈 Avg coverage: ${AC_DISP}" \
+              "- 💬 Threads resolved: ${TP}" \
+              "" \
+              "👉 [View full score card »](${DASH_URL})" \
+              "<!-- /pr-score-gate -->")
+
+            if [ -n "$CLEANED" ]; then
+              NEW_BODY=$(printf '%s\n\n%s' "$CLEANED" "$BLOCK")
+            else
+              NEW_BODY="$BLOCK"
+            fi
+
+            # Only PATCH when the body actually changes (avoids noisy updates)
+            if [ "$NEW_BODY" = "$CUR_BODY" ]; then
+              echo "   ✔ PR #$PR_NUMBER body already up to date (score ${SCORE})"
+              return 0
+            fi
+            if gh api --method PATCH "repos/$REPO_NAME/pulls/$PR_NUMBER" -f body="$NEW_BODY" >/dev/null 2>&1; then
+              echo "   ✔ updated PR #$PR_NUMBER description with score ${SCORE}/100"
+            else
+              echo "   ⚠ failed to update PR #$PR_NUMBER description (check FXOS_PAT PR-write scope)"
+            fi
+          }
+
           # ── 1) Open PRs on the base branch → pr-list.json + refresh dashboards
           echo "Fetching open PRs targeting $BASE_BRANCH ..."
           OPEN_PRS=$(gh api "repos/$REPO_NAME/pulls?state=open&per_page=100" \
@@ -246,6 +368,10 @@ jobs:
 
             refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
             echo "   ✔ refreshed status/reviews in $(basename "$DASH_FILE")"
+
+            # Inject/update the PR Build Score block into the PR description so
+            # it shows in the squash-merge dialog's Extended description box.
+            update_pr_body "$PR_NUMBER" "$DASH_FILE"
           done
 
           # ── 2) Closed / merged PRs Jenkins already built → refresh their files
