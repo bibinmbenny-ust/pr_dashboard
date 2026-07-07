@@ -88,7 +88,17 @@
     "is_waterfall": false,
     "waterfall_ref": null,
     "waterfall_from": null,
-    "waterfall_to": null
+    "waterfall_to": null,
+    "ai_triage": {
+      "note": "Build 15: no failures flagged by AI. All stages passed.",
+      "build_number": "15",
+      "triaged_by": {
+        "type": "ai",
+        "name": "gpt-5.4",
+        "version": 1
+      },
+      "errors": []
+    }
   },
   {
     "ssp: Build Status": "SUCCESS",

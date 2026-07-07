@@ -709,6 +709,85 @@ function renderCheckRuns(data) {
         </div>`;
 }
 
+// Render AI Triage panel for a revision (from Jenkins-collected triage API data).
+// Reads the `ai_triage` object written by Jenkins:
+//   { note, build_number, triaged_by:{name,version}, errors:[
+//       { stage, error_category, confidence, triage_summary:[], artifact_log_url, analysis:[{step,source,observation,conclusion}] } ] }
+function renderAITriage(data) {
+    const t = data.ai_triage;
+    if (!t) return '';
+
+    const errors = Array.isArray(t.errors) ? t.errors : [];
+    const tb = t.triaged_by || (errors[0] && errors[0].triaged_by) || null;
+    const model = tb && tb.name
+        ? `<small style="font-weight:400; color:#64748b; font-size:0.75rem;">${tb.name}${tb.version ? ` v${tb.version}` : ''}</small>`
+        : '';
+
+    const confColor = (c) => {
+        const u = String(c || '').toUpperCase();
+        return u === 'HIGH' ? '#10b981' : u === 'MEDIUM' ? '#3b82f6' : u === 'LOW' ? '#f59e0b' : '#64748b';
+    };
+    const validUrl = (u) => u && u !== "I don't know" && /^https?:\/\//.test(u);
+
+    // Short note shown for every revision that has triage data
+    const noteHtml = t.note
+        ? `<p style="margin:0 0 0.75rem 0; font-size:0.86rem; color:#cbd5e1; line-height:1.5;"><span style="color:var(--cisco-blue);">📝</span> ${t.note}</p>`
+        : '';
+
+    let bodyHtml;
+    if (errors.length === 0) {
+        bodyHtml = noteHtml + `<p style="font-size:0.85rem; color:#10b981; margin:0;">✅ No failures flagged by AI for this build.</p>`;
+    } else {
+        const errorBlocks = errors.map(e => {
+            const cc = confColor(e.confidence);
+            const bullets = (Array.isArray(e.triage_summary) ? e.triage_summary : [])
+                .map(s => `<li style="margin-bottom:0.35rem;">${s}</li>`).join('');
+            const steps = (Array.isArray(e.analysis) ? e.analysis : []).map(a => `
+                <div style="margin-bottom:0.6rem; padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-left:2px solid var(--cisco-blue); border-radius:0.35rem;">
+                    <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;"><strong>Step ${a.step ?? ''}</strong> &middot; <span style="text-transform:uppercase; letter-spacing:0.03em;">${a.source ?? ''}</span></div>
+                    <div style="font-size:0.82rem; color:#e2e8f0; margin-bottom:0.3rem;"><strong>Observation:</strong> ${a.observation ?? ''}</div>
+                    <div style="font-size:0.82rem; color:#cbd5e1;"><strong>Conclusion:</strong> ${a.conclusion ?? ''}</div>
+                </div>`).join('');
+            const logLink = validUrl(e.artifact_log_url)
+                ? `<div style="margin-top:0.5rem;"><a href="${e.artifact_log_url}" target="_blank" style="font-size:0.8rem;">View artifact log ↗</a></div>` : '';
+
+            return `
+                <details open style="margin-bottom:0.6rem;">
+                    <summary style="cursor:pointer; list-style:none; display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.7rem; border-radius:0.4rem; background:rgba(239,68,68,0.06);">
+                        <span style="font-size:1.05rem;">⚠️</span>
+                        <span style="font-weight:700; font-size:0.9rem; color:#f8fafc;">${e.stage ?? 'Unknown stage'}</span>
+                        <span style="margin-left:auto; display:flex; gap:0.4rem; flex-wrap:wrap;">
+                            <span style="font-size:0.68rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:1rem; background:rgba(239,68,68,0.15); color:#fca5a5; text-transform:uppercase;">${e.error_category ?? 'unknown'}</span>
+                            <span style="font-size:0.68rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:1rem; background:${cc}22; color:${cc};">${String(e.confidence ?? 'N/A').toUpperCase()} CONF</span>
+                        </span>
+                    </summary>
+                    <div style="margin-top:0.6rem; padding:0.85rem; background:linear-gradient(135deg, rgba(0,188,235,0.1) 0%, rgba(0,188,235,0.04) 100%); border-left:3px solid var(--cisco-blue); border-radius:0.4rem;">
+                        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; color:var(--cisco-blue); font-weight:700; font-size:0.88rem;">
+                            <span style="font-size:1.1rem;">🤖</span><span>AI Suggestion</span>
+                        </div>
+                        ${bullets ? `<ul style="margin:0 0 0.25rem 1.1rem; padding:0; font-size:0.84rem; color:#e2e8f0; line-height:1.5;">${bullets}</ul>` : '<p style="font-size:0.84rem; color:#94a3b8; margin:0;">No summary provided.</p>'}
+                        ${logLink}
+                        ${steps ? `
+                            <details style="margin-top:0.6rem;">
+                                <summary style="cursor:pointer; font-size:0.82rem; color:var(--cisco-blue); font-weight:600;">Show reasoning (${e.analysis.length} step${e.analysis.length !== 1 ? 's' : ''})</summary>
+                                <div style="margin-top:0.5rem;">${steps}</div>
+                            </details>` : ''}
+                    </div>
+                </details>`;
+        }).join('');
+        bodyHtml = noteHtml + errorBlocks;
+    }
+
+    return `
+        <div class="card">
+            <div class="card-header">
+                <h3>🤖 AI Triage ${model}</h3>
+            </div>
+            ${bodyHtml}
+        </div>
+    `;
+}
+
 function createRevisionCard(data, isOpen = '') {
     const overallStatus = getOverallStatus(data);
     const summaryStatusBadge = `<span class="revision-status-display ${getStatusBgClass(overallStatus)}">${overallStatus}</span>`;
@@ -737,6 +816,8 @@ function createRevisionCard(data, isOpen = '') {
                 <div class="card">
                     ${renderMetrics(data)}
                 </div>
+
+                ${renderAITriage(data)}
 
                 ${renderCheckRuns(data)}
 
