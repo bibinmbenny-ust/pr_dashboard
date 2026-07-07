@@ -35,7 +35,7 @@
     "author": "achen_cisco",
     "created_at": "2026-06-14T00:00:00Z",
     "updated_at": "2026-06-14T04:12:00Z",
-    "pr_state": "open",
+    "pr_state": "closed",
     "base_branch": "uxbridge/FXOS_2_19_MAIN",
     "head_branch": "private/achen_feature905",
     "commit_hash": "ec4b3a92931ff0a5e38a93c8a66b4ede7626fe61",
@@ -82,7 +82,7 @@
     "ai_suggestion": "",
     "check_runs": [],
     "github_actions_runs": [],
-    "pr_status": "open",
+    "pr_status": "closed",
     "review_stats": {
       "total_review_comments": 20,
       "general_comments": 49,
