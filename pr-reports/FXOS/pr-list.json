@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2026-07-08T07:09:01Z",
+  "timestamp": "2026-07-08T08:01:54Z",
   "repository": "cisco-sbg-emu/netsec-fxos",
   "total_count": 42,
   "pull_requests": [
@@ -14,7 +14,7 @@
       "labels": [],
       "number": 1263,
       "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
-      "updated_at": "2026-07-08T06:10:44Z",
+      "updated_at": "2026-07-08T07:07:02Z",
       "pr_status": "review_required",
       "state": "open",
       "merged": false,
