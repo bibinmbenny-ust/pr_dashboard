@@ -7,7 +7,7 @@ const PROJECT_CONFIG = {
     },
     'IMS': {
         name: 'IMS',
-        repo: 'cisco-netsec-sandbox/netsec-ims-pr-dashboard',
+        repo: 'cisco-sbg-emu/netsec-ims',
         displayName: 'Identity Management System (IMS)'
     },
     'ASA': {
