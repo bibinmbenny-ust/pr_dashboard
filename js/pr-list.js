@@ -2,7 +2,7 @@
 const PROJECT_CONFIG = {
     'FXOS': {
         name: 'FXOS',
-        repo: 'cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1',
+        repo: 'cisco-sbg-emu/netsec-fxos',
         displayName: 'Firepower eXtensible Operating System (FXOS)'
     },
     'IMS': {
@@ -120,6 +120,7 @@ function renderPRItem(pr) {
     const statusText = getStatusText(pr.pr_status);
     const updatedDate = formatDate(pr.updated_at);
     const isDraft = pr.draft ? '<span style="opacity: 0.6; font-size: 0.85rem;">[DRAFT]</span>' : '';
+    const hasBuildData = pr.build_available !== false && pr.has_dashboard !== false;
 
     return `
         <div class="pr-list-item" onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${pr.number}'">
@@ -137,6 +138,7 @@ function renderPRItem(pr) {
                         <span>${pr.head_branch} → ${pr.base_branch}</span>
                         <span>&middot;</span>
                         <span>Updated: ${updatedDate}</span>
+                        ${hasBuildData ? '' : '<span>&middot;</span><span class="build-missing-inline">Build data not available</span>'}
                     </div>
                 </div>
                 <span class="status-badge ${statusBadgeClass}">${statusText}</span>

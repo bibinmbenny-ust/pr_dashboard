@@ -40,8 +40,8 @@ jobs:
 
           # Space-separated allowlist of PR numbers whose *description* gets the
           # PR Build Score block injected (shows in the squash-merge dialog).
-          # Keep this small (currently a single demo PR) so we don't rewrite
-          # every open PR's description. Set to "*" to allow all.
+          # Keep this small so we don't rewrite every open PR's description.
+          # Set to "*" to allow all.
           SCORE_BODY_PRS="1263"
 
           # ── Waterfall PR detection ───────────────────────────────────────
@@ -220,6 +220,11 @@ jobs:
                }) | add_wf]' "$DASH_FILE" > /tmp/dash_upd.json && mv /tmp/dash_upd.json "$DASH_FILE"
           }
 
+          dashboard_exists() {
+            local DASH_FILE="$1"
+            [ -f "$DASH_FILE" ] && [ "$(jq 'length' "$DASH_FILE" 2>/dev/null || echo 0)" -gt 0 ]
+          }
+
           # ════════════════════════════════════════════════════════════════
           #  Helper: PR build score (0-100). Mirrors the frontend healthScore
           #  in js/dashboard.js exactly:
@@ -343,13 +348,13 @@ jobs:
 
           # ── 1) Open PRs on the base branch → pr-list.json + refresh dashboards
           echo "Fetching open PRs targeting $BASE_BRANCH ..."
-          OPEN_PRS=$(gh api "repos/$REPO_NAME/pulls?state=open&per_page=100" \
-            --jq "[.[] | select(.base.ref == \"$BASE_BRANCH\") | {
+          OPEN_PRS=$(gh api --paginate "repos/$REPO_NAME/pulls?state=open&per_page=100" \
+            | jq -s --arg base "$BASE_BRANCH" 'add | [.[] | select(.base.ref == $base) | {
               number:.number, title:.title, author:.user.login,
               created_at:.created_at, updated_at:.updated_at,
               head_branch:.head.ref, base_branch:.base.ref,
               html_url:.html_url, draft:.draft, labels:[.labels[].name]
-            }]")
+            }]')
 
           PR_COUNT=$(echo "$OPEN_PRS" | jq 'length')
           echo "Found $PR_COUNT open PR(s)"
@@ -360,40 +365,46 @@ jobs:
             PR_NUMBER=$(echo "$PR" | jq -r '.number')
             PR_AUTHOR=$(echo "$PR" | jq -r '.author')
 
-            # Only track PRs Jenkins has built — i.e. that have a dashboard file
-            # (Jenkins creates dashboard_<PR>.json when it posts the PR Dashboard
-            # banner). PRs without a banner/dashboard file are skipped entirely.
             DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
-            if [ ! -f "$DASH_FILE" ] || [ "$(jq 'length' "$DASH_FILE")" -eq 0 ]; then
-              echo "⏭  PR #$PR_NUMBER has no dashboard banner yet — skipping"
-              continue
-            fi
-
             echo "→ PR #$PR_NUMBER: checking status + reviews"
 
             STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
             RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
 
+            HAS_DASHBOARD="false"
+            if dashboard_exists "$DASH_FILE"; then
+              HAS_DASHBOARD="true"
+            fi
+
             ENRICHED_PR=$(echo "$PR" | jq \
               --argjson status "$STATUS_JSON" \
               --argjson review_stats "$RS_JSON" \
+              --argjson has_dashboard "$HAS_DASHBOARD" \
               '. + {
                  pr_status:       $status.pr_status,
                  state:           $status.state,
                  merged:          $status.merged,
                  review_decision: $status.review_decision,
-                 review_stats:    $review_stats
+                 review_stats:    $review_stats,
+                 has_dashboard:   $has_dashboard,
+                 build_available: $has_dashboard
                }')
             ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
 
-            refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
-            echo "   ✔ refreshed status/reviews in $(basename "$DASH_FILE")"
+            if [ "$HAS_DASHBOARD" = "true" ]; then
+              refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
+              echo "   ✔ refreshed status/reviews in $(basename "$DASH_FILE")"
+            else
+              echo "   ℹ PR #$PR_NUMBER has no Jenkins dashboard data yet — PR metadata only"
+            fi
 
             # Inject/update the PR Build Score block into the PR description so
             # it shows in the squash-merge dialog's Extended description box.
             # Only for PRs in the allowlist (avoids rewriting every PR's body).
-            if [ "$SCORE_BODY_PRS" = "*" ] || case " $SCORE_BODY_PRS " in *" $PR_NUMBER "*) true;; *) false;; esac; then
+            if [ "$HAS_DASHBOARD" = "true" ] && { [ "$SCORE_BODY_PRS" = "*" ] || case " $SCORE_BODY_PRS " in *" $PR_NUMBER "*) true;; *) false;; esac; }; then
               update_pr_body "$PR_NUMBER" "$DASH_FILE"
+            elif [ "$HAS_DASHBOARD" != "true" ]; then
+              echo "   ⏭  PR #$PR_NUMBER has no build score yet — description not updated"
             else
               echo "   ⏭  PR #$PR_NUMBER not in score-body allowlist — description not updated"
             fi
@@ -430,8 +441,8 @@ jobs:
           done
 
           # ── 3) Write pr-list.json + job summary ──────────────────────────
-          # Count of PRs actually tracked (those with a dashboard banner/file),
-          # which may be fewer than the total number of open PRs.
+          # Count of live open PRs tracked in the overview. Build/dashboard data
+          # is optional and marked per PR with build_available/has_dashboard.
           TRACKED_COUNT=$(echo "$ENRICHED_PRS" | jq 'length')
           echo "pr_count=$TRACKED_COUNT" >> "$GITHUB_OUTPUT"
           echo "project_name=$PROJECT_NAME" >> "$GITHUB_OUTPUT"
@@ -441,37 +452,24 @@ jobs:
             echo ""
             echo "**Repository:** $REPO_NAME"
             echo "**Open PRs on $BASE_BRANCH:** $PR_COUNT"
-            echo "**Tracked (with dashboard banner):** $TRACKED_COUNT"
+            echo "**Tracked in overview:** $TRACKED_COUNT"
             echo ""
             if [ "$TRACKED_COUNT" -gt 0 ]; then
               echo "| PR # | Title | Author | Branch | PR Status |"
               echo "|------|-------|--------|--------|-----------|"
               echo "$ENRICHED_PRS" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.pr_status) |"'
             else
-              echo "No PRs with a dashboard banner found."
+              echo "No open PRs found."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          # ── MERGE, never overwrite ────────────────────────────────────────
-          # Preserve every PR already present in pr-list.json (including demo /
-          # manually added PRs). Upsert the freshly enriched PRs by number:
-          # refreshed PRs replace their old entry in place; brand-new PRs are
-          # appended. This workflow NEVER removes a PR from the list.
-          EXISTING_PRS='[]'
-          if [ -f "pr-reports/$PROJECT_NAME/pr-list.json" ]; then
-            EXISTING_PRS=$(jq '.pull_requests // []' "pr-reports/$PROJECT_NAME/pr-list.json" 2>/dev/null || echo '[]')
-          fi
-          MERGED_PRS=$(jq -n --argjson existing "$EXISTING_PRS" --argjson enriched "$ENRICHED_PRS" '
-            ($enriched | map({(.number|tostring): .}) | add // {}) as $byNum
-            | ($existing | map( (.number|tostring) as $n | ($byNum[$n] // .) )) as $updated
-            | ($updated | map(.number)) as $have
-            | $updated + ($enriched | map(select(.number as $n | ($have | index($n)) | not)))
-          ')
-          echo "$MERGED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" "$WF_DEF"'
+          # Replace pr-list.json from the live GitHub PR list. Do not preserve
+          # stale/demo/manual entries; Jenkins dashboard files remain separate.
+          echo "$ENRICHED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" "$WF_DEF"'
             {project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:(map(add_wf))}' \
             > "pr-reports/$PROJECT_NAME/pr-list.json"
-          echo "✅ Wrote pr-reports/$PROJECT_NAME/pr-list.json ($(echo "$MERGED_PRS" | jq 'length') PR(s), merged — none removed)"
+          echo "✅ Wrote pr-reports/$PROJECT_NAME/pr-list.json ($(echo "$ENRICHED_PRS" | jq 'length') live PR(s))"
 
       - name: Display PR Summary for FXOS
         run: |

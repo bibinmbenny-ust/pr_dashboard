@@ -54,6 +54,18 @@ async function fetchWithRetry(url, maxRetries = 3) {
     }
 }
 
+async function fetchJSONFile(url) {
+    try {
+        const cacheBuster = `?v=${new Date().getTime()}`;
+        const response = await fetch(url + cacheBuster, { credentials: "include", cache: "no-store" });
+        if (!response.ok) return null;
+        return await response.json();
+    } catch (error) {
+        console.error(`Failed to fetch ${url}: ${error.message}`);
+        return null;
+    }
+}
+
 // --- Dashboard Utility Functions ---
 
 function getStatusClass(status) {
@@ -913,6 +925,67 @@ function setDashboardExportReady(isReady) {
         : 'Dashboard data is still loading';
 }
 
+function renderMissingBuildDashboard(pr, prId) {
+    const prDetailsContainer = document.getElementById("pr-details-container");
+    const dashboardContainer = document.getElementById("dashboard");
+    const scorecardContainer = document.getElementById("scorecard-container");
+    const loadingParagraph = prDetailsContainer.querySelector('p');
+    const headerElement = prDetailsContainer.querySelector('.card-header');
+
+    if (loadingParagraph) loadingParagraph.remove();
+    if (scorecardContainer) scorecardContainer.innerHTML = '';
+    if (dashboardContainer) dashboardContainer.innerHTML = '';
+
+    const prNumber = pr.number ?? prId;
+    const prTitle = pr.title || `PR #${prNumber}`;
+    const prStatus = pr.pr_status || pr.state || 'open';
+    const prStatusBadge = `<span class="status-badge ${getStatusBgClass(prStatus === 'open' ? 'IN PROGRESS' : prStatus)}">${String(prStatus).replace(/_/g, ' ').toUpperCase()}</span>`;
+    const prLink = pr.html_url || `${repoBaseUrl}${prNumber}`;
+    const createdDate = pr.created_at ? new Date(pr.created_at).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'short', day: 'numeric'
+    }) : 'N/A';
+
+    if (headerElement) {
+        headerElement.innerHTML = `
+            <div class="pr-title-block">
+                <h2>${prTitle}</h2>
+                ${prStatusBadge}
+            </div>
+        `;
+    }
+
+    prDetailsContainer.insertAdjacentHTML('beforeend', `
+        <div class="pr-subtitle-block">
+            PR #${prNumber} opened by @${pr.author || 'N/A'} on ${createdDate}
+        </div>
+        <div class="missing-build-card">
+            <h3>Build information not available</h3>
+            <p>This PR is present in the live GitHub overview, but Jenkins has not written dashboard build data for it yet.</p>
+            <p>Once the PR Dashboard Jenkins job runs and creates <code>dashboard_${prNumber}.json</code>, this page will show the full revision, CI, unit test, and AI triage details.</p>
+        </div>
+        <div class="pr-metadata-grid">
+            <div class="pr-metadata-left">
+                <h3>PR Metadata</h3>
+                <p><strong>Base:</strong> <span>${pr.base_branch || 'N/A'}</span></p>
+                <p><strong>Head:</strong> <span>${pr.head_branch || 'N/A'}</span></p>
+                <p><strong>Updated:</strong> <span>${formatCiRunTime(pr.updated_at)}</span></p>
+            </div>
+            <div class="pr-metadata-right">
+                <div>
+                    <h3>Review Status</h3>
+                    <p><strong>Review Decision:</strong> <span>${(pr.review_decision || 'No review yet').replace(/_/g, ' ')}</span></p>
+                    <p><strong>Build Data:</strong> <span class="status-warning">Not available</span></p>
+                </div>
+                <div class="pr-metadata-btn-container">
+                    <a href="${prLink}" class="btn" target="_blank">Open PR #${prNumber} on GitHub</a>
+                </div>
+            </div>
+        </div>
+    `);
+
+    setDashboardExportReady(true);
+}
+
 // --- Main Loader Function ---
 
 async function loadMetrics() {
@@ -982,15 +1055,22 @@ async function loadMetrics() {
     let dataList = await fetchWithRetry(dataPathBase + prId + ".json");
 
     if (!dataList) {
+         const prListData = await fetchJSONFile(`pr-reports/${currentProject.name}/pr-list.json`);
+         const pr = prListData && Array.isArray(prListData.pull_requests)
+             ? prListData.pull_requests.find(item => Number(item.number) === Number(prId))
+             : null;
+
+         if (pr) {
+             renderMissingBuildDashboard(pr, prId);
+             return;
+         }
+
          if (loadingParagraph) {
              loadingParagraph.innerHTML = `
                  <span class="status-failure">❌ Failed to Load PR Data</span><br><br>
                  Could not fetch data for PR #${prId}<br>
                  <strong>Expected file:</strong> <code>${dataPathBase}${prId}.json</code><br><br>
-                 <strong>Possible reasons:</strong><br>
-                 • File doesn't exist in the repository<br>
-                 • File path is incorrect<br>
-                 • Network error<br><br>
+                 This PR was also not found in <code>pr-list.json</code>.<br><br>
                  <a href="pr-list.html?project=${currentProject.name}" class="btn">← Back to PR List</a>
              `;
              loadingParagraph.style.color = "var(--failure)";

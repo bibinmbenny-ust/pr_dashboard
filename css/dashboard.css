@@ -435,6 +435,32 @@ h1 {
 .status-merged-true { color: var(--success); font-weight: 700; }
 .status-merged-false { color: var(--failure); font-weight: 700; }
 
+.build-missing-inline {
+    color: var(--warning);
+    font-weight: 700;
+}
+
+.missing-build-card {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.missing-build-card h3 {
+    color: var(--warning);
+    margin-top: 0;
+}
+
+.missing-build-card code {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.3rem;
+    color: var(--text);
+    padding: 0.08rem 0.3rem;
+}
+
 /* Buttons */
 .btn { 
     display: inline-block; 

@@ -63,14 +63,15 @@ async function fetchJSON(url) {
 }
 
 // ── Health scoring (0–100) for a PR's latest revision ───────────────────
-function computeHealth(d) {
+function computeHealth(d, hasBuildData = true) {
     const rs = d.review_stats || {};
 
-    // Build health (40 pts) — all modules must pass for full credit;
-    // any failure is heavily penalised (max 25 pts, scaled by pass ratio)
+    // When Jenkins has not produced dashboard data yet, score only review/PR
+    // readiness signals so the overview can still represent every live PR.
     const buildKeys = Object.keys(d).filter(k => k.endsWith(': Build Status') && !k.startsWith('Unit Tests'));
-    let buildPts = 40, buildsPassing = true;
-    if (buildKeys.length) {
+    let buildPts = hasBuildData ? 40 : null;
+    let buildsPassing = hasBuildData ? true : null;
+    if (hasBuildData && buildKeys.length) {
         const passing = buildKeys.filter(k => String(d[k]).toUpperCase() === 'SUCCESS').length;
         buildsPassing = passing === buildKeys.length;
         buildPts = buildsPassing ? 40 : 25 * (passing / buildKeys.length);
@@ -80,8 +81,8 @@ function computeHealth(d) {
     const utStatus = d['Unit Tests: Build Status'];
     const utPassed = parseInt(d['Unit Tests: Unit Tests Passed']) || 0;
     const utFailed = parseInt(d['Unit Tests: Unit Tests Failed']) || 0;
-    let utPts = 20;
-    if (utStatus != null) {
+    let utPts = hasBuildData ? 20 : null;
+    if (hasBuildData && utStatus != null) {
         if (utFailed === 0 && utStatus === 'SUCCESS') utPts = 20;
         else if (utPassed + utFailed > 0) utPts = 12 * (utPassed / (utPassed + utFailed));
         else utPts = utStatus === 'SUCCESS' ? 20 : 0;
@@ -105,10 +106,13 @@ function computeHealth(d) {
     const changesReq = rs.reviews_changes_requested || 0;
     const changePts = changesReq === 0 ? 10 : 0;
 
-    const score = Math.round(buildPts + utPts + threadPts + approvalPts + changePts);
+    const score = hasBuildData
+        ? Math.round(buildPts + utPts + threadPts + approvalPts + changePts)
+        : Math.round((threadPts / 15) * 40 + (approvalPts / 15) * 40 + (changePts / 10) * 20);
     return {
         score,
         buildsPassing,
+        hasBuildData,
         utFailed,
         utPassed,
         unresolved: unresolved || 0,
@@ -156,9 +160,10 @@ const STATUS_META = {
 // ── KPI tiles ───────────────────────────────────────────────────────────
 function renderKPIs(prs) {
     const total = prs.length;
-    const readyToMerge = prs.filter(p => p.health.band === 'healthy' && p.health.buildsPassing && p.health.approvals > 0).length;
+    const readyToMerge = prs.filter(p => p.health.band === 'healthy' && p.health.buildsPassing !== false && p.health.approvals > 0).length;
     const needsAttention = prs.filter(p => p.health.band === 'critical').length;
-    const buildsFailing = prs.filter(p => !p.health.buildsPassing).length;
+    const buildsFailing = prs.filter(p => p.health.buildsPassing === false).length;
+    const buildMissing = prs.filter(p => !p.health.hasBuildData).length;
     const avgScore = total ? Math.round(prs.reduce((s, p) => s + p.health.score, 0) / total) : 0;
     const openThreads = prs.reduce((s, p) => s + (p.health.unresolved || 0), 0);
 
@@ -167,7 +172,8 @@ function renderKPIs(prs) {
         { label: 'Ready to Merge',   value: readyToMerge,   color: '#10b981', icon: '✅' },
         { label: 'Needs Attention',  value: needsAttention, color: '#ef4444', icon: '⚠️' },
         { label: 'Builds Failing',   value: buildsFailing,  color: '#f59e0b', icon: '🏗️' },
-        { label: 'Avg Health Score', value: avgScore,       color: scoreColor(avgScore), icon: '🩺', suffix: '/100' },
+        { label: 'Build Data Missing', value: buildMissing, color: '#64748b', icon: 'ℹ️' },
+        { label: 'Avg PR Health', value: avgScore,       color: scoreColor(avgScore), icon: '🩺', suffix: '/100' },
         { label: 'Open Review Threads', value: openThreads, color: '#a78bfa', icon: '💬' },
     ];
 
@@ -220,12 +226,13 @@ function renderHealthChart(prs) {
 }
 
 function renderBuildChart(prs) {
-    const passing = prs.filter(p => p.health.buildsPassing).length;
-    const failing = prs.length - passing;
+    const passing = prs.filter(p => p.health.buildsPassing === true).length;
+    const failing = prs.filter(p => p.health.buildsPassing === false).length;
+    const missing = prs.filter(p => p.health.buildsPassing == null).length;
     doughnut('buildChart',
-        ['Builds Passing', 'Builds Failing'],
-        [passing, failing],
-        ['#10b981', '#ef4444']);
+        ['Builds Passing', 'Builds Failing', 'Build Data Missing'],
+        [passing, failing, missing],
+        ['#10b981', '#ef4444', '#64748b']);
 }
 
 // ── Top contributors ────────────────────────────────────────────────────
@@ -251,7 +258,8 @@ function renderLowestTable(prs) {
     const rows = lowest.map(p => {
         const c = scoreColor(p.health.score);
         const issues = [];
-        if (!p.health.buildsPassing) issues.push('Build failing');
+        if (p.health.buildsPassing === false) issues.push('Build failing');
+        if (!p.health.hasBuildData) issues.push('Build data unavailable');
         if (p.health.utFailed > 0) issues.push(`${p.health.utFailed} UT failing`);
         if (p.health.unresolved > 0) issues.push(`${p.health.unresolved} open threads`);
         if (p.health.changesReq > 0) issues.push('Changes requested');
@@ -356,21 +364,24 @@ async function init() {
         return;
     }
 
-    // Fetch each PR's dashboard file (latest revision) in parallel
+    // Fetch each PR's dashboard file (latest revision) when available. PRs
+    // without Jenkins dashboard data still appear in the overview.
     const results = await Promise.all(prList.pull_requests.map(async (pr) => {
         const arr = await fetchJSON(`pr-reports/${currentProject.name}/dashboard_${pr.number}.json`);
         const latest = Array.isArray(arr) && arr.length ? arr[0] : null;
-        if (!latest) return null;
+        const hasBuildData = !!latest;
+        const source = latest || pr;
         return {
             number: pr.number,
-            title: latest.title || pr.title,
-            author: latest.author || pr.author,
-            pr_status: pr.pr_status || latest.pr_status || 'open',
-            updated_at: latest.updated_at || pr.updated_at,
-            created_at: latest.created_at || pr.created_at,
-            raw: latest,
-            review_stats: latest.review_stats,
-            health: computeHealth(latest),
+            title: source.title || pr.title,
+            author: source.author || pr.author,
+            pr_status: pr.pr_status || source.pr_status || 'open',
+            updated_at: pr.updated_at || source.updated_at,
+            created_at: pr.created_at || source.created_at,
+            raw: latest || {},
+            review_stats: source.review_stats || pr.review_stats,
+            hasBuildData,
+            health: computeHealth({ ...pr, ...source, review_stats: source.review_stats || pr.review_stats }, hasBuildData),
         };
     }));
 
