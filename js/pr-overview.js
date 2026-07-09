@@ -7,7 +7,7 @@ const PROJECT_CONFIG = {
     },
     'IMS': {
         name: 'IMS',
-        repo: 'cisco-netsec-sandbox/netsec-ims-pr-dashboard',
+        repo: 'cisco-sbg-emu/netsec-ims',
         displayName: 'Identity Management System (IMS)'
     },
     'ASA': {
@@ -164,7 +164,7 @@ function renderKPIs(prs) {
     const needsAttention = prs.filter(p => p.health.band === 'critical').length;
     const buildsFailing = prs.filter(p => p.health.buildsPassing === false).length;
     const buildMissing = prs.filter(p => !p.health.hasBuildData).length;
-    const avgScore = total ? Math.round(prs.reduce((s, p) => s + p.health.score, 0) / total) : 0;
+    const avgScore = total ? Math.round(prs.reduce((s, p) => s + p.health.score, 0) / total) : null;
     const openThreads = prs.reduce((s, p) => s + (p.health.unresolved || 0), 0);
 
     const tiles = [
@@ -173,7 +173,7 @@ function renderKPIs(prs) {
         { label: 'Needs Attention',  value: needsAttention, color: '#ef4444', icon: '⚠️' },
         { label: 'Builds Failing',   value: buildsFailing,  color: '#f59e0b', icon: '🏗️' },
         { label: 'Build Data Missing', value: buildMissing, color: '#64748b', icon: 'ℹ️' },
-        { label: 'Avg PR Health', value: avgScore,       color: scoreColor(avgScore), icon: '🩺', suffix: '/100' },
+        { label: 'Avg PR Health', value: avgScore == null ? 'N/A' : avgScore, color: avgScore == null ? '#64748b' : scoreColor(avgScore), icon: '🩺', suffix: avgScore == null ? '' : '/100' },
         { label: 'Open Review Threads', value: openThreads, color: '#a78bfa', icon: '💬' },
     ];
 
@@ -358,7 +358,7 @@ async function init() {
     document.getElementById('back-link').href = `pr-list.html?project=${currentProject.name}`;
 
     const prList = await fetchJSON(`pr-reports/${currentProject.name}/pr-list.json`);
-    if (!prList || !Array.isArray(prList.pull_requests) || prList.pull_requests.length === 0) {
+    if (!prList || !Array.isArray(prList.pull_requests)) {
         document.getElementById('loading-message').innerHTML =
             `<span style="color:var(--failure);">❌ No PR data found for ${currentProject.name}.</span>`;
         return;
@@ -386,12 +386,6 @@ async function init() {
     }));
 
     const prs = results.filter(Boolean);
-    if (prs.length === 0) {
-        document.getElementById('loading-message').innerHTML =
-            `<span style="color:var(--failure);">❌ No dashboard data available to analyze.</span>`;
-        return;
-    }
-
     document.getElementById('loading-message').style.display = 'none';
     document.getElementById('overview-content').style.display = 'block';
 
