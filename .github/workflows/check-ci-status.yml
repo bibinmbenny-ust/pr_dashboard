@@ -7,7 +7,7 @@ name: Check PR Status
 on:
   workflow_dispatch: # Manual trigger
   schedule:
-    - cron: '*/15 * * * *' # Every 15 minutes to keep PR status up to date
+    - cron: '*/30 * * * *' # Every 30 minutes to keep PR status up to date
 
 jobs:
   check-pr-status:
