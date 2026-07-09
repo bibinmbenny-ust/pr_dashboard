@@ -723,7 +723,7 @@ function renderCheckRuns(data) {
 
 // Render AI Triage panel for a revision (from Jenkins-collected triage API data).
 // Reads the `ai_triage` object written by Jenkins:
-//   { note, build_number, triaged_by:{name,version}, errors:[
+//   { available, note, build_number, triaged_by:{name,version}, errors:[
 //       { stage, error_category, confidence, triage_summary:[], artifact_log_url, analysis:[{step,source,observation,conclusion}] } ] }
 function renderAITriage(data) {
     const t = data.ai_triage;
@@ -747,7 +747,9 @@ function renderAITriage(data) {
         : '';
 
     let bodyHtml;
-    if (errors.length === 0) {
+    if (t.available === false) {
+        bodyHtml = noteHtml + `<p style="font-size:0.85rem; color:#f59e0b; margin:0;">AI triage data is not available for this build.</p>`;
+    } else if (errors.length === 0) {
         bodyHtml = noteHtml + `<p style="font-size:0.85rem; color:#10b981; margin:0;">✅ No failures flagged by AI for this build.</p>`;
     } else {
         const errorBlocks = errors.map(e => {
