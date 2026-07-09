@@ -103,14 +103,14 @@ let allPRs = [];          // full, unfiltered list
 let filteredPRs = [];     // after search/sort/date filters
 let currentPage = 1;
 
-// Waterfall PR detection. A waterfall PR title looks like:
+// Waterfall PR detection. A waterfall PR title contains:
 //   "Change <short_sha/cdets> from <parent> to <child>"
-//   e.g. "Change 4cf194d from IMS_10_5_MAIN to IMS_10_5_CDFMC_MAIN"
+//   e.g. "Fixes: CSC... - Change 4cf194d from IMS_10_1_MAIN to IMS_10_5_MAIN"
 // Prefer the is_waterfall flag written by the GitHub Action; fall back to a
 // title match so the filter also works before the JSON is refreshed.
-const WATERFALL_RE = /^\s*Change\s+\S+\s+from\s+\S+\s+to\s+\S+/i;
+const WATERFALL_RE = /(?:^|\b)Change\s+\S+\s+from\s+\S+\s+to\s+\S+/i;
 function isWaterfallPR(pr) {
-    if (typeof pr.is_waterfall === 'boolean') return pr.is_waterfall;
+    if (pr.is_waterfall === true) return true;
     return WATERFALL_RE.test(pr.title || '');
 }
 

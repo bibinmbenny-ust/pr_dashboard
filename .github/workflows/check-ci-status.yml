@@ -45,15 +45,15 @@ jobs:
           SCORE_BODY_PRS="1263"
 
           # ── Waterfall PR detection ───────────────────────────────────────
-          # A waterfall PR title looks like:
+          # A waterfall PR title contains:
           #   "Change <short_sha/cdets> from <parent> to <child>"
-          #   e.g. "Change 4cf194d from IMS_10_5_MAIN to IMS_10_5_CDFMC_MAIN"
+          #   e.g. "Fixes: CSC... - Change 4cf194d from IMS_10_1_MAIN to IMS_10_5_MAIN"
           # add_wf tags any object that has a .title with is_waterfall + the
           # parsed ref / from / to branches.
           WF_DEF='def add_wf:
             (.title // "") as $t
-            | . + (if ($t | test("^\\s*Change\\s+\\S+\\s+from\\s+\\S+\\s+to\\s+\\S+"; "i"))
-                   then ($t | capture("(?i)^\\s*Change\\s+(?<ref>\\S+)\\s+from\\s+(?<parent>\\S+)\\s+to\\s+(?<child>\\S+)")
+            | . + (if ($t | test("\\bChange\\s+\\S+\\s+from\\s+\\S+\\s+to\\s+\\S+"; "i"))
+               then ($t | capture("(?i)\\bChange\\s+(?<ref>\\S+)\\s+from\\s+(?<parent>\\S+)\\s+to\\s+(?<child>\\S+)")
                          | {is_waterfall:true, waterfall_ref:.ref, waterfall_from:.parent, waterfall_to:.child})
                    else {is_waterfall:false, waterfall_ref:null, waterfall_from:null, waterfall_to:null} end);'
 
@@ -487,8 +487,8 @@ jobs:
 
           WF_DEF='def add_wf:
             (.title // "") as $t
-            | . + (if ($t | test("^\\s*Change\\s+\\S+\\s+from\\s+\\S+\\s+to\\s+\\S+"; "i"))
-                   then ($t | capture("(?i)^\\s*Change\\s+(?<ref>\\S+)\\s+from\\s+(?<parent>\\S+)\\s+to\\s+(?<child>\\S+)")
+            | . + (if ($t | test("\\bChange\\s+\\S+\\s+from\\s+\\S+\\s+to\\s+\\S+"; "i"))
+               then ($t | capture("(?i)\\bChange\\s+(?<ref>\\S+)\\s+from\\s+(?<parent>\\S+)\\s+to\\s+(?<child>\\S+)")
                          | {is_waterfall:true, waterfall_ref:.ref, waterfall_from:.parent, waterfall_to:.child})
                    else {is_waterfall:false, waterfall_ref:null, waterfall_from:null, waterfall_to:null} end);'
 
