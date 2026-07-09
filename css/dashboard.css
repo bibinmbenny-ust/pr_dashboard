@@ -449,6 +449,14 @@ h1 {
     cursor: pointer;
 }
 .btn:hover { background: #0077B6; color: var(--text); }
+.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.btn:disabled:hover {
+    background: var(--cisco-blue);
+    color: var(--bg);
+}
 
 /* Footer */
 footer { 
@@ -482,6 +490,123 @@ footer {
     #pr-details-container { padding: 1.5rem; }
     #pr-details-container h2 { font-size: 1.5rem; }
     .pr-subtitle-block { font-size: 0.95rem; }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+
+    * {
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #111827 !important;
+        padding: 0 !important;
+        font-size: 11px;
+    }
+
+    .no-print,
+    .dashboard-actions,
+    .logo,
+    footer {
+        display: none !important;
+    }
+
+    .global-header {
+        display: block;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #d1d5db;
+        padding-bottom: 8px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    span,
+    div,
+    strong,
+    summary,
+    small,
+    li {
+        color: #111827 !important;
+    }
+
+    a {
+        color: #0369a1 !important;
+        text-decoration: none !important;
+    }
+
+    .card,
+    #pr-details-container,
+    .revision-details,
+    .content-grid,
+    .file-list-content {
+        border-color: #d1d5db !important;
+        border-radius: 6px !important;
+    }
+
+    .card,
+    #pr-details-container {
+        border: 1px solid #d1d5db !important;
+        padding: 12px !important;
+        margin-bottom: 12px !important;
+        break-inside: avoid;
+    }
+
+    #scorecard-container,
+    #dashboard,
+    .revision-details,
+    .content-grid {
+        break-inside: auto;
+    }
+
+    .revision-summary {
+        border: 1px solid #d1d5db !important;
+        border-radius: 6px 6px 0 0 !important;
+        padding: 10px 12px !important;
+    }
+
+    .content-grid {
+        padding: 10px 0 0 0 !important;
+        gap: 10px !important;
+    }
+
+    .status-success,
+    .status-merged-true {
+        color: #047857 !important;
+    }
+
+    .status-failure,
+    .status-merged-false {
+        color: #b91c1c !important;
+    }
+
+    .status-warning {
+        color: #b45309 !important;
+    }
+
+    .status-in-progress {
+        color: #1d4ed8 !important;
+    }
+
+    .status-badge,
+    .revision-status-display {
+        border: 1px solid #9ca3af !important;
+        color: #111827 !important;
+        background: #f3f4f6 !important;
+    }
+
+    canvas {
+        max-width: 100% !important;
+    }
 }
 
 /* --- Landing Page Styles (index.html) --- */

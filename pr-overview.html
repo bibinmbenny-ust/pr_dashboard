@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PR Overview - NetSec Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css?v=20260703">
+    <link rel="stylesheet" href="css/dashboard.css?v=20260709">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -15,7 +15,10 @@
                 <a id="back-link" href="pr-list.html" style="color: var(--cisco-blue); text-decoration: none;">← Back to PR List</a>
             </p>
         </div>
-        <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
+        <div class="dashboard-actions" style="display: flex; align-items: center; gap: 1rem;">
+            <button id="download-overview-pdf" class="btn no-print" type="button" disabled title="PR overview is still loading">⬇️ Download PDF</button>
+            <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
+        </div>
     </div>
 
     <p id="loading-message" style="padding: 1rem;">Loading PR analytics…</p>
@@ -23,7 +26,7 @@
     <div id="overview-content" style="display: none;">
 
         <!-- Filters -->
-        <div id="ov-filters" class="ov-filters">
+        <div id="ov-filters" class="ov-filters no-print">
             <div class="ov-filter-group">
                 <label for="filter-author">👤 Author</label>
                 <select id="filter-author"><option value="">All authors</option></select>
@@ -105,6 +108,6 @@
         NetSec Dashboard
     </footer>
 
-    <script src="js/pr-overview.js?v=20260703"></script>
+    <script src="js/pr-overview.js?v=20260709"></script>
 </body>
 </html>

@@ -24,6 +24,33 @@ const charts = {};
 let allPRs = [];
 let prListTimestamp = null;
 
+function setupOverviewExportButton() {
+    const button = document.getElementById('download-overview-pdf');
+    if (!button) return;
+
+    button.addEventListener('click', () => {
+        const originalTitle = document.title;
+        const projectName = currentProject ? currentProject.name : 'NetSec';
+        const restoreTitle = () => {
+            document.title = originalTitle;
+        };
+
+        document.title = `${projectName}-PR-Overview`;
+        window.addEventListener('afterprint', restoreTitle, { once: true });
+        window.print();
+    });
+}
+
+function setOverviewExportReady(isReady) {
+    const button = document.getElementById('download-overview-pdf');
+    if (!button) return;
+
+    button.disabled = !isReady;
+    button.title = isReady
+        ? 'Save this PR overview as a PDF'
+        : 'PR overview is still loading';
+}
+
 // ── Fetch helpers ───────────────────────────────────────────────────────
 async function fetchJSON(url) {
     try {
@@ -362,6 +389,7 @@ async function init() {
     populateAuthorFilter(prs);
     setupFilters();
     applyFilters();
+    setOverviewExportReady(true);
 }
 
 // ── Filtering (by author / date period) ─────────────────────────────────
@@ -440,4 +468,8 @@ function renderAll(prs) {
         `Analyzed ${prs.length} PRs · Data as of ${formatDate(prListTimestamp)}`;
 }
 
-window.onload = init;
+window.onload = () => {
+    setupOverviewExportButton();
+    setOverviewExportReady(false);
+    init();
+};
