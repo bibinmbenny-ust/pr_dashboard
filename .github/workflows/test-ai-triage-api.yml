@@ -1,0 +1,69 @@
+name: Test AI Triage API
+
+on:
+  workflow_dispatch:
+    inputs:
+      product:
+        description: Product name to send to the triage API
+        required: true
+        default: FXOS
+      pr:
+        description: Pull request number
+        required: true
+        default: '1263'
+      build:
+        description: Jenkins build number
+        required: true
+        default: '19'
+
+jobs:
+  test-ai-triage-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call AI triage API
+        run: |
+          set -uo pipefail
+
+          PRODUCT='${{ inputs.product }}'
+          PR_NUMBER='${{ inputs.pr }}'
+          BUILD_NUMBER='${{ inputs.build }}'
+          API_URL="http://b18-vms-vm0060:8989/?view=triage&product=${PRODUCT}&pr=${PR_NUMBER}&build=${BUILD_NUMBER}&headless=1"
+
+          echo "Calling AI triage API: $API_URL"
+          echo "If this times out, the GitHub-hosted runner cannot reach the internal host."
+          echo
+
+          HTTP_STATUS=$(curl \
+            --silent \
+            --show-error \
+            --location \
+            --max-time 60 \
+            --connect-timeout 15 \
+            --write-out '%{http_code}' \
+            --dump-header /tmp/ai-triage-headers.txt \
+            --output /tmp/ai-triage-response.txt \
+            "$API_URL")
+          CURL_EXIT=$?
+
+          echo "curl_exit=$CURL_EXIT"
+          echo "http_status=$HTTP_STATUS"
+          echo
+          echo "Response headers:"
+          cat /tmp/ai-triage-headers.txt || true
+          echo
+          echo "Response body:"
+          if jq empty /tmp/ai-triage-response.txt 2>/dev/null; then
+            jq . /tmp/ai-triage-response.txt
+          else
+            cat /tmp/ai-triage-response.txt
+          fi
+
+          if [ "$CURL_EXIT" -ne 0 ]; then
+            echo "API call failed before receiving a valid response."
+            exit "$CURL_EXIT"
+          fi
+
+          if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
+            echo "API returned non-success HTTP status: $HTTP_STATUS"
+            exit 1
+          fi
