@@ -621,6 +621,24 @@ jobs:
               }'
           }
 
+          refresh_dashboard_file() {
+            local DASH_FILE="$1" STATUS_JSON="$2" RS_JSON="$3"
+            echo "$STATUS_JSON" | jq -e . >/dev/null 2>&1 || STATUS_JSON='{"state":"open","pr_status":"open","merged":false}'
+            echo "$RS_JSON"     | jq -e . >/dev/null 2>&1 || RS_JSON='null'
+            jq --argjson status "$STATUS_JSON" --argjson rs "$RS_JSON" "$WF_DEF"'
+              [.[] | (. + {
+                 pr_state:  $status.state,
+                 pr_status: $status.pr_status,
+                 merged:    $status.merged,
+                 review_stats: $rs
+               }) | add_wf]' "$DASH_FILE" > /tmp/ims_dash_upd.json && mv /tmp/ims_dash_upd.json "$DASH_FILE"
+          }
+
+          dashboard_exists() {
+            local DASH_FILE="$1"
+            [ -f "$DASH_FILE" ] && [ "$(jq 'length' "$DASH_FILE" 2>/dev/null || echo 0)" -gt 0 ]
+          }
+
           echo "Fetching IMS open PRs targeting $BASE_BRANCH ..."
           OPEN_PRS=$(gh api --paginate "repos/$REPO_NAME/pulls?state=open&per_page=100" \
             | jq -s --arg base "$BASE_BRANCH" 'add | [.[] | select(.base.ref == $base) | {
@@ -638,23 +656,38 @@ jobs:
             PR=$(echo "$OPEN_PRS" | jq ".[$i]")
             PR_NUMBER=$(echo "$PR" | jq -r '.number')
             PR_AUTHOR=$(echo "$PR" | jq -r '.author')
+            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
             echo "→ IMS PR #$PR_NUMBER: checking status + reviews"
 
             STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
             RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
+
+            HAS_DASHBOARD="false"
+            if dashboard_exists "$DASH_FILE"; then
+              HAS_DASHBOARD="true"
+            fi
+
             ENRICHED_PR=$(echo "$PR" | jq \
               --argjson status "$STATUS_JSON" \
               --argjson review_stats "$RS_JSON" \
+              --argjson has_dashboard "$HAS_DASHBOARD" \
               '. + {
                  pr_status:       $status.pr_status,
                  state:           $status.state,
                  merged:          $status.merged,
                  review_decision: $status.review_decision,
                  review_stats:    $review_stats,
-                 has_dashboard:   false,
-                 build_available: false
+                 has_dashboard:   $has_dashboard,
+                 build_available: $has_dashboard
                }')
             ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
+
+            if [ "$HAS_DASHBOARD" = "true" ]; then
+              refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
+              echo "   ✔ refreshed IMS status/reviews in $(basename "$DASH_FILE")"
+            else
+              echo "   ℹ IMS PR #$PR_NUMBER has no Jenkins dashboard data yet — PR metadata only"
+            fi
           done
 
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
