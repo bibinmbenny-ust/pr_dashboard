@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-10T20:50:23Z",
+  "timestamp": "2026-07-10T21:24:43Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 455,
   "pull_requests": [
@@ -681,7 +681,7 @@
       "title": "Reduce DIR_SYNC clobber writes and add DIR_SYNC_V2 sync type",
       "author": "bwasniak_cisco",
       "created_at": "2026-07-10T03:13:00Z",
-      "updated_at": "2026-07-10T19:52:27Z",
+      "updated_at": "2026-07-10T20:48:32Z",
       "head_branch": "private/bw/sftunnel-legacy-noclobber",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4719",
@@ -693,7 +693,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 68,
-        "general_comments": 47,
+        "general_comments": 49,
         "copilot_comments": 30,
         "copilot_addressed": 0,
         "copilot_open": 30,
