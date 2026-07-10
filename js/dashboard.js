@@ -740,10 +740,20 @@ function renderAITriage(data) {
         return u === 'HIGH' ? '#10b981' : u === 'MEDIUM' ? '#3b82f6' : u === 'LOW' ? '#f59e0b' : '#64748b';
     };
     const validUrl = (u) => u && u !== "I don't know" && /^https?:\/\//.test(u);
+    const normalizeNote = (note) => {
+        if (!note) return '';
+        if (typeof note === 'string') return note;
+        if (Array.isArray(note.bytes)) return String.fromCharCode(...note.bytes);
+        if (Array.isArray(note.strings) && Array.isArray(note.values)) {
+            return note.strings.reduce((out, part, index) => out + part + (note.values[index] ?? ''), '');
+        }
+        return String(note);
+    };
+    const noteText = normalizeNote(t.note);
 
     // Short note shown for every revision that has triage data
-    const noteHtml = t.note
-        ? `<p style="margin:0 0 0.75rem 0; font-size:0.86rem; color:#cbd5e1; line-height:1.5;"><span style="color:var(--cisco-blue);">📝</span> ${t.note}</p>`
+    const noteHtml = noteText
+        ? `<p style="margin:0 0 0.75rem 0; font-size:0.86rem; color:#cbd5e1; line-height:1.5;"><span style="color:var(--cisco-blue);">📝</span> ${noteText}</p>`
         : '';
 
     let bodyHtml;
