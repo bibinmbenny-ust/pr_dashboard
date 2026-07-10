@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-10T20:50:23Z",
+  "timestamp": "2026-07-10T21:43:41Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 455,
   "pull_requests": [
@@ -93,7 +93,7 @@
       "title": "Fixes: CSCwu31970 dvajinep - Change b83c961 from IMS_10_1_MAIN_BRIDGE to IMS_10_5_MAIN",
       "author": "fp-ims-wf-gen_cisco",
       "created_at": "2026-07-10T17:15:32Z",
-      "updated_at": "2026-07-10T17:36:02Z",
+      "updated_at": "2026-07-10T21:27:02Z",
       "head_branch": "Waterfall_IMS_10_1_MAIN_BRIDGE_to_IMS_10_5_MAIN_b83c961",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4783",
@@ -219,7 +219,7 @@
       "title": "Fixes: CSCwv08728 ashisnay - Added feature flag for license React UI",
       "author": "ashisnay_cisco",
       "created_at": "2026-07-10T12:51:17Z",
-      "updated_at": "2026-07-10T19:09:07Z",
+      "updated_at": "2026-07-10T21:11:24Z",
       "head_branch": "private/ashisnay_featureflaglicenceReactUI",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4771",
@@ -231,7 +231,7 @@
       "review_decision": "APPROVED",
       "review_stats": {
         "total_review_comments": 1,
-        "general_comments": 11,
+        "general_comments": 13,
         "copilot_comments": 1,
         "copilot_addressed": 0,
         "copilot_open": 1,
@@ -681,7 +681,7 @@
       "title": "Reduce DIR_SYNC clobber writes and add DIR_SYNC_V2 sync type",
       "author": "bwasniak_cisco",
       "created_at": "2026-07-10T03:13:00Z",
-      "updated_at": "2026-07-10T19:52:27Z",
+      "updated_at": "2026-07-10T20:48:32Z",
       "head_branch": "private/bw/sftunnel-legacy-noclobber",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4719",
@@ -693,7 +693,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 68,
-        "general_comments": 47,
+        "general_comments": 49,
         "copilot_comments": 30,
         "copilot_addressed": 0,
         "copilot_open": 30,
