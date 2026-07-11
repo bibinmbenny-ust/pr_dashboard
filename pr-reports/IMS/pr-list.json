@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-11T18:36:14Z",
+  "timestamp": "2026-07-11T19:14:28Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 453,
   "pull_requests": [
@@ -9,7 +9,7 @@
       "title": "Automated PR: Pointer Update to USM-10.5.0-566.IMS_10_5_MAIN",
       "author": "fp-usm-builders-gen_cisco",
       "created_at": "2026-07-11T15:37:50Z",
-      "updated_at": "2026-07-11T15:42:02Z",
+      "updated_at": "2026-07-11T18:43:07Z",
       "head_branch": "private/IMS_10_5_MAIN-pointer-update-566",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4816",
@@ -21,7 +21,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 0,
-        "general_comments": 1,
+        "general_comments": 3,
         "copilot_comments": 0,
         "copilot_addressed": 0,
         "copilot_open": 0,
@@ -14345,7 +14345,7 @@
       "review_decision": "APPROVED",
       "review_stats": {
         "total_review_comments": 1,
-        "general_comments": 16,
+        "general_comments": 18,
         "copilot_comments": 1,
         "copilot_addressed": 0,
         "copilot_open": 1,
