@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-11T17:06:30Z",
+  "timestamp": "2026-07-11T17:46:46Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 454,
   "pull_requests": [
@@ -2949,7 +2949,7 @@
       "title": "Primary",
       "author": "gowe_cisco",
       "created_at": "2026-07-07T05:34:53Z",
-      "updated_at": "2026-07-11T15:57:29Z",
+      "updated_at": "2026-07-11T16:57:50Z",
       "head_branch": "private/gowe_bazel_test_primary",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4409",
@@ -2961,7 +2961,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 0,
-        "general_comments": 55,
+        "general_comments": 57,
         "copilot_comments": 0,
         "copilot_addressed": 0,
         "copilot_open": 0,
@@ -17867,10 +17867,10 @@
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/564",
       "draft": false,
       "labels": [],
-      "pr_status": "open",
+      "pr_status": "review_required",
       "state": "open",
       "merged": false,
-      "review_decision": "",
+      "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 23,
         "general_comments": 36,
