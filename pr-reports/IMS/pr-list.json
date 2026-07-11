@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-11T12:34:12Z",
+  "timestamp": "2026-07-11T13:13:30Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 454,
   "pull_requests": [
@@ -9,7 +9,7 @@
       "title": "Fixes: CSCwu70192 susmamil - Gate fmc_gwt_ui Bazel targets on -F flag",
       "author": "susmamil_cisco",
       "created_at": "2026-07-11T12:16:39Z",
-      "updated_at": "2026-07-11T12:17:59Z",
+      "updated_at": "2026-07-11T12:53:16Z",
       "head_branch": "private/JENKINSFILE_CHANGE_FOR_USM_BAZEL_COVERITY",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4809",
@@ -21,7 +21,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 1,
-        "general_comments": 3,
+        "general_comments": 6,
         "copilot_comments": 1,
         "copilot_addressed": 0,
         "copilot_open": 1,
@@ -2907,7 +2907,7 @@
       "title": "Primary",
       "author": "gowe_cisco",
       "created_at": "2026-07-07T05:34:53Z",
-      "updated_at": "2026-07-11T11:24:58Z",
+      "updated_at": "2026-07-11T12:31:57Z",
       "head_branch": "private/gowe_bazel_test_primary",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4409",
