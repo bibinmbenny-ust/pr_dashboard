@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-12T10:29:40Z",
+  "timestamp": "2026-07-12T11:20:59Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 451,
   "pull_requests": [
@@ -7287,7 +7287,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 18,
-        "general_comments": 16,
+        "general_comments": 18,
         "copilot_comments": 10,
         "copilot_addressed": 0,
         "copilot_open": 10,
