@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-12T13:55:51Z",
+  "timestamp": "2026-07-12T14:24:10Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 451,
   "pull_requests": [
@@ -933,7 +933,7 @@
       "title": "Fixes: CSCwr88061 harsims2 - Partial update should enable rules only if it is enabled in the request",
       "author": "harsims2_cisco",
       "created_at": "2026-07-09T18:11:20Z",
-      "updated_at": "2026-07-10T19:10:33Z",
+      "updated_at": "2026-07-12T13:41:00Z",
       "head_branch": "private/harsims2_fix_rule_state_partial_update",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4630",
@@ -945,7 +945,7 @@
       "review_decision": "APPROVED",
       "review_stats": {
         "total_review_comments": 16,
-        "general_comments": 19,
+        "general_comments": 20,
         "copilot_comments": 8,
         "copilot_addressed": 0,
         "copilot_open": 8,
