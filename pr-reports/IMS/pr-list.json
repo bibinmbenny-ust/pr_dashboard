@@ -1,6 +1,6 @@
 {
   "project": "IMS",
-  "timestamp": "2026-07-12T00:43:30Z",
+  "timestamp": "2026-07-12T01:27:16Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 453,
   "pull_requests": [
@@ -10557,10 +10557,10 @@
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/2448",
       "draft": true,
       "labels": [],
-      "pr_status": "draft",
+      "pr_status": "open",
       "state": "open",
       "merged": false,
-      "review_decision": "REVIEW_REQUIRED",
+      "review_decision": "",
       "review_stats": {
         "total_review_comments": 0,
         "general_comments": 1,
