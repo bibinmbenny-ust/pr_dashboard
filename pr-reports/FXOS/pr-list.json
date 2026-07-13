@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2026-07-13T18:14:52Z",
+  "timestamp": "2026-07-13T19:05:16Z",
   "repository": "cisco-sbg-emu/netsec-fxos",
   "total_count": 158,
   "pull_requests": [
@@ -72,14 +72,14 @@
         "author_own_comments": 0,
         "outdated_threads": 0,
         "total_threads": 7,
-        "resolved_threads": 0,
-        "unresolved_threads": 7,
+        "resolved_threads": 3,
+        "unresolved_threads": 4,
         "outdated_threads_gql": 0,
         "reviews_approved": 0,
         "reviews_changes_requested": 0,
         "reviews_commented": 6,
         "unique_reviewers": 1,
-        "engagement_score": 0
+        "engagement_score": 42
       },
       "has_dashboard": false,
       "build_available": false,
@@ -1105,7 +1105,7 @@
       "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
       "author": "bbenny_cisco",
       "created_at": "2026-06-26T12:10:04Z",
-      "updated_at": "2026-07-13T17:15:09Z",
+      "updated_at": "2026-07-13T18:08:27Z",
       "head_branch": "feature/pr_dashboard_v3",
       "base_branch": "uxbridge/FXOS_2_19_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-fxos/pull/1263",
