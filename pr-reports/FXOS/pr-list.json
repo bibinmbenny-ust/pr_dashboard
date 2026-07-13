@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2026-07-13T22:51:16Z",
+  "timestamp": "2026-07-13T23:22:57Z",
   "repository": "cisco-sbg-emu/netsec-fxos",
   "total_count": 158,
   "pull_requests": [
@@ -51,7 +51,7 @@
       "title": "Fixes: CSCwu98103 suspatil - TPK: 1G GLC-TE Management interface going Down",
       "author": "suspatil_cisco",
       "created_at": "2026-07-12T07:26:04Z",
-      "updated_at": "2026-07-13T19:32:06Z",
+      "updated_at": "2026-07-13T23:12:47Z",
       "head_branch": "private/suspatil_uxbridge_FXOS_2_19_MAIN",
       "base_branch": "uxbridge/FXOS_2_19_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-fxos/pull/1354",
@@ -63,7 +63,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 15,
-        "general_comments": 7,
+        "general_comments": 8,
         "copilot_comments": 10,
         "copilot_addressed": 0,
         "copilot_open": 10,
@@ -135,7 +135,7 @@
       "title": "Fixes: CSCwv43328 bryarrin - Embed packagegroup squashfs in fpxru for FP4100/9300",
       "author": "bryarrin_cisco",
       "created_at": "2026-07-10T16:41:29Z",
-      "updated_at": "2026-07-13T19:27:33Z",
+      "updated_at": "2026-07-13T23:06:41Z",
       "head_branch": "private/bryarrin/tetragon",
       "base_branch": "uxbridge/FXOS_2_19_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-fxos/pull/1351",
@@ -147,7 +147,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 8,
-        "general_comments": 9,
+        "general_comments": 12,
         "copilot_comments": 8,
         "copilot_addressed": 0,
         "copilot_open": 8,
@@ -1105,7 +1105,7 @@
       "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
       "author": "bbenny_cisco",
       "created_at": "2026-06-26T12:10:04Z",
-      "updated_at": "2026-07-13T22:17:31Z",
+      "updated_at": "2026-07-13T22:46:52Z",
       "head_branch": "feature/pr_dashboard_v3",
       "base_branch": "uxbridge/FXOS_2_19_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-fxos/pull/1263",
