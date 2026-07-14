@@ -57,12 +57,23 @@
                 <input type="date" id="pr-date-to" />
             </div>
 
-            <div class="pr-toolbar-field pr-toolbar-waterfall">
-                <label>Waterfall</label>
-                <label for="pr-waterfall" class="pr-checkbox-label">
-                    <input type="checkbox" id="pr-waterfall" />
-                    <span>🌊 Waterfall PRs only</span>
-                </label>
+            <div class="pr-toolbar-field">
+                <label for="pr-type-filter">PR type</label>
+                <select id="pr-type-filter">
+                    <option value="all">All PRs</option>
+                    <option value="waterfall">Waterfall PRs</option>
+                    <option value="non-waterfall">Non-waterfall PRs</option>
+                </select>
+            </div>
+
+            <div class="pr-toolbar-field">
+                <label for="pr-status-filter">PR status</label>
+                <select id="pr-status-filter">
+                    <option value="all">All statuses</option>
+                    <option value="approved">Approved PRs</option>
+                    <option value="closed">Closed PRs</option>
+                    <option value="other">Other statuses</option>
+                </select>
             </div>
 
             <div class="pr-toolbar-field pr-toolbar-actions">
