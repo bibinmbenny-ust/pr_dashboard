@@ -121,8 +121,13 @@ function getNormalizedStatus(pr) {
 function matchesStatusFilter(pr, statusFilter) {
     const status = getNormalizedStatus(pr);
     if (statusFilter === 'approved') return status === 'approved';
+    if (statusFilter === 'draft') return status === 'draft' || pr.draft === true;
+    if (statusFilter === 'review_required') return status === 'review_required';
     if (statusFilter === 'closed') return status === 'closed' || status === 'merged';
-    if (statusFilter === 'other') return status !== 'approved' && status !== 'closed' && status !== 'merged';
+    if (statusFilter === 'other') {
+        return status !== 'approved' && status !== 'draft' && status !== 'review_required' &&
+            status !== 'closed' && status !== 'merged' && pr.draft !== true;
+    }
     return true;
 }
 
