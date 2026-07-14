@@ -114,6 +114,18 @@ function isWaterfallPR(pr) {
     return WATERFALL_RE.test(pr.title || '');
 }
 
+function getNormalizedStatus(pr) {
+    return String(pr.pr_status || pr.state || 'open').toLowerCase();
+}
+
+function matchesStatusFilter(pr, statusFilter) {
+    const status = getNormalizedStatus(pr);
+    if (statusFilter === 'approved') return status === 'approved';
+    if (statusFilter === 'closed') return status === 'closed' || status === 'merged';
+    if (statusFilter === 'other') return status !== 'approved' && status !== 'closed' && status !== 'merged';
+    return true;
+}
+
 // Build a single PR card's HTML
 function renderPRItem(pr) {
     const statusBadgeClass = getStatusBadgeClass(pr.pr_status);
@@ -158,13 +170,15 @@ function applyFilters() {
     const authorEl = document.getElementById('pr-author');
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
-    const waterfallEl = document.getElementById('pr-waterfall');
+    const typeEl = document.getElementById('pr-type-filter');
+    const statusEl = document.getElementById('pr-status-filter');
 
     const searchTerm = (searchEl?.value || '').trim();
     const authorTerm = (authorEl?.value || '').trim().toLowerCase();
     const fromVal = fromEl?.value || '';
     const toVal = toEl?.value || '';
-    const waterfallOnly = !!(waterfallEl && waterfallEl.checked);
+    const typeFilter = typeEl?.value || 'all';
+    const statusFilter = statusEl?.value || 'all';
 
     let list = allPRs.slice();
 
@@ -194,9 +208,16 @@ function applyFilters() {
         });
     }
 
-    // Waterfall PRs only
-    if (waterfallOnly) {
+    // PR type filter
+    if (typeFilter === 'waterfall') {
         list = list.filter(isWaterfallPR);
+    } else if (typeFilter === 'non-waterfall') {
+        list = list.filter(pr => !isWaterfallPR(pr));
+    }
+
+    // PR status filter
+    if (statusFilter !== 'all') {
+        list = list.filter(pr => matchesStatusFilter(pr, statusFilter));
     }
 
     filteredPRs = list;
@@ -306,20 +327,23 @@ function initToolbar() {
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
     const clearEl = document.getElementById('pr-clear-filters');
-    const waterfallEl = document.getElementById('pr-waterfall');
+    const typeEl = document.getElementById('pr-type-filter');
+    const statusEl = document.getElementById('pr-status-filter');
 
     searchEl?.addEventListener('input', applyFilters);
     authorEl?.addEventListener('input', applyFilters);
     fromEl?.addEventListener('change', applyFilters);
     toEl?.addEventListener('change', applyFilters);
-    waterfallEl?.addEventListener('change', applyFilters);
+    typeEl?.addEventListener('change', applyFilters);
+    statusEl?.addEventListener('change', applyFilters);
 
     clearEl?.addEventListener('click', () => {
         if (searchEl) searchEl.value = '';
         if (authorEl) authorEl.value = '';
         if (fromEl) fromEl.value = '';
         if (toEl) toEl.value = '';
-        if (waterfallEl) waterfallEl.checked = false;
+        if (typeEl) typeEl.value = 'all';
+        if (statusEl) statusEl.value = 'all';
         applyFilters();
     });
 
