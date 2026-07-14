@@ -1,6 +1,6 @@
 {
   "project": "ASA",
-  "timestamp": "2026-07-14T22:07:35Z",
+  "timestamp": "2026-07-14T22:39:40Z",
   "repository": "cisco-sbg-emu/netsec-asa",
   "total_count": 283,
   "pull_requests": [
@@ -9,7 +9,7 @@
       "title": "Fixes: CSCwu49927 kverne - Change fedac1a from boreas/10_1_main_BRIDGE to cairo/main",
       "author": "fp-asa-wf-gen_cisco",
       "created_at": "2026-07-14T21:01:03Z",
-      "updated_at": "2026-07-14T21:47:45Z",
+      "updated_at": "2026-07-14T22:06:26Z",
       "head_branch": "Waterfall_boreas/10_1_main_BRIDGE_to_cairo/main_fedac1a",
       "base_branch": "cairo/main",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-asa/pull/2116",
@@ -23,7 +23,7 @@
       "review_decision": "APPROVED",
       "review_stats": {
         "total_review_comments": 0,
-        "general_comments": 0,
+        "general_comments": 2,
         "copilot_comments": 0,
         "copilot_addressed": 0,
         "copilot_open": 0,
