@@ -9,10 +9,8 @@ on:
   schedule:
     - cron: '*/30 * * * *' # Every 30 minutes to keep PR status up to date
 
-# Both product collectors push generated data to main. A shared concurrency
-# group serializes those pushes while still keeping the workflows independent.
 concurrency:
-  group: pr-dashboard-data-push
+  group: pr-dashboard-data-push-fxos
   cancel-in-progress: false
 
 jobs:

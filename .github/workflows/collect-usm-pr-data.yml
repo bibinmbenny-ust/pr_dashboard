@@ -8,10 +8,8 @@ on:
   schedule:
     - cron: '20,50 * * * *' # Offset from FXOS and IMS to reduce API and push contention
 
-# Shared with the other project collectors so only one dashboard-data workflow
-# pushes to main at a time.
 concurrency:
-  group: pr-dashboard-data-push
+  group: pr-dashboard-data-push-usm
   cancel-in-progress: false
 
 jobs:
