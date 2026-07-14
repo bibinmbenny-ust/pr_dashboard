@@ -5,6 +5,7 @@ A unified dashboard for viewing Pull Request status, CI/CD metrics, and code qua
 ## Supported Projects
 
 - **FXOS** - Firepower eXtensible Operating System
+- **ASA** - Adaptive Security Appliance
 - **IMS** - Identity Management System
 - **USM** - Unified Security Management
 
@@ -18,17 +19,19 @@ Access a specific project dashboard using URL parameters:
 
 ```
 dashboard.html?project=FXOS&pr=4
+dashboard.html?project=ASA&pr=3
 dashboard.html?project=IMS&pr=7
 dashboard.html?project=USM&pr=2
 ```
 
 ### URL Parameters
 
-- `project` - Project name (FXOS, IMS, USM) - **Required**
+- `project` - Project name (FXOS, ASA, IMS, USM) - **Required**
 - `pr` - Pull Request number - **Required**
 
 **Examples:**
 - `dashboard.html?project=FXOS&pr=4` - View PR #4 for FXOS
+- `dashboard.html?project=ASA&pr=3` - View PR #3 for ASA
 - `dashboard.html?project=IMS&pr=7` - View PR #7 for IMS
 
 ## Project Structure
@@ -44,15 +47,18 @@ netsec-pr-dashboard/
 ├── pr-reports/
 │   ├── FXOS/             # FXOS PR data
 │   │   └── dashboard_*.json
+│   ├── ASA/              # ASA PR data
+│   │   └── dashboard_*.json
 │   ├── IMS/              # IMS PR data
 │   │   └── dashboard_*.json
 │   └── USM/              # USM PR data
 │       └── dashboard_*.json
 └── .github/
     └── workflows/
-  ├── collect-fxos-pr-data.yml  # FXOS PR metadata collection
-  ├── collect-ims-pr-data.yml   # IMS PR metadata collection
-  └── collect-usm-pr-data.yml   # USM PR metadata collection
+   ├── collect-fxos-pr-data.yml  # FXOS PR metadata collection
+   ├── collect-asa-pr-data.yml   # ASA PR metadata collection
+   ├── collect-ims-pr-data.yml   # IMS PR metadata collection
+   └── collect-usm-pr-data.yml   # USM PR metadata collection
 ```
 
 ## Adding New Projects
@@ -63,8 +69,9 @@ To add support for a new project:
    ```javascript
    const PROJECT_CONFIG = {
        'FXOS': { ... },
+         'ASA': { ... },
        'IMS': { ... },
-      'USM': { ... },
+         'USM': { ... },
        'NEW_PROJECT': {
            name: 'NEW_PROJECT',
            repo: 'cisco-netsec-sandbox/netsec-newproject-repo',

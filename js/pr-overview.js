@@ -5,6 +5,11 @@ const PROJECT_CONFIG = {
         repo: 'cisco-sbg-emu/netsec-fxos',
         displayName: 'Firepower eXtensible Operating System (FXOS)'
     },
+    'ASA': {
+        name: 'ASA',
+        repo: 'cisco-sbg-emu/netsec-asa',
+        displayName: 'Adaptive Security Appliance (ASA)'
+    },
     'IMS': {
         name: 'IMS',
         repo: 'cisco-sbg-emu/netsec-ims',
