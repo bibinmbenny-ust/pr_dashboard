@@ -788,7 +788,6 @@ footer {
 .fxos-card:hover { box-shadow: 0 20px 40px rgba(239, 68, 68, 0.3); }
 .ims-card:hover { box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3); }
 .asa-card:hover { box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3); }
-.usm-card:hover { box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3); }
 
 .card-icon {
     font-size: 3rem;

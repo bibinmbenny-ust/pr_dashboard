@@ -6,7 +6,7 @@ name: PR Dashboard Data Collection - ASA
 on:
   workflow_dispatch: # Manual trigger
   schedule:
-    - cron: '5,35 * * * *' # Offset from FXOS, IMS, and USM to reduce API and push contention
+    - cron: '5,35 * * * *' # Offset from other collectors to reduce API and push contention
 
 concurrency:
   group: pr-dashboard-data-push-asa

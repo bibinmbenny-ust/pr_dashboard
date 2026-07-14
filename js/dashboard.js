@@ -14,11 +14,6 @@ const PROJECT_CONFIG = {
         name: 'IMS',
         repo: 'cisco-sbg-emu/netsec-ims',
         displayName: 'Identity Management System (IMS)'
-    },
-    'USM': {
-        name: 'USM',
-        repo: 'cisco-sbg-emu/netsec-feature_test_lib',
-        displayName: 'Unified Security Management (USM)'
     }
 };
 
