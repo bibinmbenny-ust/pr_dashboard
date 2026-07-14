@@ -114,6 +114,23 @@ function isWaterfallPR(pr) {
     return WATERFALL_RE.test(pr.title || '');
 }
 
+function getNormalizedStatus(pr) {
+    return String(pr.pr_status || pr.state || 'open').toLowerCase();
+}
+
+function getStatusSortRank(pr, statusSort) {
+    const status = getNormalizedStatus(pr);
+    if (statusSort === 'approved') return status === 'approved' ? 0 : 1;
+    if (statusSort === 'closed') return status === 'closed' || status === 'merged' ? 0 : 1;
+    if (statusSort === 'other') return status !== 'approved' && status !== 'closed' && status !== 'merged' ? 0 : 1;
+    return 0;
+}
+
+function getUpdatedTime(pr) {
+    const updatedTime = new Date(pr.updated_at).getTime();
+    return Number.isNaN(updatedTime) ? 0 : updatedTime;
+}
+
 // Build a single PR card's HTML
 function renderPRItem(pr) {
     const statusBadgeClass = getStatusBadgeClass(pr.pr_status);
@@ -158,13 +175,15 @@ function applyFilters() {
     const authorEl = document.getElementById('pr-author');
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
-    const waterfallEl = document.getElementById('pr-waterfall');
+    const typeEl = document.getElementById('pr-type-filter');
+    const statusSortEl = document.getElementById('pr-status-sort');
 
     const searchTerm = (searchEl?.value || '').trim();
     const authorTerm = (authorEl?.value || '').trim().toLowerCase();
     const fromVal = fromEl?.value || '';
     const toVal = toEl?.value || '';
-    const waterfallOnly = !!(waterfallEl && waterfallEl.checked);
+    const typeFilter = typeEl?.value || 'all';
+    const statusSort = statusSortEl?.value || 'updated';
 
     let list = allPRs.slice();
 
@@ -194,10 +213,19 @@ function applyFilters() {
         });
     }
 
-    // Waterfall PRs only
-    if (waterfallOnly) {
+    // PR type filter
+    if (typeFilter === 'waterfall') {
         list = list.filter(isWaterfallPR);
+    } else if (typeFilter === 'non-waterfall') {
+        list = list.filter(pr => !isWaterfallPR(pr));
     }
+
+    // Status-aware sorting. The selected status group moves first; all ties stay newest-updated first.
+    list.sort((a, b) => {
+        const rankDiff = getStatusSortRank(a, statusSort) - getStatusSortRank(b, statusSort);
+        if (rankDiff !== 0) return rankDiff;
+        return getUpdatedTime(b) - getUpdatedTime(a);
+    });
 
     filteredPRs = list;
     currentPage = 1;
@@ -306,20 +334,23 @@ function initToolbar() {
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
     const clearEl = document.getElementById('pr-clear-filters');
-    const waterfallEl = document.getElementById('pr-waterfall');
+    const typeEl = document.getElementById('pr-type-filter');
+    const statusSortEl = document.getElementById('pr-status-sort');
 
     searchEl?.addEventListener('input', applyFilters);
     authorEl?.addEventListener('input', applyFilters);
     fromEl?.addEventListener('change', applyFilters);
     toEl?.addEventListener('change', applyFilters);
-    waterfallEl?.addEventListener('change', applyFilters);
+    typeEl?.addEventListener('change', applyFilters);
+    statusSortEl?.addEventListener('change', applyFilters);
 
     clearEl?.addEventListener('click', () => {
         if (searchEl) searchEl.value = '';
         if (authorEl) authorEl.value = '';
         if (fromEl) fromEl.value = '';
         if (toEl) toEl.value = '';
-        if (waterfallEl) waterfallEl.checked = false;
+        if (typeEl) typeEl.value = 'all';
+        if (statusSortEl) statusSortEl.value = 'updated';
         applyFilters();
     });
 
