@@ -5,15 +5,15 @@ const PROJECT_CONFIG = {
         repo: 'cisco-sbg-emu/netsec-fxos',
         displayName: 'Firepower eXtensible Operating System (FXOS)'
     },
+    'ASA': {
+        name: 'ASA',
+        repo: 'cisco-sbg-emu/netsec-asa',
+        displayName: 'Adaptive Security Appliance (ASA)'
+    },
     'IMS': {
         name: 'IMS',
         repo: 'cisco-sbg-emu/netsec-ims',
         displayName: 'Identity Management System (IMS)'
-    },
-    'USM': {
-        name: 'USM',
-        repo: 'cisco-sbg-emu/netsec-feature_test_lib',
-        displayName: 'Unified Security Management (USM)'
     }
 };
 
