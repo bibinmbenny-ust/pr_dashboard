@@ -6,7 +6,7 @@ A unified dashboard for viewing Pull Request status, CI/CD metrics, and code qua
 
 - **FXOS** - Firepower eXtensible Operating System
 - **IMS** - Identity Management System
-- **ASA** - Adaptive Security Appliance
+- **USM** - Unified Security Management
 
 ## Usage
 
@@ -19,12 +19,12 @@ Access a specific project dashboard using URL parameters:
 ```
 dashboard.html?project=FXOS&pr=4
 dashboard.html?project=IMS&pr=7
-dashboard.html?project=ASA&pr=2
+dashboard.html?project=USM&pr=2
 ```
 
 ### URL Parameters
 
-- `project` - Project name (FXOS, IMS, ASA) - **Required**
+- `project` - Project name (FXOS, IMS, USM) - **Required**
 - `pr` - Pull Request number - **Required**
 
 **Examples:**
@@ -46,11 +46,13 @@ netsec-pr-dashboard/
 │   │   └── dashboard_*.json
 │   ├── IMS/              # IMS PR data
 │   │   └── dashboard_*.json
-│   └── ASA/              # ASA PR data
+│   └── USM/              # USM PR data
 │       └── dashboard_*.json
 └── .github/
     └── workflows/
-        └── check-ci-status.yml  # GitHub Action to fetch CI status
+  ├── collect-fxos-pr-data.yml  # FXOS PR metadata collection
+  ├── collect-ims-pr-data.yml   # IMS PR metadata collection
+  └── collect-usm-pr-data.yml   # USM PR metadata collection
 ```
 
 ## Adding New Projects
@@ -62,7 +64,7 @@ To add support for a new project:
    const PROJECT_CONFIG = {
        'FXOS': { ... },
        'IMS': { ... },
-       'ASA': { ... },
+      'USM': { ... },
        'NEW_PROJECT': {
            name: 'NEW_PROJECT',
            repo: 'cisco-netsec-sandbox/netsec-newproject-repo',
@@ -71,7 +73,7 @@ To add support for a new project:
    };
    ```
 
-2. **Update GitHub Actions Workflow** (`.github/workflows/check-ci-status.yml`):
+2. **Create a GitHub Actions workflow** (`.github/workflows/collect-new-project-pr-data.yml`):
    ```yaml
    matrix:
      project:

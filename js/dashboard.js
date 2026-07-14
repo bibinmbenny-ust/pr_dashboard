@@ -10,10 +10,10 @@ const PROJECT_CONFIG = {
         repo: 'cisco-sbg-emu/netsec-ims',
         displayName: 'Identity Management System (IMS)'
     },
-    'ASA': {
-        name: 'ASA',
-        repo: 'cisco-netsec-sandbox/netsec-asa-pr-dashboard',
-        displayName: 'Adaptive Security Appliance (ASA)'
+    'USM': {
+        name: 'USM',
+        repo: 'cisco-sbg-emu/netsec-feature_test_lib',
+        displayName: 'Unified Security Management (USM)'
     }
 };
 
