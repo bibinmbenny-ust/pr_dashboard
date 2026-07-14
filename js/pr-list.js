@@ -118,12 +118,12 @@ function getNormalizedStatus(pr) {
     return String(pr.pr_status || pr.state || 'open').toLowerCase();
 }
 
-function getStatusSortRank(pr, statusSort) {
+function matchesStatusFilter(pr, statusFilter) {
     const status = getNormalizedStatus(pr);
-    if (statusSort === 'approved') return status === 'approved' ? 0 : 1;
-    if (statusSort === 'closed') return status === 'closed' || status === 'merged' ? 0 : 1;
-    if (statusSort === 'other') return status !== 'approved' && status !== 'closed' && status !== 'merged' ? 0 : 1;
-    return 0;
+    if (statusFilter === 'approved') return status === 'approved';
+    if (statusFilter === 'closed') return status === 'closed' || status === 'merged';
+    if (statusFilter === 'other') return status !== 'approved' && status !== 'closed' && status !== 'merged';
+    return true;
 }
 
 function getUpdatedTime(pr) {
@@ -176,14 +176,14 @@ function applyFilters() {
     const fromEl = document.getElementById('pr-date-from');
     const toEl = document.getElementById('pr-date-to');
     const typeEl = document.getElementById('pr-type-filter');
-    const statusSortEl = document.getElementById('pr-status-sort');
+    const statusEl = document.getElementById('pr-status-filter');
 
     const searchTerm = (searchEl?.value || '').trim();
     const authorTerm = (authorEl?.value || '').trim().toLowerCase();
     const fromVal = fromEl?.value || '';
     const toVal = toEl?.value || '';
     const typeFilter = typeEl?.value || 'all';
-    const statusSort = statusSortEl?.value || 'updated';
+    const statusFilter = statusEl?.value || 'all';
 
     let list = allPRs.slice();
 
@@ -220,10 +220,13 @@ function applyFilters() {
         list = list.filter(pr => !isWaterfallPR(pr));
     }
 
-    // Status-aware sorting. The selected status group moves first; all ties stay newest-updated first.
+    // PR status filter
+    if (statusFilter !== 'all') {
+        list = list.filter(pr => matchesStatusFilter(pr, statusFilter));
+    }
+
+    // Newest updated first within the active filters.
     list.sort((a, b) => {
-        const rankDiff = getStatusSortRank(a, statusSort) - getStatusSortRank(b, statusSort);
-        if (rankDiff !== 0) return rankDiff;
         return getUpdatedTime(b) - getUpdatedTime(a);
     });
 
@@ -335,14 +338,14 @@ function initToolbar() {
     const toEl = document.getElementById('pr-date-to');
     const clearEl = document.getElementById('pr-clear-filters');
     const typeEl = document.getElementById('pr-type-filter');
-    const statusSortEl = document.getElementById('pr-status-sort');
+    const statusEl = document.getElementById('pr-status-filter');
 
     searchEl?.addEventListener('input', applyFilters);
     authorEl?.addEventListener('input', applyFilters);
     fromEl?.addEventListener('change', applyFilters);
     toEl?.addEventListener('change', applyFilters);
     typeEl?.addEventListener('change', applyFilters);
-    statusSortEl?.addEventListener('change', applyFilters);
+    statusEl?.addEventListener('change', applyFilters);
 
     clearEl?.addEventListener('click', () => {
         if (searchEl) searchEl.value = '';
@@ -350,7 +353,7 @@ function initToolbar() {
         if (fromEl) fromEl.value = '';
         if (toEl) toEl.value = '';
         if (typeEl) typeEl.value = 'all';
-        if (statusSortEl) statusSortEl.value = 'updated';
+        if (statusEl) statusEl.value = 'all';
         applyFilters();
     });
 
