@@ -1,0 +1,307 @@
+name: PR Dashboard Data Collection - ASA
+
+# Collects pull-request status and review/comment activity for the ASA repository.
+# Jenkins remains the owner of build and CI data.
+
+on:
+  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: '5,35 * * * *' # Offset from other collectors to reduce API and push contention
+
+concurrency:
+  group: pr-dashboard-data-push-asa
+  cancel-in-progress: false
+
+jobs:
+  collect-asa-pr-data:
+    name: Collect ASA PR status and reviews
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout dashboard repository
+        uses: actions/checkout@v4
+
+      - name: Load GitHub API token
+        run: |
+          echo "GH_TOKEN=${{ secrets.FXOS_PAT }}" >> "$GITHUB_ENV"
+          echo "GitHub token loaded from Actions secret"
+
+      - name: Collect ASA PR status and review data
+        id: get-prs
+        env:
+          GH_TOKEN: ${{ env.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+          PROJECT_NAME="ASA"
+          REPO_NAME="cisco-sbg-emu/netsec-asa"
+          BASE_BRANCH="cairo/main"
+          REPO_OWNER="${REPO_NAME%%/*}"
+          REPO_REPO="${REPO_NAME##*/}"
+          mkdir -p "pr-reports/$PROJECT_NAME"
+
+          WF_DEF='def add_wf:
+            (.title // "") as $t
+            | . + (if ($t | test("\\bChange\\s+\\S+\\s+from\\s+\\S+\\s+to\\s+\\S+"; "i"))
+               then ($t | capture("(?i)\\bChange\\s+(?<ref>\\S+)\\s+from\\s+(?<parent>\\S+)\\s+to\\s+(?<child>\\S+)")
+                         | {is_waterfall:true, waterfall_ref:.ref, waterfall_from:.parent, waterfall_to:.child})
+                   else {is_waterfall:false, waterfall_ref:null, waterfall_from:null, waterfall_to:null} end);'
+
+          if ! gh api "repos/$REPO_NAME" > /dev/null 2>&1; then
+            echo "Cannot access repository $REPO_NAME"
+            echo "{\"project\":\"$PROJECT_NAME\",\"repository\":\"$REPO_NAME\",\"pull_requests\":[],\"total_count\":0}" \
+              > "pr-reports/$PROJECT_NAME/pr-list.json"
+            echo "pr_count=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          compute_pr_status() {
+            local PR_NUMBER="$1" GQL STATE DRAFT MERGED DECISION UPDATED PR_STATUS PR_STATE EXISTS
+            GQL=$(gh api graphql \
+              -f query='query($owner:String!,$repo:String!,$num:Int!){
+                repository(owner:$owner,name:$repo){
+                  pullRequest(number:$num){ state isDraft merged reviewDecision updatedAt }
+                }
+              }' -F owner="$REPO_OWNER" -F repo="$REPO_REPO" -F num="$PR_NUMBER" 2>/dev/null) || GQL='{}'
+            [ -n "$GQL" ] || GQL='{}'
+            echo "$GQL" | jq -e . >/dev/null 2>&1 || GQL='{}'
+
+            STATE=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.state          // "OPEN"'  2>/dev/null)
+            DRAFT=$(echo "$GQL"    | jq -r '.data.repository.pullRequest.isDraft         // false'   2>/dev/null)
+            MERGED=$(echo "$GQL"   | jq -r '.data.repository.pullRequest.merged          // false'   2>/dev/null)
+            DECISION=$(echo "$GQL" | jq -r '.data.repository.pullRequest.reviewDecision  // ""'      2>/dev/null)
+            UPDATED=$(echo "$GQL"  | jq -r '.data.repository.pullRequest.updatedAt        // ""'      2>/dev/null)
+
+            [ -n "$STATE" ] || STATE="OPEN"
+            [ "$MERGED" = "true" ] || MERGED="false"
+            [ "$DRAFT"  = "true" ] || DRAFT="false"
+
+            if   [ "$MERGED" = "true" ];                then PR_STATUS="merged"
+            elif [ "$STATE"  = "CLOSED" ];              then PR_STATUS="closed"
+            elif [ "$DRAFT"  = "true" ];                then PR_STATUS="draft"
+            elif [ "$DECISION" = "APPROVED" ];          then PR_STATUS="approved"
+            elif [ "$DECISION" = "CHANGES_REQUESTED" ]; then PR_STATUS="changes_requested"
+            elif [ "$DECISION" = "REVIEW_REQUIRED" ];   then PR_STATUS="review_required"
+            else                                               PR_STATUS="open"
+            fi
+
+            case "$STATE" in
+              MERGED) PR_STATE="merged" ;;
+              CLOSED) PR_STATE="closed" ;;
+              *)      PR_STATE="open"   ;;
+            esac
+
+            EXISTS=$(echo "$GQL" | jq -r 'if (.data.repository.pullRequest == null) then "false" else "true" end' 2>/dev/null)
+            [ "$EXISTS" = "true" ] || EXISTS="false"
+
+            jq -n \
+              --arg state "$PR_STATE" --arg pr_status "$PR_STATUS" \
+              --argjson merged "$MERGED" --argjson is_draft "$DRAFT" \
+              --arg review_decision "$DECISION" --arg updated_at "$UPDATED" \
+              --argjson exists "$EXISTS" \
+              '{state:$state, pr_status:$pr_status, merged:$merged,
+                is_draft:$is_draft, review_decision:$review_decision, updated_at:$updated_at, exists:$exists}'
+          }
+
+          compute_review_stats() {
+            local PR_NUMBER="$1" PR_AUTHOR="$2"
+            local REVIEW_COUNTS REVIEW_DECISION_COUNTS GENERAL_COMMENTS_COUNT GQL_THREADS
+            local GQL_TOTAL GQL_RESOLVED GQL_UNRESOLVED GQL_OUTDATED
+
+            REVIEW_COUNTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/comments?per_page=100" 2>/dev/null \
+              | jq --arg author "$PR_AUTHOR" '{
+                  total:             length,
+                  copilot:           [.[] | select(.user.login | ascii_downcase | test("copilot"))] | length,
+                  copilot_addressed: [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position == null)] | length,
+                  copilot_open:      [.[] | select((.user.login | ascii_downcase | test("copilot")) and .position != null)] | length,
+                  human:             [.[] | select(.user.type != "Bot" and .user.login != $author)] | length,
+                  author_replies:    [.[] | select(.user.login == $author and .in_reply_to_id != null)] | length,
+                  author_own:        [.[] | select(.user.login == $author and .in_reply_to_id == null)] | length,
+                  outdated:          [.[] | select(.position == null)] | length
+                }' 2>/dev/null) \
+              || REVIEW_COUNTS='{"total":0,"copilot":0,"copilot_addressed":0,"copilot_open":0,"human":0,"author_replies":0,"author_own":0,"outdated":0}'
+
+            REVIEW_DECISION_COUNTS=$(gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/reviews?per_page=100" 2>/dev/null \
+              | jq '{
+                  approved:          [.[] | select(.state == "APPROVED")] | length,
+                  changes_requested: [.[] | select(.state == "CHANGES_REQUESTED")] | length,
+                  commented:         [.[] | select(.state == "COMMENTED")] | length,
+                  unique_reviewers:  ([.[] | select(.user.type != "Bot") | .user.login] | unique | length)
+                }' 2>/dev/null) \
+              || REVIEW_DECISION_COUNTS='{"approved":0,"changes_requested":0,"commented":0,"unique_reviewers":0}'
+
+            GENERAL_COMMENTS_COUNT=$(gh api "repos/$REPO_NAME/issues/$PR_NUMBER/comments?per_page=100" 2>/dev/null \
+              | jq 'length' 2>/dev/null || echo 0)
+
+            GQL_THREADS=$(gh api graphql -f query='query($owner:String!,$repo:String!,$num:Int!){
+              repository(owner:$owner,name:$repo){
+                pullRequest(number:$num){ reviewThreads(first:100){ totalCount nodes{ isResolved isOutdated } } }
+              }
+            }' -F owner="$REPO_OWNER" -F repo="$REPO_REPO" -F num="$PR_NUMBER" 2>/dev/null) || GQL_THREADS='{}'
+
+            GQL_TOTAL=$(echo "$GQL_THREADS"      | jq -r '(.data.repository.pullRequest.reviewThreads.totalCount) // 0')
+            GQL_RESOLVED=$(echo "$GQL_THREADS"   | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == true)] | length')
+            GQL_UNRESOLVED=$(echo "$GQL_THREADS" | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isResolved == false and .isOutdated == false)] | length')
+            GQL_OUTDATED=$(echo "$GQL_THREADS"   | jq '[(.data.repository.pullRequest.reviewThreads.nodes // [])[] | select(.isOutdated == true)] | length')
+
+            jq -n \
+              --argjson total_review_comments     "$(echo "$REVIEW_COUNTS" | jq '.total // 0')" \
+              --argjson general_comments          "${GENERAL_COMMENTS_COUNT:-0}" \
+              --argjson copilot_comments          "$(echo "$REVIEW_COUNTS" | jq '.copilot // 0')" \
+              --argjson copilot_addressed         "$(echo "$REVIEW_COUNTS" | jq '.copilot_addressed // 0')" \
+              --argjson copilot_open              "$(echo "$REVIEW_COUNTS" | jq '.copilot_open // 0')" \
+              --argjson human_reviewer_comments   "$(echo "$REVIEW_COUNTS" | jq '.human // 0')" \
+              --argjson author_replies            "$(echo "$REVIEW_COUNTS" | jq '.author_replies // 0')" \
+              --argjson author_own_comments       "$(echo "$REVIEW_COUNTS" | jq '.author_own // 0')" \
+              --argjson outdated_threads          "$(echo "$REVIEW_COUNTS" | jq '.outdated // 0')" \
+              --argjson total_threads             "${GQL_TOTAL:-0}" \
+              --argjson resolved_threads          "${GQL_RESOLVED:-0}" \
+              --argjson unresolved_threads        "${GQL_UNRESOLVED:-0}" \
+              --argjson outdated_threads_gql      "${GQL_OUTDATED:-0}" \
+              --argjson reviews_approved          "$(echo "$REVIEW_DECISION_COUNTS" | jq '.approved // 0')" \
+              --argjson reviews_changes_requested "$(echo "$REVIEW_DECISION_COUNTS" | jq '.changes_requested // 0')" \
+              --argjson reviews_commented         "$(echo "$REVIEW_DECISION_COUNTS" | jq '.commented // 0')" \
+              --argjson unique_reviewers          "$(echo "$REVIEW_DECISION_COUNTS" | jq '.unique_reviewers // 0')" \
+              '{
+                total_review_comments:$total_review_comments, general_comments:$general_comments,
+                copilot_comments:$copilot_comments, copilot_addressed:$copilot_addressed, copilot_open:$copilot_open,
+                human_reviewer_comments:$human_reviewer_comments, author_replies:$author_replies,
+                author_own_comments:$author_own_comments, outdated_threads:$outdated_threads,
+                total_threads:$total_threads, resolved_threads:$resolved_threads,
+                unresolved_threads:$unresolved_threads, outdated_threads_gql:$outdated_threads_gql,
+                reviews_approved:$reviews_approved, reviews_changes_requested:$reviews_changes_requested,
+                reviews_commented:$reviews_commented, unique_reviewers:$unique_reviewers,
+                engagement_score: ( if $total_threads == 0 then 100
+                                    else ($resolved_threads * 100 / $total_threads) | floor | [100, .] | min end )
+              }'
+          }
+
+          refresh_dashboard_file() {
+            local DASH_FILE="$1" STATUS_JSON="$2" RS_JSON="$3"
+            echo "$STATUS_JSON" | jq -e . >/dev/null 2>&1 || STATUS_JSON='{"state":"open","pr_status":"open","merged":false}'
+            echo "$RS_JSON"     | jq -e . >/dev/null 2>&1 || RS_JSON='null'
+            jq --argjson status "$STATUS_JSON" --argjson rs "$RS_JSON" "$WF_DEF"'
+              [.[] | (. + {
+                 pr_state:  $status.state,
+                 pr_status: $status.pr_status,
+                 merged:    $status.merged,
+                 review_stats: $rs
+               }) | add_wf]' "$DASH_FILE" > /tmp/asa_dash_upd.json && mv /tmp/asa_dash_upd.json "$DASH_FILE"
+          }
+
+          dashboard_exists() {
+            local DASH_FILE="$1"
+            [ -f "$DASH_FILE" ] && [ "$(jq 'length' "$DASH_FILE" 2>/dev/null || echo 0)" -gt 0 ]
+          }
+
+          echo "Fetching ASA open PRs targeting $BASE_BRANCH ..."
+          OPEN_PRS=$(gh api --paginate "repos/$REPO_NAME/pulls?state=open&per_page=100" \
+            | jq -s --arg base "$BASE_BRANCH" 'add | [.[] | select(.base.ref == $base) | {
+              number:.number, title:.title, author:.user.login,
+              created_at:.created_at, updated_at:.updated_at,
+              head_branch:.head.ref, base_branch:.base.ref,
+              html_url:.html_url, draft:.draft, labels:[.labels[].name]
+            }]')
+
+          PR_COUNT=$(echo "$OPEN_PRS" | jq 'length')
+          echo "Found $PR_COUNT ASA open PR(s)"
+          ENRICHED_PRS="[]"
+
+          for i in $(seq 0 $((PR_COUNT - 1))); do
+            PR=$(echo "$OPEN_PRS" | jq ".[${i}]")
+            PR_NUMBER=$(echo "$PR" | jq -r '.number')
+            PR_AUTHOR=$(echo "$PR" | jq -r '.author')
+            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
+            echo "ASA PR #$PR_NUMBER: checking status and reviews"
+
+            STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
+            RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
+
+            HAS_DASHBOARD="false"
+            if dashboard_exists "$DASH_FILE"; then
+              HAS_DASHBOARD="true"
+            fi
+
+            ENRICHED_PR=$(echo "$PR" | jq \
+              --argjson status "$STATUS_JSON" \
+              --argjson review_stats "$RS_JSON" \
+              --argjson has_dashboard "$HAS_DASHBOARD" \
+              '. + {
+                 pr_status:       $status.pr_status,
+                 state:           $status.state,
+                 merged:          $status.merged,
+                 review_decision: $status.review_decision,
+                 review_stats:    $review_stats,
+                 has_dashboard:   $has_dashboard,
+                 build_available: $has_dashboard
+               }')
+            ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
+
+            if [ "$HAS_DASHBOARD" = "true" ]; then
+              refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
+              echo "Refreshed ASA status and reviews in $(basename "$DASH_FILE")"
+            else
+              echo "ASA PR #$PR_NUMBER has no Jenkins dashboard data yet"
+            fi
+          done
+
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "$ENRICHED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" "$WF_DEF"'
+            {project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:(map(add_wf))}' \
+            > "pr-reports/$PROJECT_NAME/pr-list.json"
+          echo "pr_count=$(echo "$ENRICHED_PRS" | jq 'length')" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## ASA PR Dashboard Data Collection"
+            echo ""
+            echo "**Repository:** $REPO_NAME"
+            echo "**Open PRs on $BASE_BRANCH:** $PR_COUNT"
+            echo "**Tracked in overview:** $(echo "$ENRICHED_PRS" | jq 'length')"
+            echo ""
+            if [ "$PR_COUNT" -gt 0 ]; then
+              echo "| PR # | Title | Author | Branch | PR Status |"
+              echo "|------|-------|--------|--------|-----------|"
+              echo "$ENRICHED_PRS" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) -> \(.base_branch) | \(.pr_status) |"'
+            else
+              echo "No ASA open PRs found."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "Wrote pr-reports/$PROJECT_NAME/pr-list.json ($(echo "$ENRICHED_PRS" | jq 'length') live PR(s))"
+
+      - name: Display ASA collection summary
+        run: |
+          echo "=== ASA ==="
+          echo "Total Open PRs: ${{ steps.get-prs.outputs.pr_count }}"
+          echo "PR list saved to pr-reports/ASA/pr-list.json"
+
+      - name: Commit and push ASA status updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pr-reports/ASA/
+
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No ASA changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update ASA dashboard PR status & reviews [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
+
+          PUSH_OK=false
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if ! git merge -X ours --no-edit origin/main 2>/dev/null; then
+              git checkout --ours pr-reports/ASA/ 2>/dev/null || true
+              git add pr-reports/ASA/
+              git commit --no-edit -m "auto-resolve ASA dashboard conflicts (ours)" 2>/dev/null || true
+            fi
+            if git push origin main; then
+              PUSH_OK=true
+              break
+            fi
+            echo "Push attempt $attempt failed, retrying in ${attempt}s..."
+            sleep "$attempt"
+          done
+          $PUSH_OK || { echo "All ASA push attempts failed"; exit 1; }
