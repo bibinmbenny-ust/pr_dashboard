@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PR Overview - NetSec Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css?v=20260709">
+    <link rel="stylesheet" href="css/dashboard.css?v=20260714-overview-demo">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -12,11 +12,11 @@
         <div class="title-container">
             <h1 id="project-title">Loading...</h1>
             <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">
-                <a id="back-link" href="pr-list.html" style="color: var(--cisco-blue); text-decoration: none;">← Back to PR List</a>
+                <a id="back-link" href="pr-list.html" style="color: var(--cisco-blue); text-decoration: none;">Back to PR List</a>
             </p>
         </div>
         <div class="dashboard-actions" style="display: flex; align-items: center; gap: 1rem;">
-            <button id="download-overview-pdf" class="btn no-print" type="button" disabled title="PR overview is still loading">⬇️ Download PDF</button>
+            <button id="download-overview-pdf" class="btn no-print" type="button" disabled title="PR overview is still loading">Download PDF</button>
             <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
         </div>
     </div>
@@ -25,14 +25,30 @@
 
     <div id="overview-content" style="display: none;">
 
+        <section class="ov-hero">
+            <div class="ov-hero-main">
+                <span class="ov-eyebrow">Pull Request Operations</span>
+                <h2 id="overview-heading">Project PR Overview</h2>
+                <p id="overview-summary-copy">Loading project health summary...</p>
+            </div>
+            <div id="overview-status-strip" class="ov-status-strip"></div>
+        </section>
+
         <!-- Filters -->
         <div id="ov-filters" class="ov-filters no-print">
-            <div class="ov-filter-group">
-                <label for="filter-author">👤 Author</label>
-                <select id="filter-author"><option value="">All authors</option></select>
+            <div class="ov-filter-heading">
+                <span class="ov-filter-title">Filters</span>
+                <span class="ov-filter-caption">Focus the analytics by owner or update window</span>
             </div>
             <div class="ov-filter-group">
-                <label for="filter-period">🗓️ Period</label>
+                <label for="filter-author">Author</label>
+                <div class="ov-author-search">
+                    <input type="text" id="filter-author" autocomplete="off" placeholder="Type author name" />
+                    <div id="author-suggestions" class="ov-author-suggestions" hidden></div>
+                </div>
+            </div>
+            <div class="ov-filter-group">
+                <label for="filter-period">Period</label>
                 <select id="filter-period">
                     <option value="0">All time</option>
                     <option value="7">Last 7 days</option>
@@ -53,17 +69,19 @@
             <span id="filter-count" class="ov-filter-count"></span>
         </div>
 
+        <div id="quick-filter-chips" class="ov-quick-filters no-print"></div>
+
         <!-- KPI Tiles -->
         <div id="kpi-grid" class="ov-kpi-grid"></div>
 
         <!-- Charts row -->
         <div class="ov-grid-2">
             <div class="card ov-card">
-                <h3 class="ov-card-title">📊 PR Status Distribution</h3>
+                <h3 class="ov-card-title">PR Status Distribution</h3>
                 <div class="ov-chart-wrap"><canvas id="statusChart"></canvas></div>
             </div>
             <div class="card ov-card">
-                <h3 class="ov-card-title">🩺 PR Health Distribution</h3>
+                <h3 class="ov-card-title">PR Health Distribution</h3>
                 <div class="ov-chart-wrap"><canvas id="healthChart"></canvas></div>
             </div>
         </div>
@@ -71,34 +89,68 @@
         <!-- Build health + Contributors -->
         <div class="ov-grid-2">
             <div class="card ov-card">
-                <h3 class="ov-card-title">🏗️ Build Health (latest revision)</h3>
+                <h3 class="ov-card-title">Build Health</h3>
                 <div class="ov-chart-wrap"><canvas id="buildChart"></canvas></div>
             </div>
             <div class="card ov-card">
-                <h3 class="ov-card-title">👥 Top Contributors</h3>
+                <h3 class="ov-card-title">Top Contributors</h3>
                 <div id="contributors" class="ov-contrib-list"></div>
             </div>
+        </div>
+
+        <div class="ov-grid-2">
+            <div class="card ov-card">
+                <h3 class="ov-card-title">PR Aging Buckets</h3>
+                <div id="aging-buckets" class="ov-bucket-list"></div>
+            </div>
+            <div class="card ov-card">
+                <h3 class="ov-card-title">Status Trend by Last Update</h3>
+                <div class="ov-chart-wrap"><canvas id="statusTrendChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="ov-grid-2">
+            <div class="card ov-card">
+                <h3 class="ov-card-title">Copilot Review Activity</h3>
+                <div id="copilot-activity" class="ov-insight-grid"></div>
+            </div>
+            <div class="card ov-card">
+                <h3 class="ov-card-title">Owner Workload</h3>
+                <div id="owner-workload" class="ov-workload-list"></div>
+            </div>
+        </div>
+
+        <div class="ov-grid-2">
+            <div class="card ov-card">
+                <h3 class="ov-card-title">Approval Readiness</h3>
+                <div id="approval-readiness" class="ov-readiness-list"></div>
+            </div>
+            <div class="card ov-card">
+                <h3 class="ov-card-title">Largest Pull Requests</h3>
+                <div id="largest-prs" class="ov-table-wrap"></div>
+            </div>
+        </div>
+
+        <div class="card ov-card">
+            <div class="ov-card-header">
+                <h3 class="ov-card-title">No Movement Pull Requests</h3>
+                <span class="ov-subtle">Open PRs with the oldest update timestamp</span>
+            </div>
+            <div id="no-movement-prs" class="ov-table-wrap"></div>
         </div>
 
         <!-- Lowest score PRs -->
         <div class="card ov-card">
             <div class="ov-card-header">
-                <h3 class="ov-card-title">⚠️ Lowest Health Score — Needs Attention</h3>
+                <h3 class="ov-card-title">Lowest Health Score</h3>
                 <span class="ov-subtle">Sorted by health score (ascending)</span>
             </div>
             <div id="lowest-table" class="ov-table-wrap"></div>
         </div>
 
-        <!-- Stale PRs + Aggregate metrics -->
-        <div class="ov-grid-2">
-            <div class="card ov-card">
-                <h3 class="ov-card-title">🕰️ Stalest Pull Requests</h3>
-                <div id="stale-list" class="ov-stale-list"></div>
-            </div>
-            <div class="card ov-card">
-                <h3 class="ov-card-title">🧮 Aggregate Metrics</h3>
-                <div id="aggregate-grid" class="ov-agg-grid"></div>
-            </div>
+        <div class="card ov-card">
+            <h3 class="ov-card-title">Aggregate Metrics</h3>
+            <div id="aggregate-grid" class="ov-agg-grid"></div>
         </div>
 
         <p id="ov-timestamp" class="ov-timestamp"></p>
@@ -108,6 +160,6 @@
         NetSec Dashboard
     </footer>
 
-    <script src="js/pr-overview.js?v=20260709b"></script>
+    <script src="js/pr-overview.js?v=20260714-overview-demo"></script>
 </body>
 </html>

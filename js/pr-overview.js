@@ -23,6 +23,8 @@ const charts = {};
 // All analysed PRs (unfiltered) + metadata, used by the filter controls.
 let allPRs = [];
 let prListTimestamp = null;
+let authorOptions = [];
+let activeQuickFilter = 'all';
 
 function setupOverviewExportButton() {
     const button = document.getElementById('download-overview-pdf');
@@ -147,6 +149,52 @@ function fmtDuration(sec) {
     return `${m}m`;
 }
 
+function nf(n) {
+    return Number(n || 0).toLocaleString('en-US');
+}
+
+function getReviewStats(p) {
+    return p.review_stats || p.raw?.review_stats || {};
+}
+
+function prSize(p) {
+    const add = Number(p.raw?.additions || p.additions || 0);
+    const del = Number(p.raw?.deletions || p.deletions || 0);
+    const files = Number(p.raw?.changed_files || p.changed_files || 0);
+    return { add, del, files, total: add + del };
+}
+
+function getRiskReasons(p) {
+    const reasons = [];
+    if (p.health.buildsPassing === false) reasons.push('Build failing');
+    if (!p.health.hasBuildData) reasons.push('Build data unavailable');
+    if (p.health.utFailed > 0) reasons.push('Unit test failures');
+    if (p.health.unresolved > 0) reasons.push('Open review threads');
+    if (p.health.changesReq > 0) reasons.push('Changes requested');
+    if (p.health.approvals === 0) reasons.push('No approval');
+    if (ageDays(p.updated_at) >= 14) reasons.push('No recent movement');
+    return reasons;
+}
+
+function readinessBucket(p) {
+    if (p.pr_status === 'draft') return 'Draft';
+    if (p.health.changesReq > 0) return 'Changes Requested';
+    if (p.health.unresolved > 0) return 'Threads Open';
+    if (p.health.buildsPassing === false) return 'Build Blocked';
+    if (p.health.approvals > 0 && p.health.buildsPassing !== false) return 'Ready';
+    return 'Needs Review';
+}
+
+function quickFilterMatches(p) {
+    if (activeQuickFilter === 'all') return true;
+    if (activeQuickFilter === 'ready') return readinessBucket(p) === 'Ready';
+    if (activeQuickFilter === 'attention') return p.health.band === 'critical' || getRiskReasons(p).length >= 3;
+    if (activeQuickFilter === 'stale') return ageDays(p.updated_at) >= 14;
+    if (activeQuickFilter === 'copilot') return (getReviewStats(p).copilot_open || 0) > 0;
+    if (activeQuickFilter === 'waterfall') return p.is_waterfall;
+    return true;
+}
+
 const STATUS_META = {
     approved:          { label: 'Approved',          color: '#10b981' },
     merged:            { label: 'Merged',            color: '#a78bfa' },
@@ -168,20 +216,51 @@ function renderKPIs(prs) {
     const openThreads = prs.reduce((s, p) => s + (p.health.unresolved || 0), 0);
 
     const tiles = [
-        { label: 'Total PRs',        value: total,          color: 'var(--cisco-blue)', icon: '📋' },
-        { label: 'Ready to Merge',   value: readyToMerge,   color: '#10b981', icon: '✅' },
-        { label: 'Needs Attention',  value: needsAttention, color: '#ef4444', icon: '⚠️' },
-        { label: 'Builds Failing',   value: buildsFailing,  color: '#f59e0b', icon: '🏗️' },
-        { label: 'Build Data Missing', value: buildMissing, color: '#64748b', icon: 'ℹ️' },
-        { label: 'Avg PR Health', value: avgScore == null ? 'N/A' : avgScore, color: avgScore == null ? '#64748b' : scoreColor(avgScore), icon: '🩺', suffix: avgScore == null ? '' : '/100' },
-        { label: 'Open Review Threads', value: openThreads, color: '#a78bfa', icon: '💬' },
+        { label: 'Total PRs',        value: total,          color: 'var(--cisco-blue)', marker: 'Total' },
+        { label: 'Ready to Merge',   value: readyToMerge,   color: '#10b981', marker: 'Ready' },
+        { label: 'Needs Attention',  value: needsAttention, color: '#ef4444', marker: 'Risk' },
+        { label: 'Builds Failing',   value: buildsFailing,  color: '#f59e0b', marker: 'Build' },
+        { label: 'Build Data Missing', value: buildMissing, color: '#64748b', marker: 'Data' },
+        { label: 'Avg PR Health', value: avgScore == null ? 'N/A' : avgScore, color: avgScore == null ? '#64748b' : scoreColor(avgScore), marker: 'Score', suffix: avgScore == null ? '' : '/100' },
+        { label: 'Open Review Threads', value: openThreads, color: '#a78bfa', marker: 'Review' },
     ];
 
     document.getElementById('kpi-grid').innerHTML = tiles.map(t => `
         <div class="ov-kpi" style="border-top:3px solid ${t.color};">
-            <div class="ov-kpi-icon">${t.icon}</div>
+            <div class="ov-kpi-marker" style="color:${t.color};border-color:${t.color};">${t.marker}</div>
             <div class="ov-kpi-value" style="color:${t.color};">${t.value}<span class="ov-kpi-suffix">${t.suffix || ''}</span></div>
             <div class="ov-kpi-label">${t.label}</div>
+        </div>
+    `).join('');
+}
+
+function renderExecutiveSummary(prs) {
+    const total = prs.length;
+    const approved = prs.filter(p => p.pr_status === 'approved').length;
+    const draft = prs.filter(p => p.pr_status === 'draft').length;
+    const reviewRequired = prs.filter(p => p.pr_status === 'review_required').length;
+    const changesRequested = prs.filter(p => p.pr_status === 'changes_requested').length;
+    const buildMissing = prs.filter(p => !p.health.hasBuildData).length;
+    const avgScore = total ? Math.round(prs.reduce((sum, p) => sum + p.health.score, 0) / total) : null;
+    const avgText = avgScore == null ? 'N/A' : `${avgScore}/100`;
+    const summaryEl = document.getElementById('overview-summary-copy');
+    const stripEl = document.getElementById('overview-status-strip');
+
+    document.getElementById('overview-heading').textContent = `${currentProject.name} PR Overview`;
+    summaryEl.textContent = `${total} active pull requests analyzed. Average health is ${avgText}, with ${approved} approved, ${reviewRequired} awaiting review, and ${changesRequested} with requested changes.`;
+
+    const chips = [
+        { label: 'Approved', value: approved, color: '#10b981' },
+        { label: 'Review Required', value: reviewRequired, color: '#3b82f6' },
+        { label: 'Draft', value: draft, color: '#f59e0b' },
+        { label: 'Changes Requested', value: changesRequested, color: '#ef4444' },
+        { label: 'Build Data Missing', value: buildMissing, color: '#64748b' },
+    ];
+
+    stripEl.innerHTML = chips.map(chip => `
+        <div class="ov-status-chip" style="--chip-color:${chip.color};">
+            <span>${chip.label}</span>
+            <strong>${chip.value}</strong>
         </div>
     `).join('');
 }
@@ -235,6 +314,232 @@ function renderBuildChart(prs) {
         ['#10b981', '#ef4444', '#64748b']);
 }
 
+function renderStatusTrend(prs) {
+    const canvasId = 'statusTrendChart';
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    if (charts[canvasId]) charts[canvasId].destroy();
+
+    const days = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    for (let i = 13; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        days.push(d);
+    }
+    const labels = days.map(d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+    const keys = ['approved', 'review_required', 'draft', 'changes_requested'];
+    const values = Object.fromEntries(keys.map(k => [k, Array(days.length).fill(0)]));
+
+    prs.forEach(p => {
+        const t = Date.parse(p.updated_at || p.created_at || '');
+        if (isNaN(t)) return;
+        const d = new Date(t);
+        d.setHours(0, 0, 0, 0);
+        const index = days.findIndex(day => day.getTime() === d.getTime());
+        if (index < 0) return;
+        const status = keys.includes(p.pr_status) ? p.pr_status : 'review_required';
+        values[status][index]++;
+    });
+
+    charts[canvasId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: keys.map(k => ({
+                label: STATUS_META[k]?.label || k,
+                data: values[k],
+                backgroundColor: STATUS_META[k]?.color || '#64748b',
+                borderRadius: 4,
+            }))
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { stacked: true, ticks: { color: '#cbd5e1', maxRotation: 0 }, grid: { color: 'rgba(148,163,184,0.12)' } },
+                y: { stacked: true, beginAtZero: true, ticks: { color: '#cbd5e1', precision: 0 }, grid: { color: 'rgba(148,163,184,0.12)' } }
+            },
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#cbd5e1', boxWidth: 12 } },
+                tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y}` } }
+            }
+        }
+    });
+}
+
+function renderQuickFilterChips(prs) {
+    const box = document.getElementById('quick-filter-chips');
+    if (!box) return;
+    const chips = [
+        { key: 'all', label: 'All PRs', count: prs.length },
+        { key: 'ready', label: 'Ready', count: prs.filter(p => readinessBucket(p) === 'Ready').length },
+        { key: 'attention', label: 'Needs Attention', count: prs.filter(p => p.health.band === 'critical' || getRiskReasons(p).length >= 3).length },
+        { key: 'stale', label: 'Stale 14d+', count: prs.filter(p => ageDays(p.updated_at) >= 14).length },
+        { key: 'copilot', label: 'Copilot Open', count: prs.filter(p => (getReviewStats(p).copilot_open || 0) > 0).length },
+        { key: 'waterfall', label: 'Waterfall', count: prs.filter(p => p.is_waterfall).length },
+    ];
+
+    box.innerHTML = chips.map(chip => `
+        <button type="button" class="ov-quick-chip ${activeQuickFilter === chip.key ? 'active' : ''}" data-filter="${chip.key}">
+            <span>${chip.label}</span><strong>${chip.count}</strong>
+        </button>
+    `).join('');
+
+    box.querySelectorAll('.ov-quick-chip').forEach(button => {
+        button.addEventListener('click', () => {
+            activeQuickFilter = button.dataset.filter || 'all';
+            applyFilters();
+        });
+    });
+}
+
+function renderAgingBuckets(prs) {
+    const buckets = [
+        { label: '0-2 days', min: 0, max: 2, color: '#10b981' },
+        { label: '3-7 days', min: 3, max: 7, color: '#3b82f6' },
+        { label: '8-14 days', min: 8, max: 14, color: '#f59e0b' },
+        { label: '15-30 days', min: 15, max: 30, color: '#ef4444' },
+        { label: '30+ days', min: 31, max: Infinity, color: '#a78bfa' },
+    ];
+    const total = prs.length || 1;
+    const rows = buckets.map(bucket => {
+        const count = prs.filter(p => {
+            const age = ageDays(p.created_at);
+            return age != null && age >= bucket.min && age <= bucket.max;
+        }).length;
+        return `
+            <div class="ov-bucket-row">
+                <div class="ov-bucket-label"><span>${bucket.label}</span><strong>${count}</strong></div>
+                <div class="ov-progress-track"><div class="ov-progress-bar" style="width:${(count / total) * 100}%;background:${bucket.color};"></div></div>
+            </div>`;
+    }).join('');
+    document.getElementById('aging-buckets').innerHTML = rows || '<p class="ov-subtle">No data</p>';
+}
+
+function renderCopilotActivity(prs) {
+    const totals = prs.reduce((acc, p) => {
+        const rs = getReviewStats(p);
+        acc.comments += rs.copilot_comments || 0;
+        acc.open += rs.copilot_open || 0;
+        acc.addressed += rs.copilot_addressed || 0;
+        acc.withCopilot += (rs.copilot_comments || 0) > 0 ? 1 : 0;
+        return acc;
+    }, { comments: 0, open: 0, addressed: 0, withCopilot: 0 });
+    const addressedRate = totals.comments ? Math.round((totals.addressed / totals.comments) * 100) : 0;
+    const tiles = [
+        { label: 'Copilot Comments', value: nf(totals.comments), tone: '#3b82f6' },
+        { label: 'Open Copilot Items', value: nf(totals.open), tone: totals.open ? '#f59e0b' : '#10b981' },
+        { label: 'Addressed Items', value: nf(totals.addressed), tone: '#10b981' },
+        { label: 'PRs With Copilot', value: nf(totals.withCopilot), tone: '#a78bfa' },
+        { label: 'Addressed Rate', value: `${addressedRate}%`, tone: addressedRate >= 70 ? '#10b981' : '#f59e0b' },
+    ];
+    document.getElementById('copilot-activity').innerHTML = tiles.map(t => `
+        <div class="ov-insight-tile" style="border-color:${t.tone};">
+            <strong style="color:${t.tone};">${t.value}</strong>
+            <span>${t.label}</span>
+        </div>
+    `).join('');
+}
+
+function renderOwnerWorkload(prs) {
+    const byAuthor = {};
+    prs.forEach(p => {
+        const author = p.author || 'unknown';
+        if (!byAuthor[author]) byAuthor[author] = { count: 0, critical: 0, unresolved: 0, score: 0 };
+        byAuthor[author].count++;
+        byAuthor[author].critical += p.health.band === 'critical' ? 1 : 0;
+        byAuthor[author].unresolved += p.health.unresolved || 0;
+        byAuthor[author].score += p.health.score || 0;
+    });
+    const rows = Object.entries(byAuthor)
+        .map(([author, data]) => ({ author, ...data, avg: Math.round(data.score / data.count) }))
+        .sort((a, b) => b.count - a.count || b.critical - a.critical)
+        .slice(0, 8);
+    document.getElementById('owner-workload').innerHTML = rows.map(row => `
+        <button type="button" class="ov-workload-row" data-author="${row.author}">
+            <span class="ov-workload-owner">@${row.author}</span>
+            <span>${row.count} PRs</span>
+            <span>${row.critical} critical</span>
+            <span>${row.unresolved} threads</span>
+            <strong style="color:${scoreColor(row.avg)};">${row.avg}</strong>
+        </button>
+    `).join('') || '<p class="ov-subtle">No data</p>';
+
+    document.querySelectorAll('.ov-workload-row').forEach(button => {
+        button.addEventListener('click', () => {
+            const input = document.getElementById('filter-author');
+            input.value = button.dataset.author || '';
+            applyFilters();
+        });
+    });
+}
+
+function renderApprovalReadiness(prs) {
+    const buckets = ['Ready', 'Needs Review', 'Threads Open', 'Build Blocked', 'Changes Requested', 'Draft'];
+    const counts = Object.fromEntries(buckets.map(bucket => [bucket, 0]));
+    prs.forEach(p => counts[readinessBucket(p)]++);
+    const colors = {
+        'Ready': '#10b981',
+        'Needs Review': '#3b82f6',
+        'Threads Open': '#f59e0b',
+        'Build Blocked': '#ef4444',
+        'Changes Requested': '#ef4444',
+        'Draft': '#64748b',
+    };
+    document.getElementById('approval-readiness').innerHTML = buckets.map(bucket => `
+        <div class="ov-readiness-row">
+            <span><i style="background:${colors[bucket]};"></i>${bucket}</span>
+            <strong>${counts[bucket]}</strong>
+        </div>
+    `).join('');
+}
+
+function renderLargestPRs(prs) {
+    const largest = [...prs]
+        .map(p => ({ ...p, size: prSize(p) }))
+        .filter(p => p.size.total > 0 || p.size.files > 0)
+        .sort((a, b) => (b.size.total + b.size.files * 40) - (a.size.total + a.size.files * 40))
+        .slice(0, 8);
+    const rows = largest.map(p => `
+        <tr onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${p.number}'">
+            <td class="ov-td-num">#${p.number}</td>
+            <td class="ov-td-title">${p.title || ''}<div class="ov-td-author">@${p.author}</div></td>
+            <td>+${nf(p.size.add)} / -${nf(p.size.del)}</td>
+            <td>${nf(p.size.files)}</td>
+            <td style="color:${scoreColor(p.health.score)};font-weight:700;">${p.health.score}</td>
+        </tr>
+    `).join('');
+    document.getElementById('largest-prs').innerHTML = rows ? `
+        <table class="ov-table">
+            <thead><tr><th>PR</th><th>Title</th><th>Lines</th><th>Files</th><th>Health</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>` : '<p class="ov-subtle">No size data available for this filtered set.</p>';
+}
+
+function renderNoMovementPRs(prs) {
+    const rows = [...prs]
+        .map(p => ({ ...p, idle: ageDays(p.updated_at) }))
+        .filter(p => p.idle != null)
+        .sort((a, b) => b.idle - a.idle)
+        .slice(0, 10)
+        .map(p => `
+            <tr onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${p.number}'">
+                <td class="ov-td-num">#${p.number}</td>
+                <td class="ov-td-title">${p.title || ''}<div class="ov-td-author">@${p.author}</div></td>
+                <td>${p.idle}d</td>
+                <td>${formatDate(p.updated_at)}</td>
+                <td>${(STATUS_META[p.pr_status]?.label) || p.pr_status || 'Open'}</td>
+            </tr>
+        `).join('');
+    document.getElementById('no-movement-prs').innerHTML = rows ? `
+        <table class="ov-table">
+            <thead><tr><th>PR</th><th>Title</th><th>Idle</th><th>Last Updated</th><th>Status</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>` : '<p class="ov-subtle">No data</p>';
+}
+
 // ── Top contributors ────────────────────────────────────────────────────
 function renderContributors(prs) {
     const counts = {};
@@ -286,29 +591,6 @@ function renderLowestTable(prs) {
             <thead><tr><th>PR</th><th>Title</th><th>Health Score</th><th>Blocking Issues</th></tr></thead>
             <tbody>${rows}</tbody>
         </table>`;
-}
-
-// ── Stale PRs ───────────────────────────────────────────────────────────
-function renderStale(prs) {
-    const stale = [...prs]
-        .map(p => ({ ...p, age: ageDays(p.updated_at) }))
-        .filter(p => p.age != null)
-        .sort((a, b) => b.age - a.age)
-        .slice(0, 6);
-    document.getElementById('stale-list').innerHTML = stale.map(p => {
-        const c = p.age > 30 ? '#ef4444' : p.age > 14 ? '#f59e0b' : '#94a3b8';
-        return `
-        <div class="ov-stale-row" onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${p.number}'">
-            <div class="ov-stale-main">
-                <span class="ov-stale-pr">#${p.number}</span>
-                <span class="ov-stale-title">${p.title || ''}</span>
-            </div>
-            <div class="ov-stale-meta">
-                <span class="ov-stale-age" style="color:${c};">${p.age}d idle</span>
-                <span class="ov-subtle">updated ${formatDate(p.updated_at)}</span>
-            </div>
-        </div>`;
-    }).join('') || '<p class="ov-subtle">No data</p>';
 }
 
 // ── Aggregate metrics ───────────────────────────────────────────────────
@@ -378,6 +660,10 @@ async function init() {
             pr_status: pr.pr_status || source.pr_status || 'open',
             updated_at: pr.updated_at || source.updated_at,
             created_at: pr.created_at || source.created_at,
+            additions: pr.additions || source.additions || 0,
+            deletions: pr.deletions || source.deletions || 0,
+            changed_files: pr.changed_files || source.changed_files || 0,
+            is_waterfall: !!(pr.is_waterfall || source.is_waterfall),
             raw: latest || {},
             review_stats: source.review_stats || pr.review_stats,
             hasBuildData,
@@ -403,31 +689,85 @@ function getPRDate(p) {
 }
 
 function populateAuthorFilter(prs) {
-    const sel = document.getElementById('filter-author');
-    if (!sel) return;
-    const authors = [...new Set(prs.map(p => p.author).filter(Boolean))]
+    authorOptions = [...new Set(prs.map(p => p.author).filter(Boolean))]
         .sort((a, b) => a.localeCompare(b));
-    sel.innerHTML = '<option value="">All authors</option>' +
-        authors.map(a => `<option value="${a}">@${a}</option>`).join('');
+    renderAuthorSuggestions('');
+}
+
+function renderAuthorSuggestions(query) {
+    const box = document.getElementById('author-suggestions');
+    if (!box) return;
+
+    const normalized = query.trim().toLowerCase().replace(/^@/, '');
+    const matches = authorOptions
+        .filter(author => !normalized || author.toLowerCase().includes(normalized))
+        .sort((a, b) => {
+            const aLower = a.toLowerCase();
+            const bLower = b.toLowerCase();
+            const aStarts = normalized && aLower.startsWith(normalized) ? 0 : 1;
+            const bStarts = normalized && bLower.startsWith(normalized) ? 0 : 1;
+            if (aStarts !== bStarts) return aStarts - bStarts;
+            return a.localeCompare(b);
+        })
+        .slice(0, 8);
+
+    if (!matches.length) {
+        box.hidden = true;
+        box.innerHTML = '';
+        return;
+    }
+
+    box.innerHTML = matches.map(author => `
+        <button type="button" class="ov-author-suggestion" data-author="${author}">
+            <span>@${author}</span>
+        </button>
+    `).join('');
+    box.hidden = false;
+
+    box.querySelectorAll('.ov-author-suggestion').forEach(button => {
+        button.addEventListener('mousedown', event => {
+            event.preventDefault();
+            const input = document.getElementById('filter-author');
+            input.value = button.dataset.author || '';
+            box.hidden = true;
+            applyFilters();
+        });
+    });
 }
 
 function setupFilters() {
-    ['filter-author', 'filter-period', 'filter-from', 'filter-to'].forEach(id => {
+    ['filter-period', 'filter-from', 'filter-to'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('change', applyFilters);
     });
+    const authorInput = document.getElementById('filter-author');
+    const suggestions = document.getElementById('author-suggestions');
+    if (authorInput) {
+        authorInput.addEventListener('input', () => {
+            renderAuthorSuggestions(authorInput.value);
+            applyFilters();
+        });
+        authorInput.addEventListener('focus', () => renderAuthorSuggestions(authorInput.value));
+        authorInput.addEventListener('blur', () => {
+            window.setTimeout(() => {
+                if (suggestions) suggestions.hidden = true;
+            }, 120);
+        });
+    }
     const reset = document.getElementById('filter-reset');
     if (reset) reset.addEventListener('click', () => {
         document.getElementById('filter-author').value = '';
+        if (suggestions) suggestions.hidden = true;
         document.getElementById('filter-period').value = '0';
         document.getElementById('filter-from').value = '';
         document.getElementById('filter-to').value = '';
+        activeQuickFilter = 'all';
         applyFilters();
     });
 }
 
 function applyFilters() {
-    const author = document.getElementById('filter-author')?.value || '';
+    const author = (document.getElementById('filter-author')?.value || '').trim().toLowerCase().replace(/^@/, '');
     const period = parseInt(document.getElementById('filter-period')?.value) || 0;
     const fromStr = document.getElementById('filter-from')?.value || '';
     const toStr = document.getElementById('filter-to')?.value || '';
@@ -437,8 +777,8 @@ function applyFilters() {
     const fromTs = fromStr ? Date.parse(`${fromStr}T00:00:00`) : null;
     const toTs = toStr ? Date.parse(`${toStr}T23:59:59`) : null;
 
-    const filtered = allPRs.filter(p => {
-        if (author && p.author !== author) return false;
+    const baseFiltered = allPRs.filter(p => {
+        if (author && !String(p.author || '').toLowerCase().includes(author)) return false;
         if (periodTs != null || fromTs != null || toTs != null) {
             const ds = getPRDate(p);
             const t = ds ? Date.parse(ds) : NaN;
@@ -450,17 +790,27 @@ function applyFilters() {
         return true;
     });
 
+    renderQuickFilterChips(baseFiltered);
+    const filtered = baseFiltered.filter(quickFilterMatches);
+
     renderAll(filtered);
 }
 
 function renderAll(prs) {
+    renderExecutiveSummary(prs);
     renderKPIs(prs);
     renderStatusChart(prs);
     renderHealthChart(prs);
     renderBuildChart(prs);
+    renderAgingBuckets(prs);
+    renderStatusTrend(prs);
+    renderCopilotActivity(prs);
+    renderOwnerWorkload(prs);
+    renderApprovalReadiness(prs);
+    renderLargestPRs(prs);
+    renderNoMovementPRs(prs);
     renderContributors(prs);
     renderLowestTable(prs);
-    renderStale(prs);
     renderAggregate(prs);
 
     const countEl = document.getElementById('filter-count');
