@@ -1,5 +1,5 @@
 [
-  {
+    {
     "FTD UT: Build Status": "SUCCESS",
     "FTD ARM UT: Build Status": "SUCCESS",
     "FTD BUILD: Build Status": "SUCCESS",
@@ -24,19 +24,17 @@
     "changed_files": 3,
     "additions": 42,
     "deletions": 7,
-    "changed_files_details": [
-      {
-        "file_name": "dummy/ims-dashboard-only-test.txt",
-        "status": "modified",
-        "additions": 42,
-        "deletions": 7,
-        "changes": 49
-      }
-    ],
+    "changed_files_details": [    {
+      "file_name": "dummy/ims-dashboard-only-test.txt",
+      "status": "modified",
+      "additions": 42,
+      "deletions": 7,
+      "changes": 49
+    }],
     "title": "IMS PR dashboard dummy test",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 6,
       "general_comments": 31,
       "copilot_comments": 6,
@@ -56,7 +54,7 @@
       "unique_reviewers": 0,
       "engagement_score": 0
     },
-    "ai_triage": {
+    "ai_triage":     {
       "available": false,
       "note": "Dashboard-only dummy run; IMS build and AI triage skipped.",
       "build_number": "20",
@@ -71,7 +69,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "FTD UT: Build Status": "FAILURE",
     "FTD ARM UT: Build Status": "SUCCESS",
     "FTD BUILD: Build Status": "SUCCESS",
@@ -92,8 +90,8 @@
     "jenkins_build_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/21/",
     "failed_stage": "FTD UT, WRIMS UT, DST TEST",
     "error_message": "? FTD UT: build failed\n? WRIMS UT: build failed\n? DST TEST: build failed",
-    "errors": [
-      {
+    "errors":     [
+            {
         "stage": "FTD UT",
         "status": "FAILURE",
         "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/21/",
@@ -102,7 +100,7 @@
         "error_preview": "Build failed ? check Jenkins logs",
         "has_full_details": false
       },
-      {
+            {
         "stage": "WRIMS UT",
         "status": "FAILURE",
         "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/21/",
@@ -111,7 +109,7 @@
         "error_preview": "Build failed ? check Jenkins logs",
         "has_full_details": false
       },
-      {
+            {
         "stage": "DST TEST",
         "status": "FAILURE",
         "error_log_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/21/",
@@ -124,19 +122,17 @@
     "changed_files": 1,
     "additions": 239,
     "deletions": 0,
-    "changed_files_details": [
-      {
-        "file_name": "Jenkinsfile.gitdstci",
-        "status": "modified",
-        "additions": 239,
-        "deletions": 0,
-        "changes": 239
-      }
-    ],
+    "changed_files_details": [    {
+      "file_name": "Jenkinsfile.gitdstci",
+      "status": "modified",
+      "additions": 239,
+      "deletions": 0,
+      "changes": 239
+    }],
     "title": "Fixes: CSCwv09683 bbenny - feat: add PR Dashboard banner posting to IMS pre-commit CI pipeline",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 6,
       "general_comments": 31,
       "copilot_comments": 6,
@@ -156,57 +152,55 @@
       "unique_reviewers": 0,
       "engagement_score": 0
     },
-    "ai_triage": {
+    "ai_triage":     {
       "available": true,
       "note": "Build 21: AI flagged 1 issue(s) in unknown.",
       "build_number": "21",
       "triaged_by": "{\"type\":\"ai\",\"name\":\"gpt-5.4\",\"version\":1}",
-      "errors": [
-        {
-          "stage": "unknown",
-          "error_category": "unknown",
-          "confidence": "LOW",
-          "triage_summary": [
-            "I could verify the PR metadata for `PR-4138` and the head commit `ba2faeaa8efd4a35b511f2c7b84fdcb1200370cf`, but I could not retrieve a Splunk failure record for build `21`.",
-            "I also could not fetch any Artifactory failure artifacts for either `bbenny_cisco-4138` or `bbenny-4138` build `21`, so there are no build-owned log lines available to identify the failing stage or proximate error.",
-            "The PR diff only changes `Jenkinsfile.gitdstci`, and AI review comments mention potential logic issues in the new dashboard code, but without the failed build's own metadata and logs those comments cannot be correlated to the actual failure.",
-            "Because the required Splunk verification and Artifactory log evidence are missing for this build, the failure reason cannot be determined reliably."
-          ],
-          "artifact_log_url": "https://engci-maven-master.cisco.com/artifactory/firepower-generic-sandbox-cdn-local/IMS_PRE-COMMIT_FAILED_LOGS/IMS_10_5_MAIN/bbenny_cisco-4138/21",
-          "analysis": [
-            {
-              "step": 1,
-              "source": "splunk",
-              "observation": "Queries for IMS precommit PR 4138 build 21 with build_result=FAILURE across 1d, 3d, 7d, and 30d returned no data.",
-              "conclusion": "I could not verify from Splunk that build 21 has status FAILURE or identify a failing stage from build metadata."
-            },
-            {
-              "step": 2,
-              "source": "artifactory",
-              "observation": "Artifactory precommit log queries for `bbenny_cisco-4138` build 21 and `bbenny-4138` build 21 returned no artifacts.",
-              "conclusion": "The build's own failure logs are unavailable, so the actual error and exact log lines cannot be established."
-            },
-            {
-              "step": 3,
-              "source": "github",
-              "observation": "GitHub PR 4138 is open on branch IMS_10_5_MAIN at commit ba2faeaa8efd4a35b511f2c7b84fdcb1200370cf, and the diff modifies only `Jenkinsfile.gitdstci` to add PR dashboard comment-posting logic.",
-              "conclusion": "The PR content is known, but without the failed build's metadata and logs it cannot be tied to the build failure."
-            },
-            {
-              "step": 4,
-              "source": "github",
-              "observation": "AI review comments on the PR point out possible issues in the new dashboard code, such as null handling and status aggregation, but none are validated by build-owned failure logs.",
-              "conclusion": "AI code review comments were present but did not point to a confirmed failure reason in the missing log evidence, so they cannot be treated as the cause."
-            },
-            {
-              "step": 5,
-              "source": "reasoning",
-              "observation": "The skill requires categorization from the failed build's own Splunk record and Artifactory log, and neither source produced evidence for build 21.",
-              "conclusion": "Final conclusion: the reason this build failed is unknown from the available data."
-            }
-          ]
-        }
-      ]
+      "errors": [      {
+        "stage": "unknown",
+        "error_category": "unknown",
+        "confidence": "LOW",
+        "triage_summary":         [
+          "I could verify the PR metadata for `PR-4138` and the head commit `ba2faeaa8efd4a35b511f2c7b84fdcb1200370cf`, but I could not retrieve a Splunk failure record for build `21`.",
+          "I also could not fetch any Artifactory failure artifacts for either `bbenny_cisco-4138` or `bbenny-4138` build `21`, so there are no build-owned log lines available to identify the failing stage or proximate error.",
+          "The PR diff only changes `Jenkinsfile.gitdstci`, and AI review comments mention potential logic issues in the new dashboard code, but without the failed build's own metadata and logs those comments cannot be correlated to the actual failure.",
+          "Because the required Splunk verification and Artifactory log evidence are missing for this build, the failure reason cannot be determined reliably."
+        ],
+        "artifact_log_url": "https://engci-maven-master.cisco.com/artifactory/firepower-generic-sandbox-cdn-local/IMS_PRE-COMMIT_FAILED_LOGS/IMS_10_5_MAIN/bbenny_cisco-4138/21",
+        "analysis":         [
+                    {
+            "step": 1,
+            "source": "splunk",
+            "observation": "Queries for IMS precommit PR 4138 build 21 with build_result=FAILURE across 1d, 3d, 7d, and 30d returned no data.",
+            "conclusion": "I could not verify from Splunk that build 21 has status FAILURE or identify a failing stage from build metadata."
+          },
+                    {
+            "step": 2,
+            "source": "artifactory",
+            "observation": "Artifactory precommit log queries for `bbenny_cisco-4138` build 21 and `bbenny-4138` build 21 returned no artifacts.",
+            "conclusion": "The build's own failure logs are unavailable, so the actual error and exact log lines cannot be established."
+          },
+                    {
+            "step": 3,
+            "source": "github",
+            "observation": "GitHub PR 4138 is open on branch IMS_10_5_MAIN at commit ba2faeaa8efd4a35b511f2c7b84fdcb1200370cf, and the diff modifies only `Jenkinsfile.gitdstci` to add PR dashboard comment-posting logic.",
+            "conclusion": "The PR content is known, but without the failed build's metadata and logs it cannot be tied to the build failure."
+          },
+                    {
+            "step": 4,
+            "source": "github",
+            "observation": "AI review comments on the PR point out possible issues in the new dashboard code, such as null handling and status aggregation, but none are validated by build-owned failure logs.",
+            "conclusion": "AI code review comments were present but did not point to a confirmed failure reason in the missing log evidence, so they cannot be treated as the cause."
+          },
+                    {
+            "step": 5,
+            "source": "reasoning",
+            "observation": "The skill requires categorization from the failed build's own Splunk record and Artifactory log, and neither source produced evidence for build 21.",
+            "conclusion": "Final conclusion: the reason this build failed is unknown from the available data."
+          }
+        ]
+      }]
     },
     "pr_state": "open",
     "pr_status": "review_required",
@@ -216,7 +210,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "FTD UT: Build Status": "SUCCESS",
     "FTD ARM UT: Build Status": "SUCCESS",
     "FTD BUILD: Build Status": "SUCCESS",
@@ -241,19 +235,17 @@
     "changed_files": 1,
     "additions": 239,
     "deletions": 0,
-    "changed_files_details": [
-      {
-        "file_name": "Jenkinsfile.gitdstci",
-        "status": "modified",
-        "additions": 239,
-        "deletions": 0,
-        "changes": 239
-      }
-    ],
+    "changed_files_details": [    {
+      "file_name": "Jenkinsfile.gitdstci",
+      "status": "modified",
+      "additions": 239,
+      "deletions": 0,
+      "changes": 239
+    }],
     "title": "Fixes: CSCwv09683 bbenny - feat: add PR Dashboard banner posting to IMS pre-commit CI pipeline",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 6,
       "general_comments": 31,
       "copilot_comments": 6,
@@ -273,7 +265,7 @@
       "unique_reviewers": 0,
       "engagement_score": 0
     },
-    "ai_triage": {
+    "ai_triage":     {
       "available": false,
       "note": "Build 22: AI triage unavailable (HTTP 502).",
       "build_number": "22",
@@ -287,5 +279,84 @@
     "waterfall_ref": null,
     "waterfall_from": null,
     "waterfall_to": null
+  },
+    {
+    "FTD UT: Build Status": "SUCCESS",
+    "FTD ARM UT: Build Status": "SUCCESS",
+    "FTD BUILD: Build Status": "SUCCESS",
+    "FMCv BUILD: Build Status": "SUCCESS",
+    "WRIMS UT: Build Status": "SUCCESS",
+    "DST TEST: Build Status": "SUCCESS",
+    "FTD UT: Coverage Reports": "23/27",
+    "FTD UT: Missing Coverage Reports": 4,
+    "FTD ARM UT: Coverage Reports": "16/27",
+    "FTD ARM UT: Missing Coverage Reports": 11,
+    "WRIMS UT: Coverage Reports": "19/27",
+    "WRIMS UT: Missing Coverage Reports": 8,
+    "Unit Tests: Build Status": "SUCCESS",
+    "Unit Tests: Unit Tests Passed": 3,
+    "Unit Tests: Unit Tests Failed": 0,
+    "Unit Tests: Unit Tests Skipped": 0,
+    "Unit Tests: Unit Test Stages": "FTD UT=SUCCESS, FTD ARM UT=SUCCESS, WRIMS UT=SUCCESS",
+    "Unit Tests: Coverage Reports Available": 58,
+    "Unit Tests: Coverage Reports Expected": 81,
+    "Unit Tests: Coverage Report Links": "FTD UT ASAConfig: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20ASAConfig/\nFTD UT ASALinaCliUtil: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20ASALinaCliUtil/\nFTD UT DataMessaging: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20DataMessaging/\nFTD UT dext_conn-common: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20dext_5fconn-common/\nFTD UT dext_conn-ngfw: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20dext_5fconn-ngfw/\nFTD UT identity-rest-app: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20identity-rest-app/\nFTD UT LinaConfigTool: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20LinaConfigTool/\nFTD UT ltbd: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20ltbd/\nFTD UT ngfw-message: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20ngfw-message/\nFTD UT ngfw-utils: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20ngfw-utils/\nFTD UT platformlogger: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20platformlogger/\nFTD UT sfcaptive-portal: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sfcaptive-portal/\nFTD UT sfdatacorrelator: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sfdatacorrelator/\nFTD UT sfltb: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sfltb/\nFTD UT sfrna: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sfrna/\nFTD UT sfsslpp_stubs: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sfsslpp_5fstubs/\nFTD UT sftls: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sftls/\nFTD UT sftunnel-java: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sftunnel-java/\nFTD UT sfutil: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sfutil/\nFTD UT sfwww: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20sfwww/\nFTD UT shmemdb: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20shmemdb/\nFTD UT UEChannel: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20UEChannel/\nFTD UT umpd: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fUT_20-_20umpd/\nFTD ARM UT ASAConfig: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20ASAConfig/\nFTD ARM UT ASALinaCliUtil: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20ASALinaCliUtil/\nFTD ARM UT DataMessaging: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20DataMessaging/\nFTD ARM UT identity-rest-app: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20identity-rest-app/\nFTD ARM UT LinaConfigTool: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20LinaConfigTool/\nFTD ARM UT ltbd: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20ltbd/\nFTD ARM UT ngfw-message: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20ngfw-message/\nFTD ARM UT ngfw-utils: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20ngfw-utils/\nFTD ARM UT platformlogger: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20platformlogger/\nFTD ARM UT sfcaptive-portal: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20sfcaptive-portal/\nFTD ARM UT sfdatacorrelator: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20sfdatacorrelator/\nFTD ARM UT sfltb: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20sfltb/\nFTD ARM UT sftunnel-java: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20sftunnel-java/\nFTD ARM UT sfutil: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20sfutil/\nFTD ARM UT shmemdb: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20shmemdb/\nFTD ARM UT UEChannel: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20FTD_5fARM_5fUT_20-_20UEChannel/\nWRIMS UT DataMessaging: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20DataMessaging/\nWRIMS UT identity-rest-app: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20identity-rest-app/\nWRIMS UT ltbd: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20ltbd/\nWRIMS UT ngfw-message: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20ngfw-message/\nWRIMS UT ngfw-utils: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20ngfw-utils/\nWRIMS UT platformlogger: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20platformlogger/\nWRIMS UT sfcaptive-portal: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sfcaptive-portal/\nWRIMS UT sfdatacorrelator: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sfdatacorrelator/\nWRIMS UT sfltb: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sfltb/\nWRIMS UT sfrna: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sfrna/\nWRIMS UT sfsslpp_stubs: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sfsslpp_5fstubs/\nWRIMS UT sftunnel-java: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sftunnel-java/\nWRIMS UT sfutil: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sfutil/\nWRIMS UT sfwww: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20sfwww/\nWRIMS UT shmemdb: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20shmemdb/\nWRIMS UT smart_licensing: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20smart_5flicensing/\nWRIMS UT UEChannel: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20UEChannel/\nWRIMS UT umpd: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20umpd/\nWRIMS UT DCCSM: https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/Code_20Coverage_20-_20WRIMS_5fUT_20-_20DCCSM/",
+    "FTD UT: Coverity Status": "No Defects Log",
+    "FTD UT: Coverity Result": "SUCCESS",
+    "FTD ARM UT: Coverity Status": "No Defects Log",
+    "FTD ARM UT: Coverity Result": "SUCCESS",
+    "WRIMS UT: Coverity Status": "No Defects Log",
+    "WRIMS UT: Coverity Result": "SUCCESS",
+    "Coverity: Build Status": "SUCCESS",
+    "Coverity: Stages Passed": 3,
+    "Coverity: Stages Failed": 0,
+    "Coverity: Stages Skipped": 0,
+    "Coverity: Stage Results": "FTD UT=No Defects Log, FTD ARM UT=No Defects Log, WRIMS UT=No Defects Log",
+    "ci_start_time": "2026-07-15T11:47:21Z",
+    "ci_duration_seconds": 13155,
+    "bitbake_cache_percentage": null,
+    "bazel_cache_percentage": null,
+    "author": "bbenny_cisco",
+    "pr_id": "4138",
+    "commit_hash": "ba2faeaa8efd4a35b511f2c7b84fdcb1200370cf",
+    "created_at": "2026-07-01T12:30:18Z",
+    "updated_at": "2026-07-15T15:26:59Z",
+    "revision": "23",
+    "jenkins_build_number": "23",
+    "jenkins_build_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-dst/job/Precommit/job/IMS/job/IMS-Precommit-EMU/job/PR-4138/23/",
+    "failed_stage": null,
+    "error_message": null,
+    "errors": [],
+    "changed_files": 1,
+    "additions": 239,
+    "deletions": 0,
+    "changed_files_details": [    {
+      "file_name": "Jenkinsfile.gitdstci",
+      "status": "modified",
+      "additions": 239,
+      "deletions": 0,
+      "changes": 239
+    }],
+    "title": "Fixes: CSCwv09683 bbenny - feat: add PR Dashboard banner posting to IMS pre-commit CI pipeline",
+    "check_runs": [],
+    "github_actions_runs": [],
+    "review_stats":     {
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "unique_reviewers": 1,
+      "total_review_comments": 6,
+      "author_replies": 0,
+      "outdated_threads": 0,
+      "total_threads": null,
+      "resolved_threads": null,
+      "unresolved_threads": null
+    },
+    "ai_triage":     {
+      "available": false,
+      "note": "Build 23: AI triage unavailable (HTTP 502).",
+      "build_number": "23",
+      "triaged_by": null,
+      "errors": []
+    }
   }
 ]
