@@ -14,6 +14,11 @@ const PROJECT_CONFIG = {
         name: 'IMS',
         repo: 'cisco-sbg-emu/netsec-ims',
         displayName: 'Identity Management System (IMS)'
+    },
+    'USM': {
+        name: 'USM',
+        repo: 'cisco-sbg-emu/netsec-ims',
+        displayName: 'Universal Security Manager (USM)'
     }
 };
 
