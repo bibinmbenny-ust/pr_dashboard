@@ -615,8 +615,8 @@ function renderAggregate(prs) {
         { label: 'Lines Added',      value: `+${nf(add)}`, color: '#10b981' },
         { label: 'Lines Removed',    value: `-${nf(del)}`, color: '#ef4444' },
         { label: 'Files Changed',    value: nf(cf),        color: 'var(--cisco-blue)' },
-        { label: 'Unit Tests Passed', value: nf(utP),      color: '#10b981' },
-        { label: 'Unit Tests Failed', value: nf(utF),      color: utF > 0 ? '#ef4444' : '#94a3b8' },
+        { label: 'UT Stages Passed',  value: nf(utP),      color: '#10b981' },
+        { label: 'UT Stages Failed',  value: nf(utF),      color: utF > 0 ? '#ef4444' : '#94a3b8' },
         { label: 'Avg CI Duration',  value: fmtDuration(avgCi), color: '#a78bfa' },
     ];
     document.getElementById('aggregate-grid').innerHTML = tiles.map(t => `

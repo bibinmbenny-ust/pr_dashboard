@@ -259,6 +259,18 @@ function renderMetrics(data) {
             if (metric.name === 'Error Details') return null; // Handle separately
             if (metric.name === 'AI Suggestion') return null; // Handle separately
 
+            if (metric.name === 'Coverage Report Links' && typeof value === 'string' && value !== 'N/A') {
+                const escapeHtml = (text) => String(text).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+                const links = value.split('\n').filter(Boolean).map(line => {
+                    const separator = line.indexOf(': http');
+                    if (separator < 0) return `<span>${escapeHtml(line)}</span>`;
+                    const label = line.slice(0, separator);
+                    const url = line.slice(separator + 2);
+                    return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" style="display:inline-block;margin:0.12rem 0.45rem 0.12rem 0;color:var(--cisco-blue);text-decoration:none;font-weight:600;">${escapeHtml(label)}</a>`;
+                }).join('');
+                return `<div style="margin-bottom:0.45rem;font-size:0.88rem;"><strong style="display:block;color:var(--cisco-blue);font-weight:600;margin-bottom:0.25rem;">${metric.name}:</strong><div>${links}</div></div>`;
+            }
+
             // Special handling for percentages or known values
             if (metric.name === 'Coverage Percentage' && typeof value === 'number' && !String(value).includes('%')) {
                  value = `${value}%`;
@@ -1641,6 +1653,12 @@ function renderScoreCard(dataList) {
     const covRevisions = dataList.filter(d => { const c = d['Unit Tests: Coverage Percentage']; return c && c !== 'N/A' && !isNaN(parseFloat(c)); });
     const avgCoverage = covRevisions.length > 0
         ? (covRevisions.reduce((s, d) => s + parseFloat(d['Unit Tests: Coverage Percentage']), 0) / covRevisions.length).toFixed(1) : null;
+    const coverageReportRevisions = dataList.filter(d => parseInt(d['Unit Tests: Coverage Reports Expected']) > 0);
+    const coverageReportsAvailable = coverageReportRevisions.reduce((s, d) => s + (parseInt(d['Unit Tests: Coverage Reports Available']) || 0), 0);
+    const coverageReportsExpected = coverageReportRevisions.reduce((s, d) => s + (parseInt(d['Unit Tests: Coverage Reports Expected']) || 0), 0);
+    const coverageReportRate = coverageReportsExpected > 0 ? Math.round((coverageReportsAvailable / coverageReportsExpected) * 100) : null;
+    const coverageScore = avgCoverage ? Math.min(parseFloat(avgCoverage), 100) : (coverageReportRate != null ? coverageReportRate : 50);
+    const coverageDisplay = avgCoverage ? `${avgCoverage}%` : (coverageReportRate != null ? `${coverageReportRate}%` : 'N/A');
 
     const utCountRevisions = dataList.filter(d => parseInt(d['Unit Tests: Unit Tests Passed']) > 0);
     const avgUtTests = utCountRevisions.length > 0
@@ -1650,6 +1668,12 @@ function renderScoreCard(dataList) {
     const totalUtTestsPassed = lastUtRevision ? (parseInt(lastUtRevision['Unit Tests: Unit Tests Passed']) || 0) : 0;
     const totalUtTestsFailed = lastUtRevision ? (parseInt(lastUtRevision['Unit Tests: Unit Tests Failed']) || 0) : 0;
     const totalUtTests = totalUtTestsPassed + totalUtTestsFailed;
+
+    const coverityRevisions = dataList.filter(d => d['Coverity: Build Status'] && d['Coverity: Build Status'] !== 'N/A');
+    const coverityPassed = coverityRevisions.filter(d => d['Coverity: Build Status'] === 'SUCCESS').length;
+    const coverityFailed = coverityRevisions.filter(d => d['Coverity: Build Status'] === 'FAILURE').length;
+    const coveritySkipped = coverityRevisions.filter(d => d['Coverity: Build Status'] === 'SKIPPED').length;
+    const coverityScore = coverityRevisions.length > 0 ? Math.round((coverityPassed / coverityRevisions.length) * 100) : 50;
 
     const moduleFailures = {};
     dataList.forEach(d => { Object.keys(d).forEach(k => { if (k.endsWith(': Build Status') && d[k] === 'FAILURE') { const mod = k.replace(': Build Status', ''); if (mod !== 'Unit Tests') moduleFailures[mod] = (moduleFailures[mod] || 0) + 1; } }); });
@@ -1684,12 +1708,17 @@ function renderScoreCard(dataList) {
     const threadResolvedPct = (rvTotalThreads != null && rvTotalThreads > 0)
         ? Math.round((rvResolvedThreads / rvTotalThreads) * 100)
         : (rvTotalThreads === 0 ? 100 : null);
+    const authorReplyPct = rvTotalComments > 0 ? Math.round((rvAuthorReplies / rvTotalComments) * 100) : null;
+    const reviewCommentScore = threadResolvedPct != null
+        ? threadResolvedPct
+        : (authorReplyPct != null ? Math.min(authorReplyPct, 100) : 50);
 
     const healthScore = Math.round(
-        buildSuccessRate * 0.4 +
-        utPassRate       * 0.25 +
-        (avgCoverage ? Math.min(parseFloat(avgCoverage), 100) : 50) * 0.15 +
-        (threadResolvedPct != null ? threadResolvedPct : 50) * 0.20
+        buildSuccessRate   * 0.30 +
+        utPassRate         * 0.20 +
+        coverageScore      * 0.15 +
+        coverityScore      * 0.15 +
+        reviewCommentScore * 0.20
     );
     const healthColor = healthScore >= 80 ? '#10b981' : healthScore >= 55 ? '#f59e0b' : '#ef4444';
     const healthLabel = healthScore >= 80 ? 'HEALTHY' : healthScore >= 55 ? 'MODERATE' : 'NEEDS ATTENTION';
@@ -1727,25 +1756,33 @@ function renderScoreCard(dataList) {
                                 <div style="font-size:0.65rem; color:${healthColor}; font-weight:600; letter-spacing:0.05em; margin-top:0.15rem;">${healthLabel}</div>
                             </div>
                         </div>
-                        <!-- 3 signal breakdown below the chart -->
+                        <!-- Score signal breakdown below the chart -->
                         <div style="margin-top:0.9rem; display:flex; flex-direction:column; gap:0.35rem; text-align:left; padding:0 0.25rem;">
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#94a3b8;">🔨 Revisions passed</span>
-                                <span style="color:${buildSuccessRate >= 50 ? '#10b981' : '#ef4444'}; font-weight:600;">${passedBuilds} / ${total}</span>
+                                <span style="color:#94a3b8;">🔨 Build success</span>
+                                <span style="color:${buildSuccessRate >= 50 ? '#10b981' : '#ef4444'}; font-weight:600;">${buildSuccessRate}%</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#94a3b8;">🧪 UT tests passed</span>
-                                <span style="color:${totalUtTests > 0 && totalUtTestsFailed === 0 ? '#3b82f6' : '#f59e0b'}; font-weight:600;">${totalUtTests > 0 ? `${totalUtTestsPassed} / ${totalUtTests}` : `${utPassed} / ${utRevisions.length || total} rev`}</span>
+                                <span style="color:#94a3b8;">🧪 UT pass/fail</span>
+                                <span style="color:${utPassRate >= 50 ? '#3b82f6' : '#f59e0b'}; font-weight:600;">${utPassRate}%</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#94a3b8;">💬 Threads resolved</span>
-                                <span style="color:${(threadResolvedPct ?? 0) === 100 ? '#10b981' : (threadResolvedPct ?? 0) >= 50 ? '#f59e0b' : '#ef4444'}; font-weight:600;">${rvTotalThreads != null ? `${rvResolvedThreads} / ${rvTotalThreads}` : '—'}</span>
+                                <span style="color:#94a3b8;">📊 UT coverage</span>
+                                <span style="color:${coverageScore >= 70 ? '#10b981' : coverageScore >= 50 ? '#f59e0b' : '#ef4444'}; font-weight:600;">${coverageDisplay}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+                                <span style="color:#94a3b8;">🔬 Coverity</span>
+                                <span style="color:${coverityScore >= 80 ? '#10b981' : coverityScore >= 50 ? '#f59e0b' : '#ef4444'}; font-weight:600;">${coverityPassed} / ${coverityRevisions.length || total}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+                                <span style="color:#94a3b8;">💬 Review comments</span>
+                                <span style="color:${reviewCommentScore === 100 ? '#10b981' : reviewCommentScore >= 50 ? '#f59e0b' : '#ef4444'}; font-weight:600;">${threadResolvedPct != null ? `${threadResolvedPct}%` : (authorReplyPct != null ? `${authorReplyPct}%` : 'N/A')}</span>
                             </div>
                         </div>
                     </div>
                     <!-- Right: stat tiles + module info -->
                     <div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
                             <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${total}</div>
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Total Revisions</div>
@@ -1755,14 +1792,19 @@ function renderScoreCard(dataList) {
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Avg Build Time</div>
                             </div>
                             <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:#a78bfa;">${avgCoverage ? avgCoverage + '%' : 'N/A'}</div>
-                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Avg UT Coverage</div>
+                                <div style="font-size:1.5rem; font-weight:700; color:#a78bfa;">${coverageDisplay}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">UT Coverage</div>
+                            </div>
+                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${coverityScore >= 80 ? '#10b981' : coverityScore >= 50 ? '#f59e0b' : '#ef4444'};">${coverityRevisions.length > 0 ? `${coverityPassed}/${coverityRevisions.length}` : 'N/A'}</div>
+                                <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Coverity Passed</div>
                             </div>
                         </div>
                         ${avgUtTests > 0 ? `
                         <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#94a3b8;">
-                            <span>🧪 Avg tests/run: <strong style="color:var(--text);">${avgUtTests}</strong></span>
-                            <span>📊 Coverage tracked: <strong style="color:var(--text);">${covRevisions.length} run${covRevisions.length !== 1 ? 's' : ''}</strong></span>
+                            <span>🧪 Avg UT stages/run: <strong style="color:var(--text);">${avgUtTests}</strong></span>
+                            <span>📊 Coverage reports: <strong style="color:var(--text);">${coverageReportsAvailable} / ${coverageReportsExpected || 'N/A'}</strong></span>
+                            <span>🔬 Coverity: <strong style="color:var(--text);">${coverityPassed} pass / ${coverityFailed} fail</strong></span>
                         </div>` : ''}
                         ${sortedFailures.length > 0 ? `
                         <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.5rem; font-weight:600;">Most Failed Modules</div>
@@ -1816,17 +1858,19 @@ function renderScoreCard(dataList) {
         cutout: '68%'
     };
 
-    // Overall Score doughnut — three segments: builds, UT, threads
+    // Overall Score doughnut — IMS weighted signals: build, UT, coverage, Coverity, review comments
     new Chart(document.getElementById('sc-overallPie'), {
         type: 'doughnut',
         data: {
             datasets: [{
-                data: [buildSuccessRate, utPassRate, (threadResolvedPct != null ? threadResolvedPct : 50)],
+                data: [buildSuccessRate, utPassRate, coverageScore, coverityScore, reviewCommentScore],
                 backgroundColor: [
                     buildSuccessRate >= 50  ? 'rgba(16,185,129,0.85)'  : 'rgba(239,68,68,0.85)',
                     utPassRate >= 50        ? 'rgba(59,130,246,0.85)'  : 'rgba(245,158,11,0.85)',
-                    (threadResolvedPct ?? 50) === 100 ? 'rgba(16,185,129,0.7)' :
-                    (threadResolvedPct ?? 50) >= 50   ? 'rgba(245,158,11,0.7)' : 'rgba(239,68,68,0.7)'
+                    coverageScore >= 70     ? 'rgba(167,139,250,0.85)' : coverageScore >= 50 ? 'rgba(245,158,11,0.75)' : 'rgba(239,68,68,0.75)',
+                    coverityScore >= 80     ? 'rgba(20,184,166,0.85)'  : coverityScore >= 50 ? 'rgba(245,158,11,0.75)' : 'rgba(239,68,68,0.75)',
+                    reviewCommentScore === 100 ? 'rgba(16,185,129,0.7)' :
+                    reviewCommentScore >= 50   ? 'rgba(245,158,11,0.7)' : 'rgba(239,68,68,0.7)'
                 ],
                 borderWidth: 2,
                 borderColor: '#1e293b'
