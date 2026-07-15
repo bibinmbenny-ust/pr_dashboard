@@ -1,7 +1,8 @@
-name: PR Dashboard Data Collection — IMS
+name: PR Dashboard Data Collection — IMS/USM
 
-# Collects pull-request status and review/comment activity for the IMS repository
-# and dashboard. Jenkins remains the owner of build and CI data.
+# Collects pull-request status and review/comment activity for the IMS repository.
+# PRs touching usm/ are tracked as USM; all other PRs are tracked as IMS.
+# Jenkins remains the owner of build and CI data.
 
 on:
   workflow_dispatch: # Manual trigger
@@ -14,7 +15,7 @@ concurrency:
 
 jobs:
   collect-ims-pr-data:
-    name: Collect IMS PR status and reviews
+    name: Collect IMS/USM PR status and reviews
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,19 +28,18 @@ jobs:
           echo "GH_TOKEN=${{ secrets.FXOS_PAT }}" >> "$GITHUB_ENV"
           echo "GitHub token loaded from Actions secret"
 
-      - name: Collect IMS PR status and review data
+      - name: Collect IMS/USM PR status and review data
         id: get-prs
         env:
           GH_TOKEN: ${{ env.GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -uo pipefail
-          PROJECT_NAME="IMS"
           REPO_NAME="cisco-sbg-emu/netsec-ims"
           BASE_BRANCH="IMS_10_5_MAIN"
           REPO_OWNER="${REPO_NAME%%/*}"
           REPO_REPO="${REPO_NAME##*/}"
-          mkdir -p "pr-reports/$PROJECT_NAME"
+          mkdir -p pr-reports/IMS pr-reports/USM
 
           WF_DEF='def add_wf:
             (.title // "") as $t
@@ -50,11 +50,27 @@ jobs:
 
           if ! gh api "repos/$REPO_NAME" > /dev/null 2>&1; then
             echo "Cannot access repository $REPO_NAME"
-            echo "{\"project\":\"$PROJECT_NAME\",\"repository\":\"$REPO_NAME\",\"pull_requests\":[],\"total_count\":0}" \
-              > "pr-reports/$PROJECT_NAME/pr-list.json"
+            echo "{\"project\":\"IMS\",\"repository\":\"$REPO_NAME\",\"pull_requests\":[],\"total_count\":0}" \
+              > "pr-reports/IMS/pr-list.json"
+            echo "{\"project\":\"USM\",\"repository\":\"$REPO_NAME\",\"pull_requests\":[],\"total_count\":0}" \
+              > "pr-reports/USM/pr-list.json"
             echo "pr_count=0" >> "$GITHUB_OUTPUT"
+            echo "ims_count=0" >> "$GITHUB_OUTPUT"
+            echo "usm_count=0" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
+          classify_pr_project() {
+            local PR_NUMBER="$1"
+            local FILES
+            FILES=$(gh api --paginate "repos/$REPO_NAME/pulls/$PR_NUMBER/files?per_page=100" 2>/dev/null \
+              | jq -s 'add | [.[]?.filename // empty]' 2>/dev/null) || FILES='[]'
+            if echo "$FILES" | jq -e '.[] | select(startswith("usm/"))' >/dev/null 2>&1; then
+              echo "USM"
+            else
+              echo "IMS"
+            fi
+          }
 
           compute_pr_status() {
             local PR_NUMBER="$1" GQL STATE DRAFT MERGED DECISION UPDATED PR_STATUS PR_STATE EXISTS
@@ -195,7 +211,7 @@ jobs:
             [ -f "$DASH_FILE" ] && [ "$(jq 'length' "$DASH_FILE" 2>/dev/null || echo 0)" -gt 0 ]
           }
 
-          echo "Fetching IMS open PRs targeting $BASE_BRANCH ..."
+          echo "Fetching IMS repository open PRs targeting $BASE_BRANCH ..."
           OPEN_PRS=$(gh api --paginate "repos/$REPO_NAME/pulls?state=open&per_page=100" \
             | jq -s --arg base "$BASE_BRANCH" 'add | [.[] | select(.base.ref == $base) | {
               number:.number, title:.title, author:.user.login,
@@ -205,97 +221,118 @@ jobs:
             }]')
 
           PR_COUNT=$(echo "$OPEN_PRS" | jq 'length')
-          echo "Found $PR_COUNT IMS open PR(s)"
-          ENRICHED_PRS="[]"
+          echo "Found $PR_COUNT open PR(s) in $REPO_NAME"
+          IMS_PRS="[]"
+          USM_PRS="[]"
 
-          for i in $(seq 0 $((PR_COUNT - 1))); do
-            PR=$(echo "$OPEN_PRS" | jq ".[${i}]")
-            PR_NUMBER=$(echo "$PR" | jq -r '.number')
-            PR_AUTHOR=$(echo "$PR" | jq -r '.author')
-            DASH_FILE="pr-reports/$PROJECT_NAME/dashboard_${PR_NUMBER}.json"
-            echo "IMS PR #$PR_NUMBER: checking status and reviews"
+          if [ "$PR_COUNT" -gt 0 ]; then
+            for i in $(seq 0 $((PR_COUNT - 1))); do
+              PR=$(echo "$OPEN_PRS" | jq ".[${i}]")
+              PR_NUMBER=$(echo "$PR" | jq -r '.number')
+              PR_AUTHOR=$(echo "$PR" | jq -r '.author')
+              PR_PROJECT=$(classify_pr_project "$PR_NUMBER")
+              DASH_FILE="pr-reports/$PR_PROJECT/dashboard_${PR_NUMBER}.json"
+              echo "$PR_PROJECT PR #$PR_NUMBER: checking status and reviews"
 
-            STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
-            RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
+              STATUS_JSON=$(compute_pr_status "$PR_NUMBER")
+              RS_JSON=$(compute_review_stats "$PR_NUMBER" "$PR_AUTHOR")
 
-            HAS_DASHBOARD="false"
-            if dashboard_exists "$DASH_FILE"; then
-              HAS_DASHBOARD="true"
-            fi
+              HAS_DASHBOARD="false"
+              if dashboard_exists "$DASH_FILE"; then
+                HAS_DASHBOARD="true"
+              fi
 
-            ENRICHED_PR=$(echo "$PR" | jq \
-              --argjson status "$STATUS_JSON" \
-              --argjson review_stats "$RS_JSON" \
-              --argjson has_dashboard "$HAS_DASHBOARD" \
-              '. + {
-                 pr_status:       $status.pr_status,
-                 state:           $status.state,
-                 merged:          $status.merged,
-                 review_decision: $status.review_decision,
-                 review_stats:    $review_stats,
-                 has_dashboard:   $has_dashboard,
-                 build_available: $has_dashboard
-               }')
-            ENRICHED_PRS=$(echo "$ENRICHED_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
+              ENRICHED_PR=$(echo "$PR" | jq \
+                --argjson status "$STATUS_JSON" \
+                --argjson review_stats "$RS_JSON" \
+                --argjson has_dashboard "$HAS_DASHBOARD" \
+                --arg project "$PR_PROJECT" \
+                '. + {
+                   project:         $project,
+                   pr_status:       $status.pr_status,
+                   state:           $status.state,
+                   merged:          $status.merged,
+                   review_decision: $status.review_decision,
+                   review_stats:    $review_stats,
+                   has_dashboard:   $has_dashboard,
+                   build_available: $has_dashboard
+                 }')
+              if [ "$PR_PROJECT" = "USM" ]; then
+                USM_PRS=$(echo "$USM_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
+              else
+                IMS_PRS=$(echo "$IMS_PRS" | jq --argjson pr "$ENRICHED_PR" '. + [$pr]')
+              fi
 
-            if [ "$HAS_DASHBOARD" = "true" ]; then
-              refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
-              echo "Refreshed IMS status and reviews in $(basename "$DASH_FILE")"
-            else
-              echo "IMS PR #$PR_NUMBER has no Jenkins dashboard data yet"
-            fi
-          done
+              if [ "$HAS_DASHBOARD" = "true" ]; then
+                refresh_dashboard_file "$DASH_FILE" "$STATUS_JSON" "$RS_JSON"
+                echo "Refreshed $PR_PROJECT status and reviews in $(basename "$DASH_FILE")"
+              else
+                echo "$PR_PROJECT PR #$PR_NUMBER has no Jenkins dashboard data yet"
+              fi
+            done
+          fi
 
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          echo "$ENRICHED_PRS" | jq --arg ts "$TIMESTAMP" --arg project "$PROJECT_NAME" --arg repo "$REPO_NAME" "$WF_DEF"'
+          echo "$IMS_PRS" | jq --arg ts "$TIMESTAMP" --arg project "IMS" --arg repo "$REPO_NAME" "$WF_DEF"'
             {project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:(map(add_wf))}' \
-            > "pr-reports/$PROJECT_NAME/pr-list.json"
-          echo "pr_count=$(echo "$ENRICHED_PRS" | jq 'length')" >> "$GITHUB_OUTPUT"
+            > "pr-reports/IMS/pr-list.json"
+          echo "$USM_PRS" | jq --arg ts "$TIMESTAMP" --arg project "USM" --arg repo "$REPO_NAME" "$WF_DEF"'
+            {project:$project, timestamp:$ts, repository:$repo, total_count:length, pull_requests:(map(add_wf))}' \
+            > "pr-reports/USM/pr-list.json"
+          echo "pr_count=$PR_COUNT" >> "$GITHUB_OUTPUT"
+          echo "ims_count=$(echo "$IMS_PRS" | jq 'length')" >> "$GITHUB_OUTPUT"
+          echo "usm_count=$(echo "$USM_PRS" | jq 'length')" >> "$GITHUB_OUTPUT"
 
           {
-            echo "## IMS PR Dashboard Data Collection"
+            echo "## IMS/USM PR Dashboard Data Collection"
             echo ""
             echo "**Repository:** $REPO_NAME"
             echo "**Open PRs on $BASE_BRANCH:** $PR_COUNT"
-            echo "**Tracked in overview:** $(echo "$ENRICHED_PRS" | jq 'length')"
+            echo "**IMS PRs:** $(echo "$IMS_PRS" | jq 'length')"
+            echo "**USM PRs:** $(echo "$USM_PRS" | jq 'length')"
             echo ""
             if [ "$PR_COUNT" -gt 0 ]; then
-              echo "| PR # | Title | Author | Branch | PR Status |"
-              echo "|------|-------|--------|--------|-----------|"
-              echo "$ENRICHED_PRS" | jq -r '.[] | "| [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.pr_status) |"'
+              echo "| Project | PR # | Title | Author | Branch | PR Status |"
+              echo "|---------|------|-------|--------|--------|-----------|"
+              jq -s 'add | sort_by(.number)' <(echo "$IMS_PRS") <(echo "$USM_PRS") \
+                | jq -r '.[] | "| \(.project) | [#\(.number)](\(.html_url)) | \(.title) | \(.author) | \(.head_branch) → \(.base_branch) | \(.pr_status) |"'
             else
-              echo "No IMS open PRs found."
+              echo "No IMS repository open PRs found."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-          echo "Wrote pr-reports/$PROJECT_NAME/pr-list.json ($(echo "$ENRICHED_PRS" | jq 'length') live PR(s))"
+          echo "Wrote pr-reports/IMS/pr-list.json ($(echo "$IMS_PRS" | jq 'length') live PR(s))"
+          echo "Wrote pr-reports/USM/pr-list.json ($(echo "$USM_PRS" | jq 'length') live PR(s))"
 
-      - name: Display IMS collection summary
+      - name: Display IMS/USM collection summary
         run: |
-          echo "=== IMS ==="
+          echo "=== IMS/USM ==="
           echo "Total Open PRs: ${{ steps.get-prs.outputs.pr_count }}"
+          echo "IMS PRs: ${{ steps.get-prs.outputs.ims_count }}"
+          echo "USM PRs: ${{ steps.get-prs.outputs.usm_count }}"
           echo "PR list saved to pr-reports/IMS/pr-list.json"
+          echo "PR list saved to pr-reports/USM/pr-list.json"
 
-      - name: Commit and push IMS status updates
+      - name: Commit and push IMS/USM status updates
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pr-reports/IMS/
+          git add pr-reports/IMS/ pr-reports/USM/
 
           if git diff --quiet && git diff --staged --quiet; then
-            echo "No IMS changes to commit"
+            echo "No IMS/USM changes to commit"
             exit 0
           fi
 
-          git commit -m "Update IMS dashboard PR status & reviews [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
+          git commit -m "Update IMS/USM dashboard PR status & reviews [$(date -u +"%Y-%m-%d %H:%M:%S UTC")]"
 
           PUSH_OK=false
           for attempt in 1 2 3; do
             git fetch origin main
             if ! git merge -X ours --no-edit origin/main 2>/dev/null; then
-              git checkout --ours pr-reports/IMS/ 2>/dev/null || true
-              git add pr-reports/IMS/
-              git commit --no-edit -m "auto-resolve IMS dashboard conflicts (ours)" 2>/dev/null || true
+              git checkout --ours pr-reports/IMS/ pr-reports/USM/ 2>/dev/null || true
+              git add pr-reports/IMS/ pr-reports/USM/
+              git commit --no-edit -m "auto-resolve IMS/USM dashboard conflicts (ours)" 2>/dev/null || true
             fi
             if git push origin main; then
               PUSH_OK=true
@@ -304,4 +341,4 @@ jobs:
             echo "Push attempt $attempt failed, retrying in ${attempt}s..."
             sleep "$attempt"
           done
-          $PUSH_OK || { echo "All IMS push attempts failed"; exit 1; }
+          $PUSH_OK || { echo "All IMS/USM push attempts failed"; exit 1; }
