@@ -1,6 +1,6 @@
 {
   "project": "USM",
-  "timestamp": "2026-07-16T19:55:41Z",
+  "timestamp": "2026-07-16T20:21:29Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 130,
   "pull_requests": [
@@ -1127,7 +1127,7 @@
       "title": "Fixes: NoCSC hroopama - DLP Policy Feature commit",
       "author": "hroopama_cisco",
       "created_at": "2026-07-08T13:19:33Z",
-      "updated_at": "2026-07-16T19:35:08Z",
+      "updated_at": "2026-07-16T19:50:51Z",
       "head_branch": "private/dlp/create-dlp-policy",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4504",
@@ -1140,7 +1140,7 @@
       "review_decision": "CHANGES_REQUESTED",
       "review_stats": {
         "total_review_comments": 100,
-        "general_comments": 17,
+        "general_comments": 21,
         "copilot_comments": 50,
         "copilot_addressed": 0,
         "copilot_open": 50,
@@ -1148,13 +1148,13 @@
         "author_replies": 16,
         "author_own_comments": 0,
         "outdated_threads": 0,
-        "total_threads": 83,
+        "total_threads": 89,
         "resolved_threads": 2,
-        "unresolved_threads": 62,
-        "outdated_threads_gql": 19,
+        "unresolved_threads": 51,
+        "outdated_threads_gql": 36,
         "reviews_approved": 0,
         "reviews_changes_requested": 1,
-        "reviews_commented": 45,
+        "reviews_commented": 47,
         "unique_reviewers": 2,
         "engagement_score": 2
       },
