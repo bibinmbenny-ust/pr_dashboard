@@ -33,10 +33,9 @@
     function getStoredAccess(storage) {
         try {
             const raw = storage.getItem(CONFIG.authStorageKey);
-            const token = storage.getItem(CONFIG.tokenStorageKey);
-            if (!raw || !token) return null;
+            if (!raw) return null;
             const auth = JSON.parse(raw);
-            return { auth, token, storage };
+            return { auth, storage };
         } catch (error) {
             return null;
         }
@@ -49,7 +48,6 @@
 
         otherStorage.removeItem(CONFIG.authStorageKey);
         otherStorage.removeItem(CONFIG.tokenStorageKey);
-        storage.setItem(CONFIG.tokenStorageKey, token);
         storage.setItem(CONFIG.authStorageKey, JSON.stringify({
             login: user.login,
             expiresAt: Date.now() + ttlMs,
@@ -105,7 +103,7 @@
                     </label>
                     <button class="btn" type="submit">Unlock Dashboard</button>
                 </form>
-                <p class="access-help">Required scopes: repo read access and read:org for organization membership checks. Use Sign out to clear saved access from this browser.</p>
+                <p class="access-help">Required scopes: repo read access and read:org for organization membership checks. The token is used for this check only and is not saved. Use Sign out to clear saved access from this browser.</p>
                 ${message ? `<p class="access-error" role="alert">${message}</p>` : ''}
             </section>
         `;
@@ -168,6 +166,7 @@
     }
 
     function renderSignOut(user) {
+        document.getElementById('access-sign-out')?.remove();
         const button = document.createElement('button');
         button.id = 'access-sign-out';
         button.type = 'button';
@@ -197,7 +196,12 @@
 
         const storedAccess = getStoredAuth();
         const storedAuth = storedAccess?.auth || getStoredAuthLegacy();
-        const storedToken = storedAccess?.token || sessionStorage.getItem(CONFIG.tokenStorageKey);
+        const storedToken = sessionStorage.getItem(CONFIG.tokenStorageKey) || localStorage.getItem(CONFIG.tokenStorageKey);
+
+        if (storedAuth?.expiresAt > Date.now() && !storedToken) {
+            grantAccess({ login: storedAuth.login || 'GitHub user' });
+            return;
+        }
 
         if (storedAuth?.expiresAt > Date.now() && storedToken) {
             try {

@@ -19,9 +19,9 @@ Current policy is configured in `js/access-control.js`:
 
 - Required repository access: `cisco-sbg-emu/netsec-pr-dashboard`
 - Required organization membership: `cisco-sbg-emu`
-- Browser storage: session-only for 8 hours, or remembered in this browser for 30 days when the checkbox is selected
+- Browser storage: an approved access marker only, session-only for 8 hours or remembered in this browser for 30 days when the checkbox is selected
 
-The token must have read access to the dashboard repository and organization membership read permission (`read:org` for classic tokens, or the equivalent fine-grained permission).
+The token must have read access to the dashboard repository and organization membership read permission (`read:org` for classic tokens, or the equivalent fine-grained permission). The token is used for the initial GitHub API check and is not saved after access is approved.
 
 Important: GitHub Pages is static hosting. This client-side gate blocks the rendered dashboard and prevents the dashboard scripts from fetching JSON before authorization, but it is not a substitute for server-side access control. For strict protection, make the Pages site private/internal through GitHub Enterprise Pages settings or place the site behind an access proxy such as Cisco SSO/VPN/Cloudflare Access.
 
