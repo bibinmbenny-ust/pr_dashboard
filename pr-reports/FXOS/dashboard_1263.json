@@ -1,5 +1,5 @@
 [
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -33,8 +33,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -42,7 +42,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.1\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -50,7 +50,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -62,7 +62,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -89,10 +89,10 @@
     "waterfall_ref": null,
     "waterfall_from": null,
     "waterfall_to": null,
-    "ai_triage": {
+    "ai_triage":     {
       "note": "Build 15: no failures flagged by AI. All stages passed.",
       "build_number": "15",
-      "triaged_by": {
+      "triaged_by":       {
         "type": "ai",
         "name": "gpt-5.4",
         "version": 1
@@ -100,7 +100,7 @@
       "errors": []
     }
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -134,8 +134,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -143,7 +143,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.1\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -151,7 +151,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -163,7 +163,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -191,7 +191,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -225,8 +225,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -234,7 +234,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.1\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -242,7 +242,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -254,7 +254,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -282,7 +282,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -316,8 +316,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -325,7 +325,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.1\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -333,7 +333,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -345,7 +345,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -373,7 +373,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -407,8 +407,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -416,7 +416,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.1\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -424,7 +424,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -436,7 +436,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -464,7 +464,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -498,8 +498,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -507,7 +507,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.1\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -515,7 +515,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -527,7 +527,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -555,7 +555,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -589,8 +589,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -598,7 +598,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.2\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -606,7 +606,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -618,7 +618,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -646,7 +646,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -680,8 +680,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -689,7 +689,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.2\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -697,7 +697,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -709,7 +709,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -738,7 +738,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -772,8 +772,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -781,7 +781,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.2\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -789,7 +789,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -801,7 +801,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -821,16 +821,16 @@
       "unique_reviewers": 0,
       "engagement_score": 5
     },
-    "ai_triage": {
+    "ai_triage":     {
       "available": false,
-      "note": {
+      "note":       {
         "valueCount": 2,
-        "strings": [
+        "strings":         [
           "Build ",
           ": AI triage unavailable (",
           ")."
         ],
-        "bytes": [
+        "bytes":         [
           66,
           117,
           105,
@@ -875,7 +875,7 @@
           41,
           46
         ],
-        "values": [
+        "values":         [
           "25",
           "HTTP 408"
         ],
@@ -893,7 +893,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -927,8 +927,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -936,7 +936,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.2\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -944,7 +944,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -956,7 +956,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -976,7 +976,7 @@
       "unique_reviewers": 0,
       "engagement_score": 5
     },
-    "ai_triage": {
+    "ai_triage":     {
       "available": false,
       "note": "Build 26: AI triage unavailable (HTTP 408).",
       "build_number": "26",
@@ -991,7 +991,7 @@
     "waterfall_from": null,
     "waterfall_to": null
   },
-  {
+    {
     "ssp: Build Status": "SUCCESS",
     "smp: Build Status": "SUCCESS",
     "Unit Tests: Build Status": "SUCCESS",
@@ -1025,8 +1025,8 @@
     "changed_files": 3,
     "additions": 4270,
     "deletions": 48,
-    "changed_files_details": [
-      {
+    "changed_files_details":     [
+            {
         "file_name": "Jenkinsfile_git.ci",
         "status": "modified",
         "additions": 851,
@@ -1034,7 +1034,7 @@
         "changes": 899,
         "patch": "@@ -6,7 +6,7 @@ import groovy.transform.Field\n import groovy.json.JsonSlurperClassic\n import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException\n //------------------------------------------------------------------------------\n-// Jenkins pipeline for FXOS pre-commit sanity check.\n+// Jenkins pipeline for FXOS pre-commit sanity check.2\n //------------------------------------------------------------------------------\n // Copyright (c) 2022-2024 by Cisco Systems, Inc.\n // Written by Luci"
       },
-      {
+            {
         "file_name": "Jenkinsfile_git_org.ci",
         "status": "added",
         "additions": 1095,
@@ -1042,7 +1042,7 @@
         "changes": 1095,
         "patch": "@@ -0,0 +1,1095 @@\n+#!/usr/bin/env groovy\n+//------------------------------------------------------------------------------\n+// Jenkins pipeline for FXOS pre-commit sanity check.\n+//------------------------------------------------------------------------------\n+// Copyright (c) 2022-2025 by Cisco Systems, Inc.\n+// Written by Luciano Fenu, Akash Rawat and Andrew Duvall\n+//Set job properties (Job needs to run once to update changes to properties)\n+properties([\n+    //Set Job parameters\n+    parame"
       },
-      {
+            {
         "file_name": "jenkinsfile_git_pr.ci",
         "status": "added",
         "additions": 2324,
@@ -1054,7 +1054,7 @@
     "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
     "check_runs": [],
     "github_actions_runs": [],
-    "review_stats": {
+    "review_stats":     {
       "total_review_comments": 38,
       "general_comments": 52,
       "copilot_comments": 38,
@@ -1074,67 +1074,65 @@
       "unique_reviewers": 0,
       "engagement_score": 5
     },
-    "ai_triage": {
+    "ai_triage":     {
       "available": true,
       "note": "Build 27: AI flagged 1 issue(s) in FP4K.",
       "build_number": "27",
-      "triaged_by": {
+      "triaged_by":       {
         "type": "ai",
         "name": "gpt-5.4",
         "version": 1
       },
-      "errors": [
-        {
-          "stage": "FP4K",
-          "error_category": "code_change",
-          "confidence": "MEDIUM",
-          "triage_summary": [
-            "The failed stage is `FP4K`, and the build's own failed artifact is `FP4K-grepErrorOutFile.txt`.",
-            "The PR changes are concentrated in Jenkins pipeline files such as `Jenkinsfile_git.ci`, `Jenkinsfile_git_org.ci`, and `jenkinsfile_git_pr.ci`, so the failure is attributable to PR content rather than an unrelated product source change.",
-            "GitHub review comments on this PR repeatedly flag risky pipeline defects in the same files, including invalid shell assignments like `export reviewID = ...`, test-mode defaults, and incorrect log-path handling; those comments are consistent with a CI/pipeline-induced failure.",
-            "I could not extract a single exact terminal compiler or shell error line from the available `FP4K-grepErrorOutFile.txt` pages because the artifact content returned was dominated by long compile-command context and warnings, so the proximate failing line remains partially obscured."
-          ],
-          "artifact_log_url": "https://engci-maven-master.cisco.com/artifactory/firepower-generic-sandbox-cdn-local/FXOS_bazel_pre_commit_failed_logs/uxbridge/FXOS_2_19_MAIN/bbenny-1263/27/FP4K-grepErrorOutFile.txt",
-          "analysis": [
-            {
-              "step": 1,
-              "source": "splunk",
-              "observation": "Direct Splunk precommit metadata queries for PR 1263 build 27 returned no data in the available tool responses, so I could not independently recover the full build metadata record from Splunk.",
-              "conclusion": "I used the build-specific failed-log store and GitHub PR metadata as the available evidence for this triage."
-            },
-            {
-              "step": 2,
-              "source": "artifactory",
-              "observation": "Artifactory shows change `bbenny-1263` with failed build `27`, and the build's own failure artifact is `FP4K-grepErrorOutFile.txt`.",
-              "conclusion": "The failed stage for the triaged build is FP4K, and the report must be based on that build's own log artifact."
-            },
-            {
-              "step": 3,
-              "source": "artifactory",
-              "observation": "The accessible portions of `FP4K-grepErrorOutFile.txt` contain large compile-command sections and repeated warnings, but the returned pages do not expose a clean final fatal line or a distinct infra/service outage signature.",
-              "conclusion": "The available log evidence supports a build failure in the FP4K stage, but the exact terminal failing line is only partially visible from the returned artifact slices."
-            },
-            {
-              "step": 4,
-              "source": "github",
-              "observation": "PR 1263 changes only Jenkins pipeline files: `Jenkinsfile_git.ci`, `Jenkinsfile_git_org.ci`, and `jenkinsfile_git_pr.ci`.",
-              "conclusion": "Because the PR directly modifies CI pipeline logic, a pipeline-induced failure is attributable to the PR content."
-            },
-            {
-              "step": 5,
-              "source": "github",
-              "observation": "Review comments on the PR repeatedly identify concrete defects in the modified pipeline files, including invalid shell syntax `export reviewID = ...`, risky `FAST_TESTING_MODE` defaults, and incorrect UT log filename/link handling.",
-              "conclusion": "Those findings strongly support classifying the failure as a PR code/pipeline change rather than node infra, dependent service outage, or flakiness."
-            },
-            {
-              "step": 6,
-              "source": "reasoning",
-              "observation": "No evidence from the available data points to node resource exhaustion, external service downtime, merge conflict, UT failure, or a branch-wide repeated artifact/path failure pattern.",
-              "conclusion": "The most likely root cause is a PR-introduced CI pipeline regression affecting the FP4K precommit path."
-            }
-          ]
-        }
-      ]
+      "errors": [      {
+        "stage": "FP4K",
+        "error_category": "code_change",
+        "confidence": "MEDIUM",
+        "triage_summary":         [
+          "The failed stage is `FP4K`, and the build's own failed artifact is `FP4K-grepErrorOutFile.txt`.",
+          "The PR changes are concentrated in Jenkins pipeline files such as `Jenkinsfile_git.ci`, `Jenkinsfile_git_org.ci`, and `jenkinsfile_git_pr.ci`, so the failure is attributable to PR content rather than an unrelated product source change.",
+          "GitHub review comments on this PR repeatedly flag risky pipeline defects in the same files, including invalid shell assignments like `export reviewID = ...`, test-mode defaults, and incorrect log-path handling; those comments are consistent with a CI/pipeline-induced failure.",
+          "I could not extract a single exact terminal compiler or shell error line from the available `FP4K-grepErrorOutFile.txt` pages because the artifact content returned was dominated by long compile-command context and warnings, so the proximate failing line remains partially obscured."
+        ],
+        "artifact_log_url": "https://engci-maven-master.cisco.com/artifactory/firepower-generic-sandbox-cdn-local/FXOS_bazel_pre_commit_failed_logs/uxbridge/FXOS_2_19_MAIN/bbenny-1263/27/FP4K-grepErrorOutFile.txt",
+        "analysis":         [
+                    {
+            "step": 1,
+            "source": "splunk",
+            "observation": "Direct Splunk precommit metadata queries for PR 1263 build 27 returned no data in the available tool responses, so I could not independently recover the full build metadata record from Splunk.",
+            "conclusion": "I used the build-specific failed-log store and GitHub PR metadata as the available evidence for this triage."
+          },
+                    {
+            "step": 2,
+            "source": "artifactory",
+            "observation": "Artifactory shows change `bbenny-1263` with failed build `27`, and the build's own failure artifact is `FP4K-grepErrorOutFile.txt`.",
+            "conclusion": "The failed stage for the triaged build is FP4K, and the report must be based on that build's own log artifact."
+          },
+                    {
+            "step": 3,
+            "source": "artifactory",
+            "observation": "The accessible portions of `FP4K-grepErrorOutFile.txt` contain large compile-command sections and repeated warnings, but the returned pages do not expose a clean final fatal line or a distinct infra/service outage signature.",
+            "conclusion": "The available log evidence supports a build failure in the FP4K stage, but the exact terminal failing line is only partially visible from the returned artifact slices."
+          },
+                    {
+            "step": 4,
+            "source": "github",
+            "observation": "PR 1263 changes only Jenkins pipeline files: `Jenkinsfile_git.ci`, `Jenkinsfile_git_org.ci`, and `jenkinsfile_git_pr.ci`.",
+            "conclusion": "Because the PR directly modifies CI pipeline logic, a pipeline-induced failure is attributable to the PR content."
+          },
+                    {
+            "step": 5,
+            "source": "github",
+            "observation": "Review comments on the PR repeatedly identify concrete defects in the modified pipeline files, including invalid shell syntax `export reviewID = ...`, risky `FAST_TESTING_MODE` defaults, and incorrect UT log filename/link handling.",
+            "conclusion": "Those findings strongly support classifying the failure as a PR code/pipeline change rather than node infra, dependent service outage, or flakiness."
+          },
+                    {
+            "step": 6,
+            "source": "reasoning",
+            "observation": "No evidence from the available data points to node resource exhaustion, external service downtime, merge conflict, UT failure, or a branch-wide repeated artifact/path failure pattern.",
+            "conclusion": "The most likely root cause is a PR-introduced CI pipeline regression affecting the FP4K precommit path."
+          }
+        ]
+      }]
     },
     "pr_state": "open",
     "pr_status": "review_required",
@@ -1143,5 +1141,134 @@
     "waterfall_ref": null,
     "waterfall_from": null,
     "waterfall_to": null
+  },
+    {
+    "ssp: Build Status": "SUCCESS",
+    "smp: Build Status": "SUCCESS",
+    "Unit Tests: Build Status": "SUCCESS",
+    "FP1K: Build Status": "SUCCESS",
+    "FP3K: Build Status": "SUCCESS",
+    "FP4K: Build Status": "SUCCESS",
+    "WPK: Build Status": "SUCCESS",
+    "ARM: Build Status": "SUCCESS",
+    "ARMV: Build Status": "SUCCESS",
+    "ARSENAL: Build Status": "SUCCESS",
+    "NINEELMS: Build Status": "SUCCESS",
+    "ci_start_time": "2026-07-16T11:32:47Z",
+    "ci_duration_seconds": 12230,
+    "bitbake_cache_percentage": 78,
+    "bazel_cache_percentage": 32,
+    "cdet": "CSCwv09683",
+    "author": "bbenny_cisco",
+    "pr_id": "1263",
+    "commit_hash": "bde29149ae08e8e1a55324f294a456721f155a1f",
+    "created_at": "2026-06-26T12:10:04Z",
+    "updated_at": "2026-07-16T14:56:40Z",
+    "revision": "29",
+    "jenkins_build_number": "29",
+    "jenkins_build_url": "https://engci-private-rtp.cisco.com/jenkins/firepower-precommit-asa-fxos/job/Precommit/job/FXOS/job/FXOS-GIT/job/Precommit-BAZEL/job/PR-1263/29/",
+    "failed_stage": null,
+    "error_message": null,
+    "changed_files": 3,
+    "additions": 4270,
+    "deletions": 48,
+    "changed_files_details":     [
+            {
+        "file_name": "Jenkinsfile_git.ci",
+        "status": "modified",
+        "additions": 851,
+        "deletions": 48,
+        "changes": 899
+      },
+            {
+        "file_name": "Jenkinsfile_git_org.ci",
+        "status": "added",
+        "additions": 1095,
+        "deletions": 0,
+        "changes": 1095
+      },
+            {
+        "file_name": "jenkinsfile_git_pr.ci",
+        "status": "added",
+        "additions": 2324,
+        "deletions": 0,
+        "changes": 2324
+      }
+    ],
+    "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
+    "check_runs": [],
+    "github_actions_runs": [],
+    "review_stats":     {
+      "reviews_approved": 0,
+      "reviews_changes_requested": 0,
+      "unique_reviewers": 1,
+      "total_review_comments": 38,
+      "author_replies": 0,
+      "outdated_threads": 0,
+      "total_threads": null,
+      "resolved_threads": null,
+      "unresolved_threads": null
+    },
+    "ai_triage":     {
+      "available": true,
+      "note": "Build 29: AI flagged 1 issue(s) in FP4K.",
+      "build_number": "29",
+      "triaged_by":       {
+        "type": "ai",
+        "name": "gpt-5.4",
+        "version": 1
+      },
+      "errors": [      {
+        "stage": "FP4K",
+        "error_category": "code_change",
+        "confidence": "HIGH",
+        "triage_summary":         [
+          "The failed build is `PR-1263` build `27` on commit `df8d8ab`, and Splunk shows the only failing primary stage was FP4K.",
+          "The FP4K artifact log for this build contains the real compiler invocation from `jenkinsfile_git_pr.ci`, including the malformed shell assignment ``export reviewID = \"${env.PR_ID}\"`` in the non-test build path.",
+          "The PR diff directly modifies `jenkinsfile_git_pr.ci` and introduces that invalid shell syntax in `build_function()`, which would break the real build path when `FAST_TESTING_MODE` is disabled.",
+          "AI review comments on the PR independently flagged the same invalid export syntax in `jenkinsfile_git_pr.ci`, matching the failure context in the build log.",
+          "Another build for the same PR and commit (`build 26`) succeeded, so this specific failure is not a deterministic branch-wide break; it is attributable to the PR's pipeline changes rather than node infra or a dependent service outage."
+        ],
+        "artifact_log_url": "https://engci-maven-master.cisco.com/artifactory/firepower-generic-sandbox-cdn-local/FXOS_bazel_pre_commit_failed_logs/uxbridge/FXOS_2_19_MAIN/bbenny-1263/27/FP4K-grepErrorOutFile.txt",
+        "analysis":         [
+                    {
+            "step": 1,
+            "source": "splunk",
+            "observation": "Splunk shows PR 1263 build 27 on commit df8d8ab failed on 2026-07-10T08:20:17Z, with FP4K as the only failed primary stage.",
+            "conclusion": "FP4K is the root-cause stage to investigate in Artifactory."
+          },
+                    {
+            "step": 2,
+            "source": "splunk",
+            "observation": "For the same PR and commit df8d8ab, build 26 completed successfully while build 27 failed.",
+            "conclusion": "The failure is not a guaranteed deterministic outcome for that commit, so flakiness must be considered before assigning cause."
+          },
+                    {
+            "step": 3,
+            "source": "artifactory",
+            "observation": "The build's own artifact for build 27 is `FP4K-grepErrorOutFile.txt`, and its content shows the real FP4K compile flow and command context for this run.",
+            "conclusion": "The failure explanation must come from the FP4K path of build 27 itself, not from another build."
+          },
+                    {
+            "step": 4,
+            "source": "github",
+            "observation": "The PR diff modifies `jenkinsfile_git_pr.ci`, and that file contains the exact malformed shell assignment `export reviewID = \"${env.PR_ID}\"` inside `build_function()`.",
+            "conclusion": "The PR directly introduced a broken shell command in the real build path, which is a strong code-change signal."
+          },
+                    {
+            "step": 5,
+            "source": "github",
+            "observation": "Multiple AI review comments on this PR specifically flag the invalid POSIX shell syntax with spaces around `=` in `jenkinsfile_git_pr.ci`.",
+            "conclusion": "The review feedback corroborates that this PR contains a real pipeline defect matching the failure context."
+          },
+                    {
+            "step": 6,
+            "source": "reasoning",
+            "observation": "The failure is in a Jenkinsfile changed by the PR, there is no evidence of node resource exhaustion or dependent service outage, and the observed problem is unrelated to branch health outside this PR.",
+            "conclusion": "The most likely cause is a PR-induced pipeline break, so the correct category is `code_change`."
+          }
+        ]
+      }]
+    }
   }
 ]
