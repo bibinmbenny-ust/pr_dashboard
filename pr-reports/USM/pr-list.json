@@ -1,6 +1,6 @@
 {
   "project": "USM",
-  "timestamp": "2026-07-16T18:03:43Z",
+  "timestamp": "2026-07-16T18:56:57Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 130,
   "pull_requests": [
@@ -1041,7 +1041,7 @@
       "title": "Fixes: CSCwu50536 kymadrug - Private/cscwu50536 decryption category usm changes",
       "author": "kymadrug_cisco",
       "created_at": "2026-07-09T02:50:50Z",
-      "updated_at": "2026-07-16T16:58:47Z",
+      "updated_at": "2026-07-16T18:13:44Z",
       "head_branch": "private/CSCwu50536_DecryptionCategory_usm_changes",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4542",
@@ -1054,7 +1054,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 22,
-        "general_comments": 11,
+        "general_comments": 12,
         "copilot_comments": 22,
         "copilot_addressed": 0,
         "copilot_open": 22,
@@ -1127,7 +1127,7 @@
       "title": "Fixes: NoCSC hroopama - DLP Policy Feature commit",
       "author": "hroopama_cisco",
       "created_at": "2026-07-08T13:19:33Z",
-      "updated_at": "2026-07-16T10:26:53Z",
+      "updated_at": "2026-07-16T18:32:39Z",
       "head_branch": "private/dlp/create-dlp-policy",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4504",
@@ -1154,7 +1154,7 @@
         "outdated_threads_gql": 19,
         "reviews_approved": 0,
         "reviews_changes_requested": 1,
-        "reviews_commented": 27,
+        "reviews_commented": 36,
         "unique_reviewers": 2,
         "engagement_score": 2
       },
