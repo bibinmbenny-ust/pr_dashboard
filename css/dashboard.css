@@ -22,6 +22,130 @@ body {
     min-height: 100vh;
 }
 
+html.access-pending body > :not(#access-control-root),
+html.access-denied body > :not(#access-control-root) {
+    display: none !important;
+}
+
+#access-control-root {
+    min-height: calc(100vh - 3rem);
+    display: grid;
+    place-items: center;
+}
+
+.access-card {
+    width: min(100%, 460px);
+    background: #101c30;
+    border: 1px solid var(--cisco-dark-blue);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    padding: 2rem;
+}
+
+.access-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.access-logo {
+    height: 28px;
+    width: auto;
+    border-radius: 4px;
+}
+
+.access-kicker {
+    color: var(--cisco-blue);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.access-card h1 {
+    margin-bottom: 0.75rem;
+}
+
+.access-copy,
+.access-help {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.access-form {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.5rem 0 1rem;
+}
+
+.access-form label {
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.access-form input {
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border-color);
+    border-radius: 0.45rem;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.95rem;
+}
+
+.access-form input:focus {
+    outline: 2px solid var(--cisco-blue);
+    outline-offset: 2px;
+}
+
+.access-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.access-checkbox input {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--cisco-blue);
+}
+
+.access-form button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.access-error {
+    color: var(--failure);
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+#access-sign-out {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1000;
+    background: rgba(15, 23, 42, 0.9);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.45rem;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+    cursor: pointer;
+}
+
+#access-sign-out:hover {
+    color: var(--text);
+    border-color: var(--cisco-blue);
+}
+
 /* --- Global Header & Logo Alignment --- */
 .global-header {
     display: flex;

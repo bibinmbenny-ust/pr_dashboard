@@ -1904,7 +1904,9 @@ function renderScoreCard(dataList) {
 
 // --- Execute when the window loads ---
 window.onload = () => {
-    setupDashboardExportButton();
-    setDashboardExportReady(false);
-    loadMetrics();
+    window.NetSecAccessControl.runWhenAuthorized(() => {
+        setupDashboardExportButton();
+        setDashboardExportReady(false);
+        loadMetrics();
+    });
 };
