@@ -829,7 +829,9 @@ function renderAll(prs) {
 }
 
 window.onload = () => {
-    setupOverviewExportButton();
-    setOverviewExportReady(false);
-    init();
+    window.NetSecAccessControl.runWhenAuthorized(() => {
+        setupOverviewExportButton();
+        setOverviewExportReady(false);
+        init();
+    });
 };

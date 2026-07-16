@@ -10,6 +10,21 @@ A unified dashboard for viewing Pull Request status, CI/CD metrics, and code qua
 
 ## Usage
 
+
+## Access Control
+
+The dashboard pages load `js/access-control.js` before any dashboard data scripts. The guard hides the page and waits for a GitHub token before running the PR list, overview, or dashboard fetch logic.
+
+Current policy is configured in `js/access-control.js`:
+
+- Required repository access: `cisco-sbg-emu/netsec-pr-dashboard`
+- Required organization membership: `cisco-sbg-emu`
+- Browser storage: session-only for 8 hours, or remembered in this browser for 30 days when the checkbox is selected
+
+The token must have read access to the dashboard repository and organization membership read permission (`read:org` for classic tokens, or the equivalent fine-grained permission).
+
+Important: GitHub Pages is static hosting. This client-side gate blocks the rendered dashboard and prevents the dashboard scripts from fetching JSON before authorization, but it is not a substitute for server-side access control. For strict protection, make the Pages site private/internal through GitHub Enterprise Pages settings or place the site behind an access proxy such as Cisco SSO/VPN/Cloudflare Access.
+
 ### Home Page
 Visit the site root (GitHub Pages will load `index.html`) to see all available projects and select one to view.
 

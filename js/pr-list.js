@@ -458,4 +458,6 @@ async function initializePage() {
 }
 
 // Load on page load
-window.onload = initializePage;
+window.onload = () => {
+    window.NetSecAccessControl.runWhenAuthorized(initializePage);
+};
