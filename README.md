@@ -13,17 +13,11 @@ A unified dashboard for viewing Pull Request status, CI/CD metrics, and code qua
 
 ## Access Control
 
-The dashboard pages load `js/access-control.js` before any dashboard data scripts. The guard hides the page and waits for a GitHub token before running the PR list, overview, or dashboard fetch logic.
+The hosted dashboard relies on GitHub Pages authentication for access control. The Pages URL redirects unauthenticated visitors to `github.com/pages/auth`, so users who already have repository access can use their normal GitHub login instead of entering a dashboard-specific token.
 
-Current policy is configured in `js/access-control.js`:
+`js/access-control.js` remains loaded before the dashboard data scripts, but its browser token gate is disabled. Keep it disabled while GitHub Pages private/internal access is enabled for this repository.
 
-- Required repository access: `cisco-sbg-emu/netsec-pr-dashboard`
-- Required organization membership: `cisco-sbg-emu`
-- Browser storage: an approved access marker only, session-only for 8 hours or remembered in this browser for 30 days when the checkbox is selected
-
-The token must have read access to the dashboard repository and organization membership read permission (`read:org` for classic tokens, or the equivalent fine-grained permission). The token is used for the initial GitHub API check and is not saved after access is approved.
-
-Important: GitHub Pages is static hosting. This client-side gate blocks the rendered dashboard and prevents the dashboard scripts from fetching JSON before authorization, but it is not a substitute for server-side access control. For strict protection, make the Pages site private/internal through GitHub Enterprise Pages settings or place the site behind an access proxy such as Cisco SSO/VPN/Cloudflare Access.
+Important: GitHub Pages is static hosting. Access control must be enforced by private/internal GitHub Pages or an access proxy such as Cisco SSO/VPN/Cloudflare Access. Do not rely on browser JavaScript as the only protection for a public Pages site.
 
 ### Home Page
 Visit the site root (GitHub Pages will load `index.html`) to see all available projects and select one to view.
