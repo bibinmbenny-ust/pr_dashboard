@@ -1,6 +1,6 @@
 {
   "project": "USM",
-  "timestamp": "2026-07-16T02:05:31Z",
+  "timestamp": "2026-07-16T03:33:48Z",
   "repository": "cisco-sbg-emu/netsec-ims",
   "total_count": 132,
   "pull_requests": [
@@ -654,7 +654,7 @@
       "title": "Fixes: CSCwv26476 tobythom - USM changes for 10.5",
       "author": "tobythom_cisco",
       "created_at": "2026-07-10T08:27:55Z",
-      "updated_at": "2026-07-15T15:01:17Z",
+      "updated_at": "2026-07-16T02:31:23Z",
       "head_branch": "private/CSCwv26476_tobythom/usm_changes",
       "base_branch": "IMS_10_5_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-ims/pull/4747",
@@ -667,7 +667,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 15,
-        "general_comments": 12,
+        "general_comments": 14,
         "copilot_comments": 14,
         "copilot_addressed": 0,
         "copilot_open": 14,
@@ -676,14 +676,14 @@
         "author_own_comments": 0,
         "outdated_threads": 0,
         "total_threads": 14,
-        "resolved_threads": 10,
-        "unresolved_threads": 4,
+        "resolved_threads": 12,
+        "unresolved_threads": 2,
         "outdated_threads_gql": 4,
         "reviews_approved": 0,
         "reviews_changes_requested": 0,
         "reviews_commented": 4,
         "unique_reviewers": 1,
-        "engagement_score": 71
+        "engagement_score": 85
       },
       "has_dashboard": false,
       "build_available": false,
