@@ -829,9 +829,11 @@ function renderAll(prs) {
 }
 
 window.onload = () => {
-    window.NetSecAccessControl.runWhenAuthorized(() => {
-        setupOverviewExportButton();
-        setOverviewExportReady(false);
-        init();
+    window.PROverviewAuth.requireLogin(() => {
+        window.NetSecAccessControl.runWhenAuthorized(() => {
+            setupOverviewExportButton();
+            setOverviewExportReady(false);
+            init();
+        });
     });
 };
