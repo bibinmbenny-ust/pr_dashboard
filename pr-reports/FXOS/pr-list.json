@@ -1,6 +1,6 @@
 {
   "project": "FXOS",
-  "timestamp": "2026-07-17T06:55:01Z",
+  "timestamp": "2026-07-17T07:48:06Z",
   "repository": "cisco-sbg-emu/netsec-fxos",
   "total_count": 157,
   "pull_requests": [
@@ -51,7 +51,7 @@
       "title": "Fixes: CSCwv09683 bbenny - Add FXOS PR dashboard live data publishing",
       "author": "bbenny_cisco",
       "created_at": "2026-07-16T10:48:27Z",
-      "updated_at": "2026-07-17T05:40:43Z",
+      "updated_at": "2026-07-17T06:54:09Z",
       "head_branch": "feature/pr_dashboard_v4",
       "base_branch": "uxbridge/FXOS_2_19_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-fxos/pull/1367",
@@ -63,7 +63,7 @@
       "review_decision": "REVIEW_REQUIRED",
       "review_stats": {
         "total_review_comments": 14,
-        "general_comments": 8,
+        "general_comments": 9,
         "copilot_comments": 12,
         "copilot_addressed": 0,
         "copilot_open": 12,
@@ -1189,7 +1189,7 @@
       "title": "Fixes: CSCwv09683 bbenny - Feature/pr dashboard v3",
       "author": "bbenny_cisco",
       "created_at": "2026-06-26T12:10:04Z",
-      "updated_at": "2026-07-17T06:44:39Z",
+      "updated_at": "2026-07-17T06:51:39Z",
       "head_branch": "feature/pr_dashboard_v3",
       "base_branch": "uxbridge/FXOS_2_19_MAIN",
       "html_url": "https://github.com/cisco-sbg-emu/netsec-fxos/pull/1263",
