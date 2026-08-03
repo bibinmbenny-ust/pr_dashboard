@@ -902,24 +902,24 @@ function initializeProject() {
 function updatePageHeader() {
     if (currentProject) {
         // Update page title
-        document.title = `${currentProject.name} Dashboard`;
+        document.title = 'Dashboard';
         
         // Update header title
         const headerTitle = document.getElementById('dashboard-title');
         if (headerTitle) {
-            headerTitle.textContent = `${currentProject.name} Dashboard`;
+            headerTitle.textContent = 'Dashboard';
         }
         
-        // Update subtitle
+        // Clear subtitle
         const subtitle = document.getElementById('project-subtitle');
         if (subtitle) {
-            subtitle.textContent = currentProject.displayName;
+            subtitle.textContent = '';
         }
         
         // Update footer
         const footer = document.getElementById('dashboard-footer');
         if (footer) {
-            footer.textContent = `${currentProject.name} Dashboard`;
+            footer.textContent = 'Dashboard';
         }
     }
 }

@@ -170,6 +170,22 @@ h1 {
     margin-left: 2rem;
 }
 
+.brand-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.12);
+    color: #0f172a;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1px solid rgba(56, 189, 248, 0.24);
+}
+
 /* --- Global Badge Style (Used for Overall Status) --- */
 .status-badge {
     padding: 0.4rem 0.8rem;

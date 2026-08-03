@@ -412,11 +412,8 @@ async function initializePage() {
     currentProject = PROJECT_CONFIG[projectKey];
     
     // Update page title and header
-    document.title = `${currentProject.name} - Pull Requests`;
-    document.getElementById('project-title').textContent = `${currentProject.name} Pull Requests`;
-    document.getElementById('project-title').insertAdjacentHTML('beforeend', 
-        `<div style="font-size: 0.85rem; opacity: 0.8; font-weight: 400; margin-top: 0.3rem;">${currentProject.displayName}</div>`
-    );
+    document.title = 'Pull Requests';
+    document.getElementById('project-title').textContent = 'Pull Requests';
 
     // Point the overview button at this project
     const overviewLink = document.getElementById('overview-link');

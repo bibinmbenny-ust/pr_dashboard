@@ -37,12 +37,11 @@ function setupOverviewExportButton() {
 
     button.addEventListener('click', () => {
         const originalTitle = document.title;
-        const projectName = currentProject ? currentProject.name : 'NetSec';
         const restoreTitle = () => {
             document.title = originalTitle;
         };
 
-        document.title = `${projectName}-PR-Overview`;
+        document.title = 'PR Overview';
         window.addEventListener('afterprint', restoreTitle, { once: true });
         window.print();
     });
@@ -251,7 +250,7 @@ function renderExecutiveSummary(prs) {
     const summaryEl = document.getElementById('overview-summary-copy');
     const stripEl = document.getElementById('overview-status-strip');
 
-    document.getElementById('overview-heading').textContent = `${currentProject.name} PR Overview`;
+    document.getElementById('overview-heading').textContent = 'PR Overview';
     summaryEl.textContent = `${total} active pull requests analyzed. Average health is ${avgText}, with ${approved} approved, ${reviewRequired} awaiting review, and ${changesRequested} with requested changes.`;
 
     const chips = [
@@ -638,10 +637,8 @@ async function init() {
         return;
     }
     currentProject = PROJECT_CONFIG[projectKey];
-    document.title = `${currentProject.name} — PR Overview`;
-    document.getElementById('project-title').innerHTML =
-        `${currentProject.name} PR Overview` +
-        `<div style="font-size:0.85rem;opacity:0.8;font-weight:400;margin-top:0.3rem;">${currentProject.displayName}</div>`;
+    document.title = 'PR Overview';
+    document.getElementById('project-title').textContent = 'PR Overview';
     document.getElementById('back-link').href = `pr-list.html?project=${currentProject.name}`;
 
     const prList = await fetchJSON(`pr-reports/${currentProject.name}/pr-list.json`);

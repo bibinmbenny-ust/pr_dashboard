@@ -13,7 +13,7 @@
         <div class="title-container">
             <h1 class="animated-title" id="project-title">Dashboard</h1>
         </div>
-        <img src="img/cisco-logo.png" alt="Cisco Logo" class="logo" />
+        <div class="brand-pill">SECUREOPS</div>
     </div>
 
     <div class="intro-section">
@@ -114,11 +114,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const project = urlParams.get('project') || 'FXOS';
         
-        // Update page title and hero with project name
-        document.getElementById('project-title').textContent = `${project} Dashboard`;
-        document.getElementById('hero-title').textContent = `${project} - Choose Your Dashboard`;
-        
-        // Navigate to appropriate dashboard with project parameter
+        // Keep the selected backend project internal only.
         function navigateToDashboard(dashboardType) {
             if (dashboardType === 'pr') {
                 window.location.href = `pr-list.html?project=${project}`;
