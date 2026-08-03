@@ -1292,7 +1292,7 @@ footer {
     gap: 1rem;
     margin-top: 1.25rem;
     padding: 1.25rem;
-    background: rgba(15, 23, 42, 0.5);
+    background: rgba(239, 246, 255, 0.95);
     border: 1px solid var(--border-color);
     border-radius: 10px;
 }
@@ -1359,7 +1359,7 @@ footer {
 }
 
 .pr-toolbar input[type="date"] {
-    color-scheme: dark;
+    color-scheme: light;
 }
 
 .pr-toolbar-actions {
@@ -2082,8 +2082,8 @@ footer {
 @media (max-width: 560px) { .ov-agg-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .ov-agg-tile {
-    background: rgba(15, 23, 42, 0.74);
-    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(239, 246, 255, 0.95);
+    border: 1px solid rgba(59, 130, 246, 0.16);
     border-radius: 8px;
     padding: 1rem 0.75rem;
     text-align: center;
