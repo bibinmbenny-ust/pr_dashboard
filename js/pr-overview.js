@@ -507,7 +507,7 @@ function renderLargestPRs(prs) {
         .sort((a, b) => (b.size.total + b.size.files * 40) - (a.size.total + a.size.files * 40))
         .slice(0, 8);
     const rows = largest.map(p => `
-        <tr onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${p.number}'">
+        <tr>
             <td class="ov-td-num">#${p.number}</td>
             <td class="ov-td-title">${p.title || ''}<div class="ov-td-author">@${p.author}</div></td>
             <td>+${nf(p.size.add)} / -${nf(p.size.del)}</td>
@@ -529,7 +529,7 @@ function renderNoMovementPRs(prs) {
         .sort((a, b) => b.idle - a.idle)
         .slice(0, 10)
         .map(p => `
-            <tr onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${p.number}'">
+            <tr>
                 <td class="ov-td-num">#${p.number}</td>
                 <td class="ov-td-title">${p.title || ''}<div class="ov-td-author">@${p.author}</div></td>
                 <td>${p.idle}d</td>
@@ -570,14 +570,14 @@ function renderLowestTable(prs) {
         if (p.health.buildsPassing === false) issues.push('Build failing');
         if (!p.health.hasBuildData) issues.push('Build data unavailable');
         if (p.health.utFailed > 0) issues.push(`${p.health.utFailed} UT failing`);
-        if (p.health.unresolved > 0) issues.push(`${p.health.unresolved} open threads`);
+        if (p.health.unresolved > 0) issues.push('Open threads');
         if (p.health.changesReq > 0) issues.push('Changes requested');
         if (p.health.approvals === 0) issues.push('No approval');
         const issuesHtml = issues.length
             ? issues.map(i => `<span class="ov-issue-tag">${i}</span>`).join('')
             : '<span class="ov-subtle">—</span>';
         return `
-        <tr onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${p.number}'">
+        <tr>
             <td class="ov-td-num">#${p.number}</td>
             <td class="ov-td-title">${p.title || ''}<div class="ov-td-author">@${p.author}</div></td>
             <td>

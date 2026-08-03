@@ -150,13 +150,11 @@ function renderPRItem(pr) {
     const hasBuildData = pr.build_available !== false && pr.has_dashboard !== false;
 
     return `
-        <div class="pr-list-item" onclick="window.location.href='dashboard.html?project=${currentProject.name}&pr=${pr.number}'">
+        <div class="pr-list-item">
             <div class="pr-list-header">
                 <div class="pr-list-title">
                     <h3>
-                        <a href="dashboard.html?project=${currentProject.name}&pr=${pr.number}">
-                            #${pr.number} - ${pr.title}
-                        </a>
+                        <span>#${pr.number} - ${pr.title}</span>
                         ${isDraft}
                     </h3>
                     <div class="pr-list-meta">
@@ -404,7 +402,7 @@ async function initializePage() {
         document.getElementById('loading-message').innerHTML = `
             <span style="color: var(--failure);">⚠️ Unknown project: ${projectKey}</span><br><br>
             Available projects: ${Object.keys(PROJECT_CONFIG).join(', ')}<br><br>
-            <a href="index.html" class="btn">Back to Projects</a>
+            <span class="btn btn-disabled">Back to Projects</span>
         `;
         return;
     }
@@ -428,7 +426,7 @@ async function initializePage() {
             <span style="color: var(--failure);">❌ Failed to load PR list</span><br><br>
             Could not fetch data from: <code>${prListPath}</code><br><br>
             The GitHub Action may not have run yet, or the file doesn't exist.<br><br>
-            <a href="index.html" class="btn">Back to Projects</a>
+            <span class="btn btn-disabled">Back to Projects</span>
         `;
         return;
     }

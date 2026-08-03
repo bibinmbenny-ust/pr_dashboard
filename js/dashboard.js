@@ -180,7 +180,7 @@ function renderGeneralMetricsCard(data) {
                     <p style="margin: 0; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
                 </div>
                 <div>
-                    <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">Jenkins${buildNum}</a>
+                    <span class="btn btn-disabled" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">Jenkins${buildNum}</span>
                 </div>
             </div>
         </div>
@@ -265,8 +265,7 @@ function renderMetrics(data) {
                     const separator = line.indexOf(': http');
                     if (separator < 0) return `<span>${escapeHtml(line)}</span>`;
                     const label = line.slice(0, separator);
-                    const url = line.slice(separator + 2);
-                    return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" style="display:inline-block;margin:0.12rem 0.45rem 0.12rem 0;color:var(--cisco-blue);text-decoration:none;font-weight:600;">${escapeHtml(label)}</a>`;
+                    return `<span style="display:inline-block;margin:0.12rem 0.45rem 0.12rem 0;color:var(--cisco-blue);font-weight:600;">${escapeHtml(label)}</span>`;
                 }).join('');
                 return `<div style="margin-bottom:0.45rem;font-size:0.88rem;"><strong style="display:block;color:var(--cisco-blue);font-weight:600;margin-bottom:0.25rem;">${metric.name}:</strong><div>${links}</div></div>`;
             }
@@ -360,7 +359,7 @@ function renderFilesChanged(data) {
             const fileDiffUrl = `${repoBaseUrl}${data.pr_id}/files#diff-${diffHash}`;
             return `
                 <div class="file-item">
-                    <a href="${fileDiffUrl}" target="_blank">${file.file_name ?? 'N/A'}</a>
+                    <span>${file.file_name ?? 'N/A'}</span>
                     <div class="file-stats">
                         <span class="status-success">+${file.additions ?? 0}</span>
                         <span class="status-failure" style="margin-left: 0.5rem;">-${file.deletions ?? 0}</span>
@@ -409,7 +408,7 @@ function renderMetadataCard(data) {
         <div class="card" style="padding: 1.25rem;">
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; align-items: start;">
                 <div>
-                    <p style="margin-bottom: 0.5rem;"><strong>Commit:</strong> <a href="${prLink}" target="_blank">${shortHash}</a></p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Commit:</strong> <span>${shortHash}</span></p>
                     <p style="margin-bottom: 0.5rem;"><strong>Initiated:</strong> ${formatCiRunTime(data.created_at)}</p>
                     <p style="margin-bottom: 0;"><strong>Duration:</strong> ${durationDisplay}</p>
                 </div>
@@ -417,7 +416,7 @@ function renderMetadataCard(data) {
                     <p style="margin-bottom: 0.5rem;"><strong>Build:</strong> <span class="${getStatusClass(overallStatus)}">${overallStatus}</span></p>
                 </div>
                 <div style="text-align: right;">
-                    <a href="${prLink}" target="_blank" class="btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View CI Log</a>
+                    <span class="btn btn-disabled" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View CI Log</span>
                 </div>
             </div>
         </div>
@@ -453,7 +452,7 @@ function renderCombinedSummaryCard(data) {
                 <!-- Left: Commit & CI Details -->
                 <div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Commit:</strong> <a href="${prLink}" target="_blank">${shortHash}</a></p>
+                        <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Commit:</strong> <span>${shortHash}</span></p>
                         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Duration:</strong> ${durationDisplay}</p>
                         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>State:</strong> <span class="status-badge ${getStatusBgClass(prState === 'OPEN' ? 'IN PROGRESS' : prState)}" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;">${prState}</span></p>
                         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Build:</strong> <span class="${getStatusClass(overallStatus)}">${overallStatus}</span></p>
@@ -468,8 +467,8 @@ function renderCombinedSummaryCard(data) {
                             <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <a href="${prLink}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">View Commit</a>
-                            <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">Jenkins${buildNum}</a>
+                            <span class="btn btn-disabled" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">View Commit</span>
+                            <span class="btn btn-disabled" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">Jenkins${buildNum}</span>
                         </div>
                     </div>
                 </div>
@@ -517,7 +516,7 @@ function renderGHActions(data) {
         const jobsHtml = (run.jobs || []).map(job => {
             const jColor = colorFor(job.conclusion);
             const jDur = job.duration_seconds > 0 ? `<span style="color:#64748b;font-size:0.7rem;margin-left:auto;">${calculateDuration(job.duration_seconds)}</span>` : '';
-            const jobLink = job.url ? `<a href="${job.url}" target="_blank" style="color:var(--cisco-blue);font-size:0.7rem;text-decoration:none;">↗</a>` : '';
+            const jobLink = job.url ? `<span style="color:var(--cisco-blue);font-size:0.7rem;">↗</span>` : '';
 
             const stepsHtml = (job.steps || []).map(step => {
                 const sColor = colorFor(step.conclusion);
@@ -547,7 +546,7 @@ function renderGHActions(data) {
                 <span style="font-size:0.72rem;color:#475569;">#${run.run_number}</span>
                 <div style="margin-left:auto;display:flex;gap:0.5rem;align-items:center;">
                     ${rDur}
-                    <a href="${run.url}" target="_blank" style="color:var(--cisco-blue);font-size:0.75rem;text-decoration:none;">↗ View</a>
+                    ${run.url ? `<span style="color:var(--cisco-blue);font-size:0.75rem;">↗ View</span>` : ''}
                 </div>
             </div>
             ${jobsHtml}
@@ -699,7 +698,7 @@ function renderCheckRuns(data) {
         const color = colorFor(c.conclusion === 'in_progress' ? c.status : c.conclusion);
         const dur = c.duration_seconds > 0 ? `<span style="color:#64748b;font-size:0.72rem;">${calculateDuration(c.duration_seconds)}</span>` : '';
         const link = c.details_url
-            ? `<a href="${c.details_url}" target="_blank" style="color:var(--cisco-blue);font-size:0.78rem;text-decoration:none;">↗ details</a>`
+            ? `<span style="color:var(--cisco-blue);font-size:0.78rem;">↗ details</span>`
             : '';
         const summary = c.summary ? `<div style="color:#64748b;font-size:0.72rem;margin-top:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;">${c.summary}</div>` : '';
         const appBadge = c.app ? `<span style="font-size:0.65rem;color:#475569;background:rgba(255,255,255,0.05);padding:0.1rem 0.35rem;border-radius:0.25rem;">${c.app}</span>` : '';
@@ -790,7 +789,7 @@ function renderAITriage(data) {
                     <div style="font-size:0.82rem; color:#cbd5e1;"><strong>Conclusion:</strong> ${a.conclusion ?? ''}</div>
                 </div>`).join('');
             const logLink = validUrl(e.artifact_log_url)
-                ? `<div style="margin-top:0.5rem;"><a href="${e.artifact_log_url}" target="_blank" style="font-size:0.8rem;">View artifact log ↗</a></div>` : '';
+                ? `<div style="margin-top:0.5rem;"><span style="font-size:0.8rem;">View artifact log ↗</span></div>` : '';
 
             return `
                 <details open style="margin-bottom:0.6rem;">
@@ -844,7 +843,7 @@ function createRevisionCard(data, isOpen = '') {
             <summary class="revision-summary">
                 <div class="revision-info">
                     <strong>Rev ${data.revision ?? 'N/A'}:</strong> 
-                    <a href="${commitLink}" target="_blank" title="View Commit ${data.commit_hash ?? ''}">Commit ${shortHash}</a> 
+                    <span title="Commit ${data.commit_hash ?? ''}">Commit ${shortHash}</span> 
                     &middot; ${data.title ?? 'N/A'}
                     <small>Run started: ${runTime} | Duration: ${calculateDuration(data.ci_duration_seconds)}</small>
                 </div>
@@ -1006,7 +1005,7 @@ function renderMissingBuildDashboard(pr, prId) {
                     <p><strong>Build Data:</strong> <span class="status-warning">Not available</span></p>
                 </div>
                 <div class="pr-metadata-btn-container">
-                    <a href="${prLink}" class="btn" target="_blank">Open PR #${prNumber} on GitHub</a>
+                    <span class="btn btn-disabled">Open PR #${prNumber} on GitHub</span>
                 </div>
             </div>
         </div>
@@ -1100,7 +1099,7 @@ async function loadMetrics() {
                  Could not fetch data for PR #${prId}<br>
                  <strong>Expected file:</strong> <code>${dataPathBase}${prId}.json</code><br><br>
                  This PR was also not found in <code>pr-list.json</code>.<br><br>
-                 <a href="pr-list.html?project=${currentProject.name}" class="btn">← Back to PR List</a>
+                 <span class="btn btn-disabled">← Back to PR List</span>
              `;
              loadingParagraph.style.color = "var(--failure)";
              loadingParagraph.style.textAlign = "center";
@@ -1173,17 +1172,12 @@ async function loadMetrics() {
 
     if (filesChangedCount > 0 && fileDetails.length > 0) {
         const fileListItems = fileDetails.map(file => {
-            const diffHash = file.diff_hash ?? ''; 
-            const fileDiffUrl = `${diffHashBaseUrl}${diffHash}`;
-            const additionsDisplay = (file.additions ?? 0) > 0 ? `<span class="${getStatusClass(true)}">+${file.additions}</span>` : '';
-            const deletionsDisplay = (file.deletions ?? 0) > 0 ? `<span class="${getStatusClass(false)}">-${file.deletions}</span>` : '';
+                const additionsDisplay = (file.additions ?? 0) > 0 ? `<span class="${getStatusClass(true)}">+${file.additions}</span>` : '';
+                const deletionsDisplay = (file.deletions ?? 0) > 0 ? `<span class="${getStatusClass(false)}">-${file.deletions}</span>` : '';
             
             return `
                 <div class="file-item">
-                    <a href="${fileDiffUrl}" target="_blank" title="View Diff for ${file.file_name ?? 'N/A'}">
-                        ${file.file_name ?? 'N/A'} 
-                    </a>
-                    <span class="file-stats">${additionsDisplay} ${deletionsDisplay}</span>
+                    <span>${file.file_name ?? 'N/A'}</span>
                 </div>
             `;
         }).join('');
@@ -1248,7 +1242,7 @@ async function loadMetrics() {
             <div class="pr-metadata-left">
                 <h3>Revision Summary</h3>
                 <p><strong>Latest Revision:</strong> <span>${latestRevisionData.revision ?? 'N/A'}</span></p>
-                <p><strong>Latest Commit:</strong> <span><a href="${commitBaseUrl}${latestRevisionData.commit_hash ?? ''}" target="_blank">${(latestRevisionData.commit_hash ?? 'N/A').substring(0, 7)}</a></span></p>
+                <p><strong>Latest Commit:</strong> <span>${(latestRevisionData.commit_hash ?? 'N/A').substring(0, 7)}</span></p>
                 ${fileDetailsHTML}
                 ${ciStatusHtml}
             </div>
@@ -1262,7 +1256,7 @@ async function loadMetrics() {
                 </div>
 
                 <div class="pr-metadata-btn-container">
-                    <a href="${prLink}" class="btn" target="_blank">Open PR ${prIdDisplay} on GitHub</a>
+                    <span class="btn btn-disabled">Open PR ${prIdDisplay} on GitHub</span>
                 </div>
             </div>
         </div>
@@ -1609,8 +1603,7 @@ function renderCdetLink(dataList) {
     const rev = dataList.find(d => d.cdet && d.cdet !== 'N/A' && d.cdet !== 'No CDET found');
     if (!rev) return '';
     const cdet = rev.cdet;
-    const url = `https://cdetsng.cisco.com/summary/#/defect/${cdet}`;
-    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(239,246,255,0.95);border:1px solid rgba(0,188,235,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--cisco-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
+    return `<span style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(239,246,255,0.95);border:1px solid rgba(0,188,235,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--cisco-blue);font-weight:600;">🐞 ${cdet}</span>`;
 }
 
 function renderScoreCard(dataList) {
@@ -1771,7 +1764,7 @@ function renderScoreCard(dataList) {
                                 <span style="color:${coverageScore >= 70 ? '#10b981' : coverageScore >= 50 ? '#f59e0b' : '#ef4444'}; font-weight:600;">${coverageDisplay}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#94a3b8;">🔬 Coverity</span>
+                                <span style="color:#94a3b8;">� Security</span>
                                 <span style="color:${coverityScore >= 80 ? '#10b981' : coverityScore >= 50 ? '#f59e0b' : '#ef4444'}; font-weight:600;">${coverityPassed} / ${coverityRevisions.length || total}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">

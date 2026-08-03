@@ -17,7 +17,7 @@
     </div>
 
     <div class="intro-section">
-        <a href="index.html" class="back-button">← Back to Projects</a>
+        <span class="back-button">← Back to Projects</span>
         <h2 class="hero-title" id="hero-title">Choose Your Dashboard</h2>
         <p class="hero-subtitle">Select a dashboard type to monitor progress, track metrics, and analyze performance.</p>
         <div class="feature-pills">
@@ -28,7 +28,7 @@
     </div>
 
     <div class="project-grid">
-        <div class="project-card fxos-card active" onclick="navigateToDashboard('pr')">
+        <div class="project-card fxos-card active">
             <div class="card-icon">🚀</div>
             <div class="card-header-badge">
                 <span class="badge-ready">✓ Ready</span>
@@ -41,7 +41,7 @@
                 <span class="stat">✓ Merge Readiness</span>
                 <span class="stat">✓ Review Feedback</span>
             </div>
-            <button class="btn" onclick="event.stopPropagation(); navigateToDashboard('pr')">Launch PR View</button>
+            <button class="btn btn-disabled" disabled>Launch PR View</button>
         </div>
 
         <div class="project-card ims-card coming-soon">
@@ -110,17 +110,7 @@
     </div>
 
     <script>
-        // Get project from URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const project = urlParams.get('project') || 'FXOS';
-        
-        // Keep the selected backend project internal only.
-        function navigateToDashboard(dashboardType) {
-            if (dashboardType === 'pr') {
-                window.location.href = `pr-list.html?project=${project}`;
-            }
-            // Add more dashboard types here when they're ready
-        }
+        // No navigation redirects are enabled in this static UI.
     </script>
 
     <footer class="landing-footer">
