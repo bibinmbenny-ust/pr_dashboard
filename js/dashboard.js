@@ -494,7 +494,7 @@ function renderAISuggestion(data) {
                     <span>AI Analysis & Suggestions</span>
                     <span style="font-size: 0.7rem; opacity: 0.7; margin-left: auto;">Powered by GitHub Copilot</span>
                 </summary>
-                <div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 0, 0, 0.2); border-radius: 0.5rem; white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;">
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(239,246,255,0.95); border-radius: 0.5rem; white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;">
 ${window.currentPRAISuggestion}
                 </div>
             </details>
@@ -522,14 +522,14 @@ function renderGHActions(data) {
             const stepsHtml = (job.steps || []).map(step => {
                 const sColor = colorFor(step.conclusion);
                 const sDur = step.duration_seconds > 0 ? `<span style="color:#475569;margin-left:auto;font-size:0.68rem;">${step.duration_seconds}s</span>` : '';
-                return `<div style="display:flex;align-items:center;gap:0.4rem;padding:0.15rem 0;font-size:0.74rem;border-bottom:1px solid rgba(255,255,255,0.03);">
+                return `<div style="display:flex;align-items:center;gap:0.4rem;padding:0.15rem 0;font-size:0.74rem;border-bottom:1px solid rgba(59,130,246,0.12);">
                     <span>${iconFor(step.conclusion)}</span>
                     <span style="color:${sColor};">${step.name}</span>
                     ${sDur}
                 </div>`;
             }).join('');
 
-            return `<div style="margin-left:1rem;margin-bottom:0.35rem;padding:0.4rem 0.65rem;background:rgba(0,0,0,0.2);border-left:2px solid ${jColor}50;border-radius:0 0.3rem 0.3rem 0;">
+            return `<div style="margin-left:1rem;margin-bottom:0.35rem;padding:0.4rem 0.65rem;background:rgba(239,246,255,0.95);border-left:2px solid ${jColor}50;border-radius:0 0.3rem 0.3rem 0;">
                 <div style="display:flex;align-items:center;gap:0.45rem;${stepsHtml ? 'margin-bottom:0.4rem;' : ''}">
                     <span>${iconFor(job.conclusion)}</span>
                     <span style="color:${jColor};font-size:0.8rem;font-weight:600;">${job.name}</span>
@@ -597,7 +597,7 @@ function renderReviewStats(data) {
         const pct = Math.round((rs.copilot_addressed / rs.copilot_comments) * 100);
         const barColor = pct >= 80 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
         return `
-            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);">
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(59,130,246,0.2);">
                 <div style="font-size:0.82rem;color:#94a3b8;font-weight:600;margin-bottom:0.6rem;">🤖 Copilot Review</div>
                 <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
                     <div style="text-align:center;">
@@ -645,21 +645,21 @@ function renderReviewStats(data) {
 
             <!-- Comment activity stats -->
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;">
-                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#94a3b8;">${totalActivity}</div>
-                    <div style="font-size:0.7rem;color:#475569;">Review Comments</div>
+                <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(59,130,246,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#0f172a;">${totalActivity}</div>
+                    <div style="font-size:0.7rem;color:#64748b;">Review Comments</div>
                 </div>
-                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#a78bfa;">${humanComments}</div>
-                    <div style="font-size:0.7rem;color:#475569;">From Reviewers</div>
+                <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(59,130,246,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#0f172a;">${humanComments}</div>
+                    <div style="font-size:0.7rem;color:#64748b;">From Reviewers</div>
                 </div>
-                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#3b82f6;">${authorReplies}</div>
-                    <div style="font-size:0.7rem;color:#475569;">Author Replies</div>
+                <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(59,130,246,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#0f172a;">${authorReplies}</div>
+                    <div style="font-size:0.7rem;color:#64748b;">Author Replies</div>
                 </div>
-                <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#f59e0b;">${rs.outdated_threads}</div>
-                    <div style="font-size:0.7rem;color:#475569;">Threads Resolved</div>
+                <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(59,130,246,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#0f172a;">${rs.outdated_threads}</div>
+                    <div style="font-size:0.7rem;color:#64748b;">Threads Resolved</div>
                 </div>
             </div>
 
@@ -1388,7 +1388,7 @@ function renderBuildTimeline(dataList) {
         const arrow = i < chrono.length - 1 ? `<span style="color:#475569;font-size:1.1rem;">→</span>` : '';
         return `
         <div style="display:flex;align-items:center;gap:0.5rem;">
-            <div style="text-align:center;min-width:72px;background:#0f172a;border:1px solid ${col}55;border-radius:0.5rem;padding:0.5rem 0.6rem;">
+            <div style="text-align:center;min-width:72px;background:rgba(239,246,255,0.95);border:1px solid ${col}55;border-radius:0.5rem;padding:0.5rem 0.6rem;">
                 <div style="font-size:0.7rem;color:#94a3b8;font-weight:600;">Rev ${d.revision ?? (i + 1)}</div>
                 <div style="font-size:1rem;margin:0.15rem 0;">${icon}</div>
                 <div style="font-size:0.68rem;color:${col};font-weight:600;">${durLabel}</div>
@@ -1425,7 +1425,7 @@ function renderPrVelocity(dataList) {
     const lastActivity = lastUpdated != null ? now - lastUpdated : null;
 
     const tile = (val, label, color) => `
-        <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.6rem;padding:0.75rem;text-align:center;">
+        <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(59,130,246,0.18);border-radius:0.6rem;padding:0.75rem;text-align:center;">
             <div style="font-size:1.2rem;font-weight:700;color:${color};">${val}</div>
             <div style="font-size:0.68rem;color:#64748b;margin-top:0.2rem;">${label}</div>
         </div>`;
@@ -1513,7 +1513,7 @@ function renderReviewerEngagement(dataList) {
     if (!rev) return '';
     const rs = rev.review_stats;
     const tile = (val, label, color) => `
-        <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.6rem;padding:0.7rem;text-align:center;">
+        <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(59,130,246,0.18);border-radius:0.6rem;padding:0.7rem;text-align:center;">
             <div style="font-size:1.3rem;font-weight:700;color:${color};">${val}</div>
             <div style="font-size:0.66rem;color:#64748b;margin-top:0.15rem;">${label}</div>
         </div>`;
@@ -1610,7 +1610,7 @@ function renderCdetLink(dataList) {
     if (!rev) return '';
     const cdet = rev.cdet;
     const url = `https://cdetsng.cisco.com/summary/#/defect/${cdet}`;
-    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:#0f172a;border:1px solid rgba(0,188,235,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--cisco-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
+    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(239,246,255,0.95);border:1px solid rgba(0,188,235,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--cisco-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
 }
 
 function renderScoreCard(dataList) {
@@ -1783,25 +1783,25 @@ function renderScoreCard(dataList) {
                     <!-- Right: stat tiles + module info -->
                     <div>
                         <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                            <div style="background:rgba(239,246,255,0.95); border:1px solid rgba(59,130,246,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${total}</div>
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Total Revisions</div>
                             </div>
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                            <div style="background:rgba(239,246,255,0.95); border:1px solid rgba(59,130,246,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.3rem; font-weight:700; color:#f59e0b;">${avgDuration > 0 ? calculateDuration(avgDuration) : 'N/A'}</div>
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Avg Build Time</div>
                             </div>
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                            <div style="background:rgba(239,246,255,0.95); border:1px solid rgba(59,130,246,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.5rem; font-weight:700; color:#a78bfa;">${coverageDisplay}</div>
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">UT Coverage</div>
                             </div>
-                            <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.2); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                            <div style="background:rgba(239,246,255,0.95); border:1px solid rgba(59,130,246,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.5rem; font-weight:700; color:${coverityScore >= 80 ? '#10b981' : coverityScore >= 50 ? '#f59e0b' : '#ef4444'};">${coverityRevisions.length > 0 ? `${coverityPassed}/${coverityRevisions.length}` : 'N/A'}</div>
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Coverity Passed</div>
                             </div>
                         </div>
                         ${avgUtTests > 0 ? `
-                        <div style="background:#0f172a; border:1px solid rgba(0,188,235,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#94a3b8;">
+                        <div style="background:rgba(239,246,255,0.95); border:1px solid rgba(59,130,246,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#0f172a;">
                             <span>🧪 Avg UT stages/run: <strong style="color:var(--text);">${avgUtTests}</strong></span>
                             <span>📊 Coverage reports: <strong style="color:var(--text);">${coverageReportsAvailable} / ${coverageReportsExpected || 'N/A'}</strong></span>
                             <span>🔬 Coverity: <strong style="color:var(--text);">${coverityPassed} pass / ${coverityFailed} fail</strong></span>
@@ -1824,20 +1824,20 @@ function renderScoreCard(dataList) {
                         <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid rgba(0,188,235,0.12);">
                             <div style="font-size:0.82rem;color:#94a3b8;font-weight:600;margin-bottom:0.6rem;">💬 PR Review Threads</div>
                             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.6rem;margin-bottom:0.75rem;">
-                                <div style="background:#0f172a;border:1px solid rgba(16,185,129,0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(16,185,129,0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
                                     <div style="font-size:1.3rem;font-weight:700;color:#10b981;">${resolvedLabel}</div>
                                     <div style="font-size:0.68rem;color:#64748b;margin-top:0.15rem;">Resolved</div>
                                 </div>
-                                <div style="background:#0f172a;border:1px solid rgba(${rvUnresolvedThreads === 0 ? '16,185,129' : '239,68,68'},0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(${rvUnresolvedThreads === 0 ? '16,185,129' : '239,68,68'},0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
                                     <div style="font-size:1.3rem;font-weight:700;color:${openColor};">${openLabel}</div>
                                     <div style="font-size:0.68rem;color:#64748b;margin-top:0.15rem;">Open</div>
                                 </div>
-                                <div style="background:#0f172a;border:1px solid rgba(0,188,235,0.2);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                <div style="background:rgba(239,246,255,0.95);border:1px solid rgba(0,188,235,0.2);border-radius:0.5rem;padding:0.6rem;text-align:center;">
                                     <div style="font-size:1.3rem;font-weight:700;color:${barColor};">${pctLabel}</div>
                                     <div style="font-size:0.68rem;color:#64748b;margin-top:0.15rem;">Resolution Rate</div>
                                 </div>
                             </div>
-                            <div style="background:#1e293b;border-radius:0.3rem;height:7px;overflow:hidden;">
+                            <div style="background:rgba(59,130,246,0.12);border-radius:0.3rem;height:7px;overflow:hidden;">
                                 <div style="height:100%;width:${barPct}%;background:${barColor};border-radius:0.3rem;transition:width 0.6s ease;"></div>
                             </div>
                             ${rvOutdatedThreadsGql > 0 ? `<div style="font-size:0.7rem;color:#f59e0b;margin-top:0.35rem;">⚠ ${rvOutdatedThreadsGql} outdated thread${rvOutdatedThreadsGql !== 1 ? 's' : ''}</div>` : ''}
