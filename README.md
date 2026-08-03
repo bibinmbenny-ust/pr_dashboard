@@ -4,9 +4,10 @@ A unified dashboard for viewing Pull Request status, CI/CD metrics, and code qua
 
 ## Supported Projects
 
-- **FXOS** - Firepower eXtensible Operating System
-- **ASA** - Adaptive Security Appliance
-- **IMS** - Identity Management System
+- **FXOS** - Phoenix Security Platform
+- **ASA** - Aegis Firewall Suite
+- **IMS** - Sentinel Identity System
+- **USM** - Atlas Security Manager
 
 ## Usage
 

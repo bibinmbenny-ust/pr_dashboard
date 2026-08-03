@@ -3,22 +3,22 @@ const PROJECT_CONFIG = {
     'FXOS': {
         name: 'FXOS',
         repo: 'cisco-sbg-emu/netsec-fxos',
-        displayName: 'Firepower eXtensible Operating System (FXOS)'
+        displayName: 'Phoenix Security Platform'
     },
     'ASA': {
         name: 'ASA',
         repo: 'cisco-sbg-emu/netsec-asa',
-        displayName: 'Adaptive Security Appliance (ASA)'
+        displayName: 'Aegis Firewall Suite'
     },
     'IMS': {
         name: 'IMS',
         repo: 'cisco-sbg-emu/netsec-ims',
-        displayName: 'Identity Management System (IMS)'
+        displayName: 'Sentinel Identity System'
     },
     'USM': {
         name: 'USM',
         repo: 'cisco-sbg-emu/netsec-ims',
-        displayName: 'Universal Security Manager (USM)'
+        displayName: 'Atlas Security Manager'
     }
 };
 
