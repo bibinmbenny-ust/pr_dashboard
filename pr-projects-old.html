@@ -28,7 +28,7 @@
     </div>
 
     <div class="dashboard-type-grid">
-        <div class="project-card fxos-card">
+        <div class="project-card fxos-card" onclick="location.href='pr-list.html?project=FXOS'">
             <div class="card-icon">🔥</div>
             <h2>FXOS</h2>
             <p>Firepower eXtensible Operating System</p>
@@ -36,10 +36,10 @@
                 <span class="stat">🔧 System Core</span>
                 <span class="stat">⚡ High Priority</span>
             </div>
-            <span class="btn btn-disabled">View Pull Requests →</span>
+            <a href="pr-list.html?project=FXOS" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
 
-        <div class="project-card ims-card">
+        <div class="project-card ims-card" onclick="location.href='pr-list.html?project=IMS'">
             <div class="card-icon">🔐</div>
             <h2>IMS</h2>
             <p>Identity Management System</p>
@@ -47,10 +47,10 @@
                 <span class="stat">👤 Authentication</span>
                 <span class="stat">🛡️ Security</span>
             </div>
-            <span class="btn btn-disabled">View Pull Requests →</span>
+            <a href="pr-list.html?project=IMS" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
 
-        <div class="project-card usm-card">
+        <div class="project-card usm-card" onclick="location.href='pr-list.html?project=USM'">
             <div class="card-icon">🧪</div>
             <h2>USM</h2>
             <p>Unified Security Management</p>
@@ -58,7 +58,7 @@
                 <span class="stat">🧩 Feature Tests</span>
                 <span class="stat">✅ Validation</span>
             </div>
-            <span class="btn btn-disabled">View Pull Requests →</span>
+            <a href="pr-list.html?project=USM" class="btn" onclick="event.stopPropagation()">View Pull Requests →</a>
         </div>
     </div>
 
