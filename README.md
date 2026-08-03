@@ -1,4 +1,4 @@
-# NetSec PR Dashboard
+﻿# NetSec PR Dashboard
 
 A unified dashboard for viewing Pull Request status, CI/CD metrics, and code quality across multiple NetSec projects.
 
@@ -18,7 +18,7 @@ The hosted dashboard relies on GitHub Pages authentication for access control. T
 
 `js/access-control.js` remains loaded before the dashboard data scripts, but its browser token gate is disabled. Keep it disabled while GitHub Pages private/internal access is enabled for this repository.
 
-Important: GitHub Pages is static hosting. Access control must be enforced by private/internal GitHub Pages or an access proxy such as Cisco SSO/VPN/Cloudflare Access. Do not rely on browser JavaScript as the only protection for a public Pages site.
+Important: GitHub Pages is static hosting. Access control must be enforced by private/internal GitHub Pages or an access proxy such as demo SSO/VPN/Cloudflare Access. Do not rely on browser JavaScript as the only protection for a public Pages site.
 
 ### Home Page
 Visit the site root (GitHub Pages will load `index.html`) to see all available projects and select one to view.
@@ -78,7 +78,7 @@ To add support for a new project:
        'IMS': { ... },
        'NEW_PROJECT': {
            name: 'NEW_PROJECT',
-           repo: 'cisco-netsec-sandbox/netsec-newproject-repo',
+           repo: 'demo-netsec-sandbox/netsec-newproject-repo',
            displayName: 'New Project Full Name'
        }
    };
@@ -91,7 +91,7 @@ To add support for a new project:
        - name: 'FXOS'
          repo: '...'
        - name: 'NEW_PROJECT'
-         repo: 'cisco-netsec-sandbox/netsec-newproject-repo'
+         repo: 'demo-netsec-sandbox/netsec-newproject-repo'
    ```
 
 3. **Update Home Page** (`index.html`):
@@ -146,4 +146,5 @@ Simply open `index.html` in a browser to see the project selection page, or `das
 
 ## License
 
-Cisco Internal Use
+demo Internal Use
+

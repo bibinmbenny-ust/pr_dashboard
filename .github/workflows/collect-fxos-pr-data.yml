@@ -1,4 +1,4 @@
-name: PR Dashboard Data Collection — FXOS
+﻿name: PR Dashboard Data Collection — FXOS
 
 # This workflow ONLY tracks pull-request status and review/comment activity.
 # All build / CI / unit-test / cache data comes from the Jenkins CI job, which
@@ -37,7 +37,7 @@ jobs:
         run: |
           set -uo pipefail
           PROJECT_NAME="FXOS"
-          REPO_NAME="cisco-sbg-emu/netsec-fxos"
+          REPO_NAME="demo-sbg-emu/netsec-fxos"
           BASE_BRANCH="uxbridge/FXOS_2_19_MAIN"
           REPO_OWNER="${REPO_NAME%%/*}"
           REPO_REPO="${REPO_NAME##*/}"
@@ -517,3 +517,4 @@ jobs:
             sleep $attempt
           done
           $PUSH_OK || { echo "All push attempts failed"; exit 1; }
+

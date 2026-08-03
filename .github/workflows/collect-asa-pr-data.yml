@@ -1,4 +1,4 @@
-name: PR Dashboard Data Collection - ASA
+﻿name: PR Dashboard Data Collection - ASA
 
 # Collects pull-request status and review/comment activity for the ASA repository.
 # Jenkins remains the owner of build and CI data.
@@ -35,7 +35,7 @@ jobs:
         run: |
           set -uo pipefail
           PROJECT_NAME="ASA"
-          REPO_NAME="cisco-sbg-emu/netsec-asa"
+          REPO_NAME="demo-sbg-emu/netsec-asa"
           BASE_BRANCH="cairo/main"
           REPO_OWNER="${REPO_NAME%%/*}"
           REPO_REPO="${REPO_NAME##*/}"
@@ -305,3 +305,4 @@ jobs:
             sleep "$attempt"
           done
           $PUSH_OK || { echo "All ASA push attempts failed"; exit 1; }
+

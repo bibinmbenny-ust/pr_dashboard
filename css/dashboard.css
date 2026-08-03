@@ -1,7 +1,7 @@
-/* Cisco-inspired Dark Theme Variables */
+﻿/* demo-inspired Dark Theme Variables */
 :root {
-    --cisco-blue: #3B82F6; /* Light blue accent */
-    --cisco-dark-blue: #60A5FA; /* Softer blue accent */
+    --demo-blue: #3B82F6; /* Light blue accent */
+    --demo-dark-blue: #60A5FA; /* Softer blue accent */
     --bg: #f8fbff; /* Very light background */
     --card: #ffffff; /* White card surfaces */
     --text: #0f172a; /* Dark text for readability */
@@ -56,7 +56,7 @@ html.access-denied body > :not(#access-control-root) {
 }
 
 .access-kicker {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0;
@@ -97,7 +97,7 @@ html.access-denied body > :not(#access-control-root) {
 }
 
 .access-form input:focus {
-    outline: 2px solid var(--cisco-blue);
+    outline: 2px solid var(--demo-blue);
     outline-offset: 2px;
 }
 
@@ -113,7 +113,7 @@ html.access-denied body > :not(#access-control-root) {
 .access-checkbox input {
     width: 1rem;
     height: 1rem;
-    accent-color: var(--cisco-blue);
+    accent-color: var(--demo-blue);
 }
 
 .access-form button:disabled {
@@ -143,7 +143,7 @@ html.access-denied body > :not(#access-control-root) {
 
 #access-sign-out:hover {
     color: var(--text);
-    border-color: var(--cisco-blue);
+    border-color: var(--demo-blue);
 }
 
 /* --- Global Header & Logo Alignment --- */
@@ -158,7 +158,7 @@ html.access-denied body > :not(#access-control-root) {
 }
 h1 { 
     font-size: 2rem; 
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     font-weight: 700;
 }
 .logo {
@@ -247,7 +247,7 @@ h1 {
 }
 
 .revision-info {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     flex-grow: 1;
     padding-right: 1rem; 
 }
@@ -264,7 +264,7 @@ h1 {
     margin-top: 0.25rem;
 }
 .revision-info a {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     text-decoration: none;
     transition: color 0.2s;
 }
@@ -316,7 +316,7 @@ h1 {
     align-items: center;
     margin-bottom: 1rem;
     /* Only apply border bottom to standard cards, not the main PR block */
-    border-bottom: 2px solid var(--cisco-dark-blue);
+    border-bottom: 2px solid var(--demo-dark-blue);
     padding-bottom: 0.5rem;
 }
 
@@ -343,10 +343,10 @@ h1 {
 
 .pr-subtitle-block {
     font-size: 1rem;
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     font-weight: 500;
     margin-bottom: 2rem;
-    border-bottom: 1px dashed var(--cisco-dark-blue);
+    border-bottom: 1px dashed var(--demo-dark-blue);
     padding-bottom: 0.75rem;
 }
 
@@ -360,7 +360,7 @@ h1 {
     margin-bottom: 0.5rem; 
     line-height: 1.5;
 }
-.card strong { color: var(--cisco-blue); font-weight: 600; }
+.card strong { color: var(--demo-blue); font-weight: 600; }
 
 /* Failure Card Styling */
 .failure-card {
@@ -449,24 +449,24 @@ h1 {
 .metric-group details {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    border-left: 3px solid var(--cisco-dark-blue);
+    border-left: 3px solid var(--demo-dark-blue);
     padding-left: 1rem;
     cursor: pointer;
     transition: border-color 0.3s ease;
 }
 
 .metric-group details:hover {
-    border-left-color: var(--cisco-blue);
+    border-left-color: var(--demo-blue);
 }
 
 .metric-group details[open] {
-    border-left-color: var(--cisco-blue);
+    border-left-color: var(--demo-blue);
 }
 
 .metric-group summary {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     padding: 0.5rem 0;
     transition: all 0.2s ease;
     cursor: pointer;
@@ -505,7 +505,7 @@ h1 {
     cursor: pointer;
 }
 .file-details-collapsible[open] {
-    border: 1px solid var(--cisco-dark-blue);
+    border: 1px solid var(--demo-dark-blue);
 }
 
 .file-details-summary {
@@ -520,7 +520,7 @@ h1 {
 /* Custom Chevron for File Summary */
 .file-details-summary::before {
     content: '▶';
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     font-size: 0.6rem;
     margin-right: 0.5rem;
     transition: transform 0.2s;
@@ -534,7 +534,7 @@ h1 {
 
 .file-count {
     color: var(--text);
-    background-color: var(--cisco-dark-blue);
+    background-color: var(--demo-dark-blue);
     padding: 0.2rem 0.6rem;
     border-radius: 0.5rem;
     margin-left: 0.5rem;
@@ -561,7 +561,7 @@ h1 {
     transition: color 0.2s;
 }
 .file-item a:hover {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     text-decoration: underline;
 }
 .file-stats span {
@@ -606,7 +606,7 @@ h1 {
 /* Buttons */
 .btn { 
     display: inline-block; 
-    background: var(--cisco-blue); 
+    background: var(--demo-blue); 
     color: var(--bg); 
     padding: 0.6rem 1.25rem; 
     border-radius: 0.5rem; 
@@ -622,7 +622,7 @@ h1 {
     cursor: not-allowed;
 }
 .btn:disabled:hover {
-    background: var(--cisco-blue);
+    background: var(--demo-blue);
     color: var(--bg);
 }
 
@@ -632,7 +632,7 @@ footer {
     margin-top: 3rem; 
     font-size: 0.85rem; 
     opacity: 0.6; 
-    border-top: 1px dashed var(--cisco-dark-blue);
+    border-top: 1px dashed var(--demo-dark-blue);
     padding-top: 1rem;
 }
 
@@ -802,7 +802,7 @@ footer {
 
 /* Animated Title */
 .animated-title {
-    background: linear-gradient(90deg, var(--cisco-blue), #4dc2f0, var(--cisco-blue));
+    background: linear-gradient(90deg, var(--demo-blue), #4dc2f0, var(--demo-blue));
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -864,7 +864,7 @@ footer {
     background: rgba(0, 188, 235, 0.1);
     border: 1px solid rgba(0, 188, 235, 0.3);
     border-radius: 20px;
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     font-size: 0.85rem;
     font-weight: 600;
     backdrop-filter: blur(10px);
@@ -909,7 +909,7 @@ footer {
     bottom: 0;
     border-radius: 16px;
     padding: 2px;
-    background: linear-gradient(135deg, var(--cisco-blue), transparent);
+    background: linear-gradient(135deg, var(--demo-blue), transparent);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -944,7 +944,7 @@ footer {
 }
 
 .project-card h2 {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
     font-weight: 700;
@@ -979,7 +979,7 @@ footer {
 .project-card .btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, var(--cisco-blue), #0095c7);
+    background: linear-gradient(135deg, var(--demo-blue), #0095c7);
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -990,7 +990,7 @@ footer {
 }
 
 .project-card .btn:hover {
-    background: linear-gradient(135deg, #4dc2f0, var(--cisco-blue));
+    background: linear-gradient(135deg, #4dc2f0, var(--demo-blue));
     box-shadow: 0 6px 20px rgba(0, 188, 235, 0.5);
     transform: translateY(-2px);
 }
@@ -1014,7 +1014,7 @@ footer {
 }
 
 .footer-year {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
 }
 
 /* --- PR List Page Styles --- */
@@ -1029,7 +1029,7 @@ footer {
 }
 
 .pr-list-item:hover {
-    border-color: var(--cisco-blue);
+    border-color: var(--demo-blue);
     transform: translateX(5px);
     box-shadow: 0 2px 8px rgba(0, 188, 235, 0.2);
 }
@@ -1048,11 +1048,11 @@ footer {
 .pr-list-title h3 {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
 }
 
 .pr-list-title h3 a {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     text-decoration: none;
 }
 
@@ -1078,7 +1078,7 @@ footer {
 .pr-label {
     background: rgba(0, 188, 235, 0.1);
     border: 1px solid rgba(0, 188, 235, 0.3);
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     padding: 0.2rem 0.6rem;
     border-radius: 12px;
     font-size: 0.75rem;
@@ -1120,7 +1120,7 @@ footer {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--cisco-blue), var(--cisco-dark-blue));
+    background: linear-gradient(90deg, var(--demo-blue), var(--demo-dark-blue));
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -1130,14 +1130,14 @@ footer {
 }
 
 .dashboard-type-card.active {
-    border-color: var(--cisco-blue);
+    border-color: var(--demo-blue);
     box-shadow: 0 8px 24px rgba(0, 188, 235, 0.3);
 }
 
 .dashboard-type-card.active:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 32px rgba(0, 188, 235, 0.4);
-    border-color: var(--cisco-blue);
+    border-color: var(--demo-blue);
 }
 
 .dashboard-type-card.coming-soon {
@@ -1188,7 +1188,7 @@ footer {
 
 .dashboard-type-card h2 {
     font-size: 1.5rem;
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     margin-bottom: 0.75rem;
     font-weight: 700;
 }
@@ -1231,7 +1231,7 @@ footer {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--cisco-blue), var(--cisco-dark-blue));
+    background: linear-gradient(135deg, var(--demo-blue), var(--demo-dark-blue));
     border: none;
     box-shadow: 0 4px 12px rgba(0, 188, 235, 0.3);
 }
@@ -1257,7 +1257,7 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     text-decoration: none;
     font-size: 0.9rem;
     margin-bottom: 1rem;
@@ -1354,7 +1354,7 @@ footer {
 .pr-toolbar input:focus,
 .pr-toolbar select:focus {
     outline: none;
-    border-color: var(--cisco-blue);
+    border-color: var(--demo-blue);
     box-shadow: 0 0 0 3px rgba(0, 188, 235, 0.15);
 }
 
@@ -1380,8 +1380,8 @@ footer {
 }
 
 .pr-btn-clear:hover {
-    border-color: var(--cisco-blue);
-    color: var(--cisco-blue);
+    border-color: var(--demo-blue);
+    color: var(--demo-blue);
 }
 
 /* --- Results info line --- */
@@ -1430,13 +1430,13 @@ footer {
 }
 
 .pr-page-btn:hover:not(:disabled):not(.active) {
-    border-color: var(--cisco-blue);
-    color: var(--cisco-blue);
+    border-color: var(--demo-blue);
+    color: var(--demo-blue);
 }
 
 .pr-page-btn.active {
-    background: var(--cisco-blue);
-    border-color: var(--cisco-blue);
+    background: var(--demo-blue);
+    border-color: var(--demo-blue);
     color: var(--bg);
     cursor: default;
 }
@@ -1487,7 +1487,7 @@ footer {
 }
 
 .ov-eyebrow {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.12em;
@@ -1550,7 +1550,7 @@ footer {
 }
 
 .ov-card-title {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     font-size: 0.95rem;
     margin: 0 0 1rem 0;
     font-weight: 800;
@@ -1636,7 +1636,7 @@ footer {
 .ov-filter-group input[type="text"]:focus,
 .ov-filter-group input[type="date"]:focus {
     outline: none;
-    border-color: var(--cisco-blue);
+    border-color: var(--demo-blue);
 }
 
 .ov-author-search {
@@ -1677,13 +1677,13 @@ footer {
 .ov-author-suggestion:focus {
     outline: none;
     background: rgba(59, 130, 246, 0.12);
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
 }
 
 .ov-filter-reset {
     background: rgba(0, 188, 235, 0.08);
-    color: var(--cisco-blue);
-    border: 1px solid var(--cisco-blue);
+    color: var(--demo-blue);
+    border: 1px solid var(--demo-blue);
     border-radius: 8px;
     padding: 0.55rem 0.95rem;
     font-size: 0.85rem;
@@ -1693,7 +1693,7 @@ footer {
 }
 
 .ov-filter-reset:hover {
-    background: var(--cisco-blue);
+    background: var(--demo-blue);
     color: #04222b;
 }
 
@@ -1735,8 +1735,8 @@ footer {
 .ov-quick-chip:hover,
 .ov-quick-chip.active {
     background: rgba(0, 188, 235, 0.12);
-    border-color: var(--cisco-blue);
-    color: var(--cisco-blue);
+    border-color: var(--demo-blue);
+    color: var(--demo-blue);
 }
 
 @media (max-width: 1180px) {
@@ -1858,7 +1858,7 @@ footer {
 }
 
 .ov-bucket-label strong {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
 }
 
 .ov-progress-track {
@@ -1921,7 +1921,7 @@ footer {
 }
 
 .ov-workload-row:hover {
-    border-color: var(--cisco-blue);
+    border-color: var(--demo-blue);
     background: rgba(59, 130, 246, 0.08);
 }
 
@@ -1960,7 +1960,7 @@ footer {
 }
 
 .ov-readiness-row strong {
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
 }
 
 @media (max-width: 720px) {
@@ -1995,14 +1995,14 @@ footer {
 
 .ov-contrib-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--cisco-dark-blue), var(--cisco-blue));
+    background: linear-gradient(90deg, var(--demo-dark-blue), var(--demo-blue));
     border-radius: 6px;
 }
 
 .ov-contrib-count {
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--cisco-blue);
+    color: var(--demo-blue);
     text-align: right;
 }
 
@@ -2037,7 +2037,7 @@ footer {
 
 .ov-table td { padding: 0.7rem 0.75rem; vertical-align: middle; }
 
-.ov-td-num { font-weight: 700; color: var(--cisco-blue); white-space: nowrap; }
+.ov-td-num { font-weight: 700; color: var(--demo-blue); white-space: nowrap; }
 
 .ov-td-title { max-width: 340px; color: var(--text); }
 
@@ -2111,7 +2111,7 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(135deg, var(--cisco-blue), #0095c7);
+    background: linear-gradient(135deg, var(--demo-blue), #0095c7);
     color: var(--bg);
     padding: 0.55rem 1.1rem;
     border-radius: 8px;
@@ -2126,3 +2126,4 @@ footer {
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0, 188, 235, 0.35);
 }
+

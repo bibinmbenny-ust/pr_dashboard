@@ -1,4 +1,4 @@
-# AI Integration for PR Dashboard
+﻿# AI Integration for PR Dashboard
 
 ## Overview
 The PR Dashboard now includes **GitHub Copilot AI analysis** for failed builds. When a PR has failed CI checks, the system automatically analyzes the failure and provides:
@@ -42,7 +42,7 @@ The workflow runs every 5 minutes. On the next run:
 
 #### Option B: Manual Trigger
 ```bash
-# Go to: https://github.com/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/actions
+# Go to: https://github.com/demo-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/actions
 # Click "Check CI Status" workflow
 # Click "Run workflow" button
 ```
@@ -125,7 +125,7 @@ requirements: OpenAI API subscription
 2. **Check pr-list.json**: Does it contain ai_suggestion field?
    ```bash
    # View file in browser:
-   https://github.com/cisco-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/blob/main/pr-reports/FXOS/pr-list.json
+   https://github.com/demo-netsec-sandbox/netsec-fxos-pr-dashboard-poc1/blob/main/pr-reports/FXOS/pr-list.json
    ```
 
 3. **Check browser console**: Any JavaScript errors?
@@ -253,4 +253,5 @@ For issues or questions:
 5. Check pr-list.json file contents
 
 ## License
-Part of Cisco NetSec PR Dashboard project
+Part of demo NetSec PR Dashboard project
+

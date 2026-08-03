@@ -1,23 +1,23 @@
-// Project Configuration - Add new projects here
+﻿// Project Configuration - Add new projects here
 const PROJECT_CONFIG = {
     'FXOS': {
         name: 'FXOS',
-        repo: 'cisco-sbg-emu/netsec-fxos',
+        repo: 'demo-sbg-emu/netsec-fxos',
         displayName: 'Phoenix Security Platform'
     },
     'ASA': {
         name: 'ASA',
-        repo: 'cisco-sbg-emu/netsec-asa',
+        repo: 'demo-sbg-emu/netsec-asa',
         displayName: 'Aegis Firewall Suite'
     },
     'IMS': {
         name: 'IMS',
-        repo: 'cisco-sbg-emu/netsec-ims',
+        repo: 'demo-sbg-emu/netsec-ims',
         displayName: 'Sentinel Identity System'
     },
     'USM': {
         name: 'USM',
-        repo: 'cisco-sbg-emu/netsec-ims',
+        repo: 'demo-sbg-emu/netsec-ims',
         displayName: 'Atlas Security Manager'
     }
 };
@@ -176,8 +176,8 @@ function renderGeneralMetricsCard(data) {
                     <p style="margin: 0;"><strong>State:</strong> <span class="status-badge ${getStatusBgClass(prState === 'OPEN' ? 'IN PROGRESS' : prState)}" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">${prState}</span></p>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <p style="margin: 0; font-size: 0.9rem;"><strong>Base:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.base_branch || 'N/A'}</span></p>
-                    <p style="margin: 0; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
+                    <p style="margin: 0; font-size: 0.9rem;"><strong>Base:</strong> <span style="font-family:monospace; color:var(--demo-blue); font-size: 0.85rem;">${data.base_branch || 'N/A'}</span></p>
+                    <p style="margin: 0; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--demo-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
                 </div>
                 <div>
                     <a href="${jenkinsUrl}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">Jenkins${buildNum}</a>
@@ -266,9 +266,9 @@ function renderMetrics(data) {
                     if (separator < 0) return `<span>${escapeHtml(line)}</span>`;
                     const label = line.slice(0, separator);
                     const url = line.slice(separator + 2);
-                    return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" style="display:inline-block;margin:0.12rem 0.45rem 0.12rem 0;color:var(--cisco-blue);text-decoration:none;font-weight:600;">${escapeHtml(label)}</a>`;
+                    return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" style="display:inline-block;margin:0.12rem 0.45rem 0.12rem 0;color:var(--demo-blue);text-decoration:none;font-weight:600;">${escapeHtml(label)}</a>`;
                 }).join('');
-                return `<div style="margin-bottom:0.45rem;font-size:0.88rem;"><strong style="display:block;color:var(--cisco-blue);font-weight:600;margin-bottom:0.25rem;">${metric.name}:</strong><div>${links}</div></div>`;
+                return `<div style="margin-bottom:0.45rem;font-size:0.88rem;"><strong style="display:block;color:var(--demo-blue);font-weight:600;margin-bottom:0.25rem;">${metric.name}:</strong><div>${links}</div></div>`;
             }
 
             // Special handling for percentages or known values
@@ -286,7 +286,7 @@ function renderMetrics(data) {
                  metricClass = 'status-success';
             }
 
-            return `<p style="margin-bottom: 0.35rem; font-size: 0.88rem; display: flex; align-items: center;"><strong style="min-width: 180px; color: var(--cisco-blue); font-weight: 600;">${metric.name}:</strong> <span class="${metricClass}">${value}</span></p>`;
+            return `<p style="margin-bottom: 0.35rem; font-size: 0.88rem; display: flex; align-items: center;"><strong style="min-width: 180px; color: var(--demo-blue); font-weight: 600;">${metric.name}:</strong> <span class="${metricClass}">${value}</span></p>`;
         }).filter(Boolean).join(''); // filter(Boolean) removes null entries
         
         // Add error details and AI suggestion if available from JSON
@@ -301,8 +301,8 @@ function renderMetrics(data) {
                     <div style="margin-top: 0.65rem; padding: 0.85rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.04) 100%); border-left: 3px solid var(--failure); border-radius: 0.4rem; font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.5; color: #ffaaaa; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
 ${errorDetails}</div>
                     ${aiSuggestion && aiSuggestion !== 'AI analysis temporarily unavailable. Please check logs manually.\n' ? `
-                        <div style="margin-top: 0.75rem; padding: 0.9rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.15) 0%, rgba(0, 188, 235, 0.06) 100%); border-left: 3px solid var(--cisco-blue); border-radius: 0.4rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; color: var(--cisco-blue); font-weight: 700; font-size: 0.9rem;">
+                        <div style="margin-top: 0.75rem; padding: 0.9rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.15) 0%, rgba(0, 188, 235, 0.06) 100%); border-left: 3px solid var(--demo-blue); border-radius: 0.4rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; color: var(--demo-blue); font-weight: 700; font-size: 0.9rem;">
                                 <span style="font-size: 1.15rem;">🤖</span>
                                 <span>AI Analysis & Suggestions</span>
                             </div>
@@ -321,7 +321,7 @@ ${aiSuggestion}</div>
         // show the build status so the expanded panel is never blank.
         const hasVisibleContent = metricContent.trim() !== '' || errorSection.trim() !== '';
         const fallbackContent = !hasVisibleContent
-            ? `<p style="margin-bottom: 0.35rem; font-size: 0.88rem; display: flex; align-items: center;"><strong style="min-width: 180px; color: var(--cisco-blue); font-weight: 600;">Build Status:</strong> <span class="${getStatusClass(stageStatus)}">${String(stageStatus).toUpperCase()}</span></p>`
+            ? `<p style="margin-bottom: 0.35rem; font-size: 0.88rem; display: flex; align-items: center;"><strong style="min-width: 180px; color: var(--demo-blue); font-weight: 600;">Build Status:</strong> <span class="${getStatusClass(stageStatus)}">${String(stageStatus).toUpperCase()}</span></p>`
             : '';
 
         metricsHtml.push(`
@@ -464,8 +464,8 @@ function renderCombinedSummaryCard(data) {
                 <div>
                     <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;">
                         <div>
-                            <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Base:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.base_branch || 'N/A'}</span></p>
-                            <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--cisco-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
+                            <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Base:</strong> <span style="font-family:monospace; color:var(--demo-blue); font-size: 0.85rem;">${data.base_branch || 'N/A'}</span></p>
+                            <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Head:</strong> <span style="font-family:monospace; color:var(--demo-blue); font-size: 0.85rem;">${data.head_branch || 'N/A'}</span></p>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <a href="${prLink}" target="_blank" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; white-space: nowrap;">View Commit</a>
@@ -489,7 +489,7 @@ function renderAISuggestion(data) {
     return `
         <div class="card" style="padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 188, 235, 0.05) 0%, rgba(0, 188, 235, 0.02) 100%); border: 1px solid rgba(0, 188, 235, 0.3);">
             <details style="cursor: pointer;">
-                <summary style="font-weight: 600; color: var(--cisco-blue); font-size: 1rem; padding: 0.5rem 0; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
+                <summary style="font-weight: 600; color: var(--demo-blue); font-size: 1rem; padding: 0.5rem 0; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-size: 1.2rem;">🤖</span>
                     <span>AI Analysis & Suggestions</span>
                     <span style="font-size: 0.7rem; opacity: 0.7; margin-left: auto;">Powered by GitHub Copilot</span>
@@ -517,7 +517,7 @@ function renderGHActions(data) {
         const jobsHtml = (run.jobs || []).map(job => {
             const jColor = colorFor(job.conclusion);
             const jDur = job.duration_seconds > 0 ? `<span style="color:#64748b;font-size:0.7rem;margin-left:auto;">${calculateDuration(job.duration_seconds)}</span>` : '';
-            const jobLink = job.url ? `<a href="${job.url}" target="_blank" style="color:var(--cisco-blue);font-size:0.7rem;text-decoration:none;">↗</a>` : '';
+            const jobLink = job.url ? `<a href="${job.url}" target="_blank" style="color:var(--demo-blue);font-size:0.7rem;text-decoration:none;">↗</a>` : '';
 
             const stepsHtml = (job.steps || []).map(step => {
                 const sColor = colorFor(step.conclusion);
@@ -547,7 +547,7 @@ function renderGHActions(data) {
                 <span style="font-size:0.72rem;color:#475569;">#${run.run_number}</span>
                 <div style="margin-left:auto;display:flex;gap:0.5rem;align-items:center;">
                     ${rDur}
-                    <a href="${run.url}" target="_blank" style="color:var(--cisco-blue);font-size:0.75rem;text-decoration:none;">↗ View</a>
+                    <a href="${run.url}" target="_blank" style="color:var(--demo-blue);font-size:0.75rem;text-decoration:none;">↗ View</a>
                 </div>
             </div>
             ${jobsHtml}
@@ -561,7 +561,7 @@ function renderGHActions(data) {
     return `
         <div class="card" style="grid-column:1/-1;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-                <span style="font-weight:700;font-size:0.9rem;color:var(--cisco-blue);">⚙️ GitHub Actions</span>
+                <span style="font-weight:700;font-size:0.9rem;color:var(--demo-blue);">⚙️ GitHub Actions</span>
                 <span style="font-size:0.78rem;color:#64748b;">
                     <span style="color:#10b981;">✅ ${passCount} passed</span>
                     ${failCount > 0 ? `<span style="color:#ef4444;"> &nbsp;❌ ${failCount} failed</span>` : ''}
@@ -589,7 +589,7 @@ function renderReviewStats(data) {
         rs.reviews_commented > 0
             ? `<span style="background:rgba(148,163,184,0.1);border:1px solid rgba(148,163,184,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#94a3b8;">💬 ${rs.reviews_commented} Commented</span>` : '',
         rs.unique_reviewers > 0
-            ? `<span style="background:rgba(0,188,235,0.1);border:1px solid rgba(0,188,235,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:var(--cisco-blue);">👥 ${rs.unique_reviewers} Reviewer${rs.unique_reviewers !== 1 ? 's' : ''}</span>` : '',
+            ? `<span style="background:rgba(0,188,235,0.1);border:1px solid rgba(0,188,235,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:var(--demo-blue);">👥 ${rs.unique_reviewers} Reviewer${rs.unique_reviewers !== 1 ? 's' : ''}</span>` : '',
     ].filter(Boolean).join(' ');
 
     // Copilot section (only shown if Copilot left comments)
@@ -601,7 +601,7 @@ function renderReviewStats(data) {
                 <div style="font-size:0.82rem;color:#94a3b8;font-weight:600;margin-bottom:0.6rem;">🤖 Copilot Review</div>
                 <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
                     <div style="text-align:center;">
-                        <div style="font-size:1.4rem;font-weight:700;color:var(--cisco-blue);">${rs.copilot_comments}</div>
+                        <div style="font-size:1.4rem;font-weight:700;color:var(--demo-blue);">${rs.copilot_comments}</div>
                         <div style="font-size:0.7rem;color:#64748b;">Total</div>
                     </div>
                     <div style="text-align:center;">
@@ -633,7 +633,7 @@ function renderReviewStats(data) {
     return `
         <div class="card" style="grid-column:1/-1;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem;">
-                <span style="font-weight:700;font-size:0.9rem;color:var(--cisco-blue);">💬 PR Review</span>
+                <span style="font-weight:700;font-size:0.9rem;color:var(--demo-blue);">💬 PR Review</span>
                 <div style="display:flex;align-items:center;gap:0.5rem;">
                     <span style="font-size:0.78rem;color:#64748b;">Engagement Score</span>
                     <span style="font-size:1rem;font-weight:700;color:${scoreColor};background:rgba(255,255,255,0.05);padding:0.15rem 0.6rem;border-radius:0.4rem;border:1px solid ${scoreColor}40;">${score} — ${scoreLabel}</span>
@@ -699,7 +699,7 @@ function renderCheckRuns(data) {
         const color = colorFor(c.conclusion === 'in_progress' ? c.status : c.conclusion);
         const dur = c.duration_seconds > 0 ? `<span style="color:#64748b;font-size:0.72rem;">${calculateDuration(c.duration_seconds)}</span>` : '';
         const link = c.details_url
-            ? `<a href="${c.details_url}" target="_blank" style="color:var(--cisco-blue);font-size:0.78rem;text-decoration:none;">↗ details</a>`
+            ? `<a href="${c.details_url}" target="_blank" style="color:var(--demo-blue);font-size:0.78rem;text-decoration:none;">↗ details</a>`
             : '';
         const summary = c.summary ? `<div style="color:#64748b;font-size:0.72rem;margin-top:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;">${c.summary}</div>` : '';
         const appBadge = c.app ? `<span style="font-size:0.65rem;color:#475569;background:rgba(255,255,255,0.05);padding:0.1rem 0.35rem;border-radius:0.25rem;">${c.app}</span>` : '';
@@ -726,7 +726,7 @@ function renderCheckRuns(data) {
     return `
         <div class="card" style="grid-column:1/-1;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-                <span style="font-weight:700;font-size:0.9rem;color:var(--cisco-blue);">🔍 Pre-Commit Checks</span>
+                <span style="font-weight:700;font-size:0.9rem;color:var(--demo-blue);">🔍 Pre-Commit Checks</span>
                 <span style="font-size:0.78rem;color:${headerColor};">
                     ✅ ${passCount} passed &nbsp;
                     ${failCount > 0 ? `❌ ${failCount} failed &nbsp;` : ''}
@@ -770,7 +770,7 @@ function renderAITriage(data) {
 
     // Short note shown for every revision that has triage data
     const noteHtml = noteText
-        ? `<p style="margin:0 0 0.75rem 0; font-size:0.86rem; color:#cbd5e1; line-height:1.5;"><span style="color:var(--cisco-blue);">📝</span> ${noteText}</p>`
+        ? `<p style="margin:0 0 0.75rem 0; font-size:0.86rem; color:#cbd5e1; line-height:1.5;"><span style="color:var(--demo-blue);">📝</span> ${noteText}</p>`
         : '';
 
     let bodyHtml;
@@ -784,7 +784,7 @@ function renderAITriage(data) {
             const bullets = (Array.isArray(e.triage_summary) ? e.triage_summary : [])
                 .map(s => `<li style="margin-bottom:0.35rem;">${s}</li>`).join('');
             const steps = (Array.isArray(e.analysis) ? e.analysis : []).map(a => `
-                <div style="margin-bottom:0.6rem; padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-left:2px solid var(--cisco-blue); border-radius:0.35rem;">
+                <div style="margin-bottom:0.6rem; padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-left:2px solid var(--demo-blue); border-radius:0.35rem;">
                     <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;"><strong>Step ${a.step ?? ''}</strong> &middot; <span style="text-transform:uppercase; letter-spacing:0.03em;">${a.source ?? ''}</span></div>
                     <div style="font-size:0.82rem; color:#e2e8f0; margin-bottom:0.3rem;"><strong>Observation:</strong> ${a.observation ?? ''}</div>
                     <div style="font-size:0.82rem; color:#cbd5e1;"><strong>Conclusion:</strong> ${a.conclusion ?? ''}</div>
@@ -802,15 +802,15 @@ function renderAITriage(data) {
                             <span style="font-size:0.68rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:1rem; background:${cc}22; color:${cc};">${String(e.confidence ?? 'N/A').toUpperCase()} CONF</span>
                         </span>
                     </summary>
-                    <div style="margin-top:0.6rem; padding:0.85rem; background:linear-gradient(135deg, rgba(0,188,235,0.1) 0%, rgba(0,188,235,0.04) 100%); border-left:3px solid var(--cisco-blue); border-radius:0.4rem;">
-                        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; color:var(--cisco-blue); font-weight:700; font-size:0.88rem;">
+                    <div style="margin-top:0.6rem; padding:0.85rem; background:linear-gradient(135deg, rgba(0,188,235,0.1) 0%, rgba(0,188,235,0.04) 100%); border-left:3px solid var(--demo-blue); border-radius:0.4rem;">
+                        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; color:var(--demo-blue); font-weight:700; font-size:0.88rem;">
                             <span style="font-size:1.1rem;">🤖</span><span>AI Suggestion</span>
                         </div>
                         ${bullets ? `<ul style="margin:0 0 0.25rem 1.1rem; padding:0; font-size:0.84rem; color:#e2e8f0; line-height:1.5;">${bullets}</ul>` : '<p style="font-size:0.84rem; color:#94a3b8; margin:0;">No summary provided.</p>'}
                         ${logLink}
                         ${steps ? `
                             <details style="margin-top:0.6rem;">
-                                <summary style="cursor:pointer; font-size:0.82rem; color:var(--cisco-blue); font-weight:600;">Show reasoning (${e.analysis.length} step${e.analysis.length !== 1 ? 's' : ''})</summary>
+                                <summary style="cursor:pointer; font-size:0.82rem; color:var(--demo-blue); font-weight:600;">Show reasoning (${e.analysis.length} step${e.analysis.length !== 1 ? 's' : ''})</summary>
                                 <div style="margin-top:0.5rem;">${steps}</div>
                             </details>` : ''}
                     </div>
@@ -1236,7 +1236,7 @@ async function loadMetrics() {
 
         ciStatusHtml = `
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 188, 235, 0.2);">
-                <h4 style="color: var(--cisco-blue); margin-bottom: 0.5rem;">GitHub PR Status</h4>
+                <h4 style="color: var(--demo-blue); margin-bottom: 0.5rem;">GitHub PR Status</h4>
                 <p><strong>PR Status:</strong> ${prStatusBadge(prStatus)}</p>
                 <p><strong>Review Decision:</strong> <span style="text-transform: capitalize;">${decisionLabel.toLowerCase()}</span></p>
             </div>
@@ -1368,7 +1368,7 @@ function renderMergeReadiness(dataList) {
     return `
     <div class="card" style="padding:1.25rem;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-            <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0;">🚦 Merge Readiness</h3>
+            <h3 style="color:var(--demo-blue);font-size:1rem;margin:0;">🚦 Merge Readiness</h3>
             <span style="background:${verdictColor}22;color:${verdictColor};border:1px solid ${verdictColor}55;padding:0.25rem 0.75rem;border-radius:1rem;font-size:0.72rem;font-weight:700;letter-spacing:0.03em;">${verdictText}</span>
         </div>
         ${rows}
@@ -1398,7 +1398,7 @@ function renderBuildTimeline(dataList) {
     }).join('');
     return `
     <div class="card" style="padding:1.25rem;">
-        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">📈 Build History Timeline</h3>
+        <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.85rem 0;">📈 Build History Timeline</h3>
         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;overflow-x:auto;padding-bottom:0.25rem;">
             ${chips}
         </div>
@@ -1431,10 +1431,10 @@ function renderPrVelocity(dataList) {
         </div>`;
     return `
     <div class="card" style="padding:1.25rem;">
-        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">⏱️ PR Age & Velocity</h3>
+        <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.85rem 0;">⏱️ PR Age & Velocity</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.6rem;">
             ${tile(formatAgeSpan(age), 'PR Age', '#3b82f6')}
-            ${tile(chrono.length, 'Revisions', 'var(--cisco-blue)')}
+            ${tile(chrono.length, 'Revisions', 'var(--demo-blue)')}
             ${tile(avgGap != null ? formatAgeSpan(avgGap) : 'N/A', 'Avg / Revision', '#a78bfa')}
             ${tile(lastActivity != null ? formatAgeSpan(lastActivity) + ' ago' : 'N/A', 'Last Activity', '#f59e0b')}
         </div>
@@ -1446,7 +1446,7 @@ function renderTrendCharts(dataList) {
     if (chronological(dataList).length < 2) return '';
     return `
     <div class="card" style="padding:1.25rem;">
-        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">📉 Trends Across Revisions</h3>
+        <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.85rem 0;">📉 Trends Across Revisions</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
             <div>
                 <div style="font-size:0.75rem;color:#94a3b8;margin-bottom:0.4rem;">Coverage %</div>
@@ -1519,9 +1519,9 @@ function renderReviewerEngagement(dataList) {
         </div>`;
     return `
     <div class="card" style="padding:1.25rem;">
-        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.85rem 0;">👥 Reviewer Engagement</h3>
+        <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.85rem 0;">👥 Reviewer Engagement</h3>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;">
-            ${tile(rs.unique_reviewers || 0, 'Reviewers', 'var(--cisco-blue)')}
+            ${tile(rs.unique_reviewers || 0, 'Reviewers', 'var(--demo-blue)')}
             ${tile(rs.reviews_approved || 0, 'Approvals', '#10b981')}
             ${tile(rs.reviews_changes_requested || 0, 'Changes Req', '#ef4444')}
             ${tile(rs.total_review_comments || 0, 'Comments', '#a78bfa')}
@@ -1562,7 +1562,7 @@ function renderFlakyModules(dataList) {
     }).join('');
     return `
     <div class="card" style="padding:1.25rem;">
-        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.35rem 0;">🎲 Flaky Modules</h3>
+        <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.35rem 0;">🎲 Flaky Modules</h3>
         <div style="font-size:0.72rem;color:#64748b;margin-bottom:0.6rem;">Modules that both passed and failed across revisions</div>
         ${rows}
     </div>`;
@@ -1599,7 +1599,7 @@ function renderErrorFingerprint(dataList) {
         </div>`).join('');
     return `
     <div class="card" style="padding:1.25rem;">
-        <h3 style="color:var(--cisco-blue);font-size:1rem;margin:0 0 0.6rem 0;">🧬 Error Fingerprint</h3>
+        <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.6rem 0;">🧬 Error Fingerprint</h3>
         ${rows}
     </div>`;
 }
@@ -1609,8 +1609,8 @@ function renderCdetLink(dataList) {
     const rev = dataList.find(d => d.cdet && d.cdet !== 'N/A' && d.cdet !== 'No CDET found');
     if (!rev) return '';
     const cdet = rev.cdet;
-    const url = `https://cdetsng.cisco.com/summary/#/defect/${cdet}`;
-    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(239,246,255,0.95);border:1px solid rgba(0,188,235,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--cisco-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
+    const url = `https://cdetsng.demo.com/summary/#/defect/${cdet}`;
+    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(239,246,255,0.95);border:1px solid rgba(0,188,235,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--demo-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
 }
 
 function renderScoreCard(dataList) {
@@ -1738,7 +1738,7 @@ function renderScoreCard(dataList) {
     container.innerHTML = `
         <div style="display:grid; grid-template-columns:1fr; gap:1rem; margin-bottom:1.5rem;">
             <div class="card" style="padding:1.5rem;">
-                <h3 style="color:var(--cisco-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+                <h3 style="color:var(--demo-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(0,188,235,0.2); padding-bottom:0.75rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
                     <span>📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#64748b;">${total} build${total !== 1 ? 's' : ''} analysed</span></span>
                     ${cdetBadge}
                 </h3>
@@ -1784,7 +1784,7 @@ function renderScoreCard(dataList) {
                     <div>
                         <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
                             <div style="background:rgba(239,246,255,0.95); border:1px solid rgba(59,130,246,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:var(--cisco-blue);">${total}</div>
+                                <div style="font-size:1.5rem; font-weight:700; color:var(--demo-blue);">${total}</div>
                                 <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">Total Revisions</div>
                             </div>
                             <div style="background:rgba(239,246,255,0.95); border:1px solid rgba(59,130,246,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">

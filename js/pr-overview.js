@@ -1,23 +1,23 @@
-// PR Overview / Analytics — aggregates across ALL PRs for a project.
+﻿// PR Overview / Analytics — aggregates across ALL PRs for a project.
 const PROJECT_CONFIG = {
     'FXOS': {
         name: 'FXOS',
-        repo: 'cisco-sbg-emu/netsec-fxos',
+        repo: 'demo-sbg-emu/netsec-fxos',
         displayName: 'Phoenix Security Platform'
     },
     'ASA': {
         name: 'ASA',
-        repo: 'cisco-sbg-emu/netsec-asa',
+        repo: 'demo-sbg-emu/netsec-asa',
         displayName: 'Aegis Firewall Suite'
     },
     'IMS': {
         name: 'IMS',
-        repo: 'cisco-sbg-emu/netsec-ims',
+        repo: 'demo-sbg-emu/netsec-ims',
         displayName: 'Sentinel Identity System'
     },
     'USM': {
         name: 'USM',
-        repo: 'cisco-sbg-emu/netsec-ims',
+        repo: 'demo-sbg-emu/netsec-ims',
         displayName: 'Atlas Security Manager'
     }
 };
@@ -220,7 +220,7 @@ function renderKPIs(prs) {
     const openThreads = prs.reduce((s, p) => s + (p.health.unresolved || 0), 0);
 
     const tiles = [
-        { label: 'Total PRs',        value: total,          color: 'var(--cisco-blue)', marker: 'Total' },
+        { label: 'Total PRs',        value: total,          color: 'var(--demo-blue)', marker: 'Total' },
         { label: 'Ready to Merge',   value: readyToMerge,   color: '#10b981', marker: 'Ready' },
         { label: 'Needs Attention',  value: needsAttention, color: '#ef4444', marker: 'Risk' },
         { label: 'Builds Failing',   value: buildsFailing,  color: '#f59e0b', marker: 'Build' },
@@ -613,7 +613,7 @@ function renderAggregate(prs) {
     const tiles = [
         { label: 'Lines Added',      value: `+${nf(add)}`, color: '#10b981' },
         { label: 'Lines Removed',    value: `-${nf(del)}`, color: '#ef4444' },
-        { label: 'Files Changed',    value: nf(cf),        color: 'var(--cisco-blue)' },
+        { label: 'Files Changed',    value: nf(cf),        color: 'var(--demo-blue)' },
         { label: 'UT Stages Passed',  value: nf(utP),      color: '#10b981' },
         { label: 'UT Stages Failed',  value: nf(utF),      color: utF > 0 ? '#ef4444' : '#94a3b8' },
         { label: 'Avg CI Duration',  value: fmtDuration(avgCi), color: '#a78bfa' },
@@ -834,3 +834,4 @@ window.onload = () => {
         });
     });
 };
+

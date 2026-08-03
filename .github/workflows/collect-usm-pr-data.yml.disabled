@@ -1,4 +1,4 @@
-name: PR Dashboard Data Collection - USM
+﻿name: PR Dashboard Data Collection - USM
 
 # Collects pull-request status and review/comment activity for the USM repository.
 # Jenkins remains the owner of build and CI data.
@@ -35,7 +35,7 @@ jobs:
         run: |
           set -uo pipefail
           PROJECT_NAME="USM"
-          REPO_NAME="cisco-sbg-emu/netsec-feature_test_lib"
+          REPO_NAME="demo-sbg-emu/netsec-feature_test_lib"
           BASE_BRANCH="IMS_10_5_MAIN"
           REPO_OWNER="${REPO_NAME%%/*}"
           REPO_REPO="${REPO_NAME##*/}"
@@ -305,3 +305,4 @@ jobs:
             sleep "$attempt"
           done
           $PUSH_OK || { echo "All USM push attempts failed"; exit 1; }
+

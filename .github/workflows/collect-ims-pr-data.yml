@@ -1,4 +1,4 @@
-name: PR Dashboard Data Collection — IMS/USM
+﻿name: PR Dashboard Data Collection — IMS/USM
 
 # Collects pull-request status and review/comment activity for the IMS repository.
 # PRs touching usm/ are tracked as USM; all other PRs are tracked as IMS.
@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -uo pipefail
-          REPO_NAME="cisco-sbg-emu/netsec-ims"
+          REPO_NAME="demo-sbg-emu/netsec-ims"
           BASE_BRANCH="IMS_10_5_MAIN"
           REPO_OWNER="${REPO_NAME%%/*}"
           REPO_REPO="${REPO_NAME##*/}"
@@ -342,3 +342,4 @@ jobs:
             sleep "$attempt"
           done
           $PUSH_OK || { echo "All IMS/USM push attempts failed"; exit 1; }
+
