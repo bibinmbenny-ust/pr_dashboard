@@ -1,8 +1,8 @@
-// PR Overview login gate.
+﻿// PR Overview login gate.
 // Temporary username/password auth. Credentials live base64-encoded in
 // auth/pr-overview-credentials.txt (to be replaced with a real auth option later).
 (() => {
-    const CREDENTIALS_URL = 'auth/pr-overview-credentials.txt?v=20260717';
+    const CREDENTIALS_URL = 'auth/pr-overview-credentials.txt?v=v1.1.55';
     const SESSION_KEY = 'pr-overview-auth';
 
     function decode(value) {
@@ -105,3 +105,4 @@
 
     window.PROverviewAuth = { requireLogin };
 })();
+

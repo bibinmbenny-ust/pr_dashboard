@@ -28,7 +28,7 @@ let currentProject = null;
 async function fetchPRList(url, maxRetries = 3) {
     for (let i = 0; i < maxRetries; i++) {
         try {
-            const cacheBuster = `?v=20260717 Date().getTime()}`;
+            const cacheBuster = `?v=v1.1.55 Date().getTime()}`;
             const response = await fetch(url + cacheBuster, { 
                 credentials: "include", 
                 cache: "no-store" 
@@ -458,5 +458,6 @@ async function initializePage() {
 window.onload = () => {
     window.NetSecAccessControl.runWhenAuthorized(initializePage);
 };
+
 
 
