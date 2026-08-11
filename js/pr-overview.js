@@ -60,7 +60,7 @@ function setOverviewExportReady(isReady) {
 // ── Fetch helpers ───────────────────────────────────────────────────────
 async function fetchJSON(url) {
     try {
-        const res = await fetch(`${url}?v=${Date.now()}`, { credentials: 'include', cache: 'no-store' });
+        const res = await fetch(`${url}?v=20260717 { credentials: 'include', cache: 'no-store' });
         if (!res.ok) return null;
         return await res.json();
     } catch (e) {
@@ -832,4 +832,5 @@ window.onload = () => {
         init();
     });
 };
+
 
