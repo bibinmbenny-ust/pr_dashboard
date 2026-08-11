@@ -28,7 +28,7 @@ let currentProject = null;
 async function fetchPRList(url, maxRetries = 3) {
     for (let i = 0; i < maxRetries; i++) {
         try {
-            const cacheBuster = `?v=v1.1.55 Date().getTime()}`;
+            const cacheBuster = `?v=${Date.now()}`;
             const response = await fetch(url + cacheBuster, { 
                 credentials: "include", 
                 cache: "no-store" 

@@ -2,7 +2,7 @@
 // Temporary username/password auth. Credentials live base64-encoded in
 // auth/pr-overview-credentials.txt (to be replaced with a real auth option later).
 (() => {
-    const CREDENTIALS_URL = 'auth/pr-overview-credentials.txt?v=v1.1.55';
+    const CREDENTIALS_URL = 'auth/pr-overview-credentials.txt';
     const SESSION_KEY = 'pr-overview-auth';
 
     function decode(value) {
@@ -14,7 +14,7 @@
     }
 
     async function loadCredentials() {
-        const res = await fetch(CREDENTIALS_URL, { cache: 'no-store' });
+        const res = await fetch(CREDENTIALS_URL + '?v=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) throw new Error(`Failed to load credentials (${res.status})`);
         const text = await res.text();
         const creds = { user: '', pass: '' };

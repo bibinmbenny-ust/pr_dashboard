@@ -33,7 +33,7 @@ async function fetchWithRetry(url, maxRetries = 3) {
     for (let i = 0; i < maxRetries; i++) {
         try {
             // Add cache-busting query param
-            const cacheBuster = `?v=v1.1.55 Date().getTime()}`;
+            const cacheBuster = `?v=${Date.now()}`;
             const response = await fetch(url + cacheBuster, { credentials: "include", cache: "no-store" });
             
             if (!response.ok) {
@@ -61,7 +61,7 @@ async function fetchWithRetry(url, maxRetries = 3) {
 
 async function fetchJSONFile(url) {
     try {
-        const cacheBuster = `?v=v1.1.55 Date().getTime()}`;
+        const cacheBuster = `?v=${Date.now()}`;
         const response = await fetch(url + cacheBuster, { credentials: "include", cache: "no-store" });
         if (!response.ok) return null;
         return await response.json();
