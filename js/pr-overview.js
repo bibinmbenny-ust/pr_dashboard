@@ -826,12 +826,10 @@ function renderAll(prs) {
 }
 
 window.onload = () => {
-    window.PROverviewAuth.requireLogin(() => {
-        window.NetSecAccessControl.runWhenAuthorized(() => {
-            setupOverviewExportButton();
-            setOverviewExportReady(false);
-            init();
-        });
+    window.NetSecAccessControl.runWhenAuthorized(() => {
+        setupOverviewExportButton();
+        setOverviewExportReady(false);
+        init();
     });
 };
 
