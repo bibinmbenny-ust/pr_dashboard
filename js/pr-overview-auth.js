@@ -39,31 +39,31 @@
         overlay.style.cssText = [
             'position:fixed', 'inset:0', 'z-index:9999',
             'display:flex', 'align-items:center', 'justify-content:center',
-            'background:rgba(15,23,42,0.92)', 'backdrop-filter:blur(4px)'
+            'background:rgba(20,26,34,0.92)', 'backdrop-filter:blur(4px)'
         ].join(';');
 
         overlay.innerHTML = `
             <form id="pr-overview-login-form" style="
-                width:min(360px,90vw);background:#ffffff;border-radius:14px;
+                width:min(360px,90vw);background:#262f3b;border:1px solid #36414f;border-radius:14px;
                 padding:1.75rem 1.75rem 1.5rem;box-shadow:0 24px 60px rgba(0,0,0,0.45);
                 font-family:inherit;">
-                <h2 style="margin:0 0 0.35rem;font-size:1.25rem;color:#0f172a;">PR Overview Login</h2>
-                <p style="margin:0 0 1.25rem;font-size:0.85rem;color:#64748b;">
+                <h2 style="margin:0 0 0.35rem;font-size:1.25rem;color:#d6dde6;">PR Overview Login</h2>
+                <p style="margin:0 0 1.25rem;font-size:0.85rem;color:#7a8696;">
                     Enter your credentials to view the analytics.
                 </p>
-                <label style="display:block;font-size:0.8rem;color:#475569;margin-bottom:0.35rem;">Username</label>
+                <label style="display:block;font-size:0.8rem;color:#9aa6b5;margin-bottom:0.35rem;">Username</label>
                 <input id="pr-login-user" type="text" autocomplete="username" required style="
-                    width:100%;padding:0.6rem 0.7rem;margin-bottom:1rem;border:1px solid #cbd5e1;
+                    width:100%;padding:0.6rem 0.7rem;margin-bottom:1rem;border:1px solid #36414f;background:#1e2530;color:#d6dde6;
                     border-radius:8px;font-size:0.9rem;box-sizing:border-box;">
-                <label style="display:block;font-size:0.8rem;color:#475569;margin-bottom:0.35rem;">Password</label>
+                <label style="display:block;font-size:0.8rem;color:#9aa6b5;margin-bottom:0.35rem;">Password</label>
                 <input id="pr-login-pass" type="password" autocomplete="current-password" required style="
-                    width:100%;padding:0.6rem 0.7rem;margin-bottom:1rem;border:1px solid #cbd5e1;
+                    width:100%;padding:0.6rem 0.7rem;margin-bottom:1rem;border:1px solid #36414f;background:#1e2530;color:#d6dde6;
                     border-radius:8px;font-size:0.9rem;box-sizing:border-box;">
                 <div id="pr-login-error" style="min-height:1.1rem;margin-bottom:0.75rem;
-                    font-size:0.8rem;color:#ef4444;"></div>
+                    font-size:0.8rem;color:#d47e7e;"></div>
                 <button type="submit" style="
                     width:100%;padding:0.65rem;border:none;border-radius:8px;cursor:pointer;
-                    background:#1d4ed8;color:#fff;font-size:0.95rem;font-weight:600;">Sign in</button>
+                    background:#48699a;color:#f1f4f8;font-size:0.95rem;font-weight:600;">Sign in</button>
             </form>`;
         return overlay;
     }

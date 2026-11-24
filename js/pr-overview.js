@@ -129,7 +129,7 @@ function computeHealth(d, hasBuildData = true) {
 }
 
 function scoreColor(score) {
-    return score >= 80 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
+    return score >= 80 ? '#5fa883' : score >= 50 ? '#c9a25a' : '#d47e7e';
 }
 
 function formatDate(s) {
@@ -200,13 +200,13 @@ function quickFilterMatches(p) {
 }
 
 const STATUS_META = {
-    approved:          { label: 'Approved',          color: '#10b981' },
-    merged:            { label: 'Merged',            color: '#a78bfa' },
-    review_required:   { label: 'Review Required',   color: '#3b82f6' },
-    open:              { label: 'Open',              color: '#3b82f6' },
-    changes_requested: { label: 'Changes Requested', color: '#ef4444' },
-    closed:            { label: 'Closed',            color: '#64748b' },
-    draft:             { label: 'Draft',             color: '#f59e0b' },
+    approved:          { label: 'Approved',          color: '#5fa883' },
+    merged:            { label: 'Merged',            color: '#9a8cc4' },
+    review_required:   { label: 'Review Required',   color: '#7a9fce' },
+    open:              { label: 'Open',              color: '#7a9fce' },
+    changes_requested: { label: 'Changes Requested', color: '#d47e7e' },
+    closed:            { label: 'Closed',            color: '#7a8696' },
+    draft:             { label: 'Draft',             color: '#c9a25a' },
 };
 
 // ── KPI tiles ───────────────────────────────────────────────────────────
@@ -221,12 +221,12 @@ function renderKPIs(prs) {
 
     const tiles = [
         { label: 'Total PRs',        value: total,          color: 'var(--demo-blue)', marker: 'Total' },
-        { label: 'Ready to Merge',   value: readyToMerge,   color: '#10b981', marker: 'Ready' },
-        { label: 'Needs Attention',  value: needsAttention, color: '#ef4444', marker: 'Risk' },
-        { label: 'Builds Failing',   value: buildsFailing,  color: '#f59e0b', marker: 'Build' },
-        { label: 'Build Data Missing', value: buildMissing, color: '#64748b', marker: 'Data' },
-        { label: 'Avg PR Health', value: avgScore == null ? 'N/A' : avgScore, color: avgScore == null ? '#64748b' : scoreColor(avgScore), marker: 'Score', suffix: avgScore == null ? '' : '/100' },
-        { label: 'Open Review Threads', value: openThreads, color: '#a78bfa', marker: 'Review' },
+        { label: 'Ready to Merge',   value: readyToMerge,   color: '#5fa883', marker: 'Ready' },
+        { label: 'Needs Attention',  value: needsAttention, color: '#d47e7e', marker: 'Risk' },
+        { label: 'Builds Failing',   value: buildsFailing,  color: '#c9a25a', marker: 'Build' },
+        { label: 'Build Data Missing', value: buildMissing, color: '#7a8696', marker: 'Data' },
+        { label: 'Avg PR Health', value: avgScore == null ? 'N/A' : avgScore, color: avgScore == null ? '#7a8696' : scoreColor(avgScore), marker: 'Score', suffix: avgScore == null ? '' : '/100' },
+        { label: 'Open Review Threads', value: openThreads, color: '#9a8cc4', marker: 'Review' },
     ];
 
     document.getElementById('kpi-grid').innerHTML = tiles.map(t => `
@@ -254,11 +254,11 @@ function renderExecutiveSummary(prs) {
     summaryEl.textContent = `${total} active pull requests analyzed. Average health is ${avgText}, with ${approved} approved, ${reviewRequired} awaiting review, and ${changesRequested} with requested changes.`;
 
     const chips = [
-        { label: 'Approved', value: approved, color: '#10b981' },
-        { label: 'Review Required', value: reviewRequired, color: '#3b82f6' },
-        { label: 'Draft', value: draft, color: '#f59e0b' },
-        { label: 'Changes Requested', value: changesRequested, color: '#ef4444' },
-        { label: 'Build Data Missing', value: buildMissing, color: '#64748b' },
+        { label: 'Approved', value: approved, color: '#5fa883' },
+        { label: 'Review Required', value: reviewRequired, color: '#7a9fce' },
+        { label: 'Draft', value: draft, color: '#c9a25a' },
+        { label: 'Changes Requested', value: changesRequested, color: '#d47e7e' },
+        { label: 'Build Data Missing', value: buildMissing, color: '#7a8696' },
     ];
 
     stripEl.innerHTML = chips.map(chip => `
@@ -276,13 +276,13 @@ function doughnut(canvasId, labels, data, colors) {
     if (charts[canvasId]) charts[canvasId].destroy();
     charts[canvasId] = new Chart(ctx, {
         type: 'doughnut',
-        data: { labels, datasets: [{ data, backgroundColor: colors, borderColor: '#0f172a', borderWidth: 2 }] },
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderColor: '#262f3b', borderWidth: 2 }] },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             cutout: '62%',
             plugins: {
-                legend: { position: 'right', labels: { color: '#cbd5e1', font: { size: 12 }, padding: 12, boxWidth: 14 } },
+                legend: { position: 'right', labels: { color: '#c3ccd7', font: { size: 12 }, padding: 12, boxWidth: 14 } },
                 tooltip: { callbacks: { label: c => ` ${c.label}: ${c.parsed}` } }
             }
         }
@@ -296,7 +296,7 @@ function renderStatusChart(prs) {
     doughnut('statusChart',
         keys.map(k => (STATUS_META[k]?.label) || k),
         keys.map(k => counts[k]),
-        keys.map(k => (STATUS_META[k]?.color) || '#64748b'));
+        keys.map(k => (STATUS_META[k]?.color) || '#7a8696'));
 }
 
 function renderHealthChart(prs) {
@@ -305,7 +305,7 @@ function renderHealthChart(prs) {
     doughnut('healthChart',
         ['Healthy (80–100)', 'At Risk (50–79)', 'Critical (<50)'],
         [bands.healthy, bands.warning, bands.critical],
-        ['#10b981', '#f59e0b', '#ef4444']);
+        ['#5fa883', '#c9a25a', '#d47e7e']);
 }
 
 function renderBuildChart(prs) {
@@ -315,7 +315,7 @@ function renderBuildChart(prs) {
     doughnut('buildChart',
         ['Builds Passing', 'Builds Failing', 'Build Data Missing'],
         [passing, failing, missing],
-        ['#10b981', '#ef4444', '#64748b']);
+        ['#5fa883', '#d47e7e', '#7a8696']);
 }
 
 function renderStatusTrend(prs) {
@@ -354,7 +354,7 @@ function renderStatusTrend(prs) {
             datasets: keys.map(k => ({
                 label: STATUS_META[k]?.label || k,
                 data: values[k],
-                backgroundColor: STATUS_META[k]?.color || '#64748b',
+                backgroundColor: STATUS_META[k]?.color || '#7a8696',
                 borderRadius: 4,
             }))
         },
@@ -362,11 +362,11 @@ function renderStatusTrend(prs) {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                x: { stacked: true, ticks: { color: '#cbd5e1', maxRotation: 0 }, grid: { color: 'rgba(148,163,184,0.12)' } },
-                y: { stacked: true, beginAtZero: true, ticks: { color: '#cbd5e1', precision: 0 }, grid: { color: 'rgba(148,163,184,0.12)' } }
+                x: { stacked: true, ticks: { color: '#c3ccd7', maxRotation: 0 }, grid: { color: 'rgba(148,163,184,0.12)' } },
+                y: { stacked: true, beginAtZero: true, ticks: { color: '#c3ccd7', precision: 0 }, grid: { color: 'rgba(148,163,184,0.12)' } }
             },
             plugins: {
-                legend: { position: 'bottom', labels: { color: '#cbd5e1', boxWidth: 12 } },
+                legend: { position: 'bottom', labels: { color: '#c3ccd7', boxWidth: 12 } },
                 tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y}` } }
             }
         }
@@ -401,11 +401,11 @@ function renderQuickFilterChips(prs) {
 
 function renderAgingBuckets(prs) {
     const buckets = [
-        { label: '0-2 days', min: 0, max: 2, color: '#10b981' },
-        { label: '3-7 days', min: 3, max: 7, color: '#3b82f6' },
-        { label: '8-14 days', min: 8, max: 14, color: '#f59e0b' },
-        { label: '15-30 days', min: 15, max: 30, color: '#ef4444' },
-        { label: '30+ days', min: 31, max: Infinity, color: '#a78bfa' },
+        { label: '0-2 days', min: 0, max: 2, color: '#5fa883' },
+        { label: '3-7 days', min: 3, max: 7, color: '#7a9fce' },
+        { label: '8-14 days', min: 8, max: 14, color: '#c9a25a' },
+        { label: '15-30 days', min: 15, max: 30, color: '#d47e7e' },
+        { label: '30+ days', min: 31, max: Infinity, color: '#9a8cc4' },
     ];
     const total = prs.length || 1;
     const rows = buckets.map(bucket => {
@@ -433,11 +433,11 @@ function renderCopilotActivity(prs) {
     }, { comments: 0, open: 0, addressed: 0, withCopilot: 0 });
     const addressedRate = totals.comments ? Math.round((totals.addressed / totals.comments) * 100) : 0;
     const tiles = [
-        { label: 'Copilot Comments', value: nf(totals.comments), tone: '#3b82f6' },
-        { label: 'Open Copilot Items', value: nf(totals.open), tone: totals.open ? '#f59e0b' : '#10b981' },
-        { label: 'Addressed Items', value: nf(totals.addressed), tone: '#10b981' },
-        { label: 'PRs With Copilot', value: nf(totals.withCopilot), tone: '#a78bfa' },
-        { label: 'Addressed Rate', value: `${addressedRate}%`, tone: addressedRate >= 70 ? '#10b981' : '#f59e0b' },
+        { label: 'Copilot Comments', value: nf(totals.comments), tone: '#7a9fce' },
+        { label: 'Open Copilot Items', value: nf(totals.open), tone: totals.open ? '#c9a25a' : '#5fa883' },
+        { label: 'Addressed Items', value: nf(totals.addressed), tone: '#5fa883' },
+        { label: 'PRs With Copilot', value: nf(totals.withCopilot), tone: '#9a8cc4' },
+        { label: 'Addressed Rate', value: `${addressedRate}%`, tone: addressedRate >= 70 ? '#5fa883' : '#c9a25a' },
     ];
     document.getElementById('copilot-activity').innerHTML = tiles.map(t => `
         <div class="ov-insight-tile" style="border-color:${t.tone};">
@@ -485,12 +485,12 @@ function renderApprovalReadiness(prs) {
     const counts = Object.fromEntries(buckets.map(bucket => [bucket, 0]));
     prs.forEach(p => counts[readinessBucket(p)]++);
     const colors = {
-        'Ready': '#10b981',
-        'Needs Review': '#3b82f6',
-        'Threads Open': '#f59e0b',
-        'Build Blocked': '#ef4444',
-        'Changes Requested': '#ef4444',
-        'Draft': '#64748b',
+        'Ready': '#5fa883',
+        'Needs Review': '#7a9fce',
+        'Threads Open': '#c9a25a',
+        'Build Blocked': '#d47e7e',
+        'Changes Requested': '#d47e7e',
+        'Draft': '#7a8696',
     };
     document.getElementById('approval-readiness').innerHTML = buckets.map(bucket => `
         <div class="ov-readiness-row">
@@ -611,12 +611,12 @@ function renderAggregate(prs) {
     const avgCi = ciN ? Math.round(ciSum / ciN) : 0;
     const nf = n => n.toLocaleString('en-US');
     const tiles = [
-        { label: 'Lines Added',      value: `+${nf(add)}`, color: '#10b981' },
-        { label: 'Lines Removed',    value: `-${nf(del)}`, color: '#ef4444' },
+        { label: 'Lines Added',      value: `+${nf(add)}`, color: '#5fa883' },
+        { label: 'Lines Removed',    value: `-${nf(del)}`, color: '#d47e7e' },
         { label: 'Files Changed',    value: nf(cf),        color: 'var(--demo-blue)' },
-        { label: 'UT Stages Passed',  value: nf(utP),      color: '#10b981' },
-        { label: 'UT Stages Failed',  value: nf(utF),      color: utF > 0 ? '#ef4444' : '#94a3b8' },
-        { label: 'Avg CI Duration',  value: fmtDuration(avgCi), color: '#a78bfa' },
+        { label: 'UT Stages Passed',  value: nf(utP),      color: '#5fa883' },
+        { label: 'UT Stages Failed',  value: nf(utF),      color: utF > 0 ? '#d47e7e' : '#9aa6b5' },
+        { label: 'Avg CI Duration',  value: fmtDuration(avgCi), color: '#9a8cc4' },
     ];
     document.getElementById('aggregate-grid').innerHTML = tiles.map(t => `
         <div class="ov-agg-tile">
