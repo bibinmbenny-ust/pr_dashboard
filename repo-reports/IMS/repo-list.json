@@ -1,0 +1,127 @@
+{
+  "project": "IMS",
+  "display_name": "Luna",
+  "organization": "demo-sbg-emu",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "total_count": 5,
+  "summary": {
+    "total_repos": 5,
+    "open_prs": 51,
+    "open_issues": 112,
+    "failing_ci": 1,
+    "security_alerts": 110
+  },
+  "repositories": [
+    {
+      "name": "luna-admin-portal",
+      "full_name": "demo-sbg-emu/luna-admin-portal",
+      "description": "Administration portal for Luna tenants.",
+      "html_url": "https://github.com/demo-sbg-emu/luna-admin-portal",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "TypeScript",
+      "topics": [
+        "ui",
+        "admin"
+      ],
+      "stars": 3,
+      "forks": 13,
+      "open_prs": 6,
+      "open_issues": 31,
+      "pushed_at": "2026-11-23T06:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 8,
+      "health_percentage": 75
+    },
+    {
+      "name": "luna-connectors",
+      "full_name": "demo-sbg-emu/luna-connectors",
+      "description": "Directory and SSO connectors (LDAP, SAML, OIDC).",
+      "html_url": "https://github.com/demo-sbg-emu/luna-connectors",
+      "visibility": "internal",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Java",
+      "topics": [
+        "connectors",
+        "sso"
+      ],
+      "stars": 56,
+      "forks": 32,
+      "open_prs": 19,
+      "open_issues": 40,
+      "pushed_at": "2026-11-19T23:00:00Z",
+      "ci_status": "success",
+      "security_alerts": 29,
+      "health_percentage": 88
+    },
+    {
+      "name": "luna-infra",
+      "full_name": "demo-sbg-emu/luna-infra",
+      "description": "Infrastructure-as-code and deployment manifests.",
+      "html_url": "https://github.com/demo-sbg-emu/luna-infra",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "HCL",
+      "topics": [
+        "infra",
+        "terraform"
+      ],
+      "stars": 13,
+      "forks": 5,
+      "open_prs": 3,
+      "open_issues": 16,
+      "pushed_at": "2026-11-19T06:00:00Z",
+      "ci_status": "success",
+      "security_alerts": 8,
+      "health_percentage": 50
+    },
+    {
+      "name": "luna-policy-engine",
+      "full_name": "demo-sbg-emu/luna-policy-engine",
+      "description": "Policy evaluation engine and rule compiler.",
+      "html_url": "https://github.com/demo-sbg-emu/luna-policy-engine",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "C++",
+      "topics": [
+        "policy",
+        "engine"
+      ],
+      "stars": 10,
+      "forks": 12,
+      "open_prs": 19,
+      "open_issues": 25,
+      "pushed_at": "2026-11-18T03:00:00Z",
+      "ci_status": "success",
+      "security_alerts": 31,
+      "health_percentage": 75
+    },
+    {
+      "name": "luna-identity-service",
+      "full_name": "demo-sbg-emu/luna-identity-service",
+      "description": "Identity and session management service for Luna.",
+      "html_url": "https://github.com/demo-sbg-emu/luna-identity-service",
+      "visibility": "internal",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Go",
+      "topics": [
+        "identity",
+        "auth",
+        "service"
+      ],
+      "stars": 40,
+      "forks": 1,
+      "open_prs": 4,
+      "open_issues": 0,
+      "pushed_at": "2026-11-16T07:00:00Z",
+      "ci_status": "in_progress",
+      "security_alerts": 34,
+      "health_percentage": 75
+    }
+  ]
+}

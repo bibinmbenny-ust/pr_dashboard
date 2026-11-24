@@ -253,5 +253,5 @@ For issues or questions:
 5. Check pr-list.json file contents
 
 ## License
-Part of demo NetSec PR Dashboard project
+Part of the OneView Dashboard project
 

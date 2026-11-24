@@ -932,7 +932,7 @@ function setupDashboardExportButton() {
         const params = new URLSearchParams(window.location.search);
         const prId = params.get('pr') || 'unknown';
         const originalTitle = document.title;
-        const projectName = currentProject ? currentProject.name : 'NetSec';
+        const projectName = currentProject ? currentProject.name : 'OneView';
 
         const restoreTitle = () => {
             document.title = originalTitle;

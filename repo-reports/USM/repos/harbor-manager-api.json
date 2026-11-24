@@ -1,0 +1,223 @@
+{
+  "project": "USM",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "harbor-manager-api",
+    "full_name": "demo-sbg-emu/harbor-manager-api",
+    "description": "REST API for the Harbor unified security manager.",
+    "html_url": "https://github.com/demo-sbg-emu/harbor-manager-api",
+    "homepage": null,
+    "visibility": "internal",
+    "archived": false,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": "Apache-2.0",
+    "topics": [
+      "api",
+      "backend"
+    ],
+    "created_at": "2021-12-14T06:00:00Z",
+    "updated_at": "2026-11-19T14:00:00Z",
+    "pushed_at": "2026-11-19T14:00:00Z",
+    "size_kb": 125810,
+    "language": "Java"
+  },
+  "stats": {
+    "stars": 35,
+    "forks": 34,
+    "watchers": 25,
+    "open_issues": 36,
+    "open_prs": 19,
+    "merged_prs_30d": 35,
+    "closed_prs_30d": 3,
+    "commits_30d": 68
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 2
+    },
+    {
+      "week": "2026-09-13",
+      "total": 33
+    },
+    {
+      "week": "2026-09-20",
+      "total": 4
+    },
+    {
+      "week": "2026-09-27",
+      "total": 31
+    },
+    {
+      "week": "2026-10-04",
+      "total": 18
+    },
+    {
+      "week": "2026-10-11",
+      "total": 41
+    },
+    {
+      "week": "2026-10-18",
+      "total": 27
+    },
+    {
+      "week": "2026-10-25",
+      "total": 33
+    },
+    {
+      "week": "2026-11-01",
+      "total": 19
+    },
+    {
+      "week": "2026-11-08",
+      "total": 5
+    },
+    {
+      "week": "2026-11-15",
+      "total": 36
+    },
+    {
+      "week": "2026-11-22",
+      "total": 8
+    }
+  ],
+  "languages": {
+    "Java": 2416354,
+    "Kotlin": 253449,
+    "Shell": 228893,
+    "Dockerfile": 201304
+  },
+  "contributors": [
+    {
+      "login": "priya_demo",
+      "contributions": 749
+    },
+    {
+      "login": "zoe_demo",
+      "contributions": 720
+    },
+    {
+      "login": "lena_demo",
+      "contributions": 704
+    },
+    {
+      "login": "alex_demo",
+      "contributions": 569
+    },
+    {
+      "login": "tom_demo",
+      "contributions": 518
+    },
+    {
+      "login": "kai_demo",
+      "contributions": 373
+    },
+    {
+      "login": "sam_demo",
+      "contributions": 337
+    },
+    {
+      "login": "ivy_demo",
+      "contributions": 254
+    }
+  ],
+  "branches": {
+    "total": 19,
+    "protected": 3,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 2,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": true,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests"
+      ],
+      "enforce_admins": false,
+      "required_linear_history": false
+    }
+  },
+  "releases": {
+    "total_tags": 28,
+    "latest": {
+      "tag_name": "v2.10.6",
+      "name": null,
+      "published_at": "2026-10-01T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/demo-sbg-emu/harbor-manager-api/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-21T03:00:00Z",
+        "duration_seconds": 3575,
+        "html_url": "https://github.com/demo-sbg-emu/harbor-manager-api/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2026-11-21T23:00:00Z",
+        "duration_seconds": 547,
+        "html_url": "https://github.com/demo-sbg-emu/harbor-manager-api/actions/workflows/unit-tests.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 0,
+      "high": 2,
+      "medium": 3,
+      "low": 9
+    },
+    "code_scanning": null,
+    "secret_scanning_open": 0
+  },
+  "community": {
+    "health_percentage": 88,
+    "files": {
+      "readme": true,
+      "license": true,
+      "contributing": false,
+      "code_of_conduct": true,
+      "codeowners": true,
+      "security_policy": true,
+      "issue_template": true,
+      "pull_request_template": true
+    }
+  },
+  "settings": {
+    "allow_merge_commit": true,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true,
+    "allow_auto_merge": true,
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": false,
+    "has_discussions": false
+  },
+  "access": {
+    "collaborators": 25,
+    "teams": [
+      "harbor-maintainers",
+      "harbor-developers"
+    ]
+  }
+}

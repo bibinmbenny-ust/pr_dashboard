@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JIRA Project - OneView Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css?v=v1.1.56">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <script src="js/access-control.js?v=v1.1.56"></script>
+</head>
+<body>
+    <div class="global-header">
+        <div class="title-container">
+            <h1 id="jr-title">JIRA</h1>
+            <p class="rd-breadcrumb">
+                <a href="projects.html?dashboard=jira">← Back to Projects</a>
+                <span aria-hidden="true">·</span>
+                <a href="jira-portfolio.html">📊 Portfolio</a>
+                <span aria-hidden="true">·</span>
+                <a href="index.html">🏠 Home</a>
+                <span aria-hidden="true">·</span>
+                <a href="ai-insights.html" class="ai-nav-link">✨ AI Insights</a>
+            </p>
+        </div>
+        <div class="brand-pill">SECUREOPS</div>
+    </div>
+
+    <p id="loading-message" class="card">Loading JIRA project...</p>
+
+    <div id="jr-app" style="display: none;">
+        <div id="jr-project-head"></div>
+        <nav class="jr-tabs" role="tablist" aria-label="Project views">
+            <button role="tab" data-tab="overview">Overview</button>
+            <button role="tab" data-tab="sprint">Sprint</button>
+            <button role="tab" data-tab="board">Board</button>
+            <button role="tab" data-tab="team">Team</button>
+            <button role="tab" data-tab="issues">Issues</button>
+            <button role="tab" data-tab="releases">Releases</button>
+            <button role="tab" data-tab="epics">Epics</button>
+        </nav>
+        <div id="jr-tab-panel" role="tabpanel"></div>
+    </div>
+
+    <div id="site-footer"></div>
+
+    <script src="js/repo-common.js?v=v1.1.56"></script>
+    <script src="js/jira-common.js?v=v1.1.56"></script>
+    <script src="js/jira-charts.js?v=v1.1.56"></script>
+    <script src="js/ai-engine.js?v=v1.1.56"></script>
+    <script src="js/jira-project.js?v=v1.1.56"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

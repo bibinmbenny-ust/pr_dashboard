@@ -1,0 +1,213 @@
+{
+  "project": "USM",
+  "jira_project": {
+    "key": "HRB",
+    "name": "Harbor",
+    "lead": "omar_demo",
+    "url": "https://jira.example.com/projects/HRB"
+  },
+  "board": {
+    "id": 221,
+    "name": "Harbor Scrum Board",
+    "type": "scrum"
+  },
+  "jira_base_url": "https://jira.example.com",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "active_sprint": {
+    "id": 1021,
+    "name": "HRB Sprint 21",
+    "state": "active",
+    "start": "2026-11-16T03:30:00Z",
+    "end": "2026-11-30T03:30:00Z",
+    "goal": "Finish the epic MVP and harden tests",
+    "committed_points": 34,
+    "added_points": 14,
+    "completed_points": 34,
+    "carried_over": [
+      "HRB-432",
+      "HRB-433",
+      "HRB-434"
+    ],
+    "burndown": [
+      {
+        "date": "2026-11-16",
+        "remaining": 34
+      },
+      {
+        "date": "2026-11-17",
+        "remaining": 34
+      },
+      {
+        "date": "2026-11-18",
+        "remaining": 35
+      },
+      {
+        "date": "2026-11-19",
+        "remaining": 35
+      },
+      {
+        "date": "2026-11-20",
+        "remaining": 25
+      },
+      {
+        "date": "2026-11-21",
+        "remaining": 25
+      },
+      {
+        "date": "2026-11-22",
+        "remaining": 25
+      },
+      {
+        "date": "2026-11-23",
+        "remaining": 33
+      },
+      {
+        "date": "2026-11-24",
+        "remaining": 14
+      }
+    ]
+  },
+  "sprints": [
+    {
+      "id": 1015,
+      "name": "HRB Sprint 15",
+      "state": "closed",
+      "start": "2026-08-24T03:30:00Z",
+      "end": "2026-09-07T03:30:00Z"
+    },
+    {
+      "id": 1016,
+      "name": "HRB Sprint 16",
+      "state": "closed",
+      "start": "2026-09-07T03:30:00Z",
+      "end": "2026-09-21T03:30:00Z"
+    },
+    {
+      "id": 1017,
+      "name": "HRB Sprint 17",
+      "state": "closed",
+      "start": "2026-09-21T03:30:00Z",
+      "end": "2026-10-05T03:30:00Z"
+    },
+    {
+      "id": 1018,
+      "name": "HRB Sprint 18",
+      "state": "closed",
+      "start": "2026-10-05T03:30:00Z",
+      "end": "2026-10-19T03:30:00Z"
+    },
+    {
+      "id": 1019,
+      "name": "HRB Sprint 19",
+      "state": "closed",
+      "start": "2026-10-19T03:30:00Z",
+      "end": "2026-11-02T03:30:00Z"
+    },
+    {
+      "id": 1020,
+      "name": "HRB Sprint 20",
+      "state": "closed",
+      "start": "2026-11-02T03:30:00Z",
+      "end": "2026-11-16T03:30:00Z"
+    },
+    {
+      "id": 1021,
+      "name": "HRB Sprint 21",
+      "state": "active",
+      "start": "2026-11-16T03:30:00Z",
+      "end": "2026-11-30T03:30:00Z"
+    }
+  ],
+  "velocity": [
+    {
+      "sprint": "HRB Sprint 15",
+      "committed": 47,
+      "completed": 39
+    },
+    {
+      "sprint": "HRB Sprint 16",
+      "committed": 30,
+      "completed": 27
+    },
+    {
+      "sprint": "HRB Sprint 17",
+      "committed": 33,
+      "completed": 31
+    },
+    {
+      "sprint": "HRB Sprint 18",
+      "committed": 42,
+      "completed": 39
+    },
+    {
+      "sprint": "HRB Sprint 19",
+      "committed": 60,
+      "completed": 58
+    },
+    {
+      "sprint": "HRB Sprint 20",
+      "committed": 39,
+      "completed": 39
+    }
+  ],
+  "versions": [
+    {
+      "id": 5000,
+      "name": "Harbor 3.8.0",
+      "release_date": "2026-11-06",
+      "released": true,
+      "start_date": "2026-09-07"
+    },
+    {
+      "id": 5001,
+      "name": "Harbor 3.9.0",
+      "release_date": "2026-12-18",
+      "released": false,
+      "start_date": "2026-10-19"
+    },
+    {
+      "id": 5002,
+      "name": "Harbor 4.0.0",
+      "release_date": "2027-03-14",
+      "released": false,
+      "start_date": "2027-01-13"
+    }
+  ],
+  "team": [
+    {
+      "user": "omar_demo",
+      "capacity_points": 9,
+      "role": "Lead"
+    },
+    {
+      "user": "priya_demo",
+      "capacity_points": 12,
+      "role": "Engineer"
+    },
+    {
+      "user": "nina_demo",
+      "capacity_points": 8,
+      "role": "Engineer"
+    },
+    {
+      "user": "lena_demo",
+      "capacity_points": 12,
+      "role": "Engineer"
+    },
+    {
+      "user": "zoe_demo",
+      "capacity_points": 8,
+      "role": "Engineer"
+    },
+    {
+      "user": "raj_demo",
+      "capacity_points": 8,
+      "role": "Engineer"
+    },
+    {
+      "user": "tom_demo",
+      "capacity_points": 11,
+      "role": "Engineer"
+    }
+  ]
+}

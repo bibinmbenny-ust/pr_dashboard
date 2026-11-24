@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Repository Details - OneView Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css?v=v1.1.56">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <script src="js/access-control.js?v=v1.1.56"></script>
+</head>
+<body>
+    <div class="global-header">
+        <div class="title-container">
+            <h1 id="repo-page-title">Repository</h1>
+            <p class="rd-breadcrumb">
+                <a id="rd-back-link" href="projects.html?dashboard=repo">← Back to Repositories</a>
+                <span aria-hidden="true">·</span>
+                <a href="index.html">🏠 Home</a>
+                <span aria-hidden="true">·</span>
+                <a href="ai-insights.html" class="ai-nav-link">✨ AI Insights</a>
+            </p>
+        </div>
+        <div class="brand-pill">SECUREOPS</div>
+    </div>
+
+    <p id="loading-message" class="card">Loading repository details...</p>
+    <div id="rd-detail" style="display: none;"></div>
+
+    <div id="rd-tooltip" class="rd-tooltip" role="tooltip" hidden></div>
+    <div id="site-footer"></div>
+
+    <script src="js/repo-common.js?v=v1.1.56"></script>
+    <script src="js/repo-details.js?v=v1.1.56"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

@@ -404,7 +404,7 @@ async function initializePage() {
         document.getElementById('loading-message').innerHTML = `
             <span style="color: var(--failure);">⚠️ Unknown project: ${projectKey}</span><br><br>
             Available projects: ${Object.keys(PROJECT_CONFIG).join(', ')}<br><br>
-            <a href="index.html" class="btn">Back to Projects</a>
+            <a href="projects.html" class="btn">Back to Projects</a>
         `;
         return;
     }
@@ -428,7 +428,7 @@ async function initializePage() {
             <span style="color: var(--failure);">❌ Failed to load PR list</span><br><br>
             Could not fetch data from: <code>${prListPath}</code><br><br>
             The GitHub Action may not have run yet, or the file doesn't exist.<br><br>
-            <a href="index.html" class="btn">Back to Projects</a>
+            <a href="projects.html" class="btn">Back to Projects</a>
         `;
         return;
     }

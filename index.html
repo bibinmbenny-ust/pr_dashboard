@@ -3,73 +3,101 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NetSec Dashboard - Home</title>
+    <title>OneView Dashboard - Home</title>
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
     <script src="js/access-control.js?v=v1.1.56"></script>
 </head>
 <body class="landing-page">
     <div class="animated-bg"></div>
     
     <div class="global-header">
-        <div class="title-container">
-            <h1 class="animated-title">NetSec Dashboard</h1>
+        <div class="title-container brand-lockup">
+            <img src="img/oneview-logo.svg" alt="" class="brand-logo" width="44" height="44" />
+            <div>
+                <h1 class="animated-title">OneView Dashboard</h1>
+                <p class="brand-tagline">AI-powered insights for PRs, repos, builds and tickets</p>
+            </div>
         </div>
         <div class="brand-pill">SECUREOPS</div>
     </div>
 
     <div class="intro-section">
-        <h2 class="hero-title">Select Your Project</h2>
-        <p class="hero-subtitle">Choose a project to access PR tracking, repository analytics, CI/CD pipelines, and issue management.</p>
-        <div class="feature-pills">
-            <span class="pill">✓ Multi-Dashboard Access</span>
-            <span class="pill">✓ Real-time Monitoring</span>
-            <span class="pill">✓ Comprehensive Analytics</span>
-        </div>
+        <h2 class="hero-title">Choose Your Dashboard</h2>
+        <p class="hero-subtitle">One place for your pull requests, repositories, Jenkins builds and JIRA tickets.</p>
     </div>
 
-    <div class="project-grid">
-        <div class="project-card fxos-card" onclick="location.href='pr-list.html?project=FXOS'">
-            <div class="card-icon">🔥</div>
-            <h2>Orion</h2>
-            <p>Orion PR analytics for merge readiness, review velocity, and CI health.</p>
-            <div class="card-stats">
-                <span class="stat">🔧 PR Health</span>
-                <span class="stat">⚡ Build Status</span>
+    <div class="ai-home-banner">
+        <div>
+            <h2>✨ OneView AI</h2>
+            <p>Sprint forecasts, risk radar, recommended actions and cross-tool signals that connect JIRA, pull requests and repositories.</p>
+        </div>
+        <a href="ai-insights.html" class="btn btn-primary">Open AI Insights →</a>
+    </div>
+
+    <div class="dashboard-type-grid">
+        <div class="dashboard-type-card active" onclick="location.href='projects.html'">
+            <div class="card-header-badge">
+                <span class="badge-ready">Ready</span>
             </div>
-            <a href="pr-list.html?project=FXOS" class="btn" onclick="event.stopPropagation()">View PRs</a>
+            <div class="card-icon-large">📊</div>
+            <h2>PR Dashboard</h2>
+            <p>Monitor pull requests with real-time CI/CD status, code quality metrics, and build analytics.</p>
+            <div class="card-features">
+                <span class="feature-item">✓ CI/CD Status</span>
+                <span class="feature-item">✓ Code Metrics</span>
+                <span class="feature-item">✓ Build Analytics</span>
+                <span class="feature-item">✓ AI Suggestions</span>
+            </div>
+            <a href="projects.html" class="btn btn-primary" onclick="event.stopPropagation()">Launch Dashboard →</a>
         </div>
 
-        <div class="project-card ims-card" onclick="location.href='pr-list.html?project=IMS'">
-            <div class="card-icon">🔐</div>
-            <h2>Luna</h2>
-            <p>Luna PR insights for review timelines, feedback counts, and approval rates.</p>
-            <div class="card-stats">
-                <span class="stat">👤 Review Activity</span>
-                <span class="stat">🛡️ Approval Rate</span>
+        <div class="dashboard-type-card active" onclick="location.href='projects.html?dashboard=repo'">
+            <div class="card-header-badge">
+                <span class="badge-ready">Ready</span>
             </div>
-            <a href="pr-list.html?project=IMS" class="btn" onclick="event.stopPropagation()">View PRs</a>
+            <div class="card-icon-large">📦</div>
+            <h2>Repo Dashboard</h2>
+            <p>GitHub repository insights: activity, contributors, CI health, security alerts and repo settings.</p>
+            <div class="card-features">
+                <span class="feature-item">✓ Commit Trends</span>
+                <span class="feature-item">✓ Contributors</span>
+                <span class="feature-item">✓ Security Alerts</span>
+                <span class="feature-item">✓ Branch Protection</span>
+            </div>
+            <a href="projects.html?dashboard=repo" class="btn btn-primary" onclick="event.stopPropagation()">Launch Dashboard →</a>
         </div>
 
-        <div class="project-card usm-card" onclick="location.href='pr-list.html?project=USM'">
-            <div class="card-icon">🧭</div>
-            <h2>Harbor</h2>
-            <p>Harbor pull request visibility for CI results, merge blockers, and author activity.</p>
-            <div class="card-stats">
-                <span class="stat">🚀 Merge Readiness</span>
-                <span class="stat">📈 CI Signals</span>
+        <div class="dashboard-type-card coming-soon">
+            <div class="card-header-badge">
+                <span class="badge-soon">Coming Soon</span>
             </div>
-            <a href="pr-list.html?project=USM" class="btn" onclick="event.stopPropagation()">View PRs</a>
+            <div class="card-icon-large">🔨</div>
+            <h2>Jenkins Dashboard</h2>
+            <p>Track Jenkins build pipelines, job statuses, and execution history across all your CI/CD workflows.</p>
+            <div class="card-features">
+                <span class="feature-item">⏳ Build Pipelines</span>
+                <span class="feature-item">⏳ Job History</span>
+                <span class="feature-item">⏳ Queue Status</span>
+                <span class="feature-item">⏳ Agent Health</span>
+            </div>
+            <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
 
-        <div class="project-card asa-card" onclick="location.href='pr-list.html?project=ASA'">
-            <div class="card-icon">🛡️</div>
-            <h2>Quasar</h2>
-            <p>Quasar PR tracking with change status, review cadence, and merging trends.</p>
-            <div class="card-stats">
-                <span class="stat">🧱 Review Cadence</span>
-                <span class="stat">🔎 Merge Trends</span>
+        <div class="dashboard-type-card active" onclick="location.href='projects.html?dashboard=jira'">
+            <div class="card-header-badge">
+                <span class="badge-ready">Ready</span>
             </div>
-            <a href="pr-list.html?project=ASA" class="btn" onclick="event.stopPropagation()">View PRs</a>
+            <div class="card-icon-large">📋</div>
+            <h2>JIRA Dashboard</h2>
+            <p>Sprint health, blockers, team workload and releases for every project, plus a portfolio view for managers.</p>
+            <div class="card-features">
+                <span class="feature-item">✓ Sprint Status</span>
+                <span class="feature-item">✓ Issue Tracking</span>
+                <span class="feature-item">✓ Velocity Charts</span>
+                <span class="feature-item">✓ Team Workload</span>
+            </div>
+            <a href="projects.html?dashboard=jira" class="btn btn-primary" onclick="event.stopPropagation()">Launch Dashboard →</a>
         </div>
     </div>
 
@@ -77,6 +105,4 @@
     <script src="js/footer.js"></script>
 </body>
 </html>
-
-
 

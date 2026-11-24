@@ -1,0 +1,146 @@
+{
+  "project": "ASA",
+  "display_name": "Quasar",
+  "organization": "demo-sbg-emu",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "total_count": 6,
+  "summary": {
+    "total_repos": 6,
+    "open_prs": 66,
+    "open_issues": 113,
+    "failing_ci": 5,
+    "security_alerts": 118
+  },
+  "repositories": [
+    {
+      "name": "quasar-sdk",
+      "full_name": "demo-sbg-emu/quasar-sdk",
+      "description": "SDK and sample integrations for Quasar APIs.",
+      "html_url": "https://github.com/demo-sbg-emu/quasar-sdk",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Python",
+      "topics": [
+        "sdk",
+        "samples"
+      ],
+      "stars": 119,
+      "forks": 44,
+      "open_prs": 3,
+      "open_issues": 17,
+      "pushed_at": "2026-11-23T06:00:00Z",
+      "ci_status": "in_progress",
+      "security_alerts": 13,
+      "health_percentage": 63
+    },
+    {
+      "name": "quasar-control-plane",
+      "full_name": "demo-sbg-emu/quasar-control-plane",
+      "description": "Control plane daemons and configuration manager.",
+      "html_url": "https://github.com/demo-sbg-emu/quasar-control-plane",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "C++",
+      "topics": [
+        "control-plane"
+      ],
+      "stars": 38,
+      "forks": 28,
+      "open_prs": 13,
+      "open_issues": 27,
+      "pushed_at": "2026-11-19T20:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 21,
+      "health_percentage": 50
+    },
+    {
+      "name": "quasar-perf-lab",
+      "full_name": "demo-sbg-emu/quasar-perf-lab",
+      "description": "Performance benchmarks and lab automation.",
+      "html_url": "https://github.com/demo-sbg-emu/quasar-perf-lab",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Python",
+      "topics": [
+        "benchmarks",
+        "automation"
+      ],
+      "stars": 73,
+      "forks": 24,
+      "open_prs": 10,
+      "open_issues": 13,
+      "pushed_at": "2026-11-19T06:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 20,
+      "health_percentage": 75
+    },
+    {
+      "name": "quasar-cli",
+      "full_name": "demo-sbg-emu/quasar-cli",
+      "description": "Command line interface and shell for Quasar.",
+      "html_url": "https://github.com/demo-sbg-emu/quasar-cli",
+      "visibility": "internal",
+      "archived": false,
+      "default_branch": "main",
+      "language": "C",
+      "topics": [
+        "cli"
+      ],
+      "stars": 132,
+      "forks": 5,
+      "open_prs": 10,
+      "open_issues": 18,
+      "pushed_at": "2026-11-18T07:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 19,
+      "health_percentage": 50
+    },
+    {
+      "name": "quasar-ci-pipelines",
+      "full_name": "demo-sbg-emu/quasar-ci-pipelines",
+      "description": "Shared CI pipeline definitions and reusable actions.",
+      "html_url": "https://github.com/demo-sbg-emu/quasar-ci-pipelines",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Shell",
+      "topics": [
+        "ci",
+        "pipelines"
+      ],
+      "stars": 33,
+      "forks": 38,
+      "open_prs": 14,
+      "open_issues": 31,
+      "pushed_at": "2026-11-15T08:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 23,
+      "health_percentage": 63
+    },
+    {
+      "name": "quasar-dataplane",
+      "full_name": "demo-sbg-emu/quasar-dataplane",
+      "description": "High-performance packet processing dataplane.",
+      "html_url": "https://github.com/demo-sbg-emu/quasar-dataplane",
+      "visibility": "internal",
+      "archived": false,
+      "default_branch": "main",
+      "language": "C",
+      "topics": [
+        "dataplane",
+        "performance"
+      ],
+      "stars": 83,
+      "forks": 42,
+      "open_prs": 16,
+      "open_issues": 7,
+      "pushed_at": "2026-11-14T12:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 22,
+      "health_percentage": 63
+    }
+  ]
+}

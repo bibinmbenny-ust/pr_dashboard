@@ -1,0 +1,251 @@
+{
+  "project": "USM",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "harbor-legacy-scripts",
+    "full_name": "demo-sbg-emu/harbor-legacy-scripts",
+    "description": "Legacy migration scripts kept for reference.",
+    "html_url": "https://github.com/demo-sbg-emu/harbor-legacy-scripts",
+    "homepage": null,
+    "visibility": "private",
+    "archived": true,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": null,
+    "topics": [
+      "legacy"
+    ],
+    "created_at": "2022-05-19T06:00:00Z",
+    "updated_at": "2026-03-01T06:00:00Z",
+    "pushed_at": "2026-03-01T06:00:00Z",
+    "size_kb": 43323,
+    "language": "Shell"
+  },
+  "stats": {
+    "stars": 98,
+    "forks": 2,
+    "watchers": 40,
+    "open_issues": 0,
+    "open_prs": 0,
+    "merged_prs_30d": 0,
+    "closed_prs_30d": 0,
+    "commits_30d": 0
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 0
+    },
+    {
+      "week": "2026-09-13",
+      "total": 0
+    },
+    {
+      "week": "2026-09-20",
+      "total": 0
+    },
+    {
+      "week": "2026-09-27",
+      "total": 0
+    },
+    {
+      "week": "2026-10-04",
+      "total": 0
+    },
+    {
+      "week": "2026-10-11",
+      "total": 0
+    },
+    {
+      "week": "2026-10-18",
+      "total": 0
+    },
+    {
+      "week": "2026-10-25",
+      "total": 0
+    },
+    {
+      "week": "2026-11-01",
+      "total": 0
+    },
+    {
+      "week": "2026-11-08",
+      "total": 0
+    },
+    {
+      "week": "2026-11-15",
+      "total": 0
+    },
+    {
+      "week": "2026-11-22",
+      "total": 0
+    }
+  ],
+  "languages": {
+    "Shell": 3507326,
+    "Python": 689304,
+    "Perl": 1487370
+  },
+  "contributors": [
+    {
+      "login": "sam_demo",
+      "contributions": 673
+    },
+    {
+      "login": "kai_demo",
+      "contributions": 636
+    },
+    {
+      "login": "zoe_demo",
+      "contributions": 592
+    },
+    {
+      "login": "raj_demo",
+      "contributions": 520
+    },
+    {
+      "login": "alex_demo",
+      "contributions": 478
+    },
+    {
+      "login": "priya_demo",
+      "contributions": 299
+    },
+    {
+      "login": "mei_demo",
+      "contributions": 205
+    }
+  ],
+  "branches": {
+    "total": 5,
+    "protected": 3,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 2,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": false,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests",
+        "CodeQL"
+      ],
+      "enforce_admins": true,
+      "required_linear_history": false
+    }
+  },
+  "releases": {
+    "total_tags": 3,
+    "latest": {
+      "tag_name": "v3.4.8",
+      "name": null,
+      "published_at": "2025-10-05T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/demo-sbg-emu/harbor-legacy-scripts/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "disabled_inactivity",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-04-28T06:00:00Z",
+        "duration_seconds": 973,
+        "html_url": "https://github.com/demo-sbg-emu/harbor-legacy-scripts/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "disabled_inactivity",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2025-12-16T06:00:00Z",
+        "duration_seconds": 3501,
+        "html_url": "https://github.com/demo-sbg-emu/harbor-legacy-scripts/actions/workflows/unit-tests.yml"
+      }
+    },
+    {
+      "name": "CodeQL",
+      "path": ".github/workflows/codeql.yml",
+      "state": "disabled_inactivity",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2025-11-27T06:00:00Z",
+        "duration_seconds": 808,
+        "html_url": "https://github.com/demo-sbg-emu/harbor-legacy-scripts/actions/workflows/codeql.yml"
+      }
+    },
+    {
+      "name": "Release",
+      "path": ".github/workflows/release.yml",
+      "state": "disabled_inactivity",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-04-28T06:00:00Z",
+        "duration_seconds": 1887,
+        "html_url": "https://github.com/demo-sbg-emu/harbor-legacy-scripts/actions/workflows/release.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 0,
+      "high": 1,
+      "medium": 2,
+      "low": 3
+    },
+    "code_scanning": {
+      "critical": 1,
+      "high": 4,
+      "medium": 6,
+      "low": 3
+    },
+    "secret_scanning_open": 0
+  },
+  "community": {
+    "health_percentage": 38,
+    "files": {
+      "readme": true,
+      "license": false,
+      "contributing": false,
+      "code_of_conduct": true,
+      "codeowners": false,
+      "security_policy": false,
+      "issue_template": false,
+      "pull_request_template": true
+    }
+  },
+  "settings": {
+    "allow_merge_commit": true,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true,
+    "allow_auto_merge": true,
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": true,
+    "has_discussions": true
+  },
+  "access": {
+    "collaborators": 17,
+    "teams": [
+      "harbor-maintainers",
+      "harbor-developers"
+    ]
+  }
+}

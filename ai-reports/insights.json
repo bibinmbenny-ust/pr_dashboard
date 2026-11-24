@@ -1,0 +1,321 @@
+{
+  "sample": true,
+  "provider": "GitHub Models",
+  "model": "gpt-4o",
+  "generated_at": "2026-11-24T06:15:00Z",
+  "data_timestamp": "2026-11-24T06:00:00Z",
+  "sources": {
+    "tickets": 432,
+    "prs": 896,
+    "repos": 22
+  },
+  "briefing": {
+    "headline": "2 of 4 projects need attention this sprint; Harbor is the steadiest.",
+    "summary": "Across 432 tickets, 896 pull requests and 22 repositories, delivery is uneven. Harbor is likely to finish its sprint (99%), while Quasar is 16% done with 58% of the sprint gone. OneView found 59 cross-tool signals — places where JIRA, pull requests and repositories disagree — most often tickets closed before their code was merged.",
+    "risks": [
+      {
+        "project": "ASA",
+        "text": "Quasar is expected to finish only 41% of QSR Sprint 58 (22 of 55 points).",
+        "refs": []
+      },
+      {
+        "project": "FXOS",
+        "text": "Orion: Done in JIRA, but PR #1347 is not merged.",
+        "refs": [
+          "ORN-410"
+        ]
+      },
+      {
+        "project": "IMS",
+        "text": "Luna: Done in JIRA, but PR #5158 is not merged.",
+        "refs": [
+          "LUNA-317"
+        ]
+      },
+      {
+        "project": "USM",
+        "text": "Harbor: Done in JIRA, but PR #5156 is not merged.",
+        "refs": [
+          "HRB-434"
+        ]
+      }
+    ],
+    "wins": [
+      {
+        "project": "FXOS",
+        "text": "Orion is on track at 56% done with no blockers."
+      },
+      {
+        "project": "FXOS",
+        "text": "Orion 2.20.0 looks safe: predicted 12 days ahead of its 2026-12-12 date."
+      },
+      {
+        "project": "IMS",
+        "text": "Luna 6.0.0 looks safe: predicted 85 days ahead of its 2027-02-27 date."
+      }
+    ],
+    "focus": [
+      {
+        "project": "IMS",
+        "text": "Luna: Move LUNA-328 (8 pts) from @mei_demo to @alex_demo."
+      },
+      {
+        "project": "ASA",
+        "text": "Quasar: Move QSR-462 (3 pts) from @alex_demo to @sam_demo."
+      }
+    ]
+  },
+  "projects": {
+    "FXOS": {
+      "narrative": "Orion is on track: 56% of ORN Sprint 47 is done with 58% of the time used. The forecast expects about 54 of 59 points (91%) by the end of the sprint; completing every point has a 5% chance. The riskiest ticket is ORN-397 (past due date, highest priority). 7 tickets marked Done still have unmerged PRs, so shipped work may be overstated.",
+      "outlook": "The sprint goal is unlikely without cutting scope.",
+      "top_action": null
+    },
+    "IMS": {
+      "narrative": "Luna is off track: 32% of LUNA Sprint 33 is done with 58% of the time used. The forecast expects about 37 of 62 points (59%) by the end of the sprint; completing every point has a 0% chance. 2 blockers are holding work back. The riskiest ticket is LUNA-316 (blocked, carried over from last sprint). 8 tickets marked Done still have unmerged PRs, so shipped work may be overstated. Sprint work in luna-admin-portal is exposed to its failing CI.",
+      "outlook": "The sprint goal is unlikely without cutting scope.",
+      "top_action": "Move LUNA-328 (8 pts) from @mei_demo to @alex_demo"
+    },
+    "USM": {
+      "narrative": "Harbor is on track: 71% of HRB Sprint 21 is done with 58% of the time used. The forecast says the sprint will very likely finish (99% chance of completing every point). The riskiest ticket is HRB-455 (past due date, high priority). 8 tickets marked Done still have unmerged PRs, so shipped work may be overstated. Sprint work in harbor-report-service is exposed to its failing CI.",
+      "outlook": "Expect the sprint goal to be met.",
+      "top_action": null
+    },
+    "ASA": {
+      "narrative": "Quasar is off track: 16% of QSR Sprint 58 is done with 58% of the time used. The forecast expects about 22 of 55 points (41%) by the end of the sprint; completing every point has a 0% chance. 3 blockers are holding work back. The riskiest ticket is QSR-455 (blocked, past due date). 6 tickets marked Done still have unmerged PRs, so shipped work may be overstated. Sprint work in quasar-cli is exposed to its failing CI.",
+      "outlook": "The sprint goal is unlikely without cutting scope.",
+      "top_action": "Move QSR-462 (3 pts) from @alex_demo to @sam_demo"
+    }
+  },
+  "bug_themes": [
+    {
+      "id": "session",
+      "theme": "Session and login edge cases",
+      "description": "Edge cases around sessions and first login keep reappearing.",
+      "issues": [
+        {
+          "project": "FXOS",
+          "key": "ORN-397",
+          "summary": "Platform: tenant settings leaks memory when the session expires",
+          "priority": "Highest"
+        },
+        {
+          "project": "IMS",
+          "key": "LUNA-334",
+          "summary": "Admin Portal: firmware upgrades returns 500 on first login",
+          "priority": "Low"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-432",
+          "summary": "Reports: route tables returns 500 on first login",
+          "priority": "Low"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-461",
+          "summary": "Manager API: report templates shows stale data on first login",
+          "priority": "Highest"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-462",
+          "summary": "Web Console: tenant settings returns 500 on first login",
+          "priority": "Low"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-466",
+          "summary": "Manager API: firmware upgrades renders blank when the session expires",
+          "priority": "High"
+        },
+        {
+          "project": "ASA",
+          "key": "QSR-462",
+          "summary": "Performance: report templates returns 500 on first login",
+          "priority": "Medium"
+        },
+        {
+          "project": "ASA",
+          "key": "QSR-483",
+          "summary": "Performance: device groups renders blank when the session expires",
+          "priority": "Low"
+        }
+      ],
+      "projects": [
+        "Orion",
+        "Luna",
+        "Harbor",
+        "Quasar"
+      ]
+    },
+    {
+      "id": "500",
+      "theme": "Server errors (HTTP 500)",
+      "description": "Unhandled server errors across endpoints; better error handling and alerting would help.",
+      "issues": [
+        {
+          "project": "FXOS",
+          "key": "ORN-419",
+          "summary": "Platform: device groups returns 500 during nightly sync",
+          "priority": "High"
+        },
+        {
+          "project": "FXOS",
+          "key": "ORN-427",
+          "summary": "Platform: report templates returns 500 after failover",
+          "priority": "Medium"
+        },
+        {
+          "project": "IMS",
+          "key": "LUNA-325",
+          "summary": "Policy Engine: route tables returns 500 during nightly sync",
+          "priority": "High"
+        },
+        {
+          "project": "IMS",
+          "key": "LUNA-334",
+          "summary": "Admin Portal: firmware upgrades returns 500 on first login",
+          "priority": "Low"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-432",
+          "summary": "Reports: route tables returns 500 on first login",
+          "priority": "Low"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-458",
+          "summary": "Reports: API tokens returns 500 with non-ASCII names",
+          "priority": "High"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-462",
+          "summary": "Web Console: tenant settings returns 500 on first login",
+          "priority": "Low"
+        },
+        {
+          "project": "ASA",
+          "key": "QSR-462",
+          "summary": "Performance: report templates returns 500 on first login",
+          "priority": "Medium"
+        }
+      ],
+      "projects": [
+        "Orion",
+        "Luna",
+        "Harbor",
+        "Quasar"
+      ]
+    },
+    {
+      "id": "timeouts",
+      "theme": "Timeouts",
+      "description": "Requests timing out across different features suggests a shared dependency or missing back-pressure.",
+      "issues": [
+        {
+          "project": "IMS",
+          "key": "LUNA-338",
+          "summary": "Policy Engine: firmware upgrades times out with IPv6 enabled",
+          "priority": "High"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-433",
+          "summary": "Reports: device groups times out after an upgrade",
+          "priority": "Medium"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-468",
+          "summary": "Reports: backup jobs times out under high load",
+          "priority": "Low"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-454",
+          "summary": "Device Sync: interface settings times out with 10k+ entries",
+          "priority": "Medium"
+        },
+        {
+          "project": "ASA",
+          "key": "QSR-460",
+          "summary": "CI Pipelines: access policies times out after failover",
+          "priority": "Medium"
+        }
+      ],
+      "projects": [
+        "Luna",
+        "Harbor",
+        "Quasar"
+      ]
+    },
+    {
+      "id": "blank",
+      "theme": "Blank screens",
+      "description": "UI pages rendering blank usually share a front-end error-handling gap.",
+      "issues": [
+        {
+          "project": "IMS",
+          "key": "LUNA-343",
+          "summary": "Policy Engine: backup jobs renders blank during nightly sync",
+          "priority": "High"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-466",
+          "summary": "Manager API: firmware upgrades renders blank when the session expires",
+          "priority": "High"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-465",
+          "summary": "Reports: device groups renders blank after an upgrade",
+          "priority": "Low"
+        },
+        {
+          "project": "ASA",
+          "key": "QSR-483",
+          "summary": "Performance: device groups renders blank when the session expires",
+          "priority": "Low"
+        }
+      ],
+      "projects": [
+        "Luna",
+        "Harbor",
+        "Quasar"
+      ]
+    },
+    {
+      "id": "load",
+      "theme": "Problems at scale",
+      "description": "These bugs appear under high load or large data sets; a performance test pass would catch them earlier.",
+      "issues": [
+        {
+          "project": "FXOS",
+          "key": "ORN-426",
+          "summary": "Build & Release: device groups fails validation with 10k+ entries",
+          "priority": "High"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-468",
+          "summary": "Reports: backup jobs times out under high load",
+          "priority": "Low"
+        },
+        {
+          "project": "USM",
+          "key": "HRB-454",
+          "summary": "Device Sync: interface settings times out with 10k+ entries",
+          "priority": "Medium"
+        }
+      ],
+      "projects": [
+        "Orion",
+        "Harbor"
+      ]
+    }
+  ]
+}

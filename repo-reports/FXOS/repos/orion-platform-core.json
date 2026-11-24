@@ -1,0 +1,226 @@
+{
+  "project": "FXOS",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "orion-platform-core",
+    "full_name": "demo-sbg-emu/orion-platform-core",
+    "description": "Core platform services and runtime for the Orion appliance.",
+    "html_url": "https://github.com/demo-sbg-emu/orion-platform-core",
+    "homepage": null,
+    "visibility": "internal",
+    "archived": false,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": "MIT",
+    "topics": [
+      "platform",
+      "runtime",
+      "networking"
+    ],
+    "created_at": "2023-04-11T06:00:00Z",
+    "updated_at": "2026-11-19T06:00:00Z",
+    "pushed_at": "2026-11-19T06:00:00Z",
+    "size_kb": 132528,
+    "language": "C"
+  },
+  "stats": {
+    "stars": 93,
+    "forks": 3,
+    "watchers": 3,
+    "open_issues": 5,
+    "open_prs": 10,
+    "merged_prs_30d": 47,
+    "closed_prs_30d": 8,
+    "commits_30d": 107
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 27
+    },
+    {
+      "week": "2026-09-13",
+      "total": 28
+    },
+    {
+      "week": "2026-09-20",
+      "total": 17
+    },
+    {
+      "week": "2026-09-27",
+      "total": 15
+    },
+    {
+      "week": "2026-10-04",
+      "total": 15
+    },
+    {
+      "week": "2026-10-11",
+      "total": 5
+    },
+    {
+      "week": "2026-10-18",
+      "total": 11
+    },
+    {
+      "week": "2026-10-25",
+      "total": 40
+    },
+    {
+      "week": "2026-11-01",
+      "total": 28
+    },
+    {
+      "week": "2026-11-08",
+      "total": 26
+    },
+    {
+      "week": "2026-11-15",
+      "total": 26
+    },
+    {
+      "week": "2026-11-22",
+      "total": 27
+    }
+  ],
+  "languages": {
+    "C": 2062594,
+    "C++": 745700,
+    "Makefile": 203170,
+    "Shell": 145508,
+    "Python": 80764,
+    "CMake": 81264
+  },
+  "contributors": [
+    {
+      "login": "priya_demo",
+      "contributions": 795
+    },
+    {
+      "login": "zoe_demo",
+      "contributions": 756
+    },
+    {
+      "login": "alex_demo",
+      "contributions": 622
+    },
+    {
+      "login": "mei_demo",
+      "contributions": 435
+    },
+    {
+      "login": "lena_demo",
+      "contributions": 419
+    },
+    {
+      "login": "nina_demo",
+      "contributions": 413
+    },
+    {
+      "login": "ivy_demo",
+      "contributions": 60
+    },
+    {
+      "login": "kai_demo",
+      "contributions": 44
+    }
+  ],
+  "branches": {
+    "total": 12,
+    "protected": 2,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 1,
+      "dismiss_stale_reviews": false,
+      "require_code_owner_reviews": true,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests"
+      ],
+      "enforce_admins": false,
+      "required_linear_history": false
+    }
+  },
+  "releases": {
+    "total_tags": 27,
+    "latest": {
+      "tag_name": "v4.12.6",
+      "name": null,
+      "published_at": "2026-10-08T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/demo-sbg-emu/orion-platform-core/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2026-11-21T21:00:00Z",
+        "duration_seconds": 1682,
+        "html_url": "https://github.com/demo-sbg-emu/orion-platform-core/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2026-11-22T16:00:00Z",
+        "duration_seconds": 3381,
+        "html_url": "https://github.com/demo-sbg-emu/orion-platform-core/actions/workflows/unit-tests.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 0,
+      "high": 0,
+      "medium": 3,
+      "low": 0
+    },
+    "code_scanning": null,
+    "secret_scanning_open": 0
+  },
+  "community": {
+    "health_percentage": 75,
+    "files": {
+      "readme": true,
+      "license": true,
+      "contributing": true,
+      "code_of_conduct": false,
+      "codeowners": true,
+      "security_policy": false,
+      "issue_template": true,
+      "pull_request_template": true
+    }
+  },
+  "settings": {
+    "allow_merge_commit": false,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": true,
+    "delete_branch_on_merge": true,
+    "allow_auto_merge": true,
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": true,
+    "has_discussions": false
+  },
+  "access": {
+    "collaborators": 7,
+    "teams": [
+      "orion-maintainers",
+      "orion-developers"
+    ]
+  }
+}

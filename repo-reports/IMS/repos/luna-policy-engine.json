@@ -1,0 +1,250 @@
+{
+  "project": "IMS",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "luna-policy-engine",
+    "full_name": "demo-sbg-emu/luna-policy-engine",
+    "description": "Policy evaluation engine and rule compiler.",
+    "html_url": "https://github.com/demo-sbg-emu/luna-policy-engine",
+    "homepage": null,
+    "visibility": "private",
+    "archived": false,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": "Proprietary",
+    "topics": [
+      "policy",
+      "engine"
+    ],
+    "created_at": "2023-02-24T06:00:00Z",
+    "updated_at": "2026-11-18T03:00:00Z",
+    "pushed_at": "2026-11-18T03:00:00Z",
+    "size_kb": 92124,
+    "language": "C++"
+  },
+  "stats": {
+    "stars": 10,
+    "forks": 12,
+    "watchers": 16,
+    "open_issues": 25,
+    "open_prs": 19,
+    "merged_prs_30d": 41,
+    "closed_prs_30d": 0,
+    "commits_30d": 99
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 22
+    },
+    {
+      "week": "2026-09-13",
+      "total": 18
+    },
+    {
+      "week": "2026-09-20",
+      "total": 3
+    },
+    {
+      "week": "2026-09-27",
+      "total": 27
+    },
+    {
+      "week": "2026-10-04",
+      "total": 18
+    },
+    {
+      "week": "2026-10-11",
+      "total": 46
+    },
+    {
+      "week": "2026-10-18",
+      "total": 16
+    },
+    {
+      "week": "2026-10-25",
+      "total": 22
+    },
+    {
+      "week": "2026-11-01",
+      "total": 36
+    },
+    {
+      "week": "2026-11-08",
+      "total": 21
+    },
+    {
+      "week": "2026-11-15",
+      "total": 40
+    },
+    {
+      "week": "2026-11-22",
+      "total": 2
+    }
+  ],
+  "languages": {
+    "C++": 5191337,
+    "C": 1217974,
+    "CMake": 192565,
+    "Python": 252354,
+    "Shell": 195770
+  },
+  "contributors": [
+    {
+      "login": "lena_demo",
+      "contributions": 703
+    },
+    {
+      "login": "omar_demo",
+      "contributions": 679
+    },
+    {
+      "login": "sam_demo",
+      "contributions": 566
+    },
+    {
+      "login": "alex_demo",
+      "contributions": 558
+    },
+    {
+      "login": "ivy_demo",
+      "contributions": 297
+    },
+    {
+      "login": "priya_demo",
+      "contributions": 42
+    }
+  ],
+  "branches": {
+    "total": 46,
+    "protected": 4,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 2,
+      "dismiss_stale_reviews": false,
+      "require_code_owner_reviews": true,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests",
+        "CodeQL"
+      ],
+      "enforce_admins": false,
+      "required_linear_history": false
+    }
+  },
+  "releases": {
+    "total_tags": 33,
+    "latest": {
+      "tag_name": "v2.3.3",
+      "name": null,
+      "published_at": "2026-11-23T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/demo-sbg-emu/luna-policy-engine/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "branch": "main",
+        "created_at": "2026-11-22T12:00:00Z",
+        "duration_seconds": 2997,
+        "html_url": "https://github.com/demo-sbg-emu/luna-policy-engine/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "branch": "main",
+        "created_at": "2026-11-20T20:00:00Z",
+        "duration_seconds": 2561,
+        "html_url": "https://github.com/demo-sbg-emu/luna-policy-engine/actions/workflows/unit-tests.yml"
+      }
+    },
+    {
+      "name": "CodeQL",
+      "path": ".github/workflows/codeql.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-23T19:00:00Z",
+        "duration_seconds": 2673,
+        "html_url": "https://github.com/demo-sbg-emu/luna-policy-engine/actions/workflows/codeql.yml"
+      }
+    },
+    {
+      "name": "Release",
+      "path": ".github/workflows/release.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2026-11-21T12:00:00Z",
+        "duration_seconds": 895,
+        "html_url": "https://github.com/demo-sbg-emu/luna-policy-engine/actions/workflows/release.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 0,
+      "high": 2,
+      "medium": 0,
+      "low": 9
+    },
+    "code_scanning": {
+      "critical": 0,
+      "high": 3,
+      "medium": 7,
+      "low": 9
+    },
+    "secret_scanning_open": 1
+  },
+  "community": {
+    "health_percentage": 75,
+    "files": {
+      "readme": true,
+      "license": true,
+      "contributing": false,
+      "code_of_conduct": true,
+      "codeowners": true,
+      "security_policy": true,
+      "issue_template": true,
+      "pull_request_template": false
+    }
+  },
+  "settings": {
+    "allow_merge_commit": false,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": true,
+    "delete_branch_on_merge": false,
+    "allow_auto_merge": true,
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": false,
+    "has_discussions": false
+  },
+  "access": {
+    "collaborators": 9,
+    "teams": [
+      "luna-maintainers",
+      "luna-developers"
+    ]
+  }
+}
