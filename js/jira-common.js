@@ -3,15 +3,15 @@
 // these pages never call the JIRA API themselves.
 const JIRA_PROJECT_KEYS = ['FXOS', 'IMS', 'USM', 'ASA'];
 
-// Validated on the dark card surface (#262f3b) with the dataviz palette checker.
+// Validated on the dark card surface (#111a2d) with the dataviz palette checker.
 const JIRA_COLORS = {
     category: { 'To Do': '#3987e5', 'In Progress': '#d95926', 'Done': '#199e70' },
     // Ordinal ramp, one hue: most urgent = most prominent (lightest on dark).
     priority: { Highest: '#e1ecfa', High: '#b0cff3', Medium: '#80b2ec', Low: '#5596e4', Lowest: '#3a7fd6' },
     seriesA: '#3987e5',
     seriesB: '#d95926',
-    single: '#7a9fce',
-    reference: '#7a8696'
+    single: '#3d8bfd',
+    reference: '#7d8ba3'
 };
 const PRIORITIES = ['Highest', 'High', 'Medium', 'Low', 'Lowest'];
 const STATUS_ORDER = ['To Do', 'In Progress', 'In Review', 'Blocked', 'Done'];

@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="OneView Dashboard logo">
-  <rect width="64" height="64" rx="16" fill="#7a9fce"/>
-  <g fill="#141a22">
+  <rect width="64" height="64" rx="16" fill="#3d8bfd"/>
+  <g fill="#06101f">
     <rect x="13" y="13" width="17" height="17" rx="4"/>
     <rect x="34" y="13" width="17" height="17" rx="4" opacity="0.75"/>
     <rect x="13" y="34" width="17" height="17" rx="4" opacity="0.75"/>
     <rect x="34" y="34" width="17" height="17" rx="4"/>
   </g>
-  <path d="M42.5 37 l1.6 3.6 3.6 1.6 -3.6 1.6 -1.6 3.6 -1.6 -3.6 -3.6 -1.6 3.6 -1.6z" fill="#f1f4f8"/>
+  <path d="M42.5 37 l1.6 3.6 3.6 1.6 -3.6 1.6 -1.6 3.6 -1.6 -3.6 -3.6 -1.6 3.6 -1.6z" fill="#ffffff"/>
 </svg>

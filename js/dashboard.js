@@ -291,22 +291,22 @@ function renderMetrics(data) {
         
         // Add error details and AI suggestion if available from JSON
         const errorSection = hasError ? `
-            <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(212,126,126, 0.2);">
+            <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(240, 97, 109, 0.2);">
                 <details class="error-details-section">
-                    <summary style="color: var(--failure); font-weight: 700; font-size: 0.88rem; list-style: none; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem 0.65rem; border-radius: 0.4rem; transition: all 0.2s ease; background: rgba(212,126,126, 0.05);">
+                    <summary style="color: var(--failure); font-weight: 700; font-size: 0.88rem; list-style: none; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem 0.65rem; border-radius: 0.4rem; transition: all 0.2s ease; background: rgba(240, 97, 109, 0.05);">
                         <span style="font-size: 1.1rem;">⚠️</span>
                         <span>Error Details</span>
                         <span class="arrow-indicator" style="margin-left: auto; font-size: 0.85rem; opacity: 0.7; transition: transform 0.3s ease;">▼</span>
                     </summary>
-                    <div style="margin-top: 0.65rem; padding: 0.85rem; background: linear-gradient(135deg, rgba(212,126,126, 0.1) 0%, rgba(212,126,126, 0.04) 100%); border-left: 3px solid var(--failure); border-radius: 0.4rem; font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.5; color: #e0a3a3; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
+                    <div style="margin-top: 0.65rem; padding: 0.85rem; background: linear-gradient(135deg, rgba(240, 97, 109, 0.1) 0%, rgba(240, 97, 109, 0.04) 100%); border-left: 3px solid var(--failure); border-radius: 0.4rem; font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.5; color: #f59aa2; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
 ${errorDetails}</div>
                     ${aiSuggestion && aiSuggestion !== 'AI analysis temporarily unavailable. Please check logs manually.\n' ? `
-                        <div style="margin-top: 0.75rem; padding: 0.9rem; background: linear-gradient(135deg, rgba(122,159,206, 0.15) 0%, rgba(122,159,206, 0.06) 100%); border-left: 3px solid var(--demo-blue); border-radius: 0.4rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+                        <div style="margin-top: 0.75rem; padding: 0.9rem; background: linear-gradient(135deg, rgba(61, 139, 253, 0.15) 0%, rgba(61, 139, 253, 0.06) 100%); border-left: 3px solid var(--demo-blue); border-radius: 0.4rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
                             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; color: var(--demo-blue); font-weight: 700; font-size: 0.9rem;">
                                 <span style="font-size: 1.15rem;">🤖</span>
                                 <span>AI Analysis & Suggestions</span>
                             </div>
-                            <div style="white-space: pre-wrap; line-height: 1.6; font-size: 0.85rem; color: #d6dde6;">
+                            <div style="white-space: pre-wrap; line-height: 1.6; font-size: 0.85rem; color: #e8edf6;">
 ${aiSuggestion}</div>
                         </div>
                     ` : ''}
@@ -439,7 +439,7 @@ function renderCombinedSummaryCard(data) {
     let failedStagesHtml = '';
     if (data.failed_stage && data.failed_stage !== 'null') {
         failedStagesHtml = `
-            <div style="background: rgba(212,126,126, 0.15); padding: 0.6rem 1rem; border-radius: 0.5rem; border-left: 3px solid var(--failure); margin-bottom: 1rem;">
+            <div style="background: rgba(240, 97, 109, 0.15); padding: 0.6rem 1rem; border-radius: 0.5rem; border-left: 3px solid var(--failure); margin-bottom: 1rem;">
                 <strong>❌ Failed Stages:</strong> ${data.failed_stage}
             </div>
         `;
@@ -487,14 +487,14 @@ function renderAISuggestion(data) {
     }
     
     return `
-        <div class="card" style="padding: 1.25rem; background: linear-gradient(135deg, rgba(122,159,206, 0.05) 0%, rgba(122,159,206, 0.02) 100%); border: 1px solid rgba(122,159,206, 0.3);">
+        <div class="card" style="padding: 1.25rem; background: linear-gradient(135deg, rgba(61, 139, 253, 0.05) 0%, rgba(61, 139, 253, 0.02) 100%); border: 1px solid rgba(61, 139, 253, 0.3);">
             <details style="cursor: pointer;">
                 <summary style="font-weight: 600; color: var(--demo-blue); font-size: 1rem; padding: 0.5rem 0; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-size: 1.2rem;">🤖</span>
                     <span>AI Analysis & Suggestions</span>
                     <span style="font-size: 0.7rem; opacity: 0.7; margin-left: auto;">Powered by GitHub Copilot</span>
                 </summary>
-                <div style="margin-top: 1rem; padding: 1rem; background: rgba(43,53,66,0.95); border-radius: 0.5rem; white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;">
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(22, 34, 58,0.95); border-radius: 0.5rem; white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;">
 ${window.currentPRAISuggestion}
                 </div>
             </details>
@@ -508,28 +508,28 @@ function renderGHActions(data) {
     if (!runs || runs.length === 0) return '';
 
     const iconFor = c => ({ success:'✅', failure:'❌', cancelled:'🚫', skipped:'⏭️', timed_out:'⌛', in_progress:'⏳' }[c] || '🔵');
-    const colorFor = c => ({ success:'#5fa883', failure:'#d47e7e', cancelled:'#7a8696', timed_out:'#c9a25a', in_progress:'#7a9fce' }[c] || '#9aa6b5');
+    const colorFor = c => ({ success:'#2fbf71', failure:'#f0616d', cancelled:'#7d8ba3', timed_out:'#f2b544', in_progress:'#3d8bfd' }[c] || '#93a3bd');
 
     const runsHtml = runs.map(run => {
         const rColor = colorFor(run.conclusion);
-        const rDur = run.duration_seconds > 0 ? `<span style="color:#7a8696;font-size:0.72rem;">${calculateDuration(run.duration_seconds)}</span>` : '';
+        const rDur = run.duration_seconds > 0 ? `<span style="color:#7d8ba3;font-size:0.72rem;">${calculateDuration(run.duration_seconds)}</span>` : '';
 
         const jobsHtml = (run.jobs || []).map(job => {
             const jColor = colorFor(job.conclusion);
-            const jDur = job.duration_seconds > 0 ? `<span style="color:#7a8696;font-size:0.7rem;margin-left:auto;">${calculateDuration(job.duration_seconds)}</span>` : '';
+            const jDur = job.duration_seconds > 0 ? `<span style="color:#7d8ba3;font-size:0.7rem;margin-left:auto;">${calculateDuration(job.duration_seconds)}</span>` : '';
             const jobLink = job.url ? `<a href="${job.url}" target="_blank" style="color:var(--demo-blue);font-size:0.7rem;text-decoration:none;">↗</a>` : '';
 
             const stepsHtml = (job.steps || []).map(step => {
                 const sColor = colorFor(step.conclusion);
-                const sDur = step.duration_seconds > 0 ? `<span style="color:#9aa6b5;margin-left:auto;font-size:0.68rem;">${step.duration_seconds}s</span>` : '';
-                return `<div style="display:flex;align-items:center;gap:0.4rem;padding:0.15rem 0;font-size:0.74rem;border-bottom:1px solid rgba(122,159,206,0.12);">
+                const sDur = step.duration_seconds > 0 ? `<span style="color:#93a3bd;margin-left:auto;font-size:0.68rem;">${step.duration_seconds}s</span>` : '';
+                return `<div style="display:flex;align-items:center;gap:0.4rem;padding:0.15rem 0;font-size:0.74rem;border-bottom:1px solid rgba(61, 139, 253,0.12);">
                     <span>${iconFor(step.conclusion)}</span>
                     <span style="color:${sColor};">${step.name}</span>
                     ${sDur}
                 </div>`;
             }).join('');
 
-            return `<div style="margin-left:1rem;margin-bottom:0.35rem;padding:0.4rem 0.65rem;background:rgba(43,53,66,0.95);border-left:2px solid ${jColor}50;border-radius:0 0.3rem 0.3rem 0;">
+            return `<div style="margin-left:1rem;margin-bottom:0.35rem;padding:0.4rem 0.65rem;background:rgba(22, 34, 58,0.95);border-left:2px solid ${jColor}50;border-radius:0 0.3rem 0.3rem 0;">
                 <div style="display:flex;align-items:center;gap:0.45rem;${stepsHtml ? 'margin-bottom:0.4rem;' : ''}">
                     <span>${iconFor(job.conclusion)}</span>
                     <span style="color:${jColor};font-size:0.8rem;font-weight:600;">${job.name}</span>
@@ -544,7 +544,7 @@ function renderGHActions(data) {
             <div style="display:flex;align-items:center;gap:0.5rem;${jobsHtml ? 'margin-bottom:0.5rem;' : ''}">
                 <span style="font-size:1rem;">${iconFor(run.conclusion)}</span>
                 <span style="color:${rColor};font-weight:700;font-size:0.85rem;">${run.name}</span>
-                <span style="font-size:0.72rem;color:#9aa6b5;">#${run.run_number}</span>
+                <span style="font-size:0.72rem;color:#93a3bd;">#${run.run_number}</span>
                 <div style="margin-left:auto;display:flex;gap:0.5rem;align-items:center;">
                     ${rDur}
                     <a href="${run.url}" target="_blank" style="color:var(--demo-blue);font-size:0.75rem;text-decoration:none;">↗ View</a>
@@ -562,10 +562,10 @@ function renderGHActions(data) {
         <div class="card" style="grid-column:1/-1;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
                 <span style="font-weight:700;font-size:0.9rem;color:var(--demo-blue);">⚙️ GitHub Actions</span>
-                <span style="font-size:0.78rem;color:#7a8696;">
-                    <span style="color:#5fa883;">✅ ${passCount} passed</span>
-                    ${failCount > 0 ? `<span style="color:#d47e7e;"> &nbsp;❌ ${failCount} failed</span>` : ''}
-                    ${pendCount > 0 ? `<span style="color:#7a9fce;"> &nbsp;⏳ ${pendCount} running</span>` : ''}
+                <span style="font-size:0.78rem;color:#7d8ba3;">
+                    <span style="color:#2fbf71;">✅ ${passCount} passed</span>
+                    ${failCount > 0 ? `<span style="color:#f0616d;"> &nbsp;❌ ${failCount} failed</span>` : ''}
+                    ${pendCount > 0 ? `<span style="color:#3d8bfd;"> &nbsp;⏳ ${pendCount} running</span>` : ''}
                 </span>
             </div>
             ${runsHtml}
@@ -577,43 +577,43 @@ function renderReviewStats(data) {
     if (!rs) return '';
 
     const score = rs.engagement_score ?? 100;
-    const scoreColor = score >= 80 ? '#5fa883' : score >= 50 ? '#c9a25a' : '#d47e7e';
+    const scoreColor = score >= 80 ? '#2fbf71' : score >= 50 ? '#f2b544' : '#f0616d';
     const scoreLabel = score >= 80 ? 'Highly Engaged' : score >= 50 ? 'Partially Addressed' : 'Low Engagement';
 
     // Review decision badges
     const decisionBadges = [
         rs.reviews_approved > 0
-            ? `<span style="background:rgba(95,168,131,0.15);border:1px solid rgba(95,168,131,0.35);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#5fa883;">✅ ${rs.reviews_approved} Approved</span>` : '',
+            ? `<span style="background:rgba(47, 191, 113,0.15);border:1px solid rgba(47, 191, 113,0.35);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#2fbf71;">✅ ${rs.reviews_approved} Approved</span>` : '',
         rs.reviews_changes_requested > 0
-            ? `<span style="background:rgba(212,126,126,0.15);border:1px solid rgba(212,126,126,0.35);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#d47e7e;">🔴 ${rs.reviews_changes_requested} Changes Requested</span>` : '',
+            ? `<span style="background:rgba(240, 97, 109,0.15);border:1px solid rgba(240, 97, 109,0.35);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#f0616d;">🔴 ${rs.reviews_changes_requested} Changes Requested</span>` : '',
         rs.reviews_commented > 0
-            ? `<span style="background:rgba(148,163,184,0.1);border:1px solid rgba(148,163,184,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#9aa6b5;">💬 ${rs.reviews_commented} Commented</span>` : '',
+            ? `<span style="background:rgba(148,163,184,0.1);border:1px solid rgba(148,163,184,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:#93a3bd;">💬 ${rs.reviews_commented} Commented</span>` : '',
         rs.unique_reviewers > 0
-            ? `<span style="background:rgba(122,159,206,0.1);border:1px solid rgba(122,159,206,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:var(--demo-blue);">👥 ${rs.unique_reviewers} Reviewer${rs.unique_reviewers !== 1 ? 's' : ''}</span>` : '',
+            ? `<span style="background:rgba(61, 139, 253,0.1);border:1px solid rgba(61, 139, 253,0.25);padding:0.2rem 0.65rem;border-radius:1rem;font-size:0.78rem;color:var(--demo-blue);">👥 ${rs.unique_reviewers} Reviewer${rs.unique_reviewers !== 1 ? 's' : ''}</span>` : '',
     ].filter(Boolean).join(' ');
 
     // Copilot section (only shown if Copilot left comments)
     const copilotSection = rs.copilot_comments > 0 ? (() => {
         const pct = Math.round((rs.copilot_addressed / rs.copilot_comments) * 100);
-        const barColor = pct >= 80 ? '#5fa883' : pct >= 50 ? '#c9a25a' : '#d47e7e';
+        const barColor = pct >= 80 ? '#2fbf71' : pct >= 50 ? '#f2b544' : '#f0616d';
         return `
-            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(122,159,206,0.2);">
-                <div style="font-size:0.82rem;color:#9aa6b5;font-weight:600;margin-bottom:0.6rem;">🤖 Copilot Review</div>
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(61, 139, 253,0.2);">
+                <div style="font-size:0.82rem;color:#93a3bd;font-weight:600;margin-bottom:0.6rem;">🤖 Copilot Review</div>
                 <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
                     <div style="text-align:center;">
                         <div style="font-size:1.4rem;font-weight:700;color:var(--demo-blue);">${rs.copilot_comments}</div>
-                        <div style="font-size:0.7rem;color:#7a8696;">Total</div>
+                        <div style="font-size:0.7rem;color:#7d8ba3;">Total</div>
                     </div>
                     <div style="text-align:center;">
-                        <div style="font-size:1.4rem;font-weight:700;color:#5fa883;">${rs.copilot_addressed}</div>
-                        <div style="font-size:0.7rem;color:#7a8696;">Addressed</div>
+                        <div style="font-size:1.4rem;font-weight:700;color:#2fbf71;">${rs.copilot_addressed}</div>
+                        <div style="font-size:0.7rem;color:#7d8ba3;">Addressed</div>
                     </div>
                     <div style="text-align:center;">
-                        <div style="font-size:1.4rem;font-weight:700;color:#d47e7e;">${rs.copilot_open}</div>
-                        <div style="font-size:0.7rem;color:#7a8696;">Still Open</div>
+                        <div style="font-size:1.4rem;font-weight:700;color:#f0616d;">${rs.copilot_open}</div>
+                        <div style="font-size:0.7rem;color:#7d8ba3;">Still Open</div>
                     </div>
                     <div style="flex:1;min-width:140px;">
-                        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#7a8696;margin-bottom:0.3rem;">
+                        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#7d8ba3;margin-bottom:0.3rem;">
                             <span>Address Rate</span><span style="color:${barColor};font-weight:600;">${pct}%</span>
                         </div>
                         <div style="background:rgba(255,255,255,0.08);border-radius:1rem;height:8px;overflow:hidden;">
@@ -635,7 +635,7 @@ function renderReviewStats(data) {
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem;">
                 <span style="font-weight:700;font-size:0.9rem;color:var(--demo-blue);">💬 PR Review</span>
                 <div style="display:flex;align-items:center;gap:0.5rem;">
-                    <span style="font-size:0.78rem;color:#7a8696;">Engagement Score</span>
+                    <span style="font-size:0.78rem;color:#7d8ba3;">Engagement Score</span>
                     <span style="font-size:1rem;font-weight:700;color:${scoreColor};background:rgba(255,255,255,0.05);padding:0.15rem 0.6rem;border-radius:0.4rem;border:1px solid ${scoreColor}40;">${score} — ${scoreLabel}</span>
                 </div>
             </div>
@@ -645,21 +645,21 @@ function renderReviewStats(data) {
 
             <!-- Comment activity stats -->
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;">
-                <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#d6dde6;">${totalActivity}</div>
-                    <div style="font-size:0.7rem;color:#7a8696;">Review Comments</div>
+                <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#e8edf6;">${totalActivity}</div>
+                    <div style="font-size:0.7rem;color:#7d8ba3;">Review Comments</div>
                 </div>
-                <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#d6dde6;">${humanComments}</div>
-                    <div style="font-size:0.7rem;color:#7a8696;">From Reviewers</div>
+                <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#e8edf6;">${humanComments}</div>
+                    <div style="font-size:0.7rem;color:#7d8ba3;">From Reviewers</div>
                 </div>
-                <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#d6dde6;">${authorReplies}</div>
-                    <div style="font-size:0.7rem;color:#7a8696;">Author Replies</div>
+                <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#e8edf6;">${authorReplies}</div>
+                    <div style="font-size:0.7rem;color:#7d8ba3;">Author Replies</div>
                 </div>
-                <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                    <div style="font-size:1.4rem;font-weight:700;color:#d6dde6;">${rs.outdated_threads}</div>
-                    <div style="font-size:0.7rem;color:#7a8696;">Threads Resolved</div>
+                <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.18);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:700;color:#e8edf6;">${rs.outdated_threads}</div>
+                    <div style="font-size:0.7rem;color:#7d8ba3;">Threads Resolved</div>
                 </div>
             </div>
 
@@ -685,24 +685,24 @@ function renderCheckRuns(data) {
 
     const colorFor = conclusion => {
         switch (conclusion) {
-            case 'success':    return '#5fa883';
-            case 'failure':    return '#d47e7e';
-            case 'cancelled':  return '#7a8696';
-            case 'timed_out':  return '#c9a25a';
-            case 'in_progress':return '#7a9fce';
-            default:           return '#9aa6b5';
+            case 'success':    return '#2fbf71';
+            case 'failure':    return '#f0616d';
+            case 'cancelled':  return '#7d8ba3';
+            case 'timed_out':  return '#f2b544';
+            case 'in_progress':return '#3d8bfd';
+            default:           return '#93a3bd';
         }
     };
 
     const rows = checks.map(c => {
         const icon = iconFor(c.conclusion, c.status);
         const color = colorFor(c.conclusion === 'in_progress' ? c.status : c.conclusion);
-        const dur = c.duration_seconds > 0 ? `<span style="color:#7a8696;font-size:0.72rem;">${calculateDuration(c.duration_seconds)}</span>` : '';
+        const dur = c.duration_seconds > 0 ? `<span style="color:#7d8ba3;font-size:0.72rem;">${calculateDuration(c.duration_seconds)}</span>` : '';
         const link = c.details_url
             ? `<a href="${c.details_url}" target="_blank" style="color:var(--demo-blue);font-size:0.78rem;text-decoration:none;">↗ details</a>`
             : '';
-        const summary = c.summary ? `<div style="color:#7a8696;font-size:0.72rem;margin-top:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;">${c.summary}</div>` : '';
-        const appBadge = c.app ? `<span style="font-size:0.65rem;color:#9aa6b5;background:rgba(255,255,255,0.05);padding:0.1rem 0.35rem;border-radius:0.25rem;">${c.app}</span>` : '';
+        const summary = c.summary ? `<div style="color:#7d8ba3;font-size:0.72rem;margin-top:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;">${c.summary}</div>` : '';
+        const appBadge = c.app ? `<span style="font-size:0.65rem;color:#93a3bd;background:rgba(255,255,255,0.05);padding:0.1rem 0.35rem;border-radius:0.25rem;">${c.app}</span>` : '';
         return `
             <div style="display:grid;grid-template-columns:1.4rem 1fr auto auto;align-items:start;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">
                 <span style="font-size:1rem;">${icon}</span>
@@ -720,7 +720,7 @@ function renderCheckRuns(data) {
     const pendCount = checks.filter(c => c.status === 'in_progress' || c.status === 'queued').length;
     const passCount = checks.filter(c => c.conclusion === 'success').length;
 
-    const headerColor = failCount > 0 ? '#d47e7e' : pendCount > 0 ? '#7a9fce' : '#5fa883';
+    const headerColor = failCount > 0 ? '#f0616d' : pendCount > 0 ? '#3d8bfd' : '#2fbf71';
     const headerLabel = failCount > 0 ? `${failCount} failed` : pendCount > 0 ? `${pendCount} in progress` : 'all passed';
 
     return `
@@ -749,12 +749,12 @@ function renderAITriage(data) {
     const errors = Array.isArray(t.errors) ? t.errors : [];
     const tb = t.triaged_by || (errors[0] && errors[0].triaged_by) || null;
     const model = tb && tb.name
-        ? `<small style="font-weight:400; color:#7a8696; font-size:0.75rem;">${tb.name}${tb.version ? ` v${tb.version}` : ''}</small>`
+        ? `<small style="font-weight:400; color:#7d8ba3; font-size:0.75rem;">${tb.name}${tb.version ? ` v${tb.version}` : ''}</small>`
         : '';
 
     const confColor = (c) => {
         const u = String(c || '').toUpperCase();
-        return u === 'HIGH' ? '#5fa883' : u === 'MEDIUM' ? '#7a9fce' : u === 'LOW' ? '#c9a25a' : '#7a8696';
+        return u === 'HIGH' ? '#2fbf71' : u === 'MEDIUM' ? '#3d8bfd' : u === 'LOW' ? '#f2b544' : '#7d8ba3';
     };
     const validUrl = (u) => u && u !== "I don't know" && /^https?:\/\//.test(u);
     const normalizeNote = (note) => {
@@ -770,14 +770,14 @@ function renderAITriage(data) {
 
     // Short note shown for every revision that has triage data
     const noteHtml = noteText
-        ? `<p style="margin:0 0 0.75rem 0; font-size:0.86rem; color:#c3ccd7; line-height:1.5;"><span style="color:var(--demo-blue);">📝</span> ${noteText}</p>`
+        ? `<p style="margin:0 0 0.75rem 0; font-size:0.86rem; color:#c5d0e0; line-height:1.5;"><span style="color:var(--demo-blue);">📝</span> ${noteText}</p>`
         : '';
 
     let bodyHtml;
     if (t.available === false) {
-        bodyHtml = noteHtml + `<p style="font-size:0.85rem; color:#c9a25a; margin:0;">AI triage data is not available for this build.</p>`;
+        bodyHtml = noteHtml + `<p style="font-size:0.85rem; color:#f2b544; margin:0;">AI triage data is not available for this build.</p>`;
     } else if (errors.length === 0) {
-        bodyHtml = noteHtml + `<p style="font-size:0.85rem; color:#5fa883; margin:0;">✅ No failures flagged by AI for this build.</p>`;
+        bodyHtml = noteHtml + `<p style="font-size:0.85rem; color:#2fbf71; margin:0;">✅ No failures flagged by AI for this build.</p>`;
     } else {
         const errorBlocks = errors.map(e => {
             const cc = confColor(e.confidence);
@@ -785,28 +785,28 @@ function renderAITriage(data) {
                 .map(s => `<li style="margin-bottom:0.35rem;">${s}</li>`).join('');
             const steps = (Array.isArray(e.analysis) ? e.analysis : []).map(a => `
                 <div style="margin-bottom:0.6rem; padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-left:2px solid var(--demo-blue); border-radius:0.35rem;">
-                    <div style="font-size:0.75rem; color:#9aa6b5; margin-bottom:0.25rem;"><strong>Step ${a.step ?? ''}</strong> &middot; <span style="text-transform:uppercase; letter-spacing:0.03em;">${a.source ?? ''}</span></div>
-                    <div style="font-size:0.82rem; color:#d6dde6; margin-bottom:0.3rem;"><strong>Observation:</strong> ${a.observation ?? ''}</div>
-                    <div style="font-size:0.82rem; color:#c3ccd7;"><strong>Conclusion:</strong> ${a.conclusion ?? ''}</div>
+                    <div style="font-size:0.75rem; color:#93a3bd; margin-bottom:0.25rem;"><strong>Step ${a.step ?? ''}</strong> &middot; <span style="text-transform:uppercase; letter-spacing:0.03em;">${a.source ?? ''}</span></div>
+                    <div style="font-size:0.82rem; color:#e8edf6; margin-bottom:0.3rem;"><strong>Observation:</strong> ${a.observation ?? ''}</div>
+                    <div style="font-size:0.82rem; color:#c5d0e0;"><strong>Conclusion:</strong> ${a.conclusion ?? ''}</div>
                 </div>`).join('');
             const logLink = validUrl(e.artifact_log_url)
                 ? `<div style="margin-top:0.5rem;"><a href="${e.artifact_log_url}" target="_blank" style="font-size:0.8rem;">View artifact log ↗</a></div>` : '';
 
             return `
                 <details open style="margin-bottom:0.6rem;">
-                    <summary style="cursor:pointer; list-style:none; display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.7rem; border-radius:0.4rem; background:rgba(212,126,126,0.06);">
+                    <summary style="cursor:pointer; list-style:none; display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.7rem; border-radius:0.4rem; background:rgba(240, 97, 109,0.06);">
                         <span style="font-size:1.05rem;">⚠️</span>
-                        <span style="font-weight:700; font-size:0.9rem; color:#d6dde6;">${e.stage ?? 'Unknown stage'}</span>
+                        <span style="font-weight:700; font-size:0.9rem; color:#e8edf6;">${e.stage ?? 'Unknown stage'}</span>
                         <span style="margin-left:auto; display:flex; gap:0.4rem; flex-wrap:wrap;">
-                            <span style="font-size:0.68rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:1rem; background:rgba(212,126,126,0.15); color:#e0a3a3; text-transform:uppercase;">${e.error_category ?? 'unknown'}</span>
+                            <span style="font-size:0.68rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:1rem; background:rgba(240, 97, 109,0.15); color:#f59aa2; text-transform:uppercase;">${e.error_category ?? 'unknown'}</span>
                             <span style="font-size:0.68rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:1rem; background:${cc}22; color:${cc};">${String(e.confidence ?? 'N/A').toUpperCase()} CONF</span>
                         </span>
                     </summary>
-                    <div style="margin-top:0.6rem; padding:0.85rem; background:linear-gradient(135deg, rgba(122,159,206,0.1) 0%, rgba(122,159,206,0.04) 100%); border-left:3px solid var(--demo-blue); border-radius:0.4rem;">
+                    <div style="margin-top:0.6rem; padding:0.85rem; background:linear-gradient(135deg, rgba(61, 139, 253,0.1) 0%, rgba(61, 139, 253,0.04) 100%); border-left:3px solid var(--demo-blue); border-radius:0.4rem;">
                         <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; color:var(--demo-blue); font-weight:700; font-size:0.88rem;">
                             <span style="font-size:1.1rem;">🤖</span><span>AI Suggestion</span>
                         </div>
-                        ${bullets ? `<ul style="margin:0 0 0.25rem 1.1rem; padding:0; font-size:0.84rem; color:#d6dde6; line-height:1.5;">${bullets}</ul>` : '<p style="font-size:0.84rem; color:#9aa6b5; margin:0;">No summary provided.</p>'}
+                        ${bullets ? `<ul style="margin:0 0 0.25rem 1.1rem; padding:0; font-size:0.84rem; color:#e8edf6; line-height:1.5;">${bullets}</ul>` : '<p style="font-size:0.84rem; color:#93a3bd; margin:0;">No summary provided.</p>'}
                         ${logLink}
                         ${steps ? `
                             <details style="margin-top:0.6rem;">
@@ -1235,7 +1235,7 @@ async function loadMetrics() {
             : 'No review yet';
 
         ciStatusHtml = `
-            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(122,159,206, 0.2);">
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61, 139, 253, 0.2);">
                 <h4 style="color: var(--demo-blue); margin-bottom: 0.5rem;">GitHub PR Status</h4>
                 <p><strong>PR Status:</strong> ${prStatusBadge(prStatus)}</p>
                 <p><strong>Review Decision:</strong> <span style="text-transform: capitalize;">${decisionLabel.toLowerCase()}</span></p>
@@ -1352,12 +1352,12 @@ function renderMergeReadiness(dataList) {
     const hardChecks  = items.filter(i => i.ok !== null);
     const passedCount = hardChecks.filter(i => i.ok === true).length;
     const allReady    = hardChecks.length > 0 && hardChecks.every(i => i.ok === true);
-    const verdictColor = allReady ? '#5fa883' : (passedCount >= hardChecks.length - 1 ? '#c9a25a' : '#d47e7e');
+    const verdictColor = allReady ? '#2fbf71' : (passedCount >= hardChecks.length - 1 ? '#f2b544' : '#f0616d');
     const verdictText  = allReady ? 'READY TO MERGE' : 'NOT READY';
 
     const rows = items.map(i => {
         const icon = i.ok === true ? '✅' : i.ok === false ? '❌' : '⚪';
-        const col  = i.ok === true ? '#5fa883' : i.ok === false ? '#d47e7e' : '#7a8696';
+        const col  = i.ok === true ? '#2fbf71' : i.ok === false ? '#f0616d' : '#7d8ba3';
         return `<div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">
             <span style="font-size:0.95rem;">${icon}</span>
             <span style="flex:1;font-size:0.82rem;color:var(--text);">${i.label}</span>
@@ -1381,15 +1381,15 @@ function renderBuildTimeline(dataList) {
     if (chrono.length === 0) return '';
     const chips = chrono.map((d, i) => {
         const pass = getOverallStatus(d) === 'PASSING BUILD';
-        const col  = pass ? '#5fa883' : '#d47e7e';
+        const col  = pass ? '#2fbf71' : '#f0616d';
         const icon = pass ? '✅' : '❌';
         const dur  = getEffectiveDuration(d);
         const durLabel = dur > 0 ? calculateDuration(dur) : '—';
-        const arrow = i < chrono.length - 1 ? `<span style="color:#9aa6b5;font-size:1.1rem;">→</span>` : '';
+        const arrow = i < chrono.length - 1 ? `<span style="color:#93a3bd;font-size:1.1rem;">→</span>` : '';
         return `
         <div style="display:flex;align-items:center;gap:0.5rem;">
-            <div style="text-align:center;min-width:72px;background:rgba(43,53,66,0.95);border:1px solid ${col}55;border-radius:0.5rem;padding:0.5rem 0.6rem;">
-                <div style="font-size:0.7rem;color:#9aa6b5;font-weight:600;">Rev ${d.revision ?? (i + 1)}</div>
+            <div style="text-align:center;min-width:72px;background:rgba(22, 34, 58,0.95);border:1px solid ${col}55;border-radius:0.5rem;padding:0.5rem 0.6rem;">
+                <div style="font-size:0.7rem;color:#93a3bd;font-weight:600;">Rev ${d.revision ?? (i + 1)}</div>
                 <div style="font-size:1rem;margin:0.15rem 0;">${icon}</div>
                 <div style="font-size:0.68rem;color:${col};font-weight:600;">${durLabel}</div>
             </div>
@@ -1425,18 +1425,18 @@ function renderPrVelocity(dataList) {
     const lastActivity = lastUpdated != null ? now - lastUpdated : null;
 
     const tile = (val, label, color) => `
-        <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.18);border-radius:0.6rem;padding:0.75rem;text-align:center;">
+        <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.18);border-radius:0.6rem;padding:0.75rem;text-align:center;">
             <div style="font-size:1.2rem;font-weight:700;color:${color};">${val}</div>
-            <div style="font-size:0.68rem;color:#7a8696;margin-top:0.2rem;">${label}</div>
+            <div style="font-size:0.68rem;color:#7d8ba3;margin-top:0.2rem;">${label}</div>
         </div>`;
     return `
     <div class="card" style="padding:1.25rem;">
         <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.85rem 0;">⏱️ PR Age & Velocity</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.6rem;">
-            ${tile(formatAgeSpan(age), 'PR Age', '#7a9fce')}
+            ${tile(formatAgeSpan(age), 'PR Age', '#3d8bfd')}
             ${tile(chrono.length, 'Revisions', 'var(--demo-blue)')}
-            ${tile(avgGap != null ? formatAgeSpan(avgGap) : 'N/A', 'Avg / Revision', '#9a8cc4')}
-            ${tile(lastActivity != null ? formatAgeSpan(lastActivity) + ' ago' : 'N/A', 'Last Activity', '#c9a25a')}
+            ${tile(avgGap != null ? formatAgeSpan(avgGap) : 'N/A', 'Avg / Revision', '#8b7cf6')}
+            ${tile(lastActivity != null ? formatAgeSpan(lastActivity) + ' ago' : 'N/A', 'Last Activity', '#f2b544')}
         </div>
     </div>`;
 }
@@ -1449,15 +1449,15 @@ function renderTrendCharts(dataList) {
         <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.85rem 0;">📉 Trends Across Revisions</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
             <div>
-                <div style="font-size:0.75rem;color:#9aa6b5;margin-bottom:0.4rem;">Coverage %</div>
+                <div style="font-size:0.75rem;color:#93a3bd;margin-bottom:0.4rem;">Coverage %</div>
                 <div style="height:90px;"><canvas id="sc-trendCoverage"></canvas></div>
             </div>
             <div>
-                <div style="font-size:0.75rem;color:#9aa6b5;margin-bottom:0.4rem;">Code Churn (± lines)</div>
+                <div style="font-size:0.75rem;color:#93a3bd;margin-bottom:0.4rem;">Code Churn (± lines)</div>
                 <div style="height:90px;"><canvas id="sc-trendChurn"></canvas></div>
             </div>
             <div>
-                <div style="font-size:0.75rem;color:#9aa6b5;margin-bottom:0.4rem;">Build Duration</div>
+                <div style="font-size:0.75rem;color:#93a3bd;margin-bottom:0.4rem;">Build Duration</div>
                 <div style="height:90px;"><canvas id="sc-trendDuration"></canvas></div>
             </div>
         </div>
@@ -1472,8 +1472,8 @@ function initTrendCharts(dataList) {
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) } } },
         scales: {
-            x: { ticks: { color: '#7a8696', font: { size: 9 } }, grid: { display: false } },
-            y: { ticks: { color: '#7a8696', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            x: { ticks: { color: '#7d8ba3', font: { size: 9 } }, grid: { display: false } },
+            y: { ticks: { color: '#7d8ba3', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
         },
         animation: { duration: 600 }, elements: { point: { radius: 2 } }
     });
@@ -1481,7 +1481,7 @@ function initTrendCharts(dataList) {
     const covCanvas = document.getElementById('sc-trendCoverage');
     if (covCanvas) {
         const cov = chrono.map(d => { const c = parseFloat(d['Unit Tests: Coverage Percentage']); return isNaN(c) ? null : c; });
-        new Chart(covCanvas, { type: 'line', data: { labels, datasets: [{ data: cov, borderColor: '#9a8cc4', backgroundColor: 'rgba(154,140,196,0.15)', fill: true, tension: 0.3, spanGaps: true }] }, options: baseOpts(v => v + '%') });
+        new Chart(covCanvas, { type: 'line', data: { labels, datasets: [{ data: cov, borderColor: '#8b7cf6', backgroundColor: 'rgba(139, 124, 246,0.15)', fill: true, tension: 0.3, spanGaps: true }] }, options: baseOpts(v => v + '%') });
     }
     const churnCanvas = document.getElementById('sc-trendChurn');
     if (churnCanvas) {
@@ -1490,20 +1490,20 @@ function initTrendCharts(dataList) {
         new Chart(churnCanvas, {
             type: 'bar',
             data: { labels, datasets: [
-                { data: adds, backgroundColor: 'rgba(95,168,131,0.7)' },
-                { data: dels, backgroundColor: 'rgba(212,126,126,0.7)' }
+                { data: adds, backgroundColor: 'rgba(47, 191, 113,0.7)' },
+                { data: dels, backgroundColor: 'rgba(240, 97, 109,0.7)' }
             ] },
             options: { ...baseOpts(v => (v >= 0 ? '+' : '') + v + ' lines'),
                 scales: {
-                    x: { stacked: true, ticks: { color: '#7a8696', font: { size: 9 } }, grid: { display: false } },
-                    y: { stacked: true, ticks: { color: '#7a8696', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    x: { stacked: true, ticks: { color: '#7d8ba3', font: { size: 9 } }, grid: { display: false } },
+                    y: { stacked: true, ticks: { color: '#7d8ba3', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
                 } }
         });
     }
     const durCanvas = document.getElementById('sc-trendDuration');
     if (durCanvas) {
         const durs = chrono.map(d => { const s = getEffectiveDuration(d); return s > 0 ? Math.round(s / 60) : null; });
-        new Chart(durCanvas, { type: 'line', data: { labels, datasets: [{ data: durs, borderColor: '#c9a25a', backgroundColor: 'rgba(201,162,90,0.15)', fill: true, tension: 0.3, spanGaps: true }] }, options: baseOpts(v => v + ' min') });
+        new Chart(durCanvas, { type: 'line', data: { labels, datasets: [{ data: durs, borderColor: '#f2b544', backgroundColor: 'rgba(242, 181, 68,0.15)', fill: true, tension: 0.3, spanGaps: true }] }, options: baseOpts(v => v + ' min') });
     }
 }
 
@@ -1513,18 +1513,18 @@ function renderReviewerEngagement(dataList) {
     if (!rev) return '';
     const rs = rev.review_stats;
     const tile = (val, label, color) => `
-        <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.18);border-radius:0.6rem;padding:0.7rem;text-align:center;">
+        <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.18);border-radius:0.6rem;padding:0.7rem;text-align:center;">
             <div style="font-size:1.3rem;font-weight:700;color:${color};">${val}</div>
-            <div style="font-size:0.66rem;color:#7a8696;margin-top:0.15rem;">${label}</div>
+            <div style="font-size:0.66rem;color:#7d8ba3;margin-top:0.15rem;">${label}</div>
         </div>`;
     return `
     <div class="card" style="padding:1.25rem;">
         <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.85rem 0;">👥 Reviewer Engagement</h3>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;">
             ${tile(rs.unique_reviewers || 0, 'Reviewers', 'var(--demo-blue)')}
-            ${tile(rs.reviews_approved || 0, 'Approvals', '#5fa883')}
-            ${tile(rs.reviews_changes_requested || 0, 'Changes Req', '#d47e7e')}
-            ${tile(rs.total_review_comments || 0, 'Comments', '#9a8cc4')}
+            ${tile(rs.reviews_approved || 0, 'Approvals', '#2fbf71')}
+            ${tile(rs.reviews_changes_requested || 0, 'Changes Req', '#f0616d')}
+            ${tile(rs.total_review_comments || 0, 'Comments', '#8b7cf6')}
         </div>
     </div>`;
 }
@@ -1553,17 +1553,17 @@ function renderFlakyModules(dataList) {
         return `
         <div style="display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0;">
             <span style="flex:1;font-family:monospace;font-size:0.8rem;color:var(--text);">${name}</span>
-            <span style="font-size:0.72rem;color:#5fa883;">${v.pass}✓</span>
-            <span style="font-size:0.72rem;color:#d47e7e;">${v.fail}✗</span>
-            <div style="width:80px;background:#36414f;border-radius:0.3rem;height:6px;overflow:hidden;">
-                <div style="height:100%;width:${failPct}%;background:#c9a25a;"></div>
+            <span style="font-size:0.72rem;color:#2fbf71;">${v.pass}✓</span>
+            <span style="font-size:0.72rem;color:#f0616d;">${v.fail}✗</span>
+            <div style="width:80px;background:#22314f;border-radius:0.3rem;height:6px;overflow:hidden;">
+                <div style="height:100%;width:${failPct}%;background:#f2b544;"></div>
             </div>
         </div>`;
     }).join('');
     return `
     <div class="card" style="padding:1.25rem;">
         <h3 style="color:var(--demo-blue);font-size:1rem;margin:0 0 0.35rem 0;">🎲 Flaky Modules</h3>
-        <div style="font-size:0.72rem;color:#7a8696;margin-bottom:0.6rem;">Modules that both passed and failed across revisions</div>
+        <div style="font-size:0.72rem;color:#7d8ba3;margin-bottom:0.6rem;">Modules that both passed and failed across revisions</div>
         ${rows}
     </div>`;
 }
@@ -1592,10 +1592,10 @@ function renderErrorFingerprint(dataList) {
     const rows = entries.map(([type, v]) => `
         <div style="padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">
             <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-size:0.82rem;color:#d47e7e;font-weight:600;">⚠ ${type}</span>
-                <span style="font-size:0.72rem;color:#9aa6b5;">${v.count}×</span>
+                <span style="font-size:0.82rem;color:#f0616d;font-weight:600;">⚠ ${type}</span>
+                <span style="font-size:0.72rem;color:#93a3bd;">${v.count}×</span>
             </div>
-            <div style="font-size:0.7rem;color:#7a8696;margin-top:0.2rem;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(v.sample.slice(0, 100))}</div>
+            <div style="font-size:0.7rem;color:#7d8ba3;margin-top:0.2rem;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(v.sample.slice(0, 100))}</div>
         </div>`).join('');
     return `
     <div class="card" style="padding:1.25rem;">
@@ -1610,7 +1610,7 @@ function renderCdetLink(dataList) {
     if (!rev) return '';
     const cdet = rev.cdet;
     const url = `https://cdetsng.demo.com/summary/#/defect/${cdet}`;
-    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--demo-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
+    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.3);border-radius:1rem;padding:0.25rem 0.7rem;font-size:0.75rem;color:var(--demo-blue);text-decoration:none;font-weight:600;">🐞 ${cdet}</a>`;
 }
 
 function renderScoreCard(dataList) {
@@ -1720,7 +1720,7 @@ function renderScoreCard(dataList) {
         coverityScore      * 0.15 +
         reviewCommentScore * 0.20
     );
-    const healthColor = healthScore >= 80 ? '#5fa883' : healthScore >= 55 ? '#c9a25a' : '#d47e7e';
+    const healthColor = healthScore >= 80 ? '#2fbf71' : healthScore >= 55 ? '#f2b544' : '#f0616d';
     const healthLabel = healthScore >= 80 ? 'HEALTHY' : healthScore >= 55 ? 'MODERATE' : 'NEEDS ATTENTION';
 
     // ── Additional insight sections (each modular / independently removable) ───
@@ -1738,14 +1738,14 @@ function renderScoreCard(dataList) {
     container.innerHTML = `
         <div style="display:grid; grid-template-columns:1fr; gap:1rem; margin-bottom:1.5rem;">
             <div class="card" style="padding:1.5rem;">
-                <h3 style="color:var(--demo-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(122,159,206,0.2); padding-bottom:0.75rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
-                    <span>📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#7a8696;">${total} build${total !== 1 ? 's' : ''} analysed</span></span>
+                <h3 style="color:var(--demo-blue); margin-bottom:1.5rem; font-size:1.15rem; border-bottom:1px solid rgba(61, 139, 253,0.2); padding-bottom:0.75rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+                    <span>📊 PR Build Score Card &nbsp;<span style="font-size:0.8rem; font-weight:400; color:#7d8ba3;">${total} build${total !== 1 ? 's' : ''} analysed</span></span>
                     ${cdetBadge}
                 </h3>
                 <div style="display:grid; grid-template-columns:220px 1fr; gap:2rem; align-items:start;">
                     <!-- Overall Score doughnut -->
                     <div style="text-align:center;">
-                        <div style="font-size:0.82rem; color:#9aa6b5; margin-bottom:0.6rem; font-weight:600;">PR Overall Score</div>
+                        <div style="font-size:0.82rem; color:#93a3bd; margin-bottom:0.6rem; font-weight:600;">PR Overall Score</div>
                         <div style="position:relative; width:190px; margin:0 auto;">
                             <canvas id="sc-overallPie" width="190" height="190"></canvas>
                             <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
@@ -1759,88 +1759,88 @@ function renderScoreCard(dataList) {
                         <!-- Score signal breakdown below the chart -->
                         <div style="margin-top:0.9rem; display:flex; flex-direction:column; gap:0.35rem; text-align:left; padding:0 0.25rem;">
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#9aa6b5;">🔨 Build success</span>
-                                <span style="color:${buildSuccessRate >= 50 ? '#5fa883' : '#d47e7e'}; font-weight:600;">${buildSuccessRate}%</span>
+                                <span style="color:#93a3bd;">🔨 Build success</span>
+                                <span style="color:${buildSuccessRate >= 50 ? '#2fbf71' : '#f0616d'}; font-weight:600;">${buildSuccessRate}%</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#9aa6b5;">🧪 UT pass/fail</span>
-                                <span style="color:${utPassRate >= 50 ? '#7a9fce' : '#c9a25a'}; font-weight:600;">${utPassRate}%</span>
+                                <span style="color:#93a3bd;">🧪 UT pass/fail</span>
+                                <span style="color:${utPassRate >= 50 ? '#3d8bfd' : '#f2b544'}; font-weight:600;">${utPassRate}%</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#9aa6b5;">📊 UT coverage</span>
-                                <span style="color:${coverageScore >= 70 ? '#5fa883' : coverageScore >= 50 ? '#c9a25a' : '#d47e7e'}; font-weight:600;">${coverageDisplay}</span>
+                                <span style="color:#93a3bd;">📊 UT coverage</span>
+                                <span style="color:${coverageScore >= 70 ? '#2fbf71' : coverageScore >= 50 ? '#f2b544' : '#f0616d'}; font-weight:600;">${coverageDisplay}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#9aa6b5;">🔬 Coverity</span>
-                                <span style="color:${coverityScore >= 80 ? '#5fa883' : coverityScore >= 50 ? '#c9a25a' : '#d47e7e'}; font-weight:600;">${coverityPassed} / ${coverityRevisions.length || total}</span>
+                                <span style="color:#93a3bd;">🔬 Coverity</span>
+                                <span style="color:${coverityScore >= 80 ? '#2fbf71' : coverityScore >= 50 ? '#f2b544' : '#f0616d'}; font-weight:600;">${coverityPassed} / ${coverityRevisions.length || total}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                                <span style="color:#9aa6b5;">💬 Review comments</span>
-                                <span style="color:${reviewCommentScore === 100 ? '#5fa883' : reviewCommentScore >= 50 ? '#c9a25a' : '#d47e7e'}; font-weight:600;">${threadResolvedPct != null ? `${threadResolvedPct}%` : (authorReplyPct != null ? `${authorReplyPct}%` : 'N/A')}</span>
+                                <span style="color:#93a3bd;">💬 Review comments</span>
+                                <span style="color:${reviewCommentScore === 100 ? '#2fbf71' : reviewCommentScore >= 50 ? '#f2b544' : '#f0616d'}; font-weight:600;">${threadResolvedPct != null ? `${threadResolvedPct}%` : (authorReplyPct != null ? `${authorReplyPct}%` : 'N/A')}</span>
                             </div>
                         </div>
                     </div>
                     <!-- Right: stat tiles + module info -->
                     <div>
                         <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
-                            <div style="background:rgba(43,53,66,0.95); border:1px solid rgba(122,159,206,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                            <div style="background:rgba(22, 34, 58,0.95); border:1px solid rgba(61, 139, 253,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
                                 <div style="font-size:1.5rem; font-weight:700; color:var(--demo-blue);">${total}</div>
-                                <div style="font-size:0.7rem; color:#7a8696; margin-top:0.2rem;">Total Revisions</div>
+                                <div style="font-size:0.7rem; color:#7d8ba3; margin-top:0.2rem;">Total Revisions</div>
                             </div>
-                            <div style="background:rgba(43,53,66,0.95); border:1px solid rgba(122,159,206,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.3rem; font-weight:700; color:#c9a25a;">${avgDuration > 0 ? calculateDuration(avgDuration) : 'N/A'}</div>
-                                <div style="font-size:0.7rem; color:#7a8696; margin-top:0.2rem;">Avg Build Time</div>
+                            <div style="background:rgba(22, 34, 58,0.95); border:1px solid rgba(61, 139, 253,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.3rem; font-weight:700; color:#f2b544;">${avgDuration > 0 ? calculateDuration(avgDuration) : 'N/A'}</div>
+                                <div style="font-size:0.7rem; color:#7d8ba3; margin-top:0.2rem;">Avg Build Time</div>
                             </div>
-                            <div style="background:rgba(43,53,66,0.95); border:1px solid rgba(122,159,206,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:#9a8cc4;">${coverageDisplay}</div>
-                                <div style="font-size:0.7rem; color:#7a8696; margin-top:0.2rem;">UT Coverage</div>
+                            <div style="background:rgba(22, 34, 58,0.95); border:1px solid rgba(61, 139, 253,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:#8b7cf6;">${coverageDisplay}</div>
+                                <div style="font-size:0.7rem; color:#7d8ba3; margin-top:0.2rem;">UT Coverage</div>
                             </div>
-                            <div style="background:rgba(43,53,66,0.95); border:1px solid rgba(122,159,206,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
-                                <div style="font-size:1.5rem; font-weight:700; color:${coverityScore >= 80 ? '#5fa883' : coverityScore >= 50 ? '#c9a25a' : '#d47e7e'};">${coverityRevisions.length > 0 ? `${coverityPassed}/${coverityRevisions.length}` : 'N/A'}</div>
-                                <div style="font-size:0.7rem; color:#7a8696; margin-top:0.2rem;">Coverity Passed</div>
+                            <div style="background:rgba(22, 34, 58,0.95); border:1px solid rgba(61, 139, 253,0.18); border-radius:0.6rem; padding:0.75rem; text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:700; color:${coverityScore >= 80 ? '#2fbf71' : coverityScore >= 50 ? '#f2b544' : '#f0616d'};">${coverityRevisions.length > 0 ? `${coverityPassed}/${coverityRevisions.length}` : 'N/A'}</div>
+                                <div style="font-size:0.7rem; color:#7d8ba3; margin-top:0.2rem;">Coverity Passed</div>
                             </div>
                         </div>
                         ${avgUtTests > 0 ? `
-                        <div style="background:rgba(43,53,66,0.95); border:1px solid rgba(122,159,206,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#d6dde6;">
+                        <div style="background:rgba(22, 34, 58,0.95); border:1px solid rgba(61, 139, 253,0.15); border-radius:0.6rem; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; gap:2rem; font-size:0.82rem; color:#e8edf6;">
                             <span>🧪 Avg UT stages/run: <strong style="color:var(--text);">${avgUtTests}</strong></span>
                             <span>📊 Coverage reports: <strong style="color:var(--text);">${coverageReportsAvailable} / ${coverageReportsExpected || 'N/A'}</strong></span>
                             <span>🔬 Coverity: <strong style="color:var(--text);">${coverityPassed} pass / ${coverityFailed} fail</strong></span>
                         </div>` : ''}
                         ${sortedFailures.length > 0 ? `
-                        <div style="font-size:0.82rem; color:#9aa6b5; margin-bottom:0.5rem; font-weight:600;">Most Failed Modules</div>
+                        <div style="font-size:0.82rem; color:#93a3bd; margin-bottom:0.5rem; font-weight:600;">Most Failed Modules</div>
                         <div style="position:relative; height:${Math.min(sortedFailures.length, 6) * 32 + 36}px;">
                             <canvas id="sc-moduleBar"></canvas>
-                        </div>` : `<div style="font-size:0.82rem; color:#5fa883; padding:0.5rem 0;">✅ No module build failures across all builds</div>`}
+                        </div>` : `<div style="font-size:0.82rem; color:#2fbf71; padding:0.5rem 0;">✅ No module build failures across all builds</div>`}
 
                         ${(() => {
-                            if (!hasReviewData) return '<div style="font-size:0.8rem;color:#9aa6b5;margin-top:0.75rem;">💬 Review thread data will appear after the next workflow run</div>';
+                            if (!hasReviewData) return '<div style="font-size:0.8rem;color:#93a3bd;margin-top:0.75rem;">💬 Review thread data will appear after the next workflow run</div>';
                             const barPct = threadResolvedPct != null ? threadResolvedPct : 0;
-                            const barColor = barPct === 100 ? '#5fa883' : barPct >= 50 ? '#c9a25a' : '#d47e7e';
-                            const openColor = rvUnresolvedThreads === 0 ? '#5fa883' : '#d47e7e';
+                            const barColor = barPct === 100 ? '#2fbf71' : barPct >= 50 ? '#f2b544' : '#f0616d';
+                            const openColor = rvUnresolvedThreads === 0 ? '#2fbf71' : '#f0616d';
                             const resolvedLabel = rvTotalThreads != null ? `${rvResolvedThreads} / ${rvTotalThreads}` : '—';
                             const openLabel    = rvTotalThreads != null ? `${rvUnresolvedThreads}` : '—';
                             const pctLabel     = threadResolvedPct != null ? `${threadResolvedPct}%` : '—';
                             return `
-                        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid rgba(122,159,206,0.12);">
-                            <div style="font-size:0.82rem;color:#9aa6b5;font-weight:600;margin-bottom:0.6rem;">💬 PR Review Threads</div>
+                        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid rgba(61, 139, 253,0.12);">
+                            <div style="font-size:0.82rem;color:#93a3bd;font-weight:600;margin-bottom:0.6rem;">💬 PR Review Threads</div>
                             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.6rem;margin-bottom:0.75rem;">
-                                <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(95,168,131,0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
-                                    <div style="font-size:1.3rem;font-weight:700;color:#5fa883;">${resolvedLabel}</div>
-                                    <div style="font-size:0.68rem;color:#7a8696;margin-top:0.15rem;">Resolved</div>
+                                <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(47, 191, 113,0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                    <div style="font-size:1.3rem;font-weight:700;color:#2fbf71;">${resolvedLabel}</div>
+                                    <div style="font-size:0.68rem;color:#7d8ba3;margin-top:0.15rem;">Resolved</div>
                                 </div>
-                                <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(${rvUnresolvedThreads === 0 ? '16,185,129' : '239,68,68'},0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(${rvUnresolvedThreads === 0 ? '16,185,129' : '239,68,68'},0.25);border-radius:0.5rem;padding:0.6rem;text-align:center;">
                                     <div style="font-size:1.3rem;font-weight:700;color:${openColor};">${openLabel}</div>
-                                    <div style="font-size:0.68rem;color:#7a8696;margin-top:0.15rem;">Open</div>
+                                    <div style="font-size:0.68rem;color:#7d8ba3;margin-top:0.15rem;">Open</div>
                                 </div>
-                                <div style="background:rgba(43,53,66,0.95);border:1px solid rgba(122,159,206,0.2);border-radius:0.5rem;padding:0.6rem;text-align:center;">
+                                <div style="background:rgba(22, 34, 58,0.95);border:1px solid rgba(61, 139, 253,0.2);border-radius:0.5rem;padding:0.6rem;text-align:center;">
                                     <div style="font-size:1.3rem;font-weight:700;color:${barColor};">${pctLabel}</div>
-                                    <div style="font-size:0.68rem;color:#7a8696;margin-top:0.15rem;">Resolution Rate</div>
+                                    <div style="font-size:0.68rem;color:#7d8ba3;margin-top:0.15rem;">Resolution Rate</div>
                                 </div>
                             </div>
-                            <div style="background:rgba(122,159,206,0.12);border-radius:0.3rem;height:7px;overflow:hidden;">
+                            <div style="background:rgba(61, 139, 253,0.12);border-radius:0.3rem;height:7px;overflow:hidden;">
                                 <div style="height:100%;width:${barPct}%;background:${barColor};border-radius:0.3rem;transition:width 0.6s ease;"></div>
                             </div>
-                            ${rvOutdatedThreadsGql > 0 ? `<div style="font-size:0.7rem;color:#c9a25a;margin-top:0.35rem;">⚠ ${rvOutdatedThreadsGql} outdated thread${rvOutdatedThreadsGql !== 1 ? 's' : ''}</div>` : ''}
+                            ${rvOutdatedThreadsGql > 0 ? `<div style="font-size:0.7rem;color:#f2b544;margin-top:0.35rem;">⚠ ${rvOutdatedThreadsGql} outdated thread${rvOutdatedThreadsGql !== 1 ? 's' : ''}</div>` : ''}
                         </div>`;
                         })()}
                     </div>
@@ -1865,15 +1865,15 @@ function renderScoreCard(dataList) {
             datasets: [{
                 data: [buildSuccessRate, utPassRate, coverageScore, coverityScore, reviewCommentScore],
                 backgroundColor: [
-                    buildSuccessRate >= 50  ? 'rgba(95,168,131,0.85)'  : 'rgba(212,126,126,0.85)',
-                    utPassRate >= 50        ? 'rgba(122,159,206,0.85)'  : 'rgba(201,162,90,0.85)',
-                    coverageScore >= 70     ? 'rgba(154,140,196,0.85)' : coverageScore >= 50 ? 'rgba(201,162,90,0.75)' : 'rgba(212,126,126,0.75)',
-                    coverityScore >= 80     ? 'rgba(88,160,155,0.85)'  : coverityScore >= 50 ? 'rgba(201,162,90,0.75)' : 'rgba(212,126,126,0.75)',
-                    reviewCommentScore === 100 ? 'rgba(95,168,131,0.7)' :
-                    reviewCommentScore >= 50   ? 'rgba(201,162,90,0.7)' : 'rgba(212,126,126,0.7)'
+                    buildSuccessRate >= 50  ? 'rgba(47, 191, 113,0.85)'  : 'rgba(240, 97, 109,0.85)',
+                    utPassRate >= 50        ? 'rgba(61, 139, 253,0.85)'  : 'rgba(242, 181, 68,0.85)',
+                    coverageScore >= 70     ? 'rgba(139, 124, 246,0.85)' : coverageScore >= 50 ? 'rgba(242, 181, 68,0.75)' : 'rgba(240, 97, 109,0.75)',
+                    coverityScore >= 80     ? 'rgba(88,160,155,0.85)'  : coverityScore >= 50 ? 'rgba(242, 181, 68,0.75)' : 'rgba(240, 97, 109,0.75)',
+                    reviewCommentScore === 100 ? 'rgba(47, 191, 113,0.7)' :
+                    reviewCommentScore >= 50   ? 'rgba(242, 181, 68,0.7)' : 'rgba(240, 97, 109,0.7)'
                 ],
                 borderWidth: 2,
-                borderColor: '#36414f'
+                borderColor: '#22314f'
             }]
         },
         options: doughnutOpts
@@ -1885,13 +1885,13 @@ function renderScoreCard(dataList) {
             type: 'bar',
             data: {
                 labels: topMods.map(([m]) => m),
-                datasets: [{ data: topMods.map(([, c]) => c), backgroundColor: topMods.map(([, c]) => `rgba(212,126,126,${Math.min(0.4 + c * 0.1, 0.9)})`), borderColor: '#d47e7e', borderWidth: 1, borderRadius: 4 }]
+                datasets: [{ data: topMods.map(([, c]) => c), backgroundColor: topMods.map(([, c]) => `rgba(240, 97, 109,${Math.min(0.4 + c * 0.1, 0.9)})`), borderColor: '#f0616d', borderWidth: 1, borderRadius: 4 }]
             },
             options: {
                 indexAxis: 'y', responsive: true, maintainAspectRatio: false,
                 layout: { padding: { right: 12, bottom: 4 } },
                 plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` Failed ${ctx.raw}× out of ${total} revision${total !== 1 ? 's' : ''}` } } },
-                scales: { x: { beginAtZero: true, max: total, ticks: { color: '#7a8696', stepSize: 1, precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#9aa6b5', font: { size: 12 } }, grid: { display: false } } },
+                scales: { x: { beginAtZero: true, max: total, ticks: { color: '#7d8ba3', stepSize: 1, precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#93a3bd', font: { size: 12 } }, grid: { display: false } } },
                 animation: { duration: 700 }
             }
         });

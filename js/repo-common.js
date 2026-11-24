@@ -9,7 +9,7 @@ const REPO_PROJECTS = {
 };
 
 // Fixed color per language so a language keeps its color on every page.
-// Dark-mode categorical slots, validated against the card surface (#262f3b).
+// Dark-mode categorical slots, validated against the card surface (#111a2d).
 const LANGUAGE_COLORS = {
     'C': '#3987e5',
     'C++': '#d95926',
@@ -20,7 +20,7 @@ const LANGUAGE_COLORS = {
     'Java': '#9085e9',
     'HCL': '#e66767'
 };
-const OTHER_LANGUAGE_COLOR = '#7a8696';
+const OTHER_LANGUAGE_COLOR = '#7d8ba3';
 
 const RepoCommon = {
     getProject() {
