@@ -1,0 +1,71 @@
+name: Protect agent policy files
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [working_branch]
+
+jobs:
+  check-protected-files:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine changed files
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE=${{ github.event.pull_request.base.sha }}
+            HEAD=${{ github.sha }}
+          else
+            BASE=${{ github.event.before }}
+            HEAD=${{ github.sha }}
+          fi
+          git fetch origin $BASE --depth=1 || true
+          git diff --name-only $BASE $HEAD > changed_files.txt || true
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          cat changed_files.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Check if protected policy files changed
+        id: protect-check
+        run: |
+          if grep -E '^\.github/(agent-usage-policy\.md|agents/planner\.agent\.md)$' changed_files.txt >/dev/null 2>&1; then
+            echo "protected_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "protected_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Enforce approvals for PRs touching protected files
+        if: ${{ steps.protect-check.outputs.protected_changed == 'true' && github.event_name == 'pull_request' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request.number;
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr
+            });
+            const approvedByOwner = reviews.some(r => r.state === 'APPROVED' && r.user && r.user.login === 'bibinmbenny-ust');
+            if (!approvedByOwner) {
+              core.setFailed('Protected policy files changed but no approval by CODEOWNER @bibinmbenny-ust found. Please request CODEOWNER review.');
+            } else {
+              core.info('Protected files approved by CODEOWNER.');
+            }
+
+      - name: Block direct pushes to branch if non-owner modified protected files
+        if: ${{ steps.protect-check.outputs.protected_changed == 'true' && github.event_name == 'push' }}
+        run: |
+          ACTOR=${{ github.actor }}
+          if [ "$ACTOR" != "bibinmbenny-ust" ]; then
+            echo "Protected policy files were changed by $ACTOR. Only @bibinmbenny-ust may push changes to these files.";
+            exit 1
+          fi
