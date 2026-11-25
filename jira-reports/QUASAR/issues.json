@@ -76,11 +76,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2133,
-          "title": "Fixes: BUG-50330 kdadhich - Cellular config display: match regular interface behavior",
+          "number": 8492,
+          "title": "Change cf76906 from release/9.22 to release/9.23",
           "state": "open",
           "status": "approved",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2133",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8492",
           "has_dashboard": false
         }
       ],
@@ -157,11 +157,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2117,
-          "title": "Fixes: BUG-27343 esomappa - Change 5502e81 from boreas/10_1_main_BRIDGE to cairo/main",
+          "number": 8542,
+          "title": "chore(perf): document access policies",
           "state": "open",
-          "status": "approved",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2117",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8542",
           "has_dashboard": false
         }
       ],
@@ -237,11 +237,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2115,
-          "title": "Fixes: BUG-16875 bristeve - Change 53cdf3e from boreas/10_1_main_BRIDGE to cairo/main",
+          "number": 8534,
+          "title": "feat(control-plane): support bulk edit of backup jobs",
           "state": "open",
-          "status": "draft",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2115",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8534",
           "has_dashboard": false
         }
       ],
@@ -317,11 +317,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2128,
-          "title": "Fixes: BUG-83394 bhperam - LTS22: Address warnings for ipv6,routing files",
+          "number": 8567,
+          "title": "feat(ci): add audit events for API tokens",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2128",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8567",
           "has_dashboard": false
         }
       ],
@@ -466,11 +466,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2118,
-          "title": "Update Jenkinsfile to use new library identifier",
+          "number": 8569,
+          "title": "chore(ci): upgrade dependencies of interface settings",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2118",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8569",
           "has_dashboard": false
         }
       ],
@@ -597,11 +597,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2131,
-          "title": "Fixes: BUG-27398 dkandarp - Fixes : dkandarp BUG-27398 AOT Switch Bypass [10.5]: Interface status going down when interface mode changes from trunk native to access mode with switchbypass enabled",
+          "number": 8572,
+          "title": "chore(cli): document alert rules",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2131",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8572",
           "has_dashboard": false
         }
       ],
@@ -722,11 +722,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2132,
-          "title": "Private/kdadhich cellular port monitoring",
+          "number": 8558,
+          "title": "feat(dataplane): cache lookups for alert rules",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2132",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8558",
           "has_dashboard": false
         }
       ],
@@ -1052,11 +1052,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2116,
-          "title": "Fixes: BUG-49927 kverne - Change fedac1a from boreas/10_1_main_BRIDGE to cairo/main",
+          "number": 8500,
+          "title": "feat(cli): add search to report templates",
           "state": "open",
           "status": "approved",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2116",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8500",
           "has_dashboard": false
         }
       ],
@@ -1338,12 +1338,12 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2134,
-          "title": "Fixes: BUG-68719 poua - Clientless ZTNA Performance degraded 2-3%",
+          "number": 8540,
+          "title": "chore(control-plane): refactor access policies",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2134",
-          "has_dashboard": false
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8540",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/QSR-453"
@@ -1486,12 +1486,12 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2135,
-          "title": "Fixes: BUG-05104 anroy - Change 0d5c1b7 from boreas/10_1_main_BRIDGE to cairo/main",
+          "number": 8516,
+          "title": "chore(perf): upgrade dependencies of API tokens",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2135",
-          "has_dashboard": false
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8516",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/QSR-452"
@@ -1564,12 +1564,12 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2146,
-          "title": "Fixes: BUG-32612 acostean - acostean ",
+          "number": 8481,
+          "title": "feat(cli): add metrics for access policies",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2146",
-          "has_dashboard": false
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8481",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/QSR-451"
@@ -2116,11 +2116,11 @@
       "linked_prs": [
         {
           "project": "QUASAR",
-          "number": 2125,
-          "title": "Fixes: BUG-43490 amuttuva - td: avoid threat accounting for simulated packet tracer packets",
+          "number": 8473,
+          "title": "Change 13ef65c from release/9.22 to release/9.23",
           "state": "open",
-          "status": "draft",
-          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/2125",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/quasar-platform/pull/8473",
           "has_dashboard": false
         }
       ],

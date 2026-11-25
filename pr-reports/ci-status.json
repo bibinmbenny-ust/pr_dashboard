@@ -1,8 +1,7 @@
-﻿{
-  "repository": "demo-oneview-sandbox/orion-platform-pr-dashboard-poc1",
+{
+  "repository": "oneview-demo/oneview-dashboard",
   "status": "completed",
   "conclusion": "success",
-  "run_url": "https://github.com/demo-oneview-sandbox/orion-platform-pr-dashboard-poc1/actions/runs/20590460809",
-  "checked_at": "2025-12-30T06:54:23Z"
+  "run_url": "https://github.com/oneview-demo/oneview-dashboard/actions/runs/1000001",
+  "checked_at": "2026-11-24T06:00:00Z"
 }
-

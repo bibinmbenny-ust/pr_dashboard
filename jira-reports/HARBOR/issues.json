@@ -78,12 +78,12 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5156,
-          "title": "Add Secure Access VPN template save and apply support",
+          "number": 3421,
+          "title": "fix(device-sync): fix crash when loading backup jobs",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5156",
-          "has_dashboard": false
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3421",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/HRB-434"
@@ -158,11 +158,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5110,
-          "title": "Fixes: BUG-26517 sumbera - Change a1f54e4 from LUNA_10_1_MAIN_BRIDGE to LUNA_10_5_MAIN",
+          "number": 3357,
+          "title": "feat(manager-api): support scheduling of tenant settings",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5110",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3357",
           "has_dashboard": false
         }
       ],
@@ -236,11 +236,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5107,
-          "title": "Fixes: BUG-52350 aswsrini - BUG-52350: Surface bulk host-limit warning in REST API response",
+          "number": 3368,
+          "title": "feat(web-console): add metrics for access policies",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5107",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3368",
           "has_dashboard": false
         }
       ],
@@ -314,11 +314,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 4984,
-          "title": "Fixes: BUG-82691 sumbera - Change 2114e85 from LUNA_10_1_MAIN_BRIDGE to LUNA_10_5_MAIN",
+          "number": 3400,
+          "title": "fix(reports): fix memory leak in backup jobs",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/4984",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3400",
           "has_dashboard": false
         }
       ],
@@ -386,11 +386,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5116,
-          "title": "Fixes: BUG-29691 olkhomia - CSF-148520: [java] Hook Identity Policy lifecycle to CTP connector create/reuse/delete",
+          "number": 3329,
+          "title": "chore(reports): refactor route tables",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5116",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3329",
           "has_dashboard": false
         }
       ],
@@ -580,11 +580,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5036,
-          "title": "Fixes: BUG-88843 sanjamsi - Feature: CSF-104559 - [mcp visibility] REST API for MCP Inspection configuration",
+          "number": 3425,
+          "title": "fix(device-sync): fix stale data in tenant settings",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5036",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3425",
           "has_dashboard": false
         }
       ],
@@ -648,12 +648,12 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5147,
-          "title": "Fixes: BUG-31630 garpande - Change b64f31c from LUNA_10_1_MAIN_BRIDGE to LUNA_10_5_MAIN",
+          "number": 3323,
+          "title": "fix(web-console): fix null pointer in tenant settings",
           "state": "open",
-          "status": "approved",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5147",
-          "has_dashboard": false
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3323",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/HRB-436"
@@ -892,11 +892,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5006,
-          "title": "Fixes: BUG-45861 plakhind - EVE child domain import export and migration",
+          "number": 3313,
+          "title": "fix(device-sync): fix crash when loading backup jobs",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5006",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3313",
           "has_dashboard": false
         }
       ],
@@ -967,12 +967,12 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5154,
-          "title": "Add network, gateway, and interface filtering to Static Routes",
+          "number": 3331,
+          "title": "chore(manager-api): document device groups",
           "state": "open",
-          "status": "draft",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5154",
-          "has_dashboard": false
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3331",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/HRB-435"
@@ -1047,11 +1047,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5007,
-          "title": "Fixes: BUG-45861 plakhind - eve child domain auditLog report generation",
+          "number": 3386,
+          "title": "chore(web-console): refactor user sessions",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5007",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3386",
           "has_dashboard": false
         }
       ],
@@ -1125,11 +1125,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5108,
-          "title": "Fixes: BUG-52247 abgeetha - [LiveProtect] Shield Apply",
+          "number": 3414,
+          "title": "fix(reports): fix stale data in tenant settings",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5108",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3414",
           "has_dashboard": false
         }
       ],
@@ -1291,11 +1291,11 @@
       "linked_prs": [
         {
           "project": "HARBOR",
-          "number": 5021,
-          "title": "Fixes: BUG-50636 nbalagop - Hide 'When Host Limit Reached' option on cdFMC",
+          "number": 3426,
+          "title": "chore(manager-api): clean up access policies",
           "state": "open",
-          "status": "approved",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5021",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/harbor-platform/pull/3426",
           "has_dashboard": false
         }
       ],

@@ -6,12 +6,12 @@
   "data_timestamp": "2026-11-24T06:00:00Z",
   "sources": {
     "tickets": 432,
-    "prs": 896,
+    "prs": 180,
     "repos": 22
   },
   "briefing": {
     "headline": "2 of 4 projects need attention this sprint; Harbor is the steadiest.",
-    "summary": "Across 432 tickets, 896 pull requests and 22 repositories, delivery is uneven. Harbor is likely to finish its sprint (99%), while Quasar is 16% done with 58% of the sprint gone. OneView found 59 cross-tool signals — places where JIRA, pull requests and repositories disagree — most often tickets closed before their code was merged.",
+    "summary": "Across 432 tickets, 180 pull requests and 22 repositories, delivery is uneven. Harbor is likely to finish its sprint (99%), while Quasar is 16% done with 58% of the sprint gone. OneView found 54 cross-tool signals — places where JIRA, pull requests and repositories disagree — most often tickets closed before their code was merged.",
     "risks": [
       {
         "project": "QUASAR",
@@ -20,21 +20,21 @@
       },
       {
         "project": "ORION",
-        "text": "Orion: Done in JIRA, but PR #1347 is not merged.",
+        "text": "Orion: Done in JIRA, but PR #2236 is not merged.",
         "refs": [
           "ORN-410"
         ]
       },
       {
         "project": "LUNA",
-        "text": "Luna: Done in JIRA, but PR #5158 is not merged.",
+        "text": "Luna: Done in JIRA, but PR #5627 is not merged.",
         "refs": [
           "LUNA-317"
         ]
       },
       {
         "project": "HARBOR",
-        "text": "Harbor: Done in JIRA, but PR #5156 is not merged.",
+        "text": "Harbor: Done in JIRA, but PR #3421 is not merged.",
         "refs": [
           "HRB-434"
         ]

@@ -110,7 +110,7 @@ let currentPage = 1;
 
 // Waterfall PR detection. A waterfall PR title contains:
 //   "Change <short_sha/cdets> from <parent> to <child>"
-//   e.g. "Fixes: CSC... - Change 4cf194d from LUNA_10_1_MAIN to LUNA_10_5_MAIN"
+//   e.g. "Change 4cf194d from release/5.4 to release/5.5"
 // Prefer the is_waterfall flag written by the GitHub Action; fall back to a
 // title match so the filter also works before the JSON is refreshed.
 const WATERFALL_RE = /(?:^|\b)Change\s+\S+\s+from\s+\S+\s+to\s+\S+/i;

@@ -229,7 +229,7 @@ function renderMetrics(data) {
         const metrics = metricGroups[stage];
         let stageStatus = data[`${stage}: Build Status`]; // Check for explicit build status
         
-        // If no explicit status, infer from metrics (e.g., if stage is 'ARMV' but no 'ARMV: Build Status')
+        // If no explicit status, infer from metrics (e.g., if stage is 'Build ARM64' but no 'Build ARM64: Build Status')
         if (!stageStatus) {
              const hasFailure = metrics.some(m => (m.name.includes('Issues') || m.name.includes('Failed')) && parseFloat(m.value) > 0);
              stageStatus = hasFailure ? "FAILURE" : "SUCCESS";
@@ -1038,7 +1038,7 @@ async function loadMetrics() {
             loadingParagraph.innerHTML = `
                 <span class="status-failure">⚠️ Invalid Project</span><br><br>
                 ${projectInit.error}<br><br>
-                <strong>Example:</strong> <code>?project=ORION&pr=4</code>
+                <strong>Example:</strong> <code>?project=ORION&pr=2239</code>
             `;
             loadingParagraph.style.color = "var(--failure)";
             loadingParagraph.style.textAlign = "center";
@@ -1066,7 +1066,7 @@ async function loadMetrics() {
                 <span class="status-failure">⚠️ No PR Selected</span><br><br>
                 Please provide a Pull Request ID in the URL to view the dashboard.<br>
                 <strong>Project:</strong> ${currentProject.displayName}<br>
-                <strong>Example:</strong> <code>?project=${currentProject.name}&pr=4</code> or <code>?project=${currentProject.name}&pr=6</code>
+                <strong>Example:</strong> <code>?project=ORION&pr=2239</code> or <code>?project=LUNA&pr=5643</code>
             `;
             loadingParagraph.style.color = "var(--failure)";
             loadingParagraph.style.textAlign = "center";

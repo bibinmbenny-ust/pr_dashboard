@@ -66,11 +66,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5128,
-          "title": "Fixes: BUG-25639 asinghai - Change e0d7e8d from LUNA_10_1_MAIN_BRIDGE to LUNA_10_5_MAIN",
+          "number": 5703,
+          "title": "feat(policy): add audit events for alert rules",
           "state": "open",
-          "status": "draft",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5128",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5703",
           "has_dashboard": false
         }
       ],
@@ -190,11 +190,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5139,
-          "title": "Fixes: BUG-58472 bwasniak - Improve PackageMgmtModem unit coverage",
+          "number": 5676,
+          "title": "fix(connectors): fix sort order of tenant settings",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5139",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5676",
           "has_dashboard": false
         }
       ],
@@ -269,11 +269,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5158,
-          "title": "Fixes: BUG-07611 harchand - Inspector2 deprecation changes in CLI",
+          "number": 5627,
+          "title": "Change 4ae6979 from release/5.4 to release/5.5",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5158",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5627",
           "has_dashboard": false
         }
       ],
@@ -391,11 +391,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5155,
-          "title": "Automated PR: Pointer Update to HARBOR-10.5.0-577.LUNA_10_5_MAIN",
+          "number": 5737,
+          "title": "feat(policy): add pagination to tenant settings",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5155",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5737",
           "has_dashboard": false
         }
       ],
@@ -476,11 +476,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5136,
-          "title": "Automated PR: Pointer Update to HARBOR-10.5.0-576.LUNA_10_5_MAIN",
+          "number": 5646,
+          "title": "feat(identity): add pagination to access policies",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5136",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5646",
           "has_dashboard": false
         }
       ],
@@ -554,11 +554,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5138,
-          "title": "Fixes: BUG-58472 bwasniak - CSF-155313: Preserve modem family name in download status",
+          "number": 5740,
+          "title": "Change 7bf2580 from release/5.4 to release/5.5",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5138",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5740",
           "has_dashboard": false
         }
       ],
@@ -677,11 +677,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5143,
-          "title": "Automated PR: Pointer Update to HARBOR-10.5.0-565.LUNA_10_5_MAIN_BAZEL",
+          "number": 5658,
+          "title": "chore(connectors): clean up device groups",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5143",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5658",
           "has_dashboard": false
         }
       ],
@@ -756,11 +756,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5145,
-          "title": "Create peer device info map cache",
+          "number": 5647,
+          "title": "fix(admin-portal): handle timeout in route tables",
           "state": "open",
-          "status": "draft",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5145",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5647",
           "has_dashboard": false
         }
       ],
@@ -834,11 +834,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5127,
-          "title": "Fixes: BUG-55820 punshukl - Add Gateway HA analyser skill",
+          "number": 5689,
+          "title": "feat(identity): support scheduling of API tokens",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5127",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5689",
           "has_dashboard": false
         }
       ],
@@ -919,12 +919,12 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5165,
-          "title": "Fixes: BUG-52841 krua - Change 6ef2bcc from LUNA_10_1_CDMGR_MAIN_BRIDGE to LUNA_10_5_MAIN",
+          "number": 5717,
+          "title": "fix(connectors): handle timeout in route tables",
           "state": "open",
           "status": "approved",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5165",
-          "has_dashboard": false
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5717",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/LUNA-316"
@@ -1140,11 +1140,11 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 4138,
-          "title": "Fixes: BUG-09683 bbenny - feat: add PR Dashboard banner posting to LUNA pre-commit CI pipeline",
+          "number": 5643,
+          "title": "feat(admin-portal): add retry with backoff for tenant settings",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/4138",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5643",
           "has_dashboard": true
         }
       ],
@@ -1730,12 +1730,12 @@
       "linked_prs": [
         {
           "project": "LUNA",
-          "number": 5170,
-          "title": "Fixes: BUG-68794 jieaswar - dce_rpc: Remove dce_rpc.so references from LUNA packaging and deployment",
+          "number": 5693,
+          "title": "feat(policy): support scheduling of interface settings",
           "state": "open",
-          "status": "approved",
-          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5170",
-          "has_dashboard": false
+          "status": "changes_requested",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5693",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/LUNA-315"

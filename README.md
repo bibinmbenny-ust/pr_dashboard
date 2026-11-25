@@ -27,9 +27,9 @@ Visit the site root (GitHub Pages will load `index.html`) to see all available p
 Access a specific project dashboard using URL parameters:
 
 ```
-dashboard.html?project=ORION&pr=4
-dashboard.html?project=QUASAR&pr=3
-dashboard.html?project=LUNA&pr=7
+dashboard.html?project=ORION&pr=2239
+dashboard.html?project=QUASAR&pr=8481
+dashboard.html?project=LUNA&pr=5643
 ```
 
 ### URL Parameters
@@ -38,9 +38,9 @@ dashboard.html?project=LUNA&pr=7
 - `pr` - Pull Request number - **Required**
 
 **Examples:**
-- `dashboard.html?project=ORION&pr=4` - View PR #4 for ORION
-- `dashboard.html?project=QUASAR&pr=3` - View PR #3 for QUASAR
-- `dashboard.html?project=LUNA&pr=7` - View PR #7 for LUNA
+- `dashboard.html?project=ORION&pr=2239` - View PR #2239 for ORION
+- `dashboard.html?project=QUASAR&pr=8481` - View PR #8481 for QUASAR
+- `dashboard.html?project=LUNA&pr=5643` - View PR #5643 for LUNA
 
 ## Project Structure
 
@@ -296,7 +296,7 @@ Response schema:
 ## Development
 
 ### Local Testing
-Simply open `index.html` in a browser to see the project selection page, or `dashboard.html?project=ORION&pr=4` to test a specific dashboard. For JSON data, ensure you have a local web server running to avoid CORS issues.
+Simply open `index.html` in a browser to see the project selection page, or `dashboard.html?project=ORION&pr=2239` to test a specific dashboard. For JSON data, ensure you have a local web server running to avoid CORS issues.
 
 ### File Structure
 - Data files follow the pattern: `pr-reports/{PROJECT}/dashboard_{PR_NUMBER}.json`

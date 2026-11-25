@@ -68,11 +68,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1367,
-          "title": "Fixes: BUG-09683 bbenny - Add ORION PR dashboard live data publishing",
+          "number": 2174,
+          "title": "feat(telemetry): add retry with backoff for backup jobs",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1367",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2174",
           "has_dashboard": false
         }
       ],
@@ -142,11 +142,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1355,
-          "title": "Simplify volume mounts in orion.sh",
+          "number": 2225,
+          "title": "fix(telemetry): fix sort order of device groups",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1355",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2225",
           "has_dashboard": false
         }
       ],
@@ -220,11 +220,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1347,
-          "title": "Fixes: BUG-03965 yunyzhan - - Misleading Syslog Traffic Visibility on Management Interface in Multi-Instance Deployments",
+          "number": 2236,
+          "title": "chore(dataplane): clean up user sessions",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1347",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2236",
           "has_dashboard": false
         }
       ],
@@ -301,11 +301,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1356,
-          "title": "Update Jenkinsfile to use new library identifier",
+          "number": 2227,
+          "title": "fix(telemetry): fix sort order of interface settings",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1356",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2227",
           "has_dashboard": false
         }
       ],
@@ -376,11 +376,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1363,
-          "title": "Fixes: BUG-55069 ntiruppu - Private/ccs orion",
+          "number": 2144,
+          "title": "fix(mgmt-ui): fix race condition in certificate renewals",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1363",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2144",
           "has_dashboard": false
         }
       ],
@@ -448,11 +448,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1364,
-          "title": "Fixes: BUG-42269 ksanjee2 - xorriso upgrade to 1.5.8",
+          "number": 2171,
+          "title": "Change 4015a64 from release/2.19 to release/2.20",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1364",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2171",
           "has_dashboard": false
         }
       ],
@@ -752,11 +752,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1349,
-          "title": "Enhance grepError to include additional error patterns",
+          "number": 2212,
+          "title": "fix(telemetry): fix crash when loading firmware upgrades",
           "state": "open",
-          "status": "approved",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1349",
+          "status": "changes_requested",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2212",
           "has_dashboard": false
         }
       ],
@@ -832,12 +832,12 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1370,
-          "title": "fix: resolve intermittent Marvell SDK build failure due to race condi…",
+          "number": 2186,
+          "title": "fix(telemetry): fix validation of access policies",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1370",
-          "has_dashboard": false
+          "status": "changes_requested",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2186",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/ORN-401"
@@ -976,12 +976,12 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1371,
-          "title": "Add sandbox memory and tmpfs build flags",
+          "number": 2146,
+          "title": "fix(platform): fix stale data in tenant settings",
           "state": "open",
-          "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1371",
-          "has_dashboard": false
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2146",
+          "has_dashboard": true
         }
       ],
       "url": "https://jira.example.com/browse/ORN-400"
@@ -1100,11 +1100,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1263,
-          "title": "Fixes: BUG-09683 bbenny - Feature/pr dashboard v3",
+          "number": 2239,
+          "title": "fix(build): fix memory leak in certificate renewals",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1263",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2239",
           "has_dashboard": true
         }
       ],
@@ -1539,11 +1539,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1366,
-          "title": "Add missing newline at the beginning of MODULE.bazel",
+          "number": 2209,
+          "title": "chore(telemetry): clean up tenant settings",
           "state": "open",
           "status": "review_required",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1366",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2209",
           "has_dashboard": false
         }
       ],
@@ -1662,11 +1662,11 @@
       "linked_prs": [
         {
           "project": "ORION",
-          "number": 1368,
-          "title": "Fixes: BUG-52866 daeveret - live-protect QoL updates",
+          "number": 2205,
+          "title": "feat(build): add retry with backoff for access policies",
           "state": "open",
-          "status": "approved",
-          "html_url": "https://github.com/oneview-demo/orion-platform/pull/1368",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/orion-platform/pull/2205",
           "has_dashboard": false
         }
       ],
