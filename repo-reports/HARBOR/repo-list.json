@@ -1,0 +1,124 @@
+{
+  "project": "HARBOR",
+  "display_name": "Harbor",
+  "organization": "oneview-demo",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "total_count": 5,
+  "summary": {
+    "total_repos": 5,
+    "open_prs": 49,
+    "open_issues": 71,
+    "failing_ci": 2,
+    "security_alerts": 81
+  },
+  "repositories": [
+    {
+      "name": "harbor-report-service",
+      "full_name": "oneview-demo/harbor-report-service",
+      "description": "Scheduled and on-demand security reports.",
+      "html_url": "https://github.com/oneview-demo/harbor-report-service",
+      "visibility": "internal",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Go",
+      "topics": [
+        "reports"
+      ],
+      "stars": 100,
+      "forks": 44,
+      "open_prs": 4,
+      "open_issues": 9,
+      "pushed_at": "2026-11-21T11:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 9,
+      "health_percentage": 38
+    },
+    {
+      "name": "harbor-web-console",
+      "full_name": "oneview-demo/harbor-web-console",
+      "description": "Single-page web console for Harbor.",
+      "html_url": "https://github.com/oneview-demo/harbor-web-console",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "TypeScript",
+      "topics": [
+        "ui",
+        "web"
+      ],
+      "stars": 32,
+      "forks": 11,
+      "open_prs": 5,
+      "open_issues": 1,
+      "pushed_at": "2026-11-20T07:00:00Z",
+      "ci_status": "failure",
+      "security_alerts": 24,
+      "health_percentage": 50
+    },
+    {
+      "name": "harbor-manager-api",
+      "full_name": "oneview-demo/harbor-manager-api",
+      "description": "REST API for the Harbor unified security manager.",
+      "html_url": "https://github.com/oneview-demo/harbor-manager-api",
+      "visibility": "internal",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Java",
+      "topics": [
+        "api",
+        "backend"
+      ],
+      "stars": 35,
+      "forks": 34,
+      "open_prs": 19,
+      "open_issues": 36,
+      "pushed_at": "2026-11-19T14:00:00Z",
+      "ci_status": "success",
+      "security_alerts": 14,
+      "health_percentage": 88
+    },
+    {
+      "name": "harbor-device-sync",
+      "full_name": "oneview-demo/harbor-device-sync",
+      "description": "Device inventory and configuration sync workers.",
+      "html_url": "https://github.com/oneview-demo/harbor-device-sync",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "language": "Python",
+      "topics": [
+        "sync",
+        "workers"
+      ],
+      "stars": 21,
+      "forks": 30,
+      "open_prs": 21,
+      "open_issues": 25,
+      "pushed_at": "2026-11-18T10:00:00Z",
+      "ci_status": "success",
+      "security_alerts": 14,
+      "health_percentage": 63
+    },
+    {
+      "name": "harbor-legacy-scripts",
+      "full_name": "oneview-demo/harbor-legacy-scripts",
+      "description": "Legacy migration scripts kept for reference.",
+      "html_url": "https://github.com/oneview-demo/harbor-legacy-scripts",
+      "visibility": "private",
+      "archived": true,
+      "default_branch": "main",
+      "language": "Shell",
+      "topics": [
+        "legacy"
+      ],
+      "stars": 98,
+      "forks": 2,
+      "open_prs": 0,
+      "open_issues": 0,
+      "pushed_at": "2026-03-01T06:00:00Z",
+      "ci_status": "success",
+      "security_alerts": 20,
+      "health_percentage": 38
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "project": "ORION",
+  "jira_project": {
+    "key": "ORN",
+    "name": "Orion",
+    "lead": "kai_demo",
+    "url": "https://jira.example.com/projects/ORN"
+  },
+  "board": {
+    "id": 247,
+    "name": "Orion Scrum Board",
+    "type": "scrum"
+  },
+  "jira_base_url": "https://jira.example.com",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "active_sprint": {
+    "id": 1047,
+    "name": "ORN Sprint 47",
+    "state": "active",
+    "start": "2026-11-16T03:30:00Z",
+    "end": "2026-11-30T03:30:00Z",
+    "goal": "Ship the release candidate and close P1 bugs",
+    "committed_points": 54,
+    "added_points": 5,
+    "completed_points": 33,
+    "carried_over": [
+      "ORN-397",
+      "ORN-398",
+      "ORN-399"
+    ],
+    "burndown": [
+      {
+        "date": "2026-11-16",
+        "remaining": 54
+      },
+      {
+        "date": "2026-11-17",
+        "remaining": 49
+      },
+      {
+        "date": "2026-11-18",
+        "remaining": 51
+      },
+      {
+        "date": "2026-11-19",
+        "remaining": 48
+      },
+      {
+        "date": "2026-11-20",
+        "remaining": 40
+      },
+      {
+        "date": "2026-11-21",
+        "remaining": 29
+      },
+      {
+        "date": "2026-11-22",
+        "remaining": 27
+      },
+      {
+        "date": "2026-11-23",
+        "remaining": 27
+      },
+      {
+        "date": "2026-11-24",
+        "remaining": 26
+      }
+    ]
+  },
+  "sprints": [
+    {
+      "id": 1041,
+      "name": "ORN Sprint 41",
+      "state": "closed",
+      "start": "2026-08-24T03:30:00Z",
+      "end": "2026-09-07T03:30:00Z"
+    },
+    {
+      "id": 1042,
+      "name": "ORN Sprint 42",
+      "state": "closed",
+      "start": "2026-09-07T03:30:00Z",
+      "end": "2026-09-21T03:30:00Z"
+    },
+    {
+      "id": 1043,
+      "name": "ORN Sprint 43",
+      "state": "closed",
+      "start": "2026-09-21T03:30:00Z",
+      "end": "2026-10-05T03:30:00Z"
+    },
+    {
+      "id": 1044,
+      "name": "ORN Sprint 44",
+      "state": "closed",
+      "start": "2026-10-05T03:30:00Z",
+      "end": "2026-10-19T03:30:00Z"
+    },
+    {
+      "id": 1045,
+      "name": "ORN Sprint 45",
+      "state": "closed",
+      "start": "2026-10-19T03:30:00Z",
+      "end": "2026-11-02T03:30:00Z"
+    },
+    {
+      "id": 1046,
+      "name": "ORN Sprint 46",
+      "state": "closed",
+      "start": "2026-11-02T03:30:00Z",
+      "end": "2026-11-16T03:30:00Z"
+    },
+    {
+      "id": 1047,
+      "name": "ORN Sprint 47",
+      "state": "active",
+      "start": "2026-11-16T03:30:00Z",
+      "end": "2026-11-30T03:30:00Z"
+    }
+  ],
+  "velocity": [
+    {
+      "sprint": "ORN Sprint 41",
+      "committed": 36,
+      "completed": 36
+    },
+    {
+      "sprint": "ORN Sprint 42",
+      "committed": 57,
+      "completed": 49
+    },
+    {
+      "sprint": "ORN Sprint 43",
+      "committed": 47,
+      "completed": 44
+    },
+    {
+      "sprint": "ORN Sprint 44",
+      "committed": 34,
+      "completed": 32
+    },
+    {
+      "sprint": "ORN Sprint 45",
+      "committed": 48,
+      "completed": 45
+    },
+    {
+      "sprint": "ORN Sprint 46",
+      "committed": 42,
+      "completed": 39
+    }
+  ],
+  "versions": [
+    {
+      "id": 5000,
+      "name": "Orion 2.19.0",
+      "release_date": "2026-10-30",
+      "released": true,
+      "start_date": "2026-08-31"
+    },
+    {
+      "id": 5001,
+      "name": "Orion 2.20.0",
+      "release_date": "2026-12-12",
+      "released": false,
+      "start_date": "2026-10-13"
+    },
+    {
+      "id": 5002,
+      "name": "Orion 2.21.0",
+      "release_date": "2027-02-14",
+      "released": false,
+      "start_date": "2026-12-16"
+    }
+  ],
+  "team": [
+    {
+      "user": "kai_demo",
+      "capacity_points": 13,
+      "role": "Lead"
+    },
+    {
+      "user": "alex_demo",
+      "capacity_points": 12,
+      "role": "Engineer"
+    },
+    {
+      "user": "lena_demo",
+      "capacity_points": 13,
+      "role": "Engineer"
+    },
+    {
+      "user": "zoe_demo",
+      "capacity_points": 11,
+      "role": "Engineer"
+    },
+    {
+      "user": "sam_demo",
+      "capacity_points": 11,
+      "role": "Engineer"
+    },
+    {
+      "user": "mei_demo",
+      "capacity_points": 12,
+      "role": "Engineer"
+    },
+    {
+      "user": "raj_demo",
+      "capacity_points": 13,
+      "role": "Engineer"
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "project": "QUASAR",
+  "jira_project": {
+    "key": "QSR",
+    "name": "Quasar",
+    "lead": "mei_demo",
+    "url": "https://jira.example.com/projects/QSR"
+  },
+  "board": {
+    "id": 258,
+    "name": "Quasar Scrum Board",
+    "type": "scrum"
+  },
+  "jira_base_url": "https://jira.example.com",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "active_sprint": {
+    "id": 1058,
+    "name": "QSR Sprint 58",
+    "state": "active",
+    "start": "2026-11-16T03:30:00Z",
+    "end": "2026-11-30T03:30:00Z",
+    "goal": "Stabilize CI and burn down customer bugs",
+    "committed_points": 47,
+    "added_points": 8,
+    "completed_points": 9,
+    "carried_over": [
+      "QSR-454",
+      "QSR-455",
+      "QSR-456",
+      "QSR-457"
+    ],
+    "burndown": [
+      {
+        "date": "2026-11-16",
+        "remaining": 47
+      },
+      {
+        "date": "2026-11-17",
+        "remaining": 47
+      },
+      {
+        "date": "2026-11-18",
+        "remaining": 55
+      },
+      {
+        "date": "2026-11-19",
+        "remaining": 55
+      },
+      {
+        "date": "2026-11-20",
+        "remaining": 55
+      },
+      {
+        "date": "2026-11-21",
+        "remaining": 55
+      },
+      {
+        "date": "2026-11-22",
+        "remaining": 52
+      },
+      {
+        "date": "2026-11-23",
+        "remaining": 46
+      },
+      {
+        "date": "2026-11-24",
+        "remaining": 46
+      }
+    ]
+  },
+  "sprints": [
+    {
+      "id": 1052,
+      "name": "QSR Sprint 52",
+      "state": "closed",
+      "start": "2026-08-24T03:30:00Z",
+      "end": "2026-09-07T03:30:00Z"
+    },
+    {
+      "id": 1053,
+      "name": "QSR Sprint 53",
+      "state": "closed",
+      "start": "2026-09-07T03:30:00Z",
+      "end": "2026-09-21T03:30:00Z"
+    },
+    {
+      "id": 1054,
+      "name": "QSR Sprint 54",
+      "state": "closed",
+      "start": "2026-09-21T03:30:00Z",
+      "end": "2026-10-05T03:30:00Z"
+    },
+    {
+      "id": 1055,
+      "name": "QSR Sprint 55",
+      "state": "closed",
+      "start": "2026-10-05T03:30:00Z",
+      "end": "2026-10-19T03:30:00Z"
+    },
+    {
+      "id": 1056,
+      "name": "QSR Sprint 56",
+      "state": "closed",
+      "start": "2026-10-19T03:30:00Z",
+      "end": "2026-11-02T03:30:00Z"
+    },
+    {
+      "id": 1057,
+      "name": "QSR Sprint 57",
+      "state": "closed",
+      "start": "2026-11-02T03:30:00Z",
+      "end": "2026-11-16T03:30:00Z"
+    },
+    {
+      "id": 1058,
+      "name": "QSR Sprint 58",
+      "state": "active",
+      "start": "2026-11-16T03:30:00Z",
+      "end": "2026-11-30T03:30:00Z"
+    }
+  ],
+  "velocity": [
+    {
+      "sprint": "QSR Sprint 52",
+      "committed": 70,
+      "completed": 65
+    },
+    {
+      "sprint": "QSR Sprint 53",
+      "committed": 43,
+      "completed": 40
+    },
+    {
+      "sprint": "QSR Sprint 54",
+      "committed": 49,
+      "completed": 41
+    },
+    {
+      "sprint": "QSR Sprint 55",
+      "committed": 61,
+      "completed": 53
+    },
+    {
+      "sprint": "QSR Sprint 56",
+      "committed": 63,
+      "completed": 55
+    },
+    {
+      "sprint": "QSR Sprint 57",
+      "committed": 45,
+      "completed": 40
+    }
+  ],
+  "versions": [
+    {
+      "id": 5000,
+      "name": "Quasar 9.22.0",
+      "release_date": "2026-09-25",
+      "released": true,
+      "start_date": "2026-07-27"
+    },
+    {
+      "id": 5001,
+      "name": "Quasar 9.23.0",
+      "release_date": "2026-11-20",
+      "released": false,
+      "start_date": "2026-09-21"
+    },
+    {
+      "id": 5002,
+      "name": "Quasar 9.24.0",
+      "release_date": "2027-02-02",
+      "released": false,
+      "start_date": "2026-12-04"
+    }
+  ],
+  "team": [
+    {
+      "user": "mei_demo",
+      "capacity_points": 8,
+      "role": "Lead"
+    },
+    {
+      "user": "nina_demo",
+      "capacity_points": 8,
+      "role": "Engineer"
+    },
+    {
+      "user": "alex_demo",
+      "capacity_points": 8,
+      "role": "Engineer"
+    },
+    {
+      "user": "priya_demo",
+      "capacity_points": 12,
+      "role": "Engineer"
+    },
+    {
+      "user": "sam_demo",
+      "capacity_points": 13,
+      "role": "Engineer"
+    },
+    {
+      "user": "lena_demo",
+      "capacity_points": 11,
+      "role": "Engineer"
+    }
+  ]
+}

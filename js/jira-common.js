@@ -1,7 +1,7 @@
 // Shared logic for the JIRA Dashboard pages. Needs js/repo-common.js (generic helpers) loaded first.
 // Data comes from static JSON in jira-reports/<PROJECT>/ produced by a scheduled workflow;
 // these pages never call the JIRA API themselves.
-const JIRA_PROJECT_KEYS = ['FXOS', 'IMS', 'USM', 'ASA'];
+const JIRA_PROJECT_KEYS = ['ORION', 'LUNA', 'HARBOR', 'QUASAR'];
 
 // Validated on the dark card surface (#111a2d) with the dataviz palette checker.
 const JIRA_COLORS = {

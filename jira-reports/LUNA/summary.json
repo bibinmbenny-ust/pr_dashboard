@@ -1,0 +1,213 @@
+{
+  "project": "LUNA",
+  "jira_project": {
+    "key": "LUNA",
+    "name": "Luna",
+    "lead": "alex_demo",
+    "url": "https://jira.example.com/projects/LUNA"
+  },
+  "board": {
+    "id": 233,
+    "name": "Luna Scrum Board",
+    "type": "scrum"
+  },
+  "jira_base_url": "https://jira.example.com",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "active_sprint": {
+    "id": 1033,
+    "name": "LUNA Sprint 33",
+    "state": "active",
+    "start": "2026-11-16T03:30:00Z",
+    "end": "2026-11-30T03:30:00Z",
+    "goal": "Ship the release candidate and close P1 bugs",
+    "committed_points": 62,
+    "added_points": 0,
+    "completed_points": 20,
+    "carried_over": [
+      "LUNA-316",
+      "LUNA-317",
+      "LUNA-318"
+    ],
+    "burndown": [
+      {
+        "date": "2026-11-16",
+        "remaining": 62
+      },
+      {
+        "date": "2026-11-17",
+        "remaining": 62
+      },
+      {
+        "date": "2026-11-18",
+        "remaining": 62
+      },
+      {
+        "date": "2026-11-19",
+        "remaining": 62
+      },
+      {
+        "date": "2026-11-20",
+        "remaining": 54
+      },
+      {
+        "date": "2026-11-21",
+        "remaining": 43
+      },
+      {
+        "date": "2026-11-22",
+        "remaining": 42
+      },
+      {
+        "date": "2026-11-23",
+        "remaining": 42
+      },
+      {
+        "date": "2026-11-24",
+        "remaining": 42
+      }
+    ]
+  },
+  "sprints": [
+    {
+      "id": 1027,
+      "name": "LUNA Sprint 27",
+      "state": "closed",
+      "start": "2026-08-24T03:30:00Z",
+      "end": "2026-09-07T03:30:00Z"
+    },
+    {
+      "id": 1028,
+      "name": "LUNA Sprint 28",
+      "state": "closed",
+      "start": "2026-09-07T03:30:00Z",
+      "end": "2026-09-21T03:30:00Z"
+    },
+    {
+      "id": 1029,
+      "name": "LUNA Sprint 29",
+      "state": "closed",
+      "start": "2026-09-21T03:30:00Z",
+      "end": "2026-10-05T03:30:00Z"
+    },
+    {
+      "id": 1030,
+      "name": "LUNA Sprint 30",
+      "state": "closed",
+      "start": "2026-10-05T03:30:00Z",
+      "end": "2026-10-19T03:30:00Z"
+    },
+    {
+      "id": 1031,
+      "name": "LUNA Sprint 31",
+      "state": "closed",
+      "start": "2026-10-19T03:30:00Z",
+      "end": "2026-11-02T03:30:00Z"
+    },
+    {
+      "id": 1032,
+      "name": "LUNA Sprint 32",
+      "state": "closed",
+      "start": "2026-11-02T03:30:00Z",
+      "end": "2026-11-16T03:30:00Z"
+    },
+    {
+      "id": 1033,
+      "name": "LUNA Sprint 33",
+      "state": "active",
+      "start": "2026-11-16T03:30:00Z",
+      "end": "2026-11-30T03:30:00Z"
+    }
+  ],
+  "velocity": [
+    {
+      "sprint": "LUNA Sprint 27",
+      "committed": 60,
+      "completed": 55
+    },
+    {
+      "sprint": "LUNA Sprint 28",
+      "committed": 36,
+      "completed": 34
+    },
+    {
+      "sprint": "LUNA Sprint 29",
+      "committed": 40,
+      "completed": 37
+    },
+    {
+      "sprint": "LUNA Sprint 30",
+      "committed": 70,
+      "completed": 62
+    },
+    {
+      "sprint": "LUNA Sprint 31",
+      "committed": 44,
+      "completed": 44
+    },
+    {
+      "sprint": "LUNA Sprint 32",
+      "committed": 48,
+      "completed": 43
+    }
+  ],
+  "versions": [
+    {
+      "id": 5000,
+      "name": "Luna 5.4.0",
+      "release_date": "2026-10-15",
+      "released": true,
+      "start_date": "2026-08-16"
+    },
+    {
+      "id": 5001,
+      "name": "Luna 5.5.0",
+      "release_date": "2026-12-03",
+      "released": false,
+      "start_date": "2026-10-04"
+    },
+    {
+      "id": 5002,
+      "name": "Luna 6.0.0",
+      "release_date": "2027-02-27",
+      "released": false,
+      "start_date": "2026-12-29"
+    }
+  ],
+  "team": [
+    {
+      "user": "alex_demo",
+      "capacity_points": 11,
+      "role": "Lead"
+    },
+    {
+      "user": "zoe_demo",
+      "capacity_points": 13,
+      "role": "Engineer"
+    },
+    {
+      "user": "nina_demo",
+      "capacity_points": 8,
+      "role": "Engineer"
+    },
+    {
+      "user": "kai_demo",
+      "capacity_points": 9,
+      "role": "Engineer"
+    },
+    {
+      "user": "mei_demo",
+      "capacity_points": 9,
+      "role": "Engineer"
+    },
+    {
+      "user": "priya_demo",
+      "capacity_points": 10,
+      "role": "Engineer"
+    },
+    {
+      "user": "tom_demo",
+      "capacity_points": 10,
+      "role": "Engineer"
+    }
+  ]
+}

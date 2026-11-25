@@ -1,0 +1,257 @@
+{
+  "project": "QUASAR",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "quasar-perf-lab",
+    "full_name": "oneview-demo/quasar-perf-lab",
+    "description": "Performance benchmarks and lab automation.",
+    "html_url": "https://github.com/oneview-demo/quasar-perf-lab",
+    "homepage": null,
+    "visibility": "private",
+    "archived": false,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": "Proprietary",
+    "topics": [
+      "benchmarks",
+      "automation"
+    ],
+    "created_at": "2021-03-25T06:00:00Z",
+    "updated_at": "2026-11-19T06:00:00Z",
+    "pushed_at": "2026-11-19T06:00:00Z",
+    "size_kb": 75183,
+    "language": "Python"
+  },
+  "stats": {
+    "stars": 73,
+    "forks": 24,
+    "watchers": 13,
+    "open_issues": 13,
+    "open_prs": 10,
+    "merged_prs_30d": 40,
+    "closed_prs_30d": 12,
+    "commits_30d": 142
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 31
+    },
+    {
+      "week": "2026-09-13",
+      "total": 18
+    },
+    {
+      "week": "2026-09-20",
+      "total": 23
+    },
+    {
+      "week": "2026-09-27",
+      "total": 16
+    },
+    {
+      "week": "2026-10-04",
+      "total": 8
+    },
+    {
+      "week": "2026-10-11",
+      "total": 9
+    },
+    {
+      "week": "2026-10-18",
+      "total": 32
+    },
+    {
+      "week": "2026-10-25",
+      "total": 46
+    },
+    {
+      "week": "2026-11-01",
+      "total": 41
+    },
+    {
+      "week": "2026-11-08",
+      "total": 43
+    },
+    {
+      "week": "2026-11-15",
+      "total": 40
+    },
+    {
+      "week": "2026-11-22",
+      "total": 18
+    }
+  ],
+  "languages": {
+    "Python": 7391361,
+    "Shell": 550736,
+    "Dockerfile": 281337,
+    "Makefile": 578566
+  },
+  "contributors": [
+    {
+      "login": "nina_demo",
+      "contributions": 861
+    },
+    {
+      "login": "omar_demo",
+      "contributions": 694
+    },
+    {
+      "login": "mei_demo",
+      "contributions": 614
+    },
+    {
+      "login": "zoe_demo",
+      "contributions": 439
+    },
+    {
+      "login": "ivy_demo",
+      "contributions": 436
+    },
+    {
+      "login": "raj_demo",
+      "contributions": 350
+    },
+    {
+      "login": "tom_demo",
+      "contributions": 205
+    },
+    {
+      "login": "priya_demo",
+      "contributions": 127
+    }
+  ],
+  "branches": {
+    "total": 9,
+    "protected": 2,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 1,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": true,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests",
+        "CodeQL"
+      ],
+      "enforce_admins": true,
+      "required_linear_history": false
+    }
+  },
+  "releases": {
+    "total_tags": 28,
+    "latest": {
+      "tag_name": "v4.5.6",
+      "name": null,
+      "published_at": "2026-11-10T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/oneview-demo/quasar-perf-lab/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "active",
+      "last_run": {
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-19T23:00:00Z",
+        "duration_seconds": null,
+        "html_url": "https://github.com/oneview-demo/quasar-perf-lab/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2026-11-22T17:00:00Z",
+        "duration_seconds": 2560,
+        "html_url": "https://github.com/oneview-demo/quasar-perf-lab/actions/workflows/unit-tests.yml"
+      }
+    },
+    {
+      "name": "CodeQL",
+      "path": ".github/workflows/codeql.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2026-11-22T21:00:00Z",
+        "duration_seconds": 1814,
+        "html_url": "https://github.com/oneview-demo/quasar-perf-lab/actions/workflows/codeql.yml"
+      }
+    },
+    {
+      "name": "Release",
+      "path": ".github/workflows/release.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-20T22:00:00Z",
+        "duration_seconds": 3489,
+        "html_url": "https://github.com/oneview-demo/quasar-perf-lab/actions/workflows/release.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 0,
+      "high": 4,
+      "medium": 3,
+      "low": 1
+    },
+    "code_scanning": {
+      "critical": 2,
+      "high": 1,
+      "medium": 2,
+      "low": 7
+    },
+    "secret_scanning_open": 0
+  },
+  "community": {
+    "health_percentage": 75,
+    "files": {
+      "readme": true,
+      "license": true,
+      "contributing": true,
+      "code_of_conduct": true,
+      "codeowners": true,
+      "security_policy": false,
+      "issue_template": true,
+      "pull_request_template": false
+    }
+  },
+  "settings": {
+    "allow_merge_commit": false,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true,
+    "allow_auto_merge": true,
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": false,
+    "has_discussions": true
+  },
+  "access": {
+    "collaborators": 6,
+    "teams": [
+      "quasar-maintainers",
+      "quasar-developers"
+    ]
+  }
+}

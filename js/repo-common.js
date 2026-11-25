@@ -2,10 +2,10 @@
 // Data is read from static JSON under repo-reports/ that a GitHub workflow produces.
 // These pages never call the GitHub API themselves.
 const REPO_PROJECTS = {
-    FXOS: { key: 'FXOS', displayName: 'Orion' },
-    IMS: { key: 'IMS', displayName: 'Luna' },
-    USM: { key: 'USM', displayName: 'Harbor' },
-    ASA: { key: 'ASA', displayName: 'Quasar' }
+    ORION: { key: 'ORION', displayName: 'Orion' },
+    LUNA: { key: 'LUNA', displayName: 'Luna' },
+    HARBOR: { key: 'HARBOR', displayName: 'Harbor' },
+    QUASAR: { key: 'QUASAR', displayName: 'Quasar' }
 };
 
 // Fixed color per language so a language keeps its color on every page.

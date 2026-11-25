@@ -1,0 +1,240 @@
+{
+  "project": "HARBOR",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "harbor-web-console",
+    "full_name": "oneview-demo/harbor-web-console",
+    "description": "Single-page web console for Harbor.",
+    "html_url": "https://github.com/oneview-demo/harbor-web-console",
+    "homepage": null,
+    "visibility": "private",
+    "archived": false,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": "Apache-2.0",
+    "topics": [
+      "ui",
+      "web"
+    ],
+    "created_at": "2024-05-16T06:00:00Z",
+    "updated_at": "2026-11-20T07:00:00Z",
+    "pushed_at": "2026-11-20T07:00:00Z",
+    "size_kb": 103051,
+    "language": "TypeScript"
+  },
+  "stats": {
+    "stars": 32,
+    "forks": 11,
+    "watchers": 57,
+    "open_issues": 1,
+    "open_prs": 5,
+    "merged_prs_30d": 37,
+    "closed_prs_30d": 11,
+    "commits_30d": 93
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 22
+    },
+    {
+      "week": "2026-09-13",
+      "total": 13
+    },
+    {
+      "week": "2026-09-20",
+      "total": 40
+    },
+    {
+      "week": "2026-09-27",
+      "total": 10
+    },
+    {
+      "week": "2026-10-04",
+      "total": 3
+    },
+    {
+      "week": "2026-10-11",
+      "total": 48
+    },
+    {
+      "week": "2026-10-18",
+      "total": 20
+    },
+    {
+      "week": "2026-10-25",
+      "total": 31
+    },
+    {
+      "week": "2026-11-01",
+      "total": 21
+    },
+    {
+      "week": "2026-11-08",
+      "total": 2
+    },
+    {
+      "week": "2026-11-15",
+      "total": 32
+    },
+    {
+      "week": "2026-11-22",
+      "total": 38
+    }
+  ],
+  "languages": {
+    "TypeScript": 336949,
+    "JavaScript": 43700,
+    "SCSS": 13376,
+    "HTML": 10077,
+    "Dockerfile": 15898
+  },
+  "contributors": [
+    {
+      "login": "tom_demo",
+      "contributions": 890
+    },
+    {
+      "login": "lena_demo",
+      "contributions": 805
+    },
+    {
+      "login": "alex_demo",
+      "contributions": 762
+    },
+    {
+      "login": "zoe_demo",
+      "contributions": 631
+    },
+    {
+      "login": "ivy_demo",
+      "contributions": 558
+    },
+    {
+      "login": "raj_demo",
+      "contributions": 267
+    },
+    {
+      "login": "mei_demo",
+      "contributions": 31
+    }
+  ],
+  "branches": {
+    "total": 54,
+    "protected": 4,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 1,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": true,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests",
+        "CodeQL"
+      ],
+      "enforce_admins": false,
+      "required_linear_history": true
+    }
+  },
+  "releases": {
+    "total_tags": 9,
+    "latest": {
+      "tag_name": "v2.16.0",
+      "name": null,
+      "published_at": "2026-11-14T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/oneview-demo/harbor-web-console/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "push",
+        "branch": "main",
+        "created_at": "2026-11-20T16:00:00Z",
+        "duration_seconds": 1594,
+        "html_url": "https://github.com/oneview-demo/harbor-web-console/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "branch": "main",
+        "created_at": "2026-11-22T10:00:00Z",
+        "duration_seconds": 1589,
+        "html_url": "https://github.com/oneview-demo/harbor-web-console/actions/workflows/unit-tests.yml"
+      }
+    },
+    {
+      "name": "CodeQL",
+      "path": ".github/workflows/codeql.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-22T16:00:00Z",
+        "duration_seconds": 1583,
+        "html_url": "https://github.com/oneview-demo/harbor-web-console/actions/workflows/codeql.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 2,
+      "high": 2,
+      "medium": 7,
+      "low": 0
+    },
+    "code_scanning": {
+      "critical": 2,
+      "high": 1,
+      "medium": 5,
+      "low": 5
+    },
+    "secret_scanning_open": 0
+  },
+  "community": {
+    "health_percentage": 50,
+    "files": {
+      "readme": true,
+      "license": true,
+      "contributing": false,
+      "code_of_conduct": false,
+      "codeowners": true,
+      "security_policy": false,
+      "issue_template": true,
+      "pull_request_template": false
+    }
+  },
+  "settings": {
+    "allow_merge_commit": false,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true,
+    "allow_auto_merge": true,
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": true,
+    "has_discussions": false
+  },
+  "access": {
+    "collaborators": 12,
+    "teams": [
+      "harbor-maintainers",
+      "harbor-developers"
+    ]
+  }
+}

@@ -1,23 +1,23 @@
 ﻿// Project Configuration - Must match dashboard.js
 const PROJECT_CONFIG = {
-    'FXOS': {
-        name: 'FXOS',
-        repo: 'demo-sbg-emu/netsec-fxos',
+    'ORION': {
+        name: 'Orion',
+        repo: 'oneview-demo/orion-platform',
         displayName: 'Phoenix Security Platform'
     },
-    'ASA': {
-        name: 'ASA',
-        repo: 'demo-sbg-emu/netsec-asa',
+    'QUASAR': {
+        name: 'Quasar',
+        repo: 'oneview-demo/quasar-platform',
         displayName: 'Aegis Firewall Suite'
     },
-    'IMS': {
-        name: 'IMS',
-        repo: 'demo-sbg-emu/netsec-ims',
+    'LUNA': {
+        name: 'Luna',
+        repo: 'oneview-demo/luna-platform',
         displayName: 'Sentinel Identity System'
     },
-    'USM': {
-        name: 'USM',
-        repo: 'demo-sbg-emu/netsec-ims',
+    'HARBOR': {
+        name: 'Harbor',
+        repo: 'oneview-demo/luna-platform',
         displayName: 'Atlas Security Manager'
     }
 };
@@ -110,7 +110,7 @@ let currentPage = 1;
 
 // Waterfall PR detection. A waterfall PR title contains:
 //   "Change <short_sha/cdets> from <parent> to <child>"
-//   e.g. "Fixes: CSC... - Change 4cf194d from IMS_10_1_MAIN to IMS_10_5_MAIN"
+//   e.g. "Fixes: CSC... - Change 4cf194d from LUNA_10_1_MAIN to LUNA_10_5_MAIN"
 // Prefer the is_waterfall flag written by the GitHub Action; fall back to a
 // title match so the filter also works before the JSON is refreshed.
 const WATERFALL_RE = /(?:^|\b)Change\s+\S+\s+from\s+\S+\s+to\s+\S+/i;
@@ -396,8 +396,8 @@ async function initializePage() {
     const urlParams = new URLSearchParams(window.location.search);
     const projectParam = urlParams.get("project");
     
-    // Default to FXOS if no project specified
-    const projectKey = projectParam ? projectParam.toUpperCase() : 'FXOS';
+    // Default to ORION if no project specified
+    const projectKey = projectParam ? projectParam.toUpperCase() : 'ORION';
     
     // Check if project exists
     if (!PROJECT_CONFIG[projectKey]) {
@@ -456,7 +456,7 @@ async function initializePage() {
 
 // Load on page load
 window.onload = () => {
-    window.NetSecAccessControl.runWhenAuthorized(initializePage);
+    window.OneViewAccessControl.runWhenAuthorized(initializePage);
 };
 
 

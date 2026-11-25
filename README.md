@@ -4,10 +4,10 @@ AI-powered insights for PRs, repos, builds and tickets. A unified dashboard for 
 
 ## Supported Projects
 
-- **FXOS** - Phoenix Security Platform
-- **ASA** - Aegis Firewall Suite
-- **IMS** - Sentinel Identity System
-- **USM** - Atlas Security Manager
+- **ORION** - Phoenix Security Platform
+- **QUASAR** - Aegis Firewall Suite
+- **LUNA** - Sentinel Identity System
+- **HARBOR** - Atlas Security Manager
 
 ## Usage
 
@@ -27,25 +27,25 @@ Visit the site root (GitHub Pages will load `index.html`) to see all available p
 Access a specific project dashboard using URL parameters:
 
 ```
-dashboard.html?project=FXOS&pr=4
-dashboard.html?project=ASA&pr=3
-dashboard.html?project=IMS&pr=7
+dashboard.html?project=ORION&pr=4
+dashboard.html?project=QUASAR&pr=3
+dashboard.html?project=LUNA&pr=7
 ```
 
 ### URL Parameters
 
-- `project` - Project name (FXOS, ASA, IMS) - **Required**
+- `project` - Project name (ORION, QUASAR, LUNA) - **Required**
 - `pr` - Pull Request number - **Required**
 
 **Examples:**
-- `dashboard.html?project=FXOS&pr=4` - View PR #4 for FXOS
-- `dashboard.html?project=ASA&pr=3` - View PR #3 for ASA
-- `dashboard.html?project=IMS&pr=7` - View PR #7 for IMS
+- `dashboard.html?project=ORION&pr=4` - View PR #4 for ORION
+- `dashboard.html?project=QUASAR&pr=3` - View PR #3 for QUASAR
+- `dashboard.html?project=LUNA&pr=7` - View PR #7 for LUNA
 
 ## Project Structure
 
 ```
-netsec-pr-dashboard/
+oneview-pr-dashboard/
 ├── index.html             # Landing page with project selection (loads by default on GitHub Pages)
 ├── dashboard.html         # Main dashboard (project-specific)
 ├── css/
@@ -53,17 +53,17 @@ netsec-pr-dashboard/
 ├── js/
 │   └── dashboard.js       # Dashboard logic (multi-project support)
 ├── pr-reports/
-│   ├── FXOS/             # FXOS PR data
+│   ├── ORION/             # ORION PR data
 │   │   └── dashboard_*.json
-│   ├── ASA/              # ASA PR data
+│   ├── QUASAR/              # QUASAR PR data
 │   │   └── dashboard_*.json
-│   ├── IMS/              # IMS PR data
+│   ├── LUNA/              # LUNA PR data
 │       └── dashboard_*.json
 └── .github/
     └── workflows/
-   ├── collect-fxos-pr-data.yml  # FXOS PR metadata collection
-   ├── collect-asa-pr-data.yml   # ASA PR metadata collection
-  └── collect-ims-pr-data.yml   # IMS PR metadata collection
+   ├── collect-orion-pr-data.yml  # ORION PR metadata collection
+   ├── collect-quasar-pr-data.yml   # QUASAR PR metadata collection
+  └── collect-luna-pr-data.yml   # LUNA PR metadata collection
 ```
 
 ## Adding New Projects
@@ -73,12 +73,12 @@ To add support for a new project:
 1. **Update JavaScript Configuration** (`js/dashboard.js`):
    ```javascript
    const PROJECT_CONFIG = {
-       'FXOS': { ... },
-       'ASA': { ... },
-       'IMS': { ... },
+       'ORION': { ... },
+       'QUASAR': { ... },
+       'LUNA': { ... },
        'NEW_PROJECT': {
            name: 'NEW_PROJECT',
-           repo: 'demo-netsec-sandbox/netsec-newproject-repo',
+           repo: 'demo-oneview-sandbox/oneview-newproject-repo',
            displayName: 'New Project Full Name'
        }
    };
@@ -88,10 +88,10 @@ To add support for a new project:
    ```yaml
    matrix:
      project:
-       - name: 'FXOS'
+       - name: 'Orion'
          repo: '...'
        - name: 'NEW_PROJECT'
-         repo: 'demo-netsec-sandbox/netsec-newproject-repo'
+         repo: 'demo-oneview-sandbox/oneview-newproject-repo'
    ```
 
 3. **Update Home Page** (`index.html`):
@@ -146,8 +146,8 @@ Shows GitHub repository details for each project. It never shows repository code
 | Page | Purpose |
 |------|---------|
 | `projects.html?dashboard=repo` | Pick a project (same projects as the PR Dashboard) |
-| `repo-list.html?project=FXOS` | All repos in the project with short details, search, filters and sort |
-| `repo-details.html?project=FXOS&repo=<name>` | Full details of one repository |
+| `repo-list.html?project=ORION` | All repos in the project with short details, search, filters and sort |
+| `repo-details.html?project=ORION&repo=<name>` | Full details of one repository |
 
 **Data files** (currently dummy data, to be produced by a scheduled workflow):
 
@@ -189,10 +189,10 @@ Built for managers and leads: sprint health, blockers, workload and releases, pe
 |------|---------|
 | `projects.html?dashboard=jira` | Pick a project (same projects as the PR Dashboard), or open the Portfolio |
 | `jira-portfolio.html` | All projects side by side: health (On track / At risk / Off track with reasons), sprint progress vs time, velocity, "Needs attention" list, open issues by priority, next releases |
-| `jira-project.html?project=FXOS` | One project, with tabs: Overview, Sprint, Board, Team, Issues, Releases, Epics |
-| `jira-issue.html?project=FXOS&key=ORN-123` | One issue: fields, status history and time in status, links, sub-tasks, time tracking, linked PRs |
+| `jira-project.html?project=ORION` | One project, with tabs: Overview, Sprint, Board, Team, Issues, Releases, Epics |
+| `jira-issue.html?project=ORION&key=ORN-123` | One issue: fields, status history and time in status, links, sub-tasks, time tracking, linked PRs |
 
-Project mapping: `FXOS` = Orion (`ORN`), `IMS` = Luna (`LUNA`), `USM` = Harbor (`HRB`), `ASA` = Quasar (`QSR`).
+Project mapping: `ORION` = Orion (`ORN`), `LUNA` = Luna (`LUNA`), `HARBOR` = Harbor (`HRB`), `QUASAR` = Quasar (`QSR`).
 
 **Data files** (currently dummy data, to be produced by a scheduled workflow):
 
@@ -278,16 +278,16 @@ Response schema:
   "briefing": {
     "headline": "one sentence",
     "summary": "3-4 sentences across all projects",
-    "risks": [{ "project": "FXOS", "text": "...", "refs": ["ORN-123"] }],
-    "wins":  [{ "project": "FXOS", "text": "..." }],
-    "focus": [{ "project": "FXOS", "text": "..." }]
+    "risks": [{ "project": "ORION", "text": "...", "refs": ["ORN-123"] }],
+    "wins":  [{ "project": "ORION", "text": "..." }],
+    "focus": [{ "project": "ORION", "text": "..." }]
   },
   "projects": {
-    "FXOS": { "narrative": "3-5 sentences", "outlook": "one sentence", "top_action": "one action or null" }
+    "ORION": { "narrative": "3-5 sentences", "outlook": "one sentence", "top_action": "one action or null" }
   },
   "bug_themes": [{
     "id": "ipv6", "theme": "IPv6-related failures", "description": "why these bugs belong together",
-    "issues": [{ "project": "FXOS", "key": "ORN-123", "summary": "...", "priority": "High" }],
+    "issues": [{ "project": "ORION", "key": "ORN-123", "summary": "...", "priority": "High" }],
     "projects": ["Orion"]
   }]
 }
@@ -296,7 +296,7 @@ Response schema:
 ## Development
 
 ### Local Testing
-Simply open `index.html` in a browser to see the project selection page, or `dashboard.html?project=FXOS&pr=4` to test a specific dashboard. For JSON data, ensure you have a local web server running to avoid CORS issues.
+Simply open `index.html` in a browser to see the project selection page, or `dashboard.html?project=ORION&pr=4` to test a specific dashboard. For JSON data, ensure you have a local web server running to avoid CORS issues.
 
 ### File Structure
 - Data files follow the pattern: `pr-reports/{PROJECT}/dashboard_{PR_NUMBER}.json`

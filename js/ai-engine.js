@@ -2,13 +2,13 @@
 // Pure functions (no DOM) over JIRA, PR and repo data, so the same logic runs in the browser and
 // in the workflow that writes the AI briefing. Needs js/repo-common.js and js/jira-common.js.
 const AI_COMPONENT_REPOS = {
-    FXOS: { 'Platform': 'orion-platform-core', 'Dataplane': 'orion-platform-core', 'Management UI': 'orion-mgmt-ui',
+    ORION: { 'Platform': 'orion-platform-core', 'Dataplane': 'orion-platform-core', 'Management UI': 'orion-mgmt-ui',
         'Telemetry': 'orion-telemetry-agent', 'Build & Release': 'orion-build-tools' },
-    IMS: { 'Identity': 'luna-identity-service', 'Policy Engine': 'luna-policy-engine', 'Admin Portal': 'luna-admin-portal',
+    LUNA: { 'Identity': 'luna-identity-service', 'Policy Engine': 'luna-policy-engine', 'Admin Portal': 'luna-admin-portal',
         'Connectors': 'luna-connectors' },
-    USM: { 'Manager API': 'harbor-manager-api', 'Web Console': 'harbor-web-console', 'Device Sync': 'harbor-device-sync',
+    HARBOR: { 'Manager API': 'harbor-manager-api', 'Web Console': 'harbor-web-console', 'Device Sync': 'harbor-device-sync',
         'Reports': 'harbor-report-service' },
-    ASA: { 'Dataplane': 'quasar-dataplane', 'Control Plane': 'quasar-control-plane', 'CLI': 'quasar-cli',
+    QUASAR: { 'Dataplane': 'quasar-dataplane', 'Control Plane': 'quasar-control-plane', 'CLI': 'quasar-cli',
         'CI Pipelines': 'quasar-ci-pipelines', 'Performance': 'quasar-perf-lab' }
 };
 

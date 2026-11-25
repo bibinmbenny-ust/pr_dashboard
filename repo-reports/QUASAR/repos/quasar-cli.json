@@ -1,0 +1,212 @@
+{
+  "project": "QUASAR",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "quasar-cli",
+    "full_name": "oneview-demo/quasar-cli",
+    "description": "Command line interface and shell for Quasar.",
+    "html_url": "https://github.com/oneview-demo/quasar-cli",
+    "homepage": null,
+    "visibility": "internal",
+    "archived": false,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": "Apache-2.0",
+    "topics": [
+      "cli"
+    ],
+    "created_at": "2022-11-16T06:00:00Z",
+    "updated_at": "2026-11-18T07:00:00Z",
+    "pushed_at": "2026-11-18T07:00:00Z",
+    "size_kb": 217195,
+    "language": "C"
+  },
+  "stats": {
+    "stars": 132,
+    "forks": 5,
+    "watchers": 16,
+    "open_issues": 18,
+    "open_prs": 10,
+    "merged_prs_30d": 47,
+    "closed_prs_30d": 0,
+    "commits_30d": 65
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 34
+    },
+    {
+      "week": "2026-09-13",
+      "total": 22
+    },
+    {
+      "week": "2026-09-20",
+      "total": 10
+    },
+    {
+      "week": "2026-09-27",
+      "total": 48
+    },
+    {
+      "week": "2026-10-04",
+      "total": 36
+    },
+    {
+      "week": "2026-10-11",
+      "total": 6
+    },
+    {
+      "week": "2026-10-18",
+      "total": 46
+    },
+    {
+      "week": "2026-10-25",
+      "total": 10
+    },
+    {
+      "week": "2026-11-01",
+      "total": 3
+    },
+    {
+      "week": "2026-11-08",
+      "total": 39
+    },
+    {
+      "week": "2026-11-15",
+      "total": 15
+    },
+    {
+      "week": "2026-11-22",
+      "total": 8
+    }
+  ],
+  "languages": {
+    "C": 3152054,
+    "C++": 290314,
+    "Makefile": 282884,
+    "Shell": 85829,
+    "Python": 71087,
+    "CMake": 93832
+  },
+  "contributors": [
+    {
+      "login": "zoe_demo",
+      "contributions": 519
+    },
+    {
+      "login": "mei_demo",
+      "contributions": 446
+    },
+    {
+      "login": "raj_demo",
+      "contributions": 430
+    },
+    {
+      "login": "sam_demo",
+      "contributions": 427
+    },
+    {
+      "login": "nina_demo",
+      "contributions": 68
+    }
+  ],
+  "branches": {
+    "total": 100,
+    "protected": 4,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 2,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": false,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests"
+      ],
+      "enforce_admins": true,
+      "required_linear_history": false
+    }
+  },
+  "releases": {
+    "total_tags": 49,
+    "latest": {
+      "tag_name": "v4.19.7",
+      "name": null,
+      "published_at": "2026-10-22T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/oneview-demo/quasar-cli/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-21T14:00:00Z",
+        "duration_seconds": 576,
+        "html_url": "https://github.com/oneview-demo/quasar-cli/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-20T03:00:00Z",
+        "duration_seconds": 3173,
+        "html_url": "https://github.com/oneview-demo/quasar-cli/actions/workflows/unit-tests.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 0,
+      "high": 4,
+      "medium": 5,
+      "low": 9
+    },
+    "code_scanning": null,
+    "secret_scanning_open": 1
+  },
+  "community": {
+    "health_percentage": 50,
+    "files": {
+      "readme": true,
+      "license": true,
+      "contributing": false,
+      "code_of_conduct": true,
+      "codeowners": false,
+      "security_policy": false,
+      "issue_template": false,
+      "pull_request_template": true
+    }
+  },
+  "settings": {
+    "allow_merge_commit": false,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": true,
+    "delete_branch_on_merge": false,
+    "allow_auto_merge": true,
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": false,
+    "has_discussions": false
+  },
+  "access": {
+    "collaborators": 14,
+    "teams": [
+      "quasar-maintainers",
+      "quasar-developers"
+    ]
+  }
+}

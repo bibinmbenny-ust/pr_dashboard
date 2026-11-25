@@ -363,5 +363,5 @@
         show(location.hash.slice(1) || 'overview');
     }
 
-    window.addEventListener('load', () => window.NetSecAccessControl.runWhenAuthorized(init));
+    window.addEventListener('load', () => window.OneViewAccessControl.runWhenAuthorized(init));
 })();

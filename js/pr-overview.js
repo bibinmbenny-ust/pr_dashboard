@@ -1,23 +1,23 @@
 ﻿// PR Overview / Analytics — aggregates across ALL PRs for a project.
 const PROJECT_CONFIG = {
-    'FXOS': {
-        name: 'FXOS',
-        repo: 'demo-sbg-emu/netsec-fxos',
+    'ORION': {
+        name: 'Orion',
+        repo: 'oneview-demo/orion-platform',
         displayName: 'Phoenix Security Platform'
     },
-    'ASA': {
-        name: 'ASA',
-        repo: 'demo-sbg-emu/netsec-asa',
+    'QUASAR': {
+        name: 'Quasar',
+        repo: 'oneview-demo/quasar-platform',
         displayName: 'Aegis Firewall Suite'
     },
-    'IMS': {
-        name: 'IMS',
-        repo: 'demo-sbg-emu/netsec-ims',
+    'LUNA': {
+        name: 'Luna',
+        repo: 'oneview-demo/luna-platform',
         displayName: 'Sentinel Identity System'
     },
-    'USM': {
-        name: 'USM',
-        repo: 'demo-sbg-emu/netsec-ims',
+    'HARBOR': {
+        name: 'Harbor',
+        repo: 'oneview-demo/luna-platform',
         displayName: 'Atlas Security Manager'
     }
 };
@@ -629,7 +629,7 @@ function renderAggregate(prs) {
 // ── Init ────────────────────────────────────────────────────────────────
 async function init() {
     const params = new URLSearchParams(window.location.search);
-    const projectKey = (params.get('project') || 'FXOS').toUpperCase();
+    const projectKey = (params.get('project') || 'ORION').toUpperCase();
 
     if (!PROJECT_CONFIG[projectKey]) {
         document.getElementById('loading-message').innerHTML =
@@ -826,7 +826,7 @@ function renderAll(prs) {
 }
 
 window.onload = () => {
-    window.NetSecAccessControl.runWhenAuthorized(() => {
+    window.OneViewAccessControl.runWhenAuthorized(() => {
         setupOverviewExportButton();
         setOverviewExportReady(false);
         init();

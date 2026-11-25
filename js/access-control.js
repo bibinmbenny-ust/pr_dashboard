@@ -1,7 +1,7 @@
 (() => {
     document.documentElement.classList.add('access-granted');
 
-    window.NetSecAccessControl = {
+    window.OneViewAccessControl = {
         runWhenAuthorized(callback) {
             callback();
         }

@@ -28,7 +28,7 @@
     </div>
 
     <div class="project-grid">
-        <div class="project-card fxos-card active" onclick="navigateToDashboard('pr')">
+        <div class="project-card orion-card active" onclick="navigateToDashboard('pr')">
             <div class="card-icon">🚀</div>
             <div class="card-header-badge">
                 <span class="badge-ready">✓ Ready</span>
@@ -44,7 +44,7 @@
             <button class="btn" onclick="event.stopPropagation(); navigateToDashboard('pr')">Launch PR View</button>
         </div>
 
-        <div class="project-card ims-card coming-soon">
+        <div class="project-card luna-card coming-soon">
             <div class="card-icon">📁</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
@@ -60,7 +60,7 @@
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
 
-        <div class="project-card usm-card coming-soon">
+        <div class="project-card harbor-card coming-soon">
             <div class="card-icon">⚙️</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
@@ -76,7 +76,7 @@
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
 
-        <div class="project-card fxos-card coming-soon">
+        <div class="project-card orion-card coming-soon">
             <div class="card-icon">🐛</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
@@ -92,7 +92,7 @@
             <button class="btn btn-disabled" disabled>Coming Soon</button>
         </div>
 
-        <div class="project-card ims-card coming-soon">
+        <div class="project-card luna-card coming-soon">
             <div class="card-icon">📋</div>
             <div class="card-header-badge">
                 <span class="badge-soon">Coming Soon</span>
@@ -112,7 +112,7 @@
     <script>
         // Get project from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
-        const project = urlParams.get('project') || 'FXOS';
+        const project = urlParams.get('project') || 'ORION';
         
         // Keep the selected backend project internal only.
         function navigateToDashboard(dashboardType) {

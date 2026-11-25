@@ -11,10 +11,10 @@
             button: 'View Repos',
             stats: '<span class="stat">📦 Repositories</span><span class="stat">🛡️ Security</span>',
             blurbs: {
-                FXOS: 'Orion repositories: activity, CI health, security alerts and repo health.',
-                IMS: 'Luna repositories: contributors, branch protection, releases and alerts.',
-                USM: 'Harbor repositories: workflows, open issues, languages and activity.',
-                ASA: 'Quasar repositories: commit trends, CI status, security and settings.'
+                ORION: 'Orion repositories: activity, CI health, security alerts and repo health.',
+                LUNA: 'Luna repositories: contributors, branch protection, releases and alerts.',
+                HARBOR: 'Harbor repositories: workflows, open issues, languages and activity.',
+                QUASAR: 'Quasar repositories: commit trends, CI status, security and settings.'
             }
         },
         jira: {
@@ -24,10 +24,10 @@
             button: 'View JIRA',
             stats: '<span class="stat">🏃 Sprint</span><span class="stat">👥 Team</span>',
             blurbs: {
-                FXOS: 'Orion JIRA: sprint health, blockers, workload and releases.',
-                IMS: 'Luna JIRA: sprint health, blockers, workload and releases.',
-                USM: 'Harbor JIRA: sprint health, blockers, workload and releases.',
-                ASA: 'Quasar JIRA: sprint health, blockers, workload and releases.'
+                ORION: 'Orion JIRA: sprint health, blockers, workload and releases.',
+                LUNA: 'Luna JIRA: sprint health, blockers, workload and releases.',
+                HARBOR: 'Harbor JIRA: sprint health, blockers, workload and releases.',
+                QUASAR: 'Quasar JIRA: sprint health, blockers, workload and releases.'
             },
             extra: '<a href="jira-portfolio.html" class="btn btn-primary jr-portfolio-link">📊 View all projects (Portfolio)</a>'
         }

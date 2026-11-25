@@ -1,0 +1,250 @@
+{
+  "project": "ORION",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "repository": {
+    "name": "orion-build-tools",
+    "full_name": "oneview-demo/orion-build-tools",
+    "description": "Build scripts, toolchains and packaging for Orion images.",
+    "html_url": "https://github.com/oneview-demo/orion-build-tools",
+    "homepage": null,
+    "visibility": "private",
+    "archived": false,
+    "is_template": false,
+    "fork": false,
+    "default_branch": "main",
+    "license": "MIT",
+    "topics": [
+      "build",
+      "ci",
+      "tooling"
+    ],
+    "created_at": "2021-08-17T06:00:00Z",
+    "updated_at": "2026-11-23T16:00:00Z",
+    "pushed_at": "2026-11-23T16:00:00Z",
+    "size_kb": 233259,
+    "language": "Python"
+  },
+  "stats": {
+    "stars": 133,
+    "forks": 27,
+    "watchers": 6,
+    "open_issues": 17,
+    "open_prs": 0,
+    "merged_prs_30d": 33,
+    "closed_prs_30d": 12,
+    "commits_30d": 107
+  },
+  "commit_activity": [
+    {
+      "week": "2026-09-06",
+      "total": 24
+    },
+    {
+      "week": "2026-09-13",
+      "total": 34
+    },
+    {
+      "week": "2026-09-20",
+      "total": 28
+    },
+    {
+      "week": "2026-09-27",
+      "total": 24
+    },
+    {
+      "week": "2026-10-04",
+      "total": 3
+    },
+    {
+      "week": "2026-10-11",
+      "total": 46
+    },
+    {
+      "week": "2026-10-18",
+      "total": 42
+    },
+    {
+      "week": "2026-10-25",
+      "total": 26
+    },
+    {
+      "week": "2026-11-01",
+      "total": 4
+    },
+    {
+      "week": "2026-11-08",
+      "total": 15
+    },
+    {
+      "week": "2026-11-15",
+      "total": 41
+    },
+    {
+      "week": "2026-11-22",
+      "total": 47
+    }
+  ],
+  "languages": {
+    "Python": 4000550,
+    "Shell": 658226,
+    "Dockerfile": 185841,
+    "Makefile": 122383
+  },
+  "contributors": [
+    {
+      "login": "ivy_demo",
+      "contributions": 893
+    },
+    {
+      "login": "alex_demo",
+      "contributions": 891
+    },
+    {
+      "login": "raj_demo",
+      "contributions": 880
+    },
+    {
+      "login": "kai_demo",
+      "contributions": 857
+    },
+    {
+      "login": "zoe_demo",
+      "contributions": 678
+    },
+    {
+      "login": "priya_demo",
+      "contributions": 302
+    }
+  ],
+  "branches": {
+    "total": 45,
+    "protected": 3,
+    "default_branch_protection": {
+      "enabled": true,
+      "required_approving_reviews": 2,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": true,
+      "required_status_checks": [
+        "Build",
+        "Unit Tests",
+        "CodeQL"
+      ],
+      "enforce_admins": true,
+      "required_linear_history": false
+    }
+  },
+  "releases": {
+    "total_tags": 11,
+    "latest": {
+      "tag_name": "v4.16.2",
+      "name": null,
+      "published_at": "2026-10-28T06:00:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/oneview-demo/orion-build-tools/releases/latest"
+    }
+  },
+  "workflows": [
+    {
+      "name": "Build",
+      "path": ".github/workflows/build.yml",
+      "state": "active",
+      "last_run": {
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "pull_request",
+        "branch": "main",
+        "created_at": "2026-11-20T17:00:00Z",
+        "duration_seconds": null,
+        "html_url": "https://github.com/oneview-demo/orion-build-tools/actions/workflows/build.yml"
+      }
+    },
+    {
+      "name": "Unit Tests",
+      "path": ".github/workflows/unit-tests.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "branch": "main",
+        "created_at": "2026-11-19T15:00:00Z",
+        "duration_seconds": 2330,
+        "html_url": "https://github.com/oneview-demo/orion-build-tools/actions/workflows/unit-tests.yml"
+      }
+    },
+    {
+      "name": "CodeQL",
+      "path": ".github/workflows/codeql.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-19T16:00:00Z",
+        "duration_seconds": 3054,
+        "html_url": "https://github.com/oneview-demo/orion-build-tools/actions/workflows/codeql.yml"
+      }
+    },
+    {
+      "name": "Release",
+      "path": ".github/workflows/release.yml",
+      "state": "active",
+      "last_run": {
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "schedule",
+        "branch": "main",
+        "created_at": "2026-11-21T23:00:00Z",
+        "duration_seconds": 2702,
+        "html_url": "https://github.com/oneview-demo/orion-build-tools/actions/workflows/release.yml"
+      }
+    }
+  ],
+  "security": {
+    "dependabot": {
+      "critical": 2,
+      "high": 1,
+      "medium": 7,
+      "low": 3
+    },
+    "code_scanning": {
+      "critical": 2,
+      "high": 1,
+      "medium": 3,
+      "low": 6
+    },
+    "secret_scanning_open": 0
+  },
+  "community": {
+    "health_percentage": 63,
+    "files": {
+      "readme": true,
+      "license": true,
+      "contributing": false,
+      "code_of_conduct": false,
+      "codeowners": true,
+      "security_policy": false,
+      "issue_template": true,
+      "pull_request_template": true
+    }
+  },
+  "settings": {
+    "allow_merge_commit": true,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": true,
+    "delete_branch_on_merge": false,
+    "allow_auto_merge": false,
+    "has_issues": true,
+    "has_wiki": true,
+    "has_projects": true,
+    "has_discussions": true
+  },
+  "access": {
+    "collaborators": 23,
+    "teams": [
+      "orion-maintainers",
+      "orion-developers"
+    ]
+  }
+}

@@ -179,5 +179,5 @@
         JiraCharts.initTooltip(root);
     }
 
-    window.addEventListener('load', () => window.NetSecAccessControl.runWhenAuthorized(init));
+    window.addEventListener('load', () => window.OneViewAccessControl.runWhenAuthorized(init));
 })();

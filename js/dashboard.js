@@ -1,23 +1,23 @@
 ﻿// Project Configuration - Add new projects here
 const PROJECT_CONFIG = {
-    'FXOS': {
-        name: 'FXOS',
-        repo: 'demo-sbg-emu/netsec-fxos',
+    'ORION': {
+        name: 'Orion',
+        repo: 'oneview-demo/orion-platform',
         displayName: 'Phoenix Security Platform'
     },
-    'ASA': {
-        name: 'ASA',
-        repo: 'demo-sbg-emu/netsec-asa',
+    'QUASAR': {
+        name: 'Quasar',
+        repo: 'oneview-demo/quasar-platform',
         displayName: 'Aegis Firewall Suite'
     },
-    'IMS': {
-        name: 'IMS',
-        repo: 'demo-sbg-emu/netsec-ims',
+    'LUNA': {
+        name: 'Luna',
+        repo: 'oneview-demo/luna-platform',
         displayName: 'Sentinel Identity System'
     },
-    'USM': {
-        name: 'USM',
-        repo: 'demo-sbg-emu/netsec-ims',
+    'HARBOR': {
+        name: 'Harbor',
+        repo: 'oneview-demo/luna-platform',
         displayName: 'Atlas Security Manager'
     }
 };
@@ -874,8 +874,8 @@ function initializeProject() {
     const urlParams = new URLSearchParams(window.location.search);
     const projectParam = urlParams.get("project");
     
-    // Default to FXOS if no project specified
-    const projectKey = projectParam ? projectParam.toUpperCase() : 'FXOS';
+    // Default to ORION if no project specified
+    const projectKey = projectParam ? projectParam.toUpperCase() : 'ORION';
     
     // Check if project exists in configuration
     if (!PROJECT_CONFIG[projectKey]) {
@@ -1038,7 +1038,7 @@ async function loadMetrics() {
             loadingParagraph.innerHTML = `
                 <span class="status-failure">⚠️ Invalid Project</span><br><br>
                 ${projectInit.error}<br><br>
-                <strong>Example:</strong> <code>?project=FXOS&pr=4</code>
+                <strong>Example:</strong> <code>?project=ORION&pr=4</code>
             `;
             loadingParagraph.style.color = "var(--failure)";
             loadingParagraph.style.textAlign = "center";
@@ -1858,7 +1858,7 @@ function renderScoreCard(dataList) {
         cutout: '68%'
     };
 
-    // Overall Score doughnut — IMS weighted signals: build, UT, coverage, Coverity, review comments
+    // Overall Score doughnut — LUNA weighted signals: build, UT, coverage, Coverity, review comments
     new Chart(document.getElementById('sc-overallPie'), {
         type: 'doughnut',
         data: {
@@ -1904,7 +1904,7 @@ function renderScoreCard(dataList) {
 
 // --- Execute when the window loads ---
 window.onload = () => {
-    window.NetSecAccessControl.runWhenAuthorized(() => {
+    window.OneViewAccessControl.runWhenAuthorized(() => {
         setupDashboardExportButton();
         setDashboardExportReady(false);
         loadMetrics();

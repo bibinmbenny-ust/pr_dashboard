@@ -947,9 +947,9 @@ footer {
 }
 
 /* Project-specific gradients */
-.fxos-card:hover { box-shadow: 0 20px 40px rgba(var(--failure-rgb), 0.3); }
-.ims-card:hover { box-shadow: 0 20px 40px rgba(var(--success-rgb), 0.3); }
-.asa-card:hover { box-shadow: 0 20px 40px rgba(var(--warning-rgb), 0.3); }
+.orion-card:hover { box-shadow: 0 20px 40px rgba(var(--failure-rgb), 0.3); }
+.luna-card:hover { box-shadow: 0 20px 40px rgba(var(--success-rgb), 0.3); }
+.quasar-card:hover { box-shadow: 0 20px 40px rgba(var(--warning-rgb), 0.3); }
 
 .card-icon {
     font-size: 3rem;

@@ -1,0 +1,7032 @@
+{
+  "project": "LUNA",
+  "jira_project_key": "LUNA",
+  "timestamp": "2026-11-24T06:00:00Z",
+  "total": 108,
+  "issues": [
+    {
+      "key": "LUNA-325",
+      "summary": "Policy Engine: route tables returns 500 during nightly sync",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "In Review",
+      "status_category": "In Progress",
+      "priority": "High",
+      "assignee": "tom_demo",
+      "reporter": "mei_demo",
+      "created": "2026-10-10T03:30:00Z",
+      "updated": "2026-11-23T06:11:03Z",
+      "resolved": null,
+      "due_date": "2026-11-18",
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-11-20T14:45:46Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 15486
+      },
+      "history": [
+        {
+          "at": "2026-11-18T23:07:05Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-11-22T04:48:19Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 3440225,
+        "In Progress": 279674,
+        "In Review": 177101
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5128,
+          "title": "Fixes: BUG-25639 asinghai - Change e0d7e8d from LUNA_10_1_MAIN_BRIDGE to LUNA_10_5_MAIN",
+          "state": "open",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5128",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-325"
+    },
+    {
+      "key": "LUNA-243",
+      "summary": "SCIM 2.0 connector",
+      "description": "Epic covering scim 2.0 connector for Luna.",
+      "type": "Epic",
+      "status": "In Progress",
+      "status_category": "In Progress",
+      "priority": "High",
+      "assignee": "alex_demo",
+      "reporter": "alex_demo",
+      "created": "2026-07-27T06:00:00Z",
+      "updated": "2026-11-23T06:00:00Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-11-19T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 0,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {},
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-243"
+    },
+    {
+      "key": "LUNA-322",
+      "summary": "Upgrade connectors device groups",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "In Review",
+      "status_category": "In Progress",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-11-13T03:30:00Z",
+      "updated": "2026-11-23T05:48:08Z",
+      "resolved": null,
+      "due_date": "2026-12-16",
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "blocks",
+          "key": "LUNA-319",
+          "summary": "Upgrade policy engine interface settings",
+          "status": "Blocked"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-11-20T18:39:20Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 115200,
+        "time_spent_seconds": 28628
+      },
+      "history": [
+        {
+          "at": "2026-11-18T10:38:52Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-11-22T02:45:17Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 457732,
+        "In Progress": 317185,
+        "In Review": 184483
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5139,
+          "title": "Fixes: BUG-58472 bwasniak - Improve PackageMgmtModem unit coverage",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5139",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-322"
+    },
+    {
+      "key": "LUNA-317",
+      "summary": "Identity: user sessions shows stale data on Safari",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-20T03:30:00Z",
+      "updated": "2026-11-22T12:00:52Z",
+      "resolved": "2026-11-22T12:00:52Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 32",
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 9,
+        "last_comment_at": "2026-11-19T22:50:38Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 10800,
+        "time_spent_seconds": 10191
+      },
+      "history": [
+        {
+          "at": "2026-11-20T00:36:44Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-21T18:28:42Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-22T12:00:52Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2668004,
+        "In Progress": 150718,
+        "In Review": 63130
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5158,
+          "title": "Fixes: BUG-07611 harchand - Inspector2 deprecation changes in CLI",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5158",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-317"
+    },
+    {
+      "key": "LUNA-242",
+      "summary": "Policy simulator",
+      "description": "Epic covering policy simulator for Luna.",
+      "type": "Epic",
+      "status": "In Progress",
+      "status_category": "In Progress",
+      "priority": "High",
+      "assignee": "alex_demo",
+      "reporter": "alex_demo",
+      "created": "2026-08-28T06:00:00Z",
+      "updated": "2026-11-22T06:00:00Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-11-22T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 0,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {},
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-242"
+    },
+    {
+      "key": "LUNA-318",
+      "summary": "Benchmark connectors certificate renewals",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "kai_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-11-08T03:30:00Z",
+      "updated": "2026-11-21T15:00:19Z",
+      "resolved": "2026-11-21T15:00:19Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 32",
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-11-21T04:21:52Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 63385
+      },
+      "history": [
+        {
+          "at": "2026-11-18T17:15:12Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-11-20T15:02:59Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-11-21T15:00:19Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 913512,
+        "In Progress": 164867,
+        "In Review": 86240
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5155,
+          "title": "Automated PR: Pointer Update to HARBOR-10.5.0-577.LUNA_10_5_MAIN",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5155",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-318"
+    },
+    {
+      "key": "LUNA-324",
+      "summary": "Harden admin portal route tables",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "kai_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-09T03:30:00Z",
+      "updated": "2026-11-21T10:57:14Z",
+      "resolved": "2026-11-21T10:57:14Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-272",
+          "summary": "Upgrade admin portal interface settings",
+          "status": "Done"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-11-18T22:37:51Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 74953
+      },
+      "history": [
+        {
+          "at": "2026-11-17T10:25:28Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-19T15:16:58Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-21T10:57:14Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 3394528,
+        "In Progress": 190290,
+        "In Review": 157216
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5136,
+          "title": "Automated PR: Pointer Update to HARBOR-10.5.0-576.LUNA_10_5_MAIN",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5136",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-324"
+    },
+    {
+      "key": "LUNA-323",
+      "summary": "Add metrics for policy engine route tables",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "mei_demo",
+      "created": "2026-10-12T03:30:00Z",
+      "updated": "2026-11-21T08:35:11Z",
+      "resolved": "2026-11-21T08:35:11Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-11-21T01:48:45Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 37826
+      },
+      "history": [
+        {
+          "at": "2026-11-19T05:05:58Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-20T15:19:28Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-21T08:35:11Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 3288958,
+        "In Progress": 123210,
+        "In Review": 62143
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5138,
+          "title": "Fixes: BUG-58472 bwasniak - CSF-155313: Preserve modem family name in download status",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5138",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-323"
+    },
+    {
+      "key": "LUNA-241",
+      "summary": "Passkey sign-in",
+      "description": "Epic covering passkey sign-in for Luna.",
+      "type": "Epic",
+      "status": "In Progress",
+      "status_category": "In Progress",
+      "priority": "High",
+      "assignee": "alex_demo",
+      "reporter": "alex_demo",
+      "created": "2026-07-08T06:00:00Z",
+      "updated": "2026-11-21T06:00:00Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 9,
+        "last_comment_at": "2026-11-22T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 0,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {},
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-241"
+    },
+    {
+      "key": "LUNA-320",
+      "summary": "Policy Engine: tenant settings drops packets after an upgrade",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "kai_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-24T03:30:00Z",
+      "updated": "2026-11-21T01:37:18Z",
+      "resolved": "2026-11-21T01:37:18Z",
+      "due_date": null,
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-11-20T02:15:36Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 158037
+      },
+      "history": [
+        {
+          "at": "2026-11-19T06:48:47Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-11-20T05:01:50Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-11-21T01:37:18Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2258327,
+        "In Progress": 79983,
+        "In Review": 74128
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5143,
+          "title": "Automated PR: Pointer Update to HARBOR-10.5.0-565.LUNA_10_5_MAIN_BAZEL",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5143",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-320"
+    },
+    {
+      "key": "LUNA-319",
+      "summary": "Upgrade policy engine interface settings",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Blocked",
+      "status_category": "In Progress",
+      "priority": "Medium",
+      "assignee": "nina_demo",
+      "reporter": "mei_demo",
+      "created": "2026-10-23T03:30:00Z",
+      "updated": "2026-11-21T00:35:15Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "is blocked by",
+          "key": "LUNA-322",
+          "summary": "Upgrade connectors device groups",
+          "status": "In Review"
+        }
+      ],
+      "flagged": true,
+      "comments": {
+        "count": 4,
+        "last_comment_at": "2026-11-18T08:34:45Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 3403
+      },
+      "history": [
+        {
+          "at": "2026-11-18T09:17:28Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-11-21T00:35:15Z",
+          "from": "In Progress",
+          "to": "Blocked",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2267248,
+        "In Progress": 227867,
+        "Blocked": 278685
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5145,
+          "title": "Create peer device info map cache",
+          "state": "open",
+          "status": "draft",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5145",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-319"
+    },
+    {
+      "key": "LUNA-326",
+      "summary": "Admin Portal: route tables shows stale data on Safari",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "alex_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-18T03:30:00Z",
+      "updated": "2026-11-20T12:22:38Z",
+      "resolved": "2026-11-20T12:22:38Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 12,
+        "last_comment_at": "2026-11-20T02:07:45Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 53860
+      },
+      "history": [
+        {
+          "at": "2026-11-16T04:07:17Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-11-18T21:33:39Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-11-20T12:22:38Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2507837,
+        "In Progress": 235582,
+        "In Review": 139739
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5127,
+          "title": "Fixes: BUG-55820 punshukl - Add Gateway HA analyser skill",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5127",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-326"
+    },
+    {
+      "key": "LUNA-316",
+      "summary": "As an admin, I can retry route tables in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Blocked",
+      "status_category": "In Progress",
+      "priority": "Lowest",
+      "assignee": "tom_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-10-08T03:30:00Z",
+      "updated": "2026-11-20T10:52:17Z",
+      "resolved": null,
+      "due_date": "2026-11-30",
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 32",
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [
+        "LUNA-329",
+        "LUNA-330"
+      ],
+      "links": [
+        {
+          "type": "is blocked by",
+          "key": "LUNA-321",
+          "summary": "Clean up admin portal tenant settings",
+          "status": "To Do"
+        }
+      ],
+      "flagged": true,
+      "comments": {
+        "count": 4,
+        "last_comment_at": "2026-10-08T21:55:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 0
+      },
+      "history": [
+        {
+          "at": "2026-11-17T03:30:00Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-11-20T10:52:17Z",
+          "from": "In Progress",
+          "to": "Blocked",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 3456000,
+        "In Progress": 285737,
+        "Blocked": 328063
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5165,
+          "title": "Fixes: BUG-52841 krua - Change 6ef2bcc from LUNA_10_1_CDMGR_MAIN_BRIDGE to LUNA_10_5_MAIN",
+          "state": "open",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5165",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-316"
+    },
+    {
+      "key": "LUNA-244",
+      "summary": "Audit log export",
+      "description": "Epic covering audit log export for Luna.",
+      "type": "Epic",
+      "status": "In Progress",
+      "status_category": "In Progress",
+      "priority": "Medium",
+      "assignee": "alex_demo",
+      "reporter": "alex_demo",
+      "created": "2026-06-29T06:00:00Z",
+      "updated": "2026-11-20T06:00:00Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-11-22T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 0,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {},
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-244"
+    },
+    {
+      "key": "LUNA-330",
+      "summary": "Write tests for retry route tables",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Sub-task",
+      "status": "In Progress",
+      "status_category": "In Progress",
+      "priority": "High",
+      "assignee": "kai_demo",
+      "reporter": "alex_demo",
+      "created": "2026-10-08T03:30:00Z",
+      "updated": "2026-11-19T12:48:43Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [],
+      "story_points": null,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": "LUNA-316",
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 13,
+        "last_comment_at": "2026-11-18T22:59:59Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 25200,
+        "time_spent_seconds": 17731
+      },
+      "history": [
+        {
+          "at": "2026-11-19T00:19:39Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 3617379,
+        "In Progress": 452421
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-330"
+    },
+    {
+      "key": "LUNA-339",
+      "summary": "As an admin, I can roll back device groups in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Lowest",
+      "assignee": "tom_demo",
+      "reporter": "mei_demo",
+      "created": "2026-11-17T06:00:00Z",
+      "updated": "2026-11-17T11:41:23Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-11-17T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 18000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 604800
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-339"
+    },
+    {
+      "key": "LUNA-314",
+      "summary": "Clean up policy engine user sessions",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "priya_demo",
+      "reporter": "alex_demo",
+      "created": "2026-10-11T03:30:00Z",
+      "updated": "2026-11-14T19:48:55Z",
+      "resolved": "2026-11-14T19:48:55Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-11-13T23:48:40Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 70530
+      },
+      "history": [
+        {
+          "at": "2026-11-04T19:10:21Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-11-12T02:41:40Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-11-14T19:48:55Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2130021,
+        "In Progress": 631879,
+        "In Review": 234435
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 4138,
+          "title": "Fixes: BUG-09683 bbenny - feat: add PR Dashboard banner posting to LUNA pre-commit CI pipeline",
+          "state": "open",
+          "status": "review_required",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/4138",
+          "has_dashboard": true
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-314"
+    },
+    {
+      "key": "LUNA-343",
+      "summary": "Policy Engine: backup jobs renders blank during nightly sync",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "High",
+      "assignee": null,
+      "reporter": "tom_demo",
+      "created": "2026-11-14T06:00:00Z",
+      "updated": "2026-11-14T10:17:20Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": 1,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-11-14T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 18000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 864000
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-343"
+    },
+    {
+      "key": "LUNA-312",
+      "summary": "Connectors: user sessions leaks memory on Safari",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "mei_demo",
+      "reporter": "tom_demo",
+      "created": "2026-10-10T03:30:00Z",
+      "updated": "2026-11-14T09:45:11Z",
+      "resolved": "2026-11-14T09:45:11Z",
+      "due_date": null,
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 11,
+        "last_comment_at": "2026-11-12T22:06:15Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 51968
+      },
+      "history": [
+        {
+          "at": "2026-11-07T08:17:04Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-11-12T02:44:23Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-11-14T09:45:11Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2436424,
+        "In Progress": 412039,
+        "In Review": 198048
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-312"
+    },
+    {
+      "key": "LUNA-310",
+      "summary": "Document connectors interface settings",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "alex_demo",
+      "created": "2026-10-22T03:30:00Z",
+      "updated": "2026-11-14T02:17:25Z",
+      "resolved": "2026-11-14T02:17:25Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 2,
+        "last_comment_at": "2026-11-12T10:45:56Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 31056
+      },
+      "history": [
+        {
+          "at": "2026-11-04T23:06:48Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-11-11T16:40:02Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-11-14T02:17:25Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1193808,
+        "In Progress": 581594,
+        "In Review": 207443
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-310"
+    },
+    {
+      "key": "LUNA-307",
+      "summary": "Upgrade admin portal report templates",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "tom_demo",
+      "reporter": "tom_demo",
+      "created": "2026-10-13T03:30:00Z",
+      "updated": "2026-11-13T03:02:55Z",
+      "resolved": "2026-11-13T03:02:55Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 2,
+        "last_comment_at": "2026-11-12T21:29:45Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 76888
+      },
+      "history": [
+        {
+          "at": "2026-11-03T11:57:49Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-10T10:07:12Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-13T03:02:55Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1844869,
+        "In Progress": 598163,
+        "In Review": 233743
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-307"
+    },
+    {
+      "key": "LUNA-311",
+      "summary": "Add integration tests for connectors firmware upgrades",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "zoe_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-28T03:30:00Z",
+      "updated": "2026-11-13T00:08:33Z",
+      "resolved": "2026-11-13T00:08:33Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-11-11T08:15:57Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 21600,
+        "time_spent_seconds": 21582
+      },
+      "history": [
+        {
+          "at": "2026-11-08T02:23:02Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-11T09:51:49Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-13T00:08:33Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 946382,
+        "In Progress": 286127,
+        "In Review": 137804
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-311"
+    },
+    {
+      "key": "LUNA-313",
+      "summary": "Add integration tests for connectors certificate renewals",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "alex_demo",
+      "reporter": "kai_demo",
+      "created": "2026-10-07T03:30:00Z",
+      "updated": "2026-11-11T19:58:50Z",
+      "resolved": "2026-11-11T19:58:50Z",
+      "due_date": null,
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 4,
+        "last_comment_at": "2026-11-09T00:16:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 60091
+      },
+      "history": [
+        {
+          "at": "2026-11-07T04:07:33Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-11-10T00:12:59Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-11-11T19:58:50Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2680653,
+        "In Progress": 245126,
+        "In Review": 157551
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-313"
+    },
+    {
+      "key": "LUNA-309",
+      "summary": "Admin Portal: report templates drops packets on first login",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "alex_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-27T03:30:00Z",
+      "updated": "2026-11-11T15:27:11Z",
+      "resolved": "2026-11-11T15:27:11Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-11-10T11:33:38Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 44433
+      },
+      "history": [
+        {
+          "at": "2026-11-04T14:20:23Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-09T05:59:52Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-11T15:27:11Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 730223,
+        "In Progress": 401969,
+        "In Review": 206839
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-309"
+    },
+    {
+      "key": "LUNA-327",
+      "summary": "Add metrics for admin portal device groups",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Lowest",
+      "assignee": "zoe_demo",
+      "reporter": "priya_demo",
+      "created": "2026-11-09T03:30:00Z",
+      "updated": "2026-11-10T22:36:46Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-11-10T09:28:26Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 1305000
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-327"
+    },
+    {
+      "key": "LUNA-315",
+      "summary": "Connectors: alert rules drops packets on Safari",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "priya_demo",
+      "reporter": "mei_demo",
+      "created": "2026-10-08T03:30:00Z",
+      "updated": "2026-11-10T18:31:16Z",
+      "resolved": "2026-11-10T18:31:16Z",
+      "due_date": null,
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-11-09T04:37:34Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 96204
+      },
+      "history": [
+        {
+          "at": "2026-11-05T05:12:47Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-11-09T09:06:47Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-11-10T18:31:16Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2425367,
+        "In Progress": 359640,
+        "In Review": 120269
+      },
+      "linked_prs": [
+        {
+          "project": "LUNA",
+          "number": 5170,
+          "title": "Fixes: BUG-68794 jieaswar - dce_rpc: Remove dce_rpc.so references from LUNA packaging and deployment",
+          "state": "open",
+          "status": "approved",
+          "html_url": "https://github.com/oneview-demo/luna-platform/pull/5170",
+          "has_dashboard": false
+        }
+      ],
+      "url": "https://jira.example.com/browse/LUNA-315"
+    },
+    {
+      "key": "LUNA-308",
+      "summary": "Connectors: access policies renders blank on Safari",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "priya_demo",
+      "reporter": "kai_demo",
+      "created": "2026-10-15T03:30:00Z",
+      "updated": "2026-11-08T11:10:23Z",
+      "resolved": "2026-11-08T11:10:23Z",
+      "due_date": null,
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 14,
+        "last_comment_at": "2026-11-08T09:02:19Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 144000,
+        "time_spent_seconds": 154892
+      },
+      "history": [
+        {
+          "at": "2026-11-08T01:44:26Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-08T08:55:36Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-08T11:10:23Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2067266,
+        "In Progress": 25870,
+        "In Review": 8087
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-308"
+    },
+    {
+      "key": "LUNA-329",
+      "summary": "Update docs for retry route tables",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Sub-task",
+      "status": "In Progress",
+      "status_category": "In Progress",
+      "priority": "Low",
+      "assignee": "alex_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-08T03:30:00Z",
+      "updated": "2026-11-08T06:00:00Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [],
+      "story_points": null,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": "LUNA-316",
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 13,
+        "last_comment_at": "2026-11-19T01:29:29Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 36000,
+        "time_spent_seconds": 27051
+      },
+      "history": [
+        {
+          "at": "2026-11-19T23:43:27Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 3701607,
+        "In Progress": 368193
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-329"
+    },
+    {
+      "key": "LUNA-305",
+      "summary": "As an admin, I can roll back tenant settings in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "zoe_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-10-16T03:30:00Z",
+      "updated": "2026-11-07T08:16:35Z",
+      "resolved": "2026-11-07T08:16:35Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-11-06T11:11:55Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 117403
+      },
+      "history": [
+        {
+          "at": "2026-11-06T11:51:02Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-07T00:49:01Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-11-07T08:16:35Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1844462,
+        "In Progress": 46679,
+        "In Review": 26854
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-305"
+    },
+    {
+      "key": "LUNA-333",
+      "summary": "As an admin, I can audit interface settings in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Low",
+      "assignee": "tom_demo",
+      "reporter": "tom_demo",
+      "created": "2026-11-05T06:00:00Z",
+      "updated": "2026-11-07T00:41:37Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": 2,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 12,
+        "last_comment_at": "2026-11-05T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 1641600
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-333"
+    },
+    {
+      "key": "LUNA-306",
+      "summary": "As an admin, I can search API tokens in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "zoe_demo",
+      "reporter": "alex_demo",
+      "created": "2026-10-21T03:30:00Z",
+      "updated": "2026-11-06T07:18:45Z",
+      "resolved": "2026-11-06T07:18:45Z",
+      "due_date": null,
+      "labels": [
+        "performance"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 32",
+      "sprint_history": [
+        "LUNA Sprint 32"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-11-05T16:17:08Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 75903
+      },
+      "history": [
+        {
+          "at": "2026-11-02T14:44:12Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-11-05T03:11:08Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-11-06T07:18:45Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1077252,
+        "In Progress": 217616,
+        "In Review": 101257
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-306"
+    },
+    {
+      "key": "LUNA-297",
+      "summary": "As an admin, I can configure tenant settings in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "kai_demo",
+      "reporter": "alex_demo",
+      "created": "2026-09-22T03:30:00Z",
+      "updated": "2026-11-01T13:55:31Z",
+      "resolved": "2026-11-01T13:55:31Z",
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-10-31T00:05:46Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 115200,
+        "time_spent_seconds": 89191
+      },
+      "history": [
+        {
+          "at": "2026-10-20T22:14:36Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-28T10:28:19Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-11-01T13:55:31Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2486676,
+        "In Progress": 648823,
+        "In Review": 358032
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-297"
+    },
+    {
+      "key": "LUNA-293",
+      "summary": "As an admin, I can filter API tokens in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "zoe_demo",
+      "reporter": "priya_demo",
+      "created": "2026-10-08T03:30:00Z",
+      "updated": "2026-10-31T06:10:16Z",
+      "resolved": "2026-10-31T06:10:16Z",
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-10-28T19:47:43Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 159239
+      },
+      "history": [
+        {
+          "at": "2026-10-24T10:45:09Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-28T04:04:45Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-31T06:10:16Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1408509,
+        "In Progress": 321576,
+        "In Review": 266731
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-293"
+    },
+    {
+      "key": "LUNA-295",
+      "summary": "As an admin, I can configure backup jobs in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "alex_demo",
+      "reporter": "priya_demo",
+      "created": "2026-09-25T03:30:00Z",
+      "updated": "2026-10-30T19:37:42Z",
+      "resolved": "2026-10-30T19:37:42Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-10-29T14:25:33Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 31196
+      },
+      "history": [
+        {
+          "at": "2026-10-23T01:01:54Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-10-29T02:14:48Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-10-30T19:37:42Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2410314,
+        "In Progress": 522774,
+        "In Review": 148974
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-295"
+    },
+    {
+      "key": "LUNA-300",
+      "summary": "As an admin, I can schedule device groups in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "tom_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-10-07T03:30:00Z",
+      "updated": "2026-10-29T05:40:29Z",
+      "resolved": "2026-10-29T05:40:29Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-10-26T23:24:25Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 38798
+      },
+      "history": [
+        {
+          "at": "2026-10-23T18:54:07Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-10-27T19:52:59Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-10-29T05:40:29Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1437847,
+        "In Progress": 349132,
+        "In Review": 121650
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-300"
+    },
+    {
+      "key": "LUNA-332",
+      "summary": "Implement API for roll back tenant settings",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Sub-task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-26T03:30:00Z",
+      "updated": "2026-10-27T21:15:34Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [],
+      "story_points": null,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": "LUNA-328",
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 2,
+        "last_comment_at": "2026-10-27T14:20:26Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 28800,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 2514600
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-332"
+    },
+    {
+      "key": "LUNA-299",
+      "summary": "As an admin, I can export backup jobs in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "alex_demo",
+      "reporter": "tom_demo",
+      "created": "2026-10-06T03:30:00Z",
+      "updated": "2026-10-27T18:31:32Z",
+      "resolved": "2026-10-27T18:31:32Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-10-27T15:03:16Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 14400,
+        "time_spent_seconds": 16949
+      },
+      "history": [
+        {
+          "at": "2026-10-24T16:18:31Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-26T06:58:30Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-27T18:31:32Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1601311,
+        "In Progress": 139199,
+        "In Review": 127982
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-299"
+    },
+    {
+      "key": "LUNA-331",
+      "summary": "Write tests for roll back tenant settings",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Sub-task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Lowest",
+      "assignee": "zoe_demo",
+      "reporter": "priya_demo",
+      "created": "2026-10-26T03:30:00Z",
+      "updated": "2026-10-27T05:09:32Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [],
+      "story_points": null,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": "LUNA-328",
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-10-26T23:25:16Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 28800,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 2514600
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-331"
+    },
+    {
+      "key": "LUNA-292",
+      "summary": "As an admin, I can filter tenant settings in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "kai_demo",
+      "reporter": "nina_demo",
+      "created": "2026-10-10T03:30:00Z",
+      "updated": "2026-10-27T00:14:56Z",
+      "resolved": "2026-10-27T00:14:56Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-10-25T09:08:01Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 65946
+      },
+      "history": [
+        {
+          "at": "2026-10-24T01:18:20Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-10-25T13:10:23Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-10-27T00:14:56Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1201700,
+        "In Progress": 129123,
+        "In Review": 126273
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-292"
+    },
+    {
+      "key": "LUNA-296",
+      "summary": "Benchmark policy engine user sessions",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "nina_demo",
+      "reporter": "tom_demo",
+      "created": "2026-10-15T03:30:00Z",
+      "updated": "2026-10-26T22:26:22Z",
+      "resolved": "2026-10-26T22:26:22Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-10-25T05:38:41Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 21600,
+        "time_spent_seconds": 26242
+      },
+      "history": [
+        {
+          "at": "2026-10-20T01:17:21Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-24T21:18:28Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-26T22:26:22Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 424041,
+        "In Progress": 417667,
+        "In Review": 176874
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-296"
+    },
+    {
+      "key": "LUNA-328",
+      "summary": "As an admin, I can roll back tenant settings in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Lowest",
+      "assignee": "mei_demo",
+      "reporter": "tom_demo",
+      "created": "2026-10-26T03:30:00Z",
+      "updated": "2026-10-26T16:43:13Z",
+      "resolved": null,
+      "due_date": "2026-12-07",
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [
+        "LUNA-331",
+        "LUNA-332"
+      ],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-261",
+          "summary": "As an admin, I can audit tenant settings in Connectors",
+          "status": "Done"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-10-26T03:30:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 172800,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 2514600
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-328"
+    },
+    {
+      "key": "LUNA-301",
+      "summary": "As an admin, I can export interface settings in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "priya_demo",
+      "reporter": "nina_demo",
+      "created": "2026-09-23T03:30:00Z",
+      "updated": "2026-10-26T12:41:48Z",
+      "resolved": "2026-10-26T12:41:48Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-338",
+          "summary": "Policy Engine: firmware upgrades times out with IPv6 enabled",
+          "status": "To Do"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-10-24T20:20:51Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 62712
+      },
+      "history": [
+        {
+          "at": "2026-10-20T10:42:57Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-10-23T20:12:34Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-10-26T12:41:48Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2358777,
+        "In Progress": 293377,
+        "In Review": 232154
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-301"
+    },
+    {
+      "key": "LUNA-294",
+      "summary": "Admin Portal: API tokens renders blank when the session expires",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "nina_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-10-02T03:30:00Z",
+      "updated": "2026-10-26T06:15:10Z",
+      "resolved": "2026-10-26T06:15:10Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 21600,
+        "time_spent_seconds": 27172
+      },
+      "history": [
+        {
+          "at": "2026-10-20T09:14:10Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-23T18:02:10Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-26T06:15:10Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1575850,
+        "In Progress": 290880,
+        "In Review": 216780
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-294"
+    },
+    {
+      "key": "LUNA-303",
+      "summary": "As an admin, I can search alert rules in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "mei_demo",
+      "reporter": "nina_demo",
+      "created": "2026-09-28T03:30:00Z",
+      "updated": "2026-10-26T05:02:58Z",
+      "resolved": "2026-10-26T05:02:58Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 4,
+        "last_comment_at": "2026-10-24T20:20:02Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 57308
+      },
+      "history": [
+        {
+          "at": "2026-10-24T21:37:49Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-25T19:14:12Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-26T05:02:58Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2311669,
+        "In Progress": 77783,
+        "In Review": 35326
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-303"
+    },
+    {
+      "key": "LUNA-298",
+      "summary": "Upgrade identity certificate renewals",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "priya_demo",
+      "reporter": "tom_demo",
+      "created": "2026-09-21T03:30:00Z",
+      "updated": "2026-10-25T04:02:57Z",
+      "resolved": "2026-10-25T04:02:57Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-10-23T12:54:21Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 21600,
+        "time_spent_seconds": 23629
+      },
+      "history": [
+        {
+          "at": "2026-10-20T02:00:13Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-10-23T18:49:24Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-10-25T04:02:57Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2500213,
+        "In Progress": 319751,
+        "In Review": 119613
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-298"
+    },
+    {
+      "key": "LUNA-302",
+      "summary": "As an admin, I can search alert rules in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "kai_demo",
+      "reporter": "kai_demo",
+      "created": "2026-09-25T03:30:00Z",
+      "updated": "2026-10-24T22:58:50Z",
+      "resolved": "2026-10-24T22:58:50Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-10-24T04:09:04Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 14400,
+        "time_spent_seconds": 18286
+      },
+      "history": [
+        {
+          "at": "2026-10-21T08:15:50Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-24T04:53:41Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-24T22:58:50Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2263550,
+        "In Progress": 247071,
+        "In Review": 65109
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-302"
+    },
+    {
+      "key": "LUNA-304",
+      "summary": "Policy Engine: user sessions crashes when the session expires",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "kai_demo",
+      "reporter": "tom_demo",
+      "created": "2026-09-25T03:30:00Z",
+      "updated": "2026-10-24T18:22:38Z",
+      "resolved": "2026-10-24T18:22:38Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 31",
+      "sprint_history": [
+        "LUNA Sprint 31"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-10-22T12:30:02Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 78218
+      },
+      "history": [
+        {
+          "at": "2026-10-24T10:52:44Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-24T15:02:31Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-24T18:22:38Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2532164,
+        "In Progress": 14987,
+        "In Review": 12007
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-304"
+    },
+    {
+      "key": "LUNA-280",
+      "summary": "Refactor admin portal backup jobs",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "tom_demo",
+      "reporter": "alex_demo",
+      "created": "2026-09-13T03:30:00Z",
+      "updated": "2026-10-18T10:42:48Z",
+      "resolved": "2026-10-18T10:42:48Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-10-15T11:39:50Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 135349
+      },
+      "history": [
+        {
+          "at": "2026-10-10T21:01:57Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-16T17:03:26Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-18T10:42:48Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2395917,
+        "In Progress": 504089,
+        "In Review": 149962
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-280"
+    },
+    {
+      "key": "LUNA-287",
+      "summary": "As an admin, I can retry firmware upgrades in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "zoe_demo",
+      "reporter": "alex_demo",
+      "created": "2026-09-11T03:30:00Z",
+      "updated": "2026-10-16T00:55:03Z",
+      "resolved": "2026-10-16T00:55:03Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-10-13T20:05:17Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 74659
+      },
+      "history": [
+        {
+          "at": "2026-10-07T07:20:22Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-13T15:40:18Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-16T00:55:03Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2260222,
+        "In Progress": 548396,
+        "In Review": 206085
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-287"
+    },
+    {
+      "key": "LUNA-288",
+      "summary": "As an admin, I can audit tenant settings in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "nina_demo",
+      "reporter": "nina_demo",
+      "created": "2026-09-10T03:30:00Z",
+      "updated": "2026-10-15T11:00:33Z",
+      "resolved": "2026-10-15T11:00:33Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 14400,
+        "time_spent_seconds": 21365
+      },
+      "history": [
+        {
+          "at": "2026-10-06T06:30:10Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-11T17:09:57Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-15T11:00:33Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2257210,
+        "In Progress": 470387,
+        "In Review": 323436
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-288"
+    },
+    {
+      "key": "LUNA-289",
+      "summary": "As an admin, I can filter certificate renewals in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "priya_demo",
+      "reporter": "nina_demo",
+      "created": "2026-09-22T03:30:00Z",
+      "updated": "2026-10-14T21:09:23Z",
+      "resolved": "2026-10-14T21:09:23Z",
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 86400,
+        "time_spent_seconds": 98009
+      },
+      "history": [
+        {
+          "at": "2026-10-08T17:05:04Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-10-13T02:56:21Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-10-14T21:09:23Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1431304,
+        "In Progress": 381077,
+        "In Review": 151982
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-289"
+    },
+    {
+      "key": "LUNA-291",
+      "summary": "As an admin, I can audit access policies in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "zoe_demo",
+      "reporter": "tom_demo",
+      "created": "2026-09-22T03:30:00Z",
+      "updated": "2026-10-12T23:42:11Z",
+      "resolved": "2026-10-12T23:42:11Z",
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 4,
+        "last_comment_at": "2026-10-11T18:13:26Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 115200,
+        "time_spent_seconds": 164021
+      },
+      "history": [
+        {
+          "at": "2026-10-06T17:53:53Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-11T11:52:45Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-12T23:42:11Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1261433,
+        "In Progress": 410332,
+        "In Review": 128966
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-291"
+    },
+    {
+      "key": "LUNA-290",
+      "summary": "As an admin, I can configure report templates in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "nina_demo",
+      "reporter": "nina_demo",
+      "created": "2026-09-07T03:30:00Z",
+      "updated": "2026-10-12T13:50:25Z",
+      "resolved": "2026-10-12T13:50:25Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 4,
+        "last_comment_at": "2026-10-11T18:37:38Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 144000,
+        "time_spent_seconds": 204032
+      },
+      "history": [
+        {
+          "at": "2026-10-11T00:33:51Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-10-12T03:59:51Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-10-12T13:50:25Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2927031,
+        "In Progress": 98760,
+        "In Review": 35434
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-290"
+    },
+    {
+      "key": "LUNA-285",
+      "summary": "As an admin, I can search route tables in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "priya_demo",
+      "created": "2026-09-24T03:30:00Z",
+      "updated": "2026-10-12T11:04:41Z",
+      "resolved": "2026-10-12T11:04:41Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 88324
+      },
+      "history": [
+        {
+          "at": "2026-10-07T02:15:59Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-10-10T13:19:45Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-10-12T11:04:41Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1118759,
+        "In Progress": 299026,
+        "In Review": 164696
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-285"
+    },
+    {
+      "key": "LUNA-283",
+      "summary": "Connectors: backup jobs leaks memory when the session expires",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "kai_demo",
+      "reporter": "kai_demo",
+      "created": "2026-09-09T03:30:00Z",
+      "updated": "2026-10-11T01:51:41Z",
+      "resolved": "2026-10-11T01:51:41Z",
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 12,
+        "last_comment_at": "2026-10-09T20:06:31Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 125650
+      },
+      "history": [
+        {
+          "at": "2026-10-09T18:50:03Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-10-10T11:58:57Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-10-11T01:51:41Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2647203,
+        "In Progress": 61734,
+        "In Review": 49964
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-283"
+    },
+    {
+      "key": "LUNA-282",
+      "summary": "Harden connectors user sessions",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "zoe_demo",
+      "reporter": "mei_demo",
+      "created": "2026-09-06T03:30:00Z",
+      "updated": "2026-10-10T18:02:24Z",
+      "resolved": "2026-10-10T18:02:24Z",
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 9,
+        "last_comment_at": "2026-10-10T02:30:52Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 62612
+      },
+      "history": [
+        {
+          "at": "2026-10-09T22:35:11Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-10T11:53:14Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-10T18:02:24Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2919911,
+        "In Progress": 47883,
+        "In Review": 22150
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-282"
+    },
+    {
+      "key": "LUNA-286",
+      "summary": "Document policy engine report templates",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "tom_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-09-16T03:30:00Z",
+      "updated": "2026-10-09T22:27:18Z",
+      "resolved": "2026-10-09T22:27:18Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 2,
+        "last_comment_at": "2026-10-07T01:22:20Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 87085
+      },
+      "history": [
+        {
+          "at": "2026-10-09T17:39:18Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-09T21:09:02Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-10-09T22:27:18Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2038158,
+        "In Progress": 12584,
+        "In Review": 4696
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-286"
+    },
+    {
+      "key": "LUNA-281",
+      "summary": "As an admin, I can configure access policies in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "tom_demo",
+      "reporter": "mei_demo",
+      "created": "2026-09-12T03:30:00Z",
+      "updated": "2026-10-09T21:46:53Z",
+      "resolved": "2026-10-09T21:46:53Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 11,
+        "last_comment_at": "2026-10-08T00:52:59Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 28800,
+        "time_spent_seconds": 30989
+      },
+      "history": [
+        {
+          "at": "2026-10-06T02:34:24Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-08T07:51:14Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-09T21:46:53Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2070264,
+        "In Progress": 191810,
+        "In Review": 136539
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-281"
+    },
+    {
+      "key": "LUNA-279",
+      "summary": "Harden policy engine user sessions",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "priya_demo",
+      "reporter": "mei_demo",
+      "created": "2026-09-28T03:30:00Z",
+      "updated": "2026-10-09T21:13:16Z",
+      "resolved": "2026-10-09T21:13:16Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-10-07T23:33:25Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 41891
+      },
+      "history": [
+        {
+          "at": "2026-10-07T16:47:23Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-08T23:57:48Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-10-09T21:13:16Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 825443,
+        "In Progress": 112225,
+        "In Review": 76528
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-279"
+    },
+    {
+      "key": "LUNA-284",
+      "summary": "As an admin, I can retry alert rules in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "priya_demo",
+      "reporter": "priya_demo",
+      "created": "2026-09-15T03:30:00Z",
+      "updated": "2026-10-09T08:01:41Z",
+      "resolved": "2026-10-09T08:01:41Z",
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 30",
+      "sprint_history": [
+        "LUNA Sprint 30"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-10-07T11:31:57Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 64800,
+        "time_spent_seconds": 81626
+      },
+      "history": [
+        {
+          "at": "2026-10-07T05:43:03Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-08T20:21:08Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-09T08:01:41Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1908783,
+        "In Progress": 139085,
+        "In Review": 42033
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-284"
+    },
+    {
+      "key": "LUNA-321",
+      "summary": "Clean up admin portal tenant settings",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Lowest",
+      "assignee": "mei_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-10-07T03:30:00Z",
+      "updated": "2026-10-07T08:10:05Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.5.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 33",
+      "sprint_history": [
+        "LUNA Sprint 33"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "blocks",
+          "key": "LUNA-316",
+          "summary": "As an admin, I can retry route tables in Connectors",
+          "status": "Blocked"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-10-07T03:30:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 144000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 4156200
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-321"
+    },
+    {
+      "key": "LUNA-274",
+      "summary": "Identity: firmware upgrades shows stale data after an upgrade",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "alex_demo",
+      "reporter": "tom_demo",
+      "created": "2026-08-27T03:30:00Z",
+      "updated": "2026-10-02T18:53:07Z",
+      "resolved": "2026-10-02T18:53:07Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-09-29T19:18:02Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 47819
+      },
+      "history": [
+        {
+          "at": "2026-09-25T22:51:26Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-09-29T18:42:43Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-10-02T18:53:07Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2575286,
+        "In Progress": 330677,
+        "In Review": 259824
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-274"
+    },
+    {
+      "key": "LUNA-273",
+      "summary": "Connectors: tenant settings fails validation with non-ASCII names",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "kai_demo",
+      "reporter": "mei_demo",
+      "created": "2026-08-25T03:30:00Z",
+      "updated": "2026-10-01T13:53:09Z",
+      "resolved": "2026-10-01T13:53:09Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-09-28T21:24:23Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 72000,
+        "time_spent_seconds": 98643
+      },
+      "history": [
+        {
+          "at": "2026-09-22T02:58:46Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-28T14:11:22Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-10-01T13:53:09Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2417326,
+        "In Progress": 558756,
+        "In Review": 258107
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-273"
+    },
+    {
+      "key": "LUNA-275",
+      "summary": "As an admin, I can search device groups in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "priya_demo",
+      "reporter": "tom_demo",
+      "created": "2026-08-26T03:30:00Z",
+      "updated": "2026-09-30T10:16:01Z",
+      "resolved": "2026-09-30T10:16:01Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 13,
+        "last_comment_at": "2026-09-28T13:28:11Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 64800,
+        "time_spent_seconds": 84840
+      },
+      "history": [
+        {
+          "at": "2026-09-22T12:58:05Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-27T16:50:45Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-30T10:16:01Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2366885,
+        "In Progress": 445960,
+        "In Review": 235516
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-275"
+    },
+    {
+      "key": "LUNA-272",
+      "summary": "Upgrade admin portal interface settings",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "tom_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-08-25T03:30:00Z",
+      "updated": "2026-09-30T03:48:05Z",
+      "resolved": "2026-09-30T03:48:05Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-324",
+          "summary": "Harden admin portal route tables",
+          "status": "Done"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 12,
+        "last_comment_at": "2026-09-28T16:34:22Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 23296
+      },
+      "history": [
+        {
+          "at": "2026-09-26T12:29:38Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-29T02:28:01Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-30T03:48:05Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2797178,
+        "In Progress": 223103,
+        "In Review": 91204
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-272"
+    },
+    {
+      "key": "LUNA-269",
+      "summary": "As an admin, I can search tenant settings in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "nina_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-09-14T03:30:00Z",
+      "updated": "2026-09-28T19:56:49Z",
+      "resolved": "2026-09-28T19:56:49Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-09-26T19:36:10Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 64800,
+        "time_spent_seconds": 45423
+      },
+      "history": [
+        {
+          "at": "2026-09-24T18:33:25Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-27T01:58:20Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-28T19:56:49Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 918205,
+        "In Progress": 199495,
+        "In Review": 151109
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-269"
+    },
+    {
+      "key": "LUNA-277",
+      "summary": "Connectors: API tokens crashes after an upgrade",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "zoe_demo",
+      "reporter": "alex_demo",
+      "created": "2026-08-28T03:30:00Z",
+      "updated": "2026-09-27T17:04:06Z",
+      "resolved": "2026-09-27T17:04:06Z",
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-09-25T07:19:52Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 14400,
+        "time_spent_seconds": 11928
+      },
+      "history": [
+        {
+          "at": "2026-09-23T14:10:03Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-26T13:20:10Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-27T17:04:06Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2284803,
+        "In Progress": 256207,
+        "In Review": 99836
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-277"
+    },
+    {
+      "key": "LUNA-276",
+      "summary": "Clean up connectors interface settings",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "mei_demo",
+      "created": "2026-09-11T03:30:00Z",
+      "updated": "2026-09-27T09:58:53Z",
+      "resolved": "2026-09-27T09:58:53Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-09-24T19:11:54Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 10800,
+        "time_spent_seconds": 8401
+      },
+      "history": [
+        {
+          "at": "2026-09-24T04:43:28Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-25T22:52:50Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-27T09:58:53Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1127608,
+        "In Progress": 151762,
+        "In Review": 126363
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-276"
+    },
+    {
+      "key": "LUNA-271",
+      "summary": "Admin Portal: backup jobs drops packets with non-ASCII names",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "tom_demo",
+      "reporter": "alex_demo",
+      "created": "2026-08-31T03:30:00Z",
+      "updated": "2026-09-26T13:11:33Z",
+      "resolved": "2026-09-26T13:11:33Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-09-23T14:39:36Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 55130
+      },
+      "history": [
+        {
+          "at": "2026-09-26T08:23:33Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-26T11:08:53Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-26T13:11:33Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2264013,
+        "In Progress": 9920,
+        "In Review": 7360
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-271"
+    },
+    {
+      "key": "LUNA-270",
+      "summary": "As an admin, I can export certificate renewals in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "priya_demo",
+      "reporter": "alex_demo",
+      "created": "2026-08-31T03:30:00Z",
+      "updated": "2026-09-25T12:42:09Z",
+      "resolved": "2026-09-25T12:42:09Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-09-24T10:03:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 172800,
+        "time_spent_seconds": 208220
+      },
+      "history": [
+        {
+          "at": "2026-09-21T23:52:54Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-09-24T17:53:12Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "nina_demo"
+        },
+        {
+          "at": "2026-09-25T12:42:09Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1887774,
+        "In Progress": 237618,
+        "In Review": 67737
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-270"
+    },
+    {
+      "key": "LUNA-268",
+      "summary": "Document policy engine certificate renewals",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "zoe_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-08-28T03:30:00Z",
+      "updated": "2026-09-25T06:43:34Z",
+      "resolved": "2026-09-25T06:43:34Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 14,
+        "last_comment_at": "2026-09-23T07:52:35Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 36000,
+        "time_spent_seconds": 49446
+      },
+      "history": [
+        {
+          "at": "2026-09-23T04:44:17Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-24T19:07:59Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-25T06:43:34Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2250857,
+        "In Progress": 138222,
+        "In Review": 41735
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-268"
+    },
+    {
+      "key": "LUNA-278",
+      "summary": "As an admin, I can filter access policies in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "nina_demo",
+      "reporter": "nina_demo",
+      "created": "2026-08-31T03:30:00Z",
+      "updated": "2026-09-25T04:58:53Z",
+      "resolved": "2026-09-25T04:58:53Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 29",
+      "sprint_history": [
+        "LUNA Sprint 29"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-09-25T02:03:18Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 109991
+      },
+      "history": [
+        {
+          "at": "2026-09-23T23:49:09Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-24T15:21:18Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-25T04:58:53Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2060349,
+        "In Progress": 55929,
+        "In Review": 49055
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-278"
+    },
+    {
+      "key": "LUNA-334",
+      "summary": "Admin Portal: firmware upgrades returns 500 on first login",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Low",
+      "assignee": "nina_demo",
+      "reporter": "priya_demo",
+      "created": "2026-09-23T06:00:00Z",
+      "updated": "2026-09-24T09:51:43Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [],
+      "story_points": 5,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-09-24T05:05:20Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 5356800
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-334"
+    },
+    {
+      "key": "LUNA-266",
+      "summary": "Document admin portal interface settings",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "zoe_demo",
+      "reporter": "tom_demo",
+      "created": "2026-08-27T03:30:00Z",
+      "updated": "2026-09-19T18:17:01Z",
+      "resolved": "2026-09-19T18:17:01Z",
+      "due_date": null,
+      "labels": [
+        "performance"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 14,
+        "last_comment_at": "2026-09-19T00:38:33Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 108000,
+        "time_spent_seconds": 147270
+      },
+      "history": [
+        {
+          "at": "2026-09-08T09:56:35Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-16T07:46:32Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-19T18:17:01Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1059995,
+        "In Progress": 683397,
+        "In Review": 297029
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-266"
+    },
+    {
+      "key": "LUNA-259",
+      "summary": "Add metrics for admin portal report templates",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "alex_demo",
+      "created": "2026-08-10T03:30:00Z",
+      "updated": "2026-09-14T10:05:31Z",
+      "resolved": "2026-09-14T10:05:31Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 11,
+        "last_comment_at": "2026-09-14T08:02:44Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 28800,
+        "time_spent_seconds": 31716
+      },
+      "history": [
+        {
+          "at": "2026-09-12T17:25:05Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-13T22:11:14Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-14T10:05:31Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2901305,
+        "In Progress": 103569,
+        "In Review": 42857
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-259"
+    },
+    {
+      "key": "LUNA-264",
+      "summary": "As an admin, I can compare device groups in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "tom_demo",
+      "reporter": "mei_demo",
+      "created": "2026-08-18T03:30:00Z",
+      "updated": "2026-09-13T12:23:15Z",
+      "resolved": "2026-09-13T12:23:15Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 4,
+        "last_comment_at": "2026-09-12T13:14:16Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 28800,
+        "time_spent_seconds": 30020
+      },
+      "history": [
+        {
+          "at": "2026-09-10T15:33:59Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-12T20:39:24Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-13T12:23:15Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2030639,
+        "In Progress": 191125,
+        "In Review": 56631
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-264"
+    },
+    {
+      "key": "LUNA-267",
+      "summary": "Clean up identity user sessions",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "kai_demo",
+      "reporter": "tom_demo",
+      "created": "2026-08-08T03:30:00Z",
+      "updated": "2026-09-13T05:58:00Z",
+      "resolved": "2026-09-13T05:58:00Z",
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-09-12T11:53:23Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 50234
+      },
+      "history": [
+        {
+          "at": "2026-09-13T01:10:00Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-13T04:07:02Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-13T05:58:00Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 3102000,
+        "In Progress": 10622,
+        "In Review": 6658
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-267"
+    },
+    {
+      "key": "LUNA-260",
+      "summary": "Document admin portal firmware upgrades",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "kai_demo",
+      "reporter": "mei_demo",
+      "created": "2026-08-12T03:30:00Z",
+      "updated": "2026-09-13T04:55:57Z",
+      "resolved": "2026-09-13T04:55:57Z",
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 72000,
+        "time_spent_seconds": 95879
+      },
+      "history": [
+        {
+          "at": "2026-09-13T00:07:57Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-13T03:20:34Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-13T04:55:57Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2752677,
+        "In Progress": 11557,
+        "In Review": 5723
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-260"
+    },
+    {
+      "key": "LUNA-265",
+      "summary": "Add integration tests for connectors interface settings",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "zoe_demo",
+      "reporter": "kai_demo",
+      "created": "2026-08-15T03:30:00Z",
+      "updated": "2026-09-13T01:41:20Z",
+      "resolved": "2026-09-13T01:41:20Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-09-10T18:38:46Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 10800,
+        "time_spent_seconds": 11434
+      },
+      "history": [
+        {
+          "at": "2026-09-12T20:53:20Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-12T23:17:22Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-13T01:41:20Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2481800,
+        "In Progress": 8642,
+        "In Review": 8638
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-265"
+    },
+    {
+      "key": "LUNA-258",
+      "summary": "Benchmark admin portal tenant settings",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "nina_demo",
+      "reporter": "nina_demo",
+      "created": "2026-08-18T03:30:00Z",
+      "updated": "2026-09-12T03:41:13Z",
+      "resolved": "2026-09-12T03:41:13Z",
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-09-09T11:15:43Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 64800,
+        "time_spent_seconds": 85837
+      },
+      "history": [
+        {
+          "at": "2026-09-07T05:44:58Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-10T20:23:05Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-12T03:41:13Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1736098,
+        "In Progress": 311887,
+        "In Review": 112688
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-258"
+    },
+    {
+      "key": "LUNA-263",
+      "summary": "As an admin, I can schedule interface settings in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "alex_demo",
+      "reporter": "nina_demo",
+      "created": "2026-08-16T03:30:00Z",
+      "updated": "2026-09-12T02:19:51Z",
+      "resolved": "2026-09-12T02:19:51Z",
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 12,
+        "last_comment_at": "2026-09-10T10:49:52Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 66927
+      },
+      "history": [
+        {
+          "at": "2026-09-08T23:21:54Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-11T10:31:03Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-12T02:19:51Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2058714,
+        "In Progress": 212949,
+        "In Review": 56928
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-263"
+    },
+    {
+      "key": "LUNA-262",
+      "summary": "Connectors: device groups drops packets on first login",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "priya_demo",
+      "reporter": "tom_demo",
+      "created": "2026-09-03T03:30:00Z",
+      "updated": "2026-09-11T23:58:44Z",
+      "resolved": "2026-09-11T23:58:44Z",
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-247",
+          "summary": "Policy Engine: firmware upgrades fails validation after failover",
+          "status": "Done"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 6,
+        "last_comment_at": "2026-09-09T09:28:43Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 54440
+      },
+      "history": [
+        {
+          "at": "2026-09-07T04:09:40Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-09T17:48:21Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-11T23:58:44Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 347980,
+        "In Progress": 221921,
+        "In Review": 195023
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-262"
+    },
+    {
+      "key": "LUNA-261",
+      "summary": "As an admin, I can audit tenant settings in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "nina_demo",
+      "reporter": "priya_demo",
+      "created": "2026-08-26T03:30:00Z",
+      "updated": "2026-09-11T17:52:43Z",
+      "resolved": "2026-09-11T17:52:43Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 28",
+      "sprint_history": [
+        "LUNA Sprint 28"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-328",
+          "summary": "As an admin, I can roll back tenant settings in Policy Engine",
+          "status": "To Do"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-09-09T06:43:35Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 71895
+      },
+      "history": [
+        {
+          "at": "2026-09-11T13:04:43Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-11T15:39:35Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-11T17:52:43Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1416883,
+        "In Progress": 9292,
+        "In Review": 7988
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-261"
+    },
+    {
+      "key": "LUNA-336",
+      "summary": "Harden admin portal interface settings",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Low",
+      "assignee": "mei_demo",
+      "reporter": "nina_demo",
+      "created": "2026-09-06T06:00:00Z",
+      "updated": "2026-09-06T13:17:43Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": 8,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-09-06T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 144000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 6825600
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-336"
+    },
+    {
+      "key": "LUNA-255",
+      "summary": "Policy Engine: tenant settings leaks memory with 10k+ entries",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "kai_demo",
+      "reporter": "kai_demo",
+      "created": "2026-08-18T03:30:00Z",
+      "updated": "2026-09-06T07:39:09Z",
+      "resolved": "2026-09-06T07:39:09Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-09-05T19:43:10Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 47400
+      },
+      "history": [
+        {
+          "at": "2026-08-28T15:23:20Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-02T11:13:35Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-06T07:39:09Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "mei_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 906800,
+        "In Progress": 417015,
+        "In Review": 332734
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-255"
+    },
+    {
+      "key": "LUNA-257",
+      "summary": "As an admin, I can bulk edit firmware upgrades in Connectors",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "kai_demo",
+      "reporter": "nina_demo",
+      "created": "2026-07-31T03:30:00Z",
+      "updated": "2026-09-06T03:47:10Z",
+      "resolved": "2026-09-06T03:47:10Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 2,
+        "last_comment_at": "2026-09-05T15:23:07Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 64800,
+        "time_spent_seconds": 92242
+      },
+      "history": [
+        {
+          "at": "2026-08-24T23:17:12Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-09-01T19:58:33Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "priya_demo"
+        },
+        {
+          "at": "2026-09-06T03:47:10Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "kai_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2144832,
+        "In Progress": 679281,
+        "In Review": 373717
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-257"
+    },
+    {
+      "key": "LUNA-253",
+      "summary": "Benchmark admin portal backup jobs",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "tom_demo",
+      "reporter": "priya_demo",
+      "created": "2026-08-04T03:30:00Z",
+      "updated": "2026-09-05T23:14:53Z",
+      "resolved": "2026-09-05T23:14:53Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 13,
+        "last_comment_at": "2026-09-04T15:24:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 41590
+      },
+      "history": [
+        {
+          "at": "2026-08-26T16:25:41Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-02T23:15:32Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-05T23:14:53Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1947341,
+        "In Progress": 629391,
+        "In Review": 259161
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-253"
+    },
+    {
+      "key": "LUNA-248",
+      "summary": "As an admin, I can configure backup jobs in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "alex_demo",
+      "reporter": "mei_demo",
+      "created": "2026-07-25T03:30:00Z",
+      "updated": "2026-09-05T10:31:47Z",
+      "resolved": "2026-09-05T10:31:47Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 5,
+        "last_comment_at": "2026-09-02T23:02:14Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 25972
+      },
+      "history": [
+        {
+          "at": "2026-08-28T14:35:28Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-02T00:55:59Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "kai_demo"
+        },
+        {
+          "at": "2026-09-05T10:31:47Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2977528,
+        "In Progress": 382831,
+        "In Review": 293748
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-248"
+    },
+    {
+      "key": "LUNA-252",
+      "summary": "As an admin, I can roll back device groups in Policy Engine",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "tom_demo",
+      "reporter": "mei_demo",
+      "created": "2026-08-21T03:30:00Z",
+      "updated": "2026-09-05T04:55:26Z",
+      "resolved": "2026-09-05T04:55:26Z",
+      "due_date": null,
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 12,
+        "last_comment_at": "2026-09-02T16:33:58Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 32133
+      },
+      "history": [
+        {
+          "at": "2026-08-26T06:39:45Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-01T08:14:00Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-05T04:55:26Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "nina_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 443385,
+        "In Progress": 524055,
+        "In Review": 333686
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-252"
+    },
+    {
+      "key": "LUNA-251",
+      "summary": "Identity: certificate renewals fails validation after failover",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "High",
+      "assignee": "zoe_demo",
+      "reporter": "alex_demo",
+      "created": "2026-08-16T03:30:00Z",
+      "updated": "2026-09-05T03:45:23Z",
+      "resolved": "2026-09-05T03:45:23Z",
+      "due_date": null,
+      "labels": [
+        "performance"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 3,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 11,
+        "last_comment_at": "2026-09-03T10:26:53Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 34558
+      },
+      "history": [
+        {
+          "at": "2026-08-27T21:40:41Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-03T11:03:14Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-05T03:45:23Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1015841,
+        "In Progress": 566553,
+        "In Review": 146529
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-251"
+    },
+    {
+      "key": "LUNA-247",
+      "summary": "Policy Engine: firmware upgrades fails validation after failover",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "priya_demo",
+      "reporter": "alex_demo",
+      "created": "2026-08-09T03:30:00Z",
+      "updated": "2026-09-05T01:57:01Z",
+      "resolved": "2026-09-05T01:57:01Z",
+      "due_date": null,
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-262",
+          "summary": "Connectors: device groups drops packets on first login",
+          "status": "Done"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 86400,
+        "time_spent_seconds": 84241
+      },
+      "history": [
+        {
+          "at": "2026-08-28T22:03:42Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-02T22:58:27Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-05T01:57:01Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "alex_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1708422,
+        "In Progress": 435285,
+        "In Review": 183514
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-247"
+    },
+    {
+      "key": "LUNA-249",
+      "summary": "Add integration tests for connectors certificate renewals",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "zoe_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-08-13T03:30:00Z",
+      "updated": "2026-09-04T10:01:44Z",
+      "resolved": "2026-09-04T10:01:44Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 41262
+      },
+      "history": [
+        {
+          "at": "2026-08-25T04:57:22Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-08-31T09:34:28Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-04T10:01:44Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1042042,
+        "In Progress": 535026,
+        "In Review": 347236
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-249"
+    },
+    {
+      "key": "LUNA-250",
+      "summary": "Refactor identity route tables",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "tom_demo",
+      "reporter": "priya_demo",
+      "created": "2026-08-09T03:30:00Z",
+      "updated": "2026-09-04T05:43:38Z",
+      "resolved": "2026-09-04T05:43:38Z",
+      "due_date": null,
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-241",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-09-01T14:06:25Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 144000,
+        "time_spent_seconds": 167827
+      },
+      "history": [
+        {
+          "at": "2026-08-28T01:11:53Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-01T04:49:15Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "tom_demo"
+        },
+        {
+          "at": "2026-09-04T05:43:38Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1633313,
+        "In Progress": 358642,
+        "In Review": 262463
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-250"
+    },
+    {
+      "key": "LUNA-256",
+      "summary": "Refactor admin portal tenant settings",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Lowest",
+      "assignee": "zoe_demo",
+      "reporter": "mei_demo",
+      "created": "2026-08-11T03:30:00Z",
+      "updated": "2026-09-03T18:11:15Z",
+      "resolved": "2026-09-03T18:11:15Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 5,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-09-03T15:37:19Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 66040
+      },
+      "history": [
+        {
+          "at": "2026-08-25T14:14:31Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-01T16:54:44Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "alex_demo"
+        },
+        {
+          "at": "2026-09-03T18:11:15Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1248271,
+        "In Progress": 614413,
+        "In Review": 177391
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-256"
+    },
+    {
+      "key": "LUNA-347",
+      "summary": "As an admin, I can search device groups in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "High",
+      "assignee": "alex_demo",
+      "reporter": "alex_demo",
+      "created": "2026-09-02T06:00:00Z",
+      "updated": "2026-09-03T00:44:58Z",
+      "resolved": null,
+      "due_date": "2026-12-15",
+      "labels": [],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [],
+      "story_points": 2,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 28800,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 7171200
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-347"
+    },
+    {
+      "key": "LUNA-254",
+      "summary": "Refactor policy engine alert rules",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "mei_demo",
+      "reporter": "nina_demo",
+      "created": "2026-08-01T03:30:00Z",
+      "updated": "2026-09-02T05:51:26Z",
+      "resolved": "2026-09-02T05:51:26Z",
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 2,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-09-01T01:47:45Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 43200,
+        "time_spent_seconds": 58565
+      },
+      "history": [
+        {
+          "at": "2026-08-25T18:43:04Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-08-30T18:23:11Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-02T05:51:26Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "tom_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2128384,
+        "In Progress": 430807,
+        "In Review": 214095
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-254"
+    },
+    {
+      "key": "LUNA-246",
+      "summary": "Add integration tests for connectors backup jobs",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Medium",
+      "assignee": "alex_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-08-03T03:30:00Z",
+      "updated": "2026-09-01T12:18:05Z",
+      "resolved": "2026-09-01T12:18:05Z",
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 8,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 0,
+        "last_comment_at": null
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 144000,
+        "time_spent_seconds": 147238
+      },
+      "history": [
+        {
+          "at": "2026-08-26T13:25:54Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-08-30T21:33:56Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "zoe_demo"
+        },
+        {
+          "at": "2026-09-01T12:18:05Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "zoe_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 2022954,
+        "In Progress": 374882,
+        "In Review": 139449
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-246"
+    },
+    {
+      "key": "LUNA-245",
+      "summary": "Connectors: report templates leaks memory during nightly sync",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "Done",
+      "status_category": "Done",
+      "priority": "Low",
+      "assignee": "priya_demo",
+      "reporter": "tom_demo",
+      "created": "2026-08-11T03:30:00Z",
+      "updated": "2026-09-01T10:37:17Z",
+      "resolved": "2026-09-01T10:37:17Z",
+      "due_date": null,
+      "labels": [
+        "performance"
+      ],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [
+        "Luna 5.4.0"
+      ],
+      "story_points": 1,
+      "sprint": "LUNA Sprint 27",
+      "sprint_history": [
+        "LUNA Sprint 27"
+      ],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 13,
+        "last_comment_at": "2026-08-31T11:39:01Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 14400,
+        "time_spent_seconds": 21444
+      },
+      "history": [
+        {
+          "at": "2026-08-29T20:37:20Z",
+          "from": "To Do",
+          "to": "In Progress",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-08-31T08:08:18Z",
+          "from": "In Progress",
+          "to": "In Review",
+          "by": "mei_demo"
+        },
+        {
+          "at": "2026-09-01T10:37:17Z",
+          "from": "In Review",
+          "to": "Done",
+          "by": "priya_demo"
+        }
+      ],
+      "time_in_status": {
+        "To Do": 1616840,
+        "In Progress": 127858,
+        "In Review": 95339
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-245"
+    },
+    {
+      "key": "LUNA-346",
+      "summary": "As an admin, I can export alert rules in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Low",
+      "assignee": "priya_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-08-31T06:00:00Z",
+      "updated": "2026-09-01T03:28:58Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-08-31T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 7344000
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-346"
+    },
+    {
+      "key": "LUNA-342",
+      "summary": "Add integration tests for policy engine access policies",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "High",
+      "assignee": "nina_demo",
+      "reporter": "mei_demo",
+      "created": "2026-08-18T06:00:00Z",
+      "updated": "2026-08-20T04:53:38Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [
+        "tech-debt"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": 3,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 9,
+        "last_comment_at": "2026-08-18T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 64800,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 8467200
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-342"
+    },
+    {
+      "key": "LUNA-341",
+      "summary": "As an admin, I can audit certificate renewals in Identity",
+      "description": "Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Lowest",
+      "assignee": null,
+      "reporter": "zoe_demo",
+      "created": "2026-08-06T06:00:00Z",
+      "updated": "2026-08-07T17:47:50Z",
+      "resolved": null,
+      "due_date": "2026-12-02",
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [],
+      "story_points": 3,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 8,
+        "last_comment_at": "2026-08-07T04:20:35Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 9504000
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-341"
+    },
+    {
+      "key": "LUNA-337",
+      "summary": "Identity: firmware upgrades fails validation on Safari",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Identity area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "High",
+      "assignee": "nina_demo",
+      "reporter": "nina_demo",
+      "created": "2026-08-05T06:00:00Z",
+      "updated": "2026-08-05T07:32:26Z",
+      "resolved": null,
+      "due_date": "2026-11-17",
+      "labels": [
+        "ux"
+      ],
+      "components": [
+        "Identity"
+      ],
+      "fix_versions": [],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 13,
+        "last_comment_at": "2026-08-05T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 14400,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 9590400
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-337"
+    },
+    {
+      "key": "LUNA-335",
+      "summary": "As an admin, I can schedule interface settings in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Medium",
+      "assignee": null,
+      "reporter": "zoe_demo",
+      "created": "2026-07-23T06:00:00Z",
+      "updated": "2026-07-24T22:12:14Z",
+      "resolved": null,
+      "due_date": "2026-12-03",
+      "labels": [
+        "security"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": 5,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-242",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 9,
+        "last_comment_at": "2026-07-23T21:34:08Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 54000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 10713600
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-335"
+    },
+    {
+      "key": "LUNA-348",
+      "summary": "Harden connectors access policies",
+      "description": "Scope covers the Connectors area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Medium",
+      "assignee": "zoe_demo",
+      "reporter": "nina_demo",
+      "created": "2026-07-10T06:00:00Z",
+      "updated": "2026-07-10T23:33:08Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Connectors"
+      ],
+      "fix_versions": [],
+      "story_points": null,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-244",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 1,
+        "last_comment_at": "2026-07-10T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 25200,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 11836800
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-348"
+    },
+    {
+      "key": "LUNA-338",
+      "summary": "Policy Engine: firmware upgrades times out with IPv6 enabled",
+      "description": "Steps to reproduce are in the linked support case. Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Bug",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "High",
+      "assignee": "zoe_demo",
+      "reporter": "zoe_demo",
+      "created": "2026-07-09T06:00:00Z",
+      "updated": "2026-07-09T12:30:30Z",
+      "resolved": null,
+      "due_date": "2026-11-19",
+      "labels": [],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [],
+      "story_points": 8,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [
+        {
+          "type": "relates to",
+          "key": "LUNA-301",
+          "summary": "As an admin, I can export interface settings in Connectors",
+          "status": "Done"
+        }
+      ],
+      "flagged": false,
+      "comments": {
+        "count": 10,
+        "last_comment_at": "2026-07-09T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 115200,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 11923200
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-338"
+    },
+    {
+      "key": "LUNA-345",
+      "summary": "As an admin, I can bulk edit firmware upgrades in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "High",
+      "assignee": "tom_demo",
+      "reporter": "nina_demo",
+      "created": "2026-07-04T06:00:00Z",
+      "updated": "2026-07-05T00:36:16Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [],
+      "story_points": 3,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 2,
+        "last_comment_at": "2026-07-04T06:00:00Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 32400,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 12355200
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-345"
+    },
+    {
+      "key": "LUNA-344",
+      "summary": "As an admin, I can roll back user sessions in Admin Portal",
+      "description": "Scope covers the Admin Portal area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Story",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Medium",
+      "assignee": "alex_demo",
+      "reporter": "tom_demo",
+      "created": "2026-06-25T06:00:00Z",
+      "updated": "2026-06-26T05:57:11Z",
+      "resolved": null,
+      "due_date": "2026-11-28",
+      "labels": [
+        "customer"
+      ],
+      "components": [
+        "Admin Portal"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": 5,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": null,
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 3,
+        "last_comment_at": "2026-06-25T10:30:43Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 72000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 13132800
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-344"
+    },
+    {
+      "key": "LUNA-340",
+      "summary": "Benchmark policy engine route tables",
+      "description": "Scope covers the Policy Engine area. Acceptance: behaviour verified in staging and covered by automated tests.",
+      "type": "Task",
+      "status": "To Do",
+      "status_category": "To Do",
+      "priority": "Medium",
+      "assignee": null,
+      "reporter": "mei_demo",
+      "created": "2026-06-17T06:00:00Z",
+      "updated": "2026-06-18T04:47:18Z",
+      "resolved": null,
+      "due_date": null,
+      "labels": [
+        "regression"
+      ],
+      "components": [
+        "Policy Engine"
+      ],
+      "fix_versions": [
+        "Luna 6.0.0"
+      ],
+      "story_points": 5,
+      "sprint": null,
+      "sprint_history": [],
+      "added_mid_sprint": null,
+      "epic": "LUNA-243",
+      "parent": null,
+      "subtasks": [],
+      "links": [],
+      "flagged": false,
+      "comments": {
+        "count": 7,
+        "last_comment_at": "2026-06-17T08:15:59Z"
+      },
+      "time_tracking": {
+        "original_estimate_seconds": 90000,
+        "time_spent_seconds": 0
+      },
+      "history": [],
+      "time_in_status": {
+        "To Do": 13824000
+      },
+      "linked_prs": [],
+      "url": "https://jira.example.com/browse/LUNA-340"
+    }
+  ]
+}
