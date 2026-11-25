@@ -1,22 +1,22 @@
 ﻿// PR Overview / Analytics — aggregates across ALL PRs for a project.
 const PROJECT_CONFIG = {
     'ORION': {
-        name: 'Orion',
+        name: 'ORION',
         repo: 'oneview-demo/orion-platform',
         displayName: 'Phoenix Security Platform'
     },
     'QUASAR': {
-        name: 'Quasar',
+        name: 'QUASAR',
         repo: 'oneview-demo/quasar-platform',
         displayName: 'Aegis Firewall Suite'
     },
     'LUNA': {
-        name: 'Luna',
+        name: 'LUNA',
         repo: 'oneview-demo/luna-platform',
         displayName: 'Sentinel Identity System'
     },
     'HARBOR': {
-        name: 'Harbor',
+        name: 'HARBOR',
         repo: 'oneview-demo/luna-platform',
         displayName: 'Atlas Security Manager'
     }
